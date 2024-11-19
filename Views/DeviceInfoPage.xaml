@@ -6,25 +6,49 @@
              Title="Device Information">
     <ScrollView>
         <VerticalStackLayout Spacing="10" Padding="20">
+            <Label Text="Water Purveyor" FontAttributes="Bold"/>
             <Entry Placeholder="Water Purveyor"/>
+            
+            <Label Text="Assembly Address" FontAttributes="Bold"/>
             <Entry Placeholder="Assembly Address"/>
+            
+            <Label Text="On Site Location of Assembly" FontAttributes="Bold"/>
             <Entry Placeholder="On Site Location of Assembly"/>
+            
+            <Label Text="Primary Service at Location" FontAttributes="Bold"/>
             <Entry Placeholder="Primary Service at Location"/>
+            
+            <Label Text="Installation Status" FontAttributes="Bold"/>
             <Entry Placeholder="Installation Status"/>
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Entry Placeholder="Water Meter No." Grid.Column="0"/>
-                <Entry Placeholder="Serial No." Grid.Column="1"/>
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Water Meter No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Serial No." FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                
+                <Entry Placeholder="Water Meter No." 
+                       Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Serial No." 
+                       Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+            
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Model No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Size" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                
+                <Entry Placeholder="Model No." 
+                       Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Size" 
+                       Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Entry Placeholder="Model No." Grid.Column="0"/>
-                <Entry Placeholder="Size" Grid.Column="1"/>
-            </Grid>
-
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Entry Placeholder="Manufacturer" Grid.Column="0"/>
-                <Entry Placeholder="Type" Grid.Column="1"/>
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Manufacturer" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                
+                <Entry Placeholder="Manufacturer" 
+                       Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Type" 
+                       Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
             <Button Text="Next" 
