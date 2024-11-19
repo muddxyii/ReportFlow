@@ -2,168 +2,172 @@
 using System.Windows.Input;
 using ABFReportEditor.Util;
 
-namespace ABFReportEditor.ViewModels;
-
-public class CustomerInfoViewModel : INotifyPropertyChanged
+namespace ABFReportEditor.ViewModels
 {
-    private string? _permitNumber;
-    private string? _facilityOwner;
-    private string? _customerAddress;
-    private string? _contact;
-    private string? _phone;
-    private string? _email;
-    private string? _ownerRep;
-    private string? _repAddress;
-    private string? _personToContact;
-    private string? _contactPhone;
-    private byte[]? _pdfData;
-    
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public string? PermitNumber
+    public class CustomerInfoViewModel : INotifyPropertyChanged
     {
-        get => _permitNumber;
-        set
+        // Private fields
+        private string? _permitNumber;
+        private string? _facilityOwner;
+        private string? _customerAddress;
+        private string? _contact;
+        private string? _phone;
+        private string? _email;
+        private string? _ownerRep;
+        private string? _repAddress;
+        private string? _personToContact;
+        private string? _contactPhone;
+        private byte[]? _pdfData;
+
+        // Constructor
+        public CustomerInfoViewModel()
         {
-            _permitNumber = value;
-            OnPropertyChanged(nameof(PermitNumber));
+            NextCommand = new Command(async () => await OnNext());
         }
-    }
-    
-    public string? FacilityOwner
-    {
-        get => _facilityOwner;
-        set
+
+        // Properties
+        public string? PermitNumber
         {
-            _facilityOwner = value;
-            OnPropertyChanged(nameof(FacilityOwner));
+            get => _permitNumber;
+            set
+            {
+                _permitNumber = value;
+                OnPropertyChanged(nameof(PermitNumber));
+            }
         }
-    }
 
-    public string? CustomerAddress
-    {
-        get => _customerAddress;
-        set
+        public string? FacilityOwner
         {
-            _customerAddress = value;
-            OnPropertyChanged(nameof(CustomerAddress));
+            get => _facilityOwner;
+            set
+            {
+                _facilityOwner = value;
+                OnPropertyChanged(nameof(FacilityOwner));
+            }
         }
-    }
 
-    public string? Contact
-    {
-        get => _contact;
-        set
+        public string? CustomerAddress
         {
-            _contact = value;
-            OnPropertyChanged(nameof(Contact));
+            get => _customerAddress;
+            set
+            {
+                _customerAddress = value;
+                OnPropertyChanged(nameof(CustomerAddress));
+            }
         }
-    }
 
-    public string? Phone
-    {
-        get => _phone;
-        set
+        public string? Contact
         {
-            _phone = value;
-            OnPropertyChanged(nameof(Phone));
+            get => _contact;
+            set
+            {
+                _contact = value;
+                OnPropertyChanged(nameof(Contact));
+            }
         }
-    }
 
-    public string? Email
-    {
-        get => _email;
-        set
+        public string? Phone
         {
-            _email = value;
-            OnPropertyChanged(nameof(Email));
+            get => _phone;
+            set
+            {
+                _phone = value;
+                OnPropertyChanged(nameof(Phone));
+            }
         }
-    }
 
-    public string? OwnerRep
-    {
-        get => _ownerRep;
-        set
+        public string? Email
         {
-            _ownerRep = value;
-            OnPropertyChanged(nameof(OwnerRep));
+            get => _email;
+            set
+            {
+                _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
         }
-    }
 
-    public string? RepAddress
-    {
-        get => _repAddress;
-        set
+        public string? OwnerRep
         {
-            _repAddress = value;
-            OnPropertyChanged(nameof(RepAddress));
+            get => _ownerRep;
+            set
+            {
+                _ownerRep = value;
+                OnPropertyChanged(nameof(OwnerRep));
+            }
         }
-    }
 
-    public string? PersonToContact
-    {
-        get => _personToContact;
-        set
+        public string? RepAddress
         {
-            _personToContact = value;
-            OnPropertyChanged(nameof(PersonToContact));
+            get => _repAddress;
+            set
+            {
+                _repAddress = value;
+                OnPropertyChanged(nameof(RepAddress));
+            }
         }
-    }
 
-    public string? ContactPhone
-    {
-        get => _contactPhone;
-        set
+        public string? PersonToContact
         {
-            _contactPhone = value;
-            OnPropertyChanged(nameof(ContactPhone));
+            get => _personToContact;
+            set
+            {
+                _personToContact = value;
+                OnPropertyChanged(nameof(PersonToContact));
+            }
         }
-    }
 
-    public byte[]? PdfData
-    {
-        get => _pdfData;
-        set
+        public string? ContactPhone
         {
-            _pdfData = value;
-            OnPropertyChanged(nameof(PdfData));
+            get => _contactPhone;
+            set
+            {
+                _contactPhone = value;
+                OnPropertyChanged(nameof(ContactPhone));
+            }
         }
-    }
-    
-    public ICommand NextCommand { get; }
 
-    public CustomerInfoViewModel()
-    {
-        NextCommand = new Command(async void () => await OnNext());
-    }
+        public byte[]? PdfData
+        {
+            get => _pdfData;
+            set
+            {
+                _pdfData = value;
+                OnPropertyChanged(nameof(PdfData));
+            }
+        }
 
-    private async Task OnNext()
-    {
-        //var viewModel = new CustomerInfoViewModel();
-        //viewModel.LoadPdfData(File.ReadAllBytes(result.FullPath));
-        //await Navigation.PushAsync(new CustomerInfoPage() { BindingContext = viewModel });
-    }
-    
-    protected void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+        public ICommand NextCommand { get; }
 
-    public void LoadPdfData(byte[] pdfBytes)
-    {
-        PdfData = pdfBytes;
-        
-        var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
+        // Methods
+        public void LoadPdfData(byte[] pdfBytes)
+        {
+            PdfData = pdfBytes;
 
-        PermitNumber = formFields.GetValueOrDefault("PermitAccountNo");
-        FacilityOwner = formFields.GetValueOrDefault("FacilityOwner");
-        CustomerAddress = formFields.GetValueOrDefault("Address");
-        Contact = formFields.GetValueOrDefault("Contact");
-        Phone = formFields.GetValueOrDefault("Phone");
-        Email = formFields.GetValueOrDefault("Email");
-        OwnerRep = formFields.GetValueOrDefault("OwnerRep");
-        RepAddress = formFields.GetValueOrDefault("RepAddress");
-        PersonToContact = formFields.GetValueOrDefault("PersontoContact");
-        ContactPhone = formFields.GetValueOrDefault("Phone-0");
+            var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
+
+            PermitNumber = formFields.GetValueOrDefault("PermitAccountNo");
+            FacilityOwner = formFields.GetValueOrDefault("FacilityOwner");
+            CustomerAddress = formFields.GetValueOrDefault("Address");
+            Contact = formFields.GetValueOrDefault("Contact");
+            Phone = formFields.GetValueOrDefault("Phone");
+            Email = formFields.GetValueOrDefault("Email");
+            OwnerRep = formFields.GetValueOrDefault("OwnerRep");
+            RepAddress = formFields.GetValueOrDefault("RepAddress");
+            PersonToContact = formFields.GetValueOrDefault("PersontoContact");
+            ContactPhone = formFields.GetValueOrDefault("Phone-0");
+        }
+
+        private async Task OnNext()
+        {
+            // Placeholder for navigation logic
+        }
+
+        // INotifyPropertyChanged Implementation
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
