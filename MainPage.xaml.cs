@@ -47,4 +47,10 @@ public partial class MainPage : ContentPage
             await DisplayAlert("Error", ex.Message, "OK");
         }
     }
+
+    private void OnCreatePdfClicked(object? sender, EventArgs e)
+    {
+        // TODO: Implement creat pdf view / workflow
+        throw new NotImplementedException();
+    }
 }
