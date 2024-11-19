@@ -1,27 +1,50 @@
-﻿using ABFReportEditor.Views;
+﻿using ABFReportEditor.ViewModels;
+using ABFReportEditor.Views;
 
 namespace ABFReportEditor;
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
-
     public MainPage()
     {
         InitializeComponent();
     }
 
-    private async void OnCounterClicked(object sender, EventArgs e)
+    private async void OnOpenPdfClicked(object sender, EventArgs e)
     {
-        count++;
-
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
-
-        SemanticScreenReader.Announce(CounterBtn.Text);
-        
-        await Navigation.PushAsync(new CustomerInfoPage());
+        try
+        {
+            var options = new PickOptions
+            {
+                FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                {   
+                    { DevicePlatform.Android, ["application/pdf"] },
+                    { DevicePlatform.iOS, ["public.pdf"] },
+                    { DevicePlatform.WinUI, [".pdf"] }
+                })
+            };
+            
+            var result = await FilePicker.PickAsync(options);
+            if (result != null)
+            {
+                if (result.FileName.EndsWith("pdf", StringComparison.OrdinalIgnoreCase))
+                {
+                    var viewModel = new CustomerInfoViewModel();
+                    viewModel.LoadPdfData(File.ReadAllBytes(result.FullPath));
+                    await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
+                    {
+                        ["ViewModel"] = viewModel
+                    });
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Please select a PDF file", "OK");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
     }
-}
+}                    //await Navigation.PushAsync(new CustomerInfoPage() { BindingContext = viewModel });

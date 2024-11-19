@@ -25,10 +25,9 @@
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
 
             <Button
-                x:Name="CounterBtn"
-                Text="Click me" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                x:Name="OpenPdfBtn"
+                Text="Open Pdf" 
+                Clicked="OnOpenPdfClicked"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>

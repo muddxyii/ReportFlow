@@ -2,34 +2,74 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ABFReportEditor.ViewModels"
              x:Class="ABFReportEditor.Views.CustomerInfoPage"
              Title="Customer Information">
+    
+       <ContentPage.BindingContext>
+              <viewmodels:CustomerInfoViewModel />
+       </ContentPage.BindingContext>
+       
     <ScrollView>
         <VerticalStackLayout Spacing="10" Padding="20">
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Entry Placeholder="Permit/Account No." Grid.Column="0"/>
-                <Entry Placeholder="Facility/Owner" Grid.Column="1"/>
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Permit/Account No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Facility/Owner" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                
+                <Entry Placeholder="Permit/Account No." 
+                       Text="{Binding PermitNumber}" 
+                       Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Facility/Owner" 
+                       Text="{Binding FacilityOwner}" 
+                       Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
-            <Entry Placeholder="Customer Address"/>
+            <Label Text="Customer Address" FontAttributes="Bold"/>
+            <Entry Placeholder="Customer Address"
+                   Text="{Binding CustomerAddress}"/>
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Entry Placeholder="Contact" Grid.Column="0"/>
-                <Entry Placeholder="Phone" Keyboard="Telephone" Grid.Column="1"/>
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Contact" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Phone" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                
+                <Entry Placeholder="Contact" 
+                       Text="{Binding Contact}" 
+                       Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Phone" 
+                       Text="{Binding Phone}" 
+                       Keyboard="Telephone"
+                       Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
-            <Entry Placeholder="Email" Keyboard="Email"/>
-            <Entry Placeholder="Owner Representative"/>
-            <Entry Placeholder="Representative Address"/>
+            <Label Text="Email" FontAttributes="Bold"/>
+            <Entry Placeholder="Email" 
+                   Text="{Binding Email}"
+                   Keyboard="Email"/>
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Entry Placeholder="Person to Contact" Grid.Column="0"/>
-                <Entry Placeholder="Contact Phone" Keyboard="Telephone" Grid.Column="1"/>
+            <Label Text="Owner Representative" FontAttributes="Bold"/>
+            <Entry Placeholder="Owner Representative"
+                   Text="{Binding OwnerRep}"/>
+
+            <Label Text="Representative Address" FontAttributes="Bold"/>
+            <Entry Placeholder="Representative Address"
+                   Text="{Binding RepAddress}"/>
+
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Person to Contact" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Contact Phone" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                
+                <Entry Placeholder="Person to Contact" 
+                       Text="{Binding PersonToContact}" 
+                       Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Contact Phone" 
+                       Text="{Binding ContactPhone}" 
+                       Keyboard="Telephone"
+                       Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
             <Button Text="Next" 
-                    Margin="0,20,0,0"
-                    Clicked="OnNextClicked"/>
+                    Command="{Binding NextCommand}"
+                    Margin="0,20,0,0"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
