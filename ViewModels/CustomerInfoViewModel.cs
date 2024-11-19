@@ -159,7 +159,12 @@ namespace ABFReportEditor.ViewModels
 
         private async Task OnNext()
         {
-            // Placeholder for navigation logic
+            var viewModel = new DeviceInfoViewModel();
+            viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException());
+            await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
+            {
+                ["ViewModel"] = viewModel
+            });
         }
 
         // INotifyPropertyChanged Implementation
