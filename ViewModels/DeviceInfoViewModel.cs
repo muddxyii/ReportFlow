@@ -6,8 +6,21 @@ namespace ABFReportEditor.ViewModels
 {
     public class DeviceInfoViewModel : BaseBackflowViewModel
     {
+        // Dropdown Options
+        public List<string> InstallationStatusOptions { get; } =
+            ["NEW", "EXISTING", "REPLACEMENT"];
+
+        public List<string> ManufacturerOptions { get; } =
+        [
+            "WATTS", "WILKINS", "FEBCO", "AMES", "ARI", "APOLLO",
+            "CONBRACO", "HERSEY", "FLOMATIC", "BACKFLOW DIRECT"
+        ];
+
+        public List<string> TypeOptions { get; } =
+            ["RP", "DC", "PVB", "SVB", "SC", "TYPE 2"];
+
         // Private fields
-        private string? _waterPuveyor;
+        private string? _waterPurveyor;
         private string? _assemblyAddress;
         private string? _onSiteLocation;
         private string? _primaryService;
@@ -22,14 +35,14 @@ namespace ABFReportEditor.ViewModels
         // Properties
         public string? WaterPurveyor
         {
-            get => _waterPuveyor;
+            get => _waterPurveyor;
             set
             {
-                _waterPuveyor = value;
+                _waterPurveyor = value;
                 OnPropertyChanged(nameof(WaterPurveyor));
             }
         }
-        
+
         public string? AssemblyAddress
         {
             get => _assemblyAddress;
@@ -134,8 +147,17 @@ namespace ABFReportEditor.ViewModels
         protected override void LoadFormFields(Dictionary<string, string> formFields)
         {
             WaterPurveyor = formFields.GetValueOrDefault("WaterPurveyor");
+            AssemblyAddress = formFields.GetValueOrDefault("AssemblyAddress");
+            OnSiteLocation = formFields.GetValueOrDefault("On Site Location of Assembly");
+            PrimaryService = formFields.GetValueOrDefault("PrimaryBusinessService");
+            InstallationStatus = formFields.GetValueOrDefault("InstallationIs");
+            WaterMeterNo = formFields.GetValueOrDefault("WaterMeterNo");
+            SerialNo = formFields.GetValueOrDefault("SerialNo");
+            ModelNo = formFields.GetValueOrDefault("ModelNo");
+            Size = formFields.GetValueOrDefault("Size");
+            Manufacturer = formFields.GetValueOrDefault("Manufacturer");
+            Type = formFields.GetValueOrDefault("BFType");
         }
-
 
         protected override Task OnNext()
         {

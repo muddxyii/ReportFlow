@@ -29,8 +29,8 @@
                    Text="{Binding PrimaryService}"/>
             
             <Label Text="Installation Status" FontAttributes="Bold"/>
-            <Entry Placeholder="Installation Status"
-                   Text="{Binding InstallationStatus}"/>
+            <Picker ItemsSource="{Binding InstallationStatusOptions}"
+                   SelectedItem="{Binding InstallationStatus}"/>
             
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
                 <Label Text="Water Meter No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
@@ -60,11 +60,11 @@
                 <Label Text="Manufacturer" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
                 <Label Text="Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
-                <Entry Placeholder="Manufacturer"
-                       Text="{Binding Manufacturer}"
+                <Picker ItemsSource="{Binding ManufacturerOptions}" 
+                       SelectedItem="{Binding Manufacturer}"
                        Grid.Row="1" Grid.Column="0"/>
-                <Entry Placeholder="Type"
-                       Text="{Binding Type}"
+                <Picker ItemsSource="{Binding TypeOptions}"
+                       SelectedItem="{Binding Type}"
                        Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
