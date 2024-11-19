@@ -47,4 +47,4 @@ public partial class MainPage : ContentPage
             await DisplayAlert("Error", ex.Message, "OK");
         }
     }
-}                    //await Navigation.PushAsync(new CustomerInfoPage() { BindingContext = viewModel });
+}
