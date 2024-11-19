@@ -1,0 +1,91 @@
+@startuml
+
+start
+:Customer Information;
+note right
+  Permit No./Account No.
+  Facility/Owner
+  Customer Address
+  Contact
+  Phone
+  Email
+  Owner Rep
+  Rep Address
+  Person to Contact
+  Phone
+end note
+
+:Device Information;
+note left
+  Water Purveyor
+  Assembly Address
+  On Site Location of Assembly
+  Primary Service at Location
+  Installation Status
+  Water Meter No.
+  Serial No.
+  Model No.
+  Size
+  Manufacturer
+  Type
+end note
+
+:Device Type Selection;
+switch (Device Type)
+  case (PVB)
+    :PVB Test;
+    note right
+      Line Pressure
+      Air Inlet Opened at
+      Check Valve Held at
+      Back Pressure (y or n)
+    end note
+  case (RP)
+    :RP Test;
+    note right
+      Line Pressure
+      Relief Valve Opened at
+      Check Valve #1
+      Check Valve #2
+    end note
+  case (DC)
+    :DC Test;
+    note right
+      Line Pressure
+      Check Valve #1
+      Check Valve #2
+    end note
+endswitch
+
+if (Test Result) then (Pass)
+  :Record Pass Details;
+  :Add Final Comments;
+else (Fail)
+  :Record Failure Details;
+  note right
+    Which component failed?
+    Nature of failure
+  end note
+  if (Repaired?) then (Yes)
+    :Record Repair Details;
+    note right
+      What was repaired?
+      New parts used?
+    end note
+    :Record Final Test Result;
+    :Add Final Comments;
+  else (No)
+    :Record No Repair;
+    note right
+      Reason for no repair
+    end note
+  endif
+endif
+
+:Select Tester ID;
+:Generate Report;
+:Preview Report;
+:Share Report;
+
+stop
+@enduml
