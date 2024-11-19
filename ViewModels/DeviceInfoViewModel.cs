@@ -4,6 +4,8 @@ using ABFReportEditor.Util;
 
 namespace ABFReportEditor.ViewModels
 {
+    // TODO: IMPLEMENT PROTECTION TYPE & SERVICE TYPE FIELDS
+    
     public class DeviceInfoViewModel : BaseBackflowViewModel
     {
         // Dropdown Options
