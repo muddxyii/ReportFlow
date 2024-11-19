@@ -4,7 +4,7 @@ using ABFReportEditor.Util;
 
 namespace ABFReportEditor.ViewModels
 {
-    public class CustomerInfoViewModel : INotifyPropertyChanged
+    public class CustomerInfoViewModel : BaseBackflowViewModel
     {
         // Private fields
         private string? _permitNumber;
@@ -17,13 +17,6 @@ namespace ABFReportEditor.ViewModels
         private string? _repAddress;
         private string? _personToContact;
         private string? _contactPhone;
-        private byte[]? _pdfData;
-
-        // Constructor
-        public CustomerInfoViewModel()
-        {
-            NextCommand = new Command(async () => await OnNext());
-        }
 
         // Properties
         public string? PermitNumber
@@ -126,25 +119,9 @@ namespace ABFReportEditor.ViewModels
             }
         }
 
-        public byte[]? PdfData
-        {
-            get => _pdfData;
-            set
-            {
-                _pdfData = value;
-                OnPropertyChanged(nameof(PdfData));
-            }
-        }
-
-        public ICommand NextCommand { get; }
-
         // Methods
-        public void LoadPdfData(byte[] pdfBytes)
+        protected override void LoadFormFields(Dictionary<string, string> formFields)
         {
-            PdfData = pdfBytes;
-
-            var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
-
             PermitNumber = formFields.GetValueOrDefault("PermitAccountNo");
             FacilityOwner = formFields.GetValueOrDefault("FacilityOwner");
             CustomerAddress = formFields.GetValueOrDefault("Address");
@@ -157,7 +134,7 @@ namespace ABFReportEditor.ViewModels
             ContactPhone = formFields.GetValueOrDefault("Phone-0");
         }
 
-        private async Task OnNext()
+        protected override async Task OnNext()
         {
             var viewModel = new DeviceInfoViewModel();
             viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException());
@@ -165,14 +142,6 @@ namespace ABFReportEditor.ViewModels
             {
                 ["ViewModel"] = viewModel
             });
-        }
-
-        // INotifyPropertyChanged Implementation
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

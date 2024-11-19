@@ -4,7 +4,7 @@ using ABFReportEditor.Util;
 
 namespace ABFReportEditor.ViewModels
 {
-    public class DeviceInfoViewModel : INotifyPropertyChanged
+    public class DeviceInfoViewModel : BaseBackflowViewModel
     {
         // Private fields
         private string? _waterPuveyor;
@@ -18,13 +18,6 @@ namespace ABFReportEditor.ViewModels
         private string? _size;
         private string? _manufacturer;
         private string? _type;
-        private byte[]? _pdfData;
-
-        // Constructor
-        public DeviceInfoViewModel()
-        {
-            NextCommand = new Command(async () => await OnNext());
-        }
 
         // Properties
         public string? WaterPurveyor
@@ -136,40 +129,18 @@ namespace ABFReportEditor.ViewModels
                 OnPropertyChanged(nameof(Type));
             }
         }
-        
-        public byte[]? PdfData
-        {
-            get => _pdfData;
-            set
-            {
-                _pdfData = value;
-                OnPropertyChanged(nameof(PdfData));
-            }
-        }
-
-        public ICommand NextCommand { get; }
 
         // Methods
-        public void LoadPdfData(byte[] pdfBytes)
+        protected override void LoadFormFields(Dictionary<string, string> formFields)
         {
-            PdfData = pdfBytes;
-
-            var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
-
-            //PermitNumber = formFields.GetValueOrDefault("PermitAccountNo");
+            WaterPurveyor = formFields.GetValueOrDefault("WaterPurveyor");
         }
 
-        private async Task OnNext()
+
+        protected override Task OnNext()
         {
+            // TODO: Implement DeviceInfoViewModel.cs OnNext()
             throw new NotImplementedException();
-        }
-
-        // INotifyPropertyChanged Implementation
-        public event PropertyChangedEventHandler? PropertyChanged;
-        
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
