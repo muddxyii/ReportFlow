@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ABFReportEditor.Views.CustomerInfoPage"
+             Title="Customer Information">
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Entry Placeholder="Permit/Account No." Grid.Column="0"/>
+                <Entry Placeholder="Facility/Owner" Grid.Column="1"/>
+            </Grid>
+
+            <Entry Placeholder="Customer Address"/>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Entry Placeholder="Contact" Grid.Column="0"/>
+                <Entry Placeholder="Phone" Keyboard="Telephone" Grid.Column="1"/>
+            </Grid>
+
+            <Entry Placeholder="Email" Keyboard="Email"/>
+            <Entry Placeholder="Owner Representative"/>
+            <Entry Placeholder="Representative Address"/>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Entry Placeholder="Person to Contact" Grid.Column="0"/>
+                <Entry Placeholder="Contact Phone" Keyboard="Telephone" Grid.Column="1"/>
+            </Grid>
+
+            <Button Text="Next" 
+                    Margin="0,20,0,0"
+                    Clicked="OnNextClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
