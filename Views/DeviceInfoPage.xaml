@@ -33,6 +33,18 @@
                    SelectedItem="{Binding InstallationStatus}"/>
             
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                   <Label Text="Protection Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                   <Label Text="Service Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                
+                   <Picker ItemsSource="{Binding ProtectionTypeOptions}" 
+                           SelectedItem="{Binding ProtectionType}"
+                           Grid.Row="1" Grid.Column="0"/>
+                   <Picker ItemsSource="{Binding ServiceTypeOptions}"
+                           SelectedItem="{Binding ServiceType}"
+                           Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+            
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
                 <Label Text="Water Meter No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
                 <Label Text="Serial No." FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 

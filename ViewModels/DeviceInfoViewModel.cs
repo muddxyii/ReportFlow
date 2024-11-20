@@ -12,6 +12,12 @@ namespace ABFReportEditor.ViewModels
         public List<string> InstallationStatusOptions { get; } =
             ["NEW", "EXISTING", "REPLACEMENT"];
 
+        public List<String> ProtectionTypeOptions { get; } =
+            ["SECONDARY / CONTAINMENT", "PRIMARY / POINT OF USE"];
+
+        public List<String> ServiceTypeOptions { get; } =
+            ["DOMESTIC", "IRRIGATION", "FIRE" ];
+        
         public List<string> ManufacturerOptions { get; } =
         [
             "WATTS", "WILKINS", "FEBCO", "AMES", "ARI", "APOLLO",
@@ -27,6 +33,8 @@ namespace ABFReportEditor.ViewModels
         private string? _onSiteLocation;
         private string? _primaryService;
         private string? _installationStatus;
+        private string? _protectionType;
+        private string? _serviceType;
         private string? _waterMeterNo;
         private string? _serialNo;
         private string? _modelNo;
@@ -82,6 +90,26 @@ namespace ABFReportEditor.ViewModels
             {
                 _installationStatus = value;
                 OnPropertyChanged(nameof(InstallationStatus));
+            }
+        }
+        
+        public string? ServiceType
+        {
+            get => _serviceType;
+            set
+            {
+                _serviceType = value;
+                OnPropertyChanged(nameof(ServiceType));
+            }
+        }
+        
+        public string? ProtectionType
+        {
+            get => _protectionType;
+            set
+            {
+                _protectionType = value;
+                OnPropertyChanged(nameof(ProtectionType));
             }
         }
 
@@ -153,6 +181,8 @@ namespace ABFReportEditor.ViewModels
             OnSiteLocation = formFields.GetValueOrDefault("On Site Location of Assembly");
             PrimaryService = formFields.GetValueOrDefault("PrimaryBusinessService");
             InstallationStatus = formFields.GetValueOrDefault("InstallationIs");
+            ProtectionType = formFields.GetValueOrDefault("ProtectionType");
+            ServiceType = formFields.GetValueOrDefault("ServiceType");
             WaterMeterNo = formFields.GetValueOrDefault("WaterMeterNo");
             SerialNo = formFields.GetValueOrDefault("SerialNo");
             ModelNo = formFields.GetValueOrDefault("ModelNo");
