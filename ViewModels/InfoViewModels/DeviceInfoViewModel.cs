@@ -207,11 +207,7 @@ namespace ABFReportEditor.ViewModels
                     );
                     break;
                 case "PVB":
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Not Implemented", 
-                        $"The type '{Type}' has not been implemented.", 
-                        "OK"
-                    );
+                    await Shell.Current.GoToAsync("PvbTest");
                     break;
                 case "SVB":
                     await Application.Current.MainPage.DisplayAlert(
