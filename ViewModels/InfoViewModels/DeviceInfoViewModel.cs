@@ -191,10 +191,57 @@ namespace ABFReportEditor.ViewModels
             Type = formFields.GetValueOrDefault("BFType");
         }
 
-        protected override Task OnNext()
+        protected override async Task OnNext()
         {
             // TODO: Implement DeviceInfoViewModel.cs OnNext()
-            throw new NotImplementedException();
+            switch (Type)
+            {
+                case "RP":
+                    await Shell.Current.GoToAsync("RpTest");
+                    break;
+                case "DC":
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Not Implemented", 
+                        $"The type '{Type}' has not been implemented.", 
+                        "OK"
+                    );
+                    break;
+                case "PVB":
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Not Implemented", 
+                        $"The type '{Type}' has not been implemented.", 
+                        "OK"
+                    );
+                    break;
+                case "SVB":
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Not Implemented", 
+                        $"The type '{Type}' has not been implemented.", 
+                        "OK"
+                    );
+                    break;
+                case "SC":
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Not Implemented", 
+                        $"The type '{Type}' has not been implemented yet.", 
+                        "OK"
+                    );
+                    break;
+                case "TYP":
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Not Implemented", 
+                        $"The type '{Type}' has not been implemented.", 
+                        "OK"
+                    );
+                    break;
+                default:
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Not Implemented", 
+                        $"The type '{Type}' has not been implemented.", 
+                        "OK"
+                        );
+                    break;
+            }
         }
     }
 }
