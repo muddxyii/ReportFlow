@@ -53,14 +53,21 @@
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Views\CustomerInfoPage.xaml">
+      <MauiXaml Update="Views\InfoViews\CustomerInfoPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\InfoViews\DeviceInfoPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\CustomerInfoPage.xaml.cs">
+      <Compile Update="Views\InfoViews\CustomerInfoPage.xaml.cs">
         <DependentUpon>CustomerInfoPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\InfoViews\DeviceInfoPage.xaml.cs">
+        <DependentUpon>DeviceInfoPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
