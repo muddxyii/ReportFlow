@@ -15,6 +15,7 @@ public partial class AppShell : Shell
         
         // Register TestViews
         Routing.RegisterRoute("RpTest", typeof(RpTestPage));
+        Routing.RegisterRoute("DcTest", typeof(DcTestPage));
         Routing.RegisterRoute("PvbTest", typeof(PvbTestPage));
     }
 }

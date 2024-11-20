@@ -200,11 +200,7 @@ namespace ABFReportEditor.ViewModels
                     await Shell.Current.GoToAsync("RpTest");
                     break;
                 case "DC":
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Not Implemented", 
-                        $"The type '{Type}' has not been implemented.", 
-                        "OK"
-                    );
+                    await Shell.Current.GoToAsync("DcTest");
                     break;
                 case "PVB":
                     await Shell.Current.GoToAsync("PvbTest");
