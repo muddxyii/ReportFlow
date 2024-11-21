@@ -6,9 +6,10 @@ namespace ABFReportEditor.ViewModels;
 
 public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 {
+    #region Properties
+    public Dictionary<string, string>? FormData { get; set; } = new Dictionary<string, string>();
     private byte[]? _pdfData;
     
-    // Common PDF data handling
     public byte[]? PdfData
     {
         get => _pdfData;
@@ -18,16 +19,22 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(PdfData));
         }
     }
-
-    // Common command for navigation
+    
     public ICommand NextCommand { get; }
+    
+    #endregion
+
+    #region Constructor
 
     protected BaseBackflowViewModel()
     {
         NextCommand = new Command(async () => await OnNext());
     }
+    
+    #endregion
 
-    // Common PDF loading logic with template method pattern
+    #region Data loading and saving methods
+    
     public void LoadPdfData(byte[] pdfBytes)
     {
         PdfData = pdfBytes;
@@ -35,17 +42,51 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
         LoadFormFields(formFields);
     }
 
-    // Template method to be implemented by derived classes
+    public void LoadPdfData(byte[] pdfBytes, Dictionary<string, string> formData)
+    {
+        // Load PdfBytes
+        PdfData = pdfBytes;
+        var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
+        LoadFormFields(formFields);
+        
+        // Load FormData
+        SaveFormData(formFields);
+    }
+
+    protected void SaveFormData(Dictionary<string, string> formFields)
+    {
+        foreach (var form in formFields)
+        {
+            if (FormData != null) FormData[form.Key] = form.Value;
+        }
+    }
+    
+    protected async Task SavePdf()
+    {
+        //string? serialNo = FormData.GetValueOrDefault("SerialNo");
+        string fileName = $"test_{DateTime.Now:yyyy-M-d}.pdf";
+        await PdfUtils.SavePdfWithFormData(PdfData, FormData, fileName);
+    }
+    
+    #endregion
+    
+    #region Abstract methods
+    
     protected abstract void LoadFormFields(Dictionary<string, string> formFields);
     
     // Template method for navigation logic
     protected abstract Task OnNext();
 
-    // INotifyPropertyChanged Implementation
+    #endregion
+    
+    #region INotifyPropertyChanged Implementation
+
     public event PropertyChangedEventHandler? PropertyChanged;
     
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+    
+    #endregion
 }
