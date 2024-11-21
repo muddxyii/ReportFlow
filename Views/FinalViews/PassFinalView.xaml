@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ABFReportEditor.Views.FinalViews.PassFinalView"
+             Title="Pass Final">
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+            <!-- Tester Information -->
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Passed By (Tester Name)" 
+                       FontAttributes="Bold" 
+                       Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Certified Tester No." 
+                       FontAttributes="Bold" 
+                       Grid.Row="0" Grid.Column="1"/>
+                
+                <Entry Placeholder="Tester Name"
+                       Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Certification Number"
+                       Keyboard="Numeric"
+                       Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+
+            <!-- Date and Test Kit -->
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Date Passed" 
+                       FontAttributes="Bold" 
+                       Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Test Kit Serial" 
+                       FontAttributes="Bold" 
+                       Grid.Row="0" Grid.Column="1"/>
+                
+                <DatePicker Date="{Binding DatePassed}"
+                           Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Test Kit Serial Number"
+                       Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+
+            <!-- Comments -->
+            <Label Text="Comments" 
+                   FontAttributes="Bold" 
+                   Margin="0,10,0,0"/>
+            <Editor Placeholder="Enter comments here"
+                    HeightRequest="100"
+                    AutoSize="TextChanges"/>
+
+            <!-- Submit Button -->
+            <Button Text="Submit Report" 
+                    Margin="0,20,0,0"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
