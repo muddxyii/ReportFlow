@@ -13,10 +13,12 @@
     </views:BaseViewPage.BindingContext>
     
     <ScrollView>
+        <!-- Line Pressure -->
         <VerticalStackLayout Padding="10" Spacing="20">
             <Label Text="Line Pressure" FontAttributes="Bold"/>
             <Grid ColumnDefinitions="*, Auto">
                 <Entry Placeholder="Enter line pressure" 
+                       Text="{Binding LinePressure}"
                        Keyboard="Numeric"/>
                 <Label Text="PSID" 
                        VerticalOptions="Center"
@@ -24,9 +26,11 @@
                        Margin="10,0,0,0"/>
             </Grid>
 
+            <!-- Check Valve #1 -->
             <Label Text="Check Valve #1" FontAttributes="Bold"/>
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Pressure reading"
+                       Text="{Binding CheckValve1}"
                        Keyboard="Numeric"/>
                 <Label Text="PSID" 
                        Grid.Column="1"
@@ -39,14 +43,17 @@
                                  GroupName="CheckValve1Status"/>
                     <RadioButton x:Name="CheckValve1LeakedRadio" 
                                  Content="Leaked"
+                                 IsChecked="{Binding CheckValve1Leaked}"
                                  GroupName="CheckValve1Status"
                                  Margin="20,0,0,0"/>
                 </HorizontalStackLayout>
             </Grid>
 
+            <!-- Check Valve #2 -->
             <Label Text="Check Valve #2" FontAttributes="Bold"/>
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Pressure reading"
+                       Text="{Binding CheckValve2}"
                        Keyboard="Numeric"/>
                 <Label Text="PSID" 
                        Grid.Column="1"
@@ -59,6 +66,7 @@
                                  GroupName="CheckValve2Status"/>
                     <RadioButton x:Name="CheckValve2LeakedRadio" 
                                  Content="Leaked"
+                                 IsChecked="{Binding CheckValve2Leaked}"
                                  GroupName="CheckValve2Status"
                                  Margin="20,0,0,0"/>
                 </HorizontalStackLayout>

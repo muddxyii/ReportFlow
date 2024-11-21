@@ -6,6 +6,8 @@ public class DcTestViewModel : BaseBackflowViewModel
     private string? _linePressure;
     private string? _checkValve1;
     private string? _checkValve2;
+    private bool _checkValve1Leaked;
+    private bool _checkValve2Leaked;
     
     // Properties
     public string? LinePressure
@@ -35,6 +37,26 @@ public class DcTestViewModel : BaseBackflowViewModel
         {
             _checkValve2 = value;
             OnPropertyChanged(nameof(_checkValve2));
+        }
+    }
+    
+    public bool CheckValve1Leaked
+    {
+        get => _checkValve1Leaked;
+        set
+        {
+            _checkValve1Leaked = value;
+            OnPropertyChanged(nameof(CheckValve1Leaked));
+        }
+    }
+
+    public bool CheckValve2Leaked
+    {
+        get => _checkValve2Leaked;
+        set
+        {
+            _checkValve2Leaked = value;
+            OnPropertyChanged(nameof(CheckValve2Leaked));
         }
     }
     
