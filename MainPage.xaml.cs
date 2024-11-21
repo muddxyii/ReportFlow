@@ -53,7 +53,7 @@ public partial class MainPage : ContentPage
     {
         await Application.Current.MainPage.DisplayAlert(
             "Not Implemented", 
-            $"This feature has been implemented.", 
+            $"This feature has not been implemented.", 
             "OK"
         );
     }
