@@ -213,7 +213,7 @@
                         "OK"
                     );
                     break;
-                case "TYP":
+                case "TYPE 2":
                     await Application.Current.MainPage.DisplayAlert(
                         "Not Implemented", 
                         $"The type '{Type}' has not been implemented.", 
