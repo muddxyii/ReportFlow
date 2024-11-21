@@ -49,9 +49,12 @@ public partial class MainPage : ContentPage
         }
     }
 
-    private void OnCreatePdfClicked(object? sender, EventArgs e)
+    private async void OnCreatePdfClicked(object? sender, EventArgs e)
     {
-        // TODO: Implement creat pdf view / workflow
-        throw new NotImplementedException();
+        await Application.Current.MainPage.DisplayAlert(
+            "Not Implemented", 
+            $"This feature has been implemented.", 
+            "OK"
+        );
     }
 }
