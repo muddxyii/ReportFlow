@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ABFReportEditor.Views.TestViews;
 
-public partial class DcTestPage : ContentPage
+[QueryProperty(nameof(ViewModel), "ViewModel")]
+public partial class DcTestPage
 {
     public DcTestPage()
     {

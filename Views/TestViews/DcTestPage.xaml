@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ABFReportEditor.Views.TestViews.DcTestPage"
-             Title="DC Test">
+<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:testViewModels="clr-namespace:ABFReportEditor.ViewModels.TestViewModels"
+                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
+                    x:Class="ABFReportEditor.Views.TestViews.DcTestPage"
+                    x:TypeArguments="testViewModels:DcTestViewModel"
+                    Title="DC Test">
+    
+    <views:BaseViewPage.BindingContext>
+        <testViewModels:DcTestViewModel />
+    </views:BaseViewPage.BindingContext>
     
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="20">
@@ -61,4 +68,4 @@
                     Margin="0,20,0,0"/>
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</views:BaseViewPage>

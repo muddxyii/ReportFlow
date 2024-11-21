@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:ABFReportEditor.ViewModels.TestViewModels"
-             x:Class="ABFReportEditor.Views.TestViews.RpTestPage"
-             Title="RP Test">
+<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:testViewModels="clr-namespace:ABFReportEditor.ViewModels.TestViewModels"
+                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
+                    x:Class="ABFReportEditor.Views.TestViews.RpTestPage"
+                    x:TypeArguments="testViewModels:RpTestViewModel"
+                    Title="RP Test">
     
     <ContentPage.BindingContext>
-        <viewmodels:RpTestViewModel />
+        <testViewModels:RpTestViewModel />
     </ContentPage.BindingContext>
     
     <ScrollView>
@@ -86,4 +88,4 @@
                     Margin="0,20,0,0"/>
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</views:BaseViewPage>
