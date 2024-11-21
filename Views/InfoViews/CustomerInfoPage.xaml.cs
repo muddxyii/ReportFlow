@@ -1,6 +1,6 @@
-﻿using ABFReportEditor.ViewModels;
+﻿using ABFReportEditor.ViewModels.InfoViewModels;
 
-namespace ABFReportEditor.Views;
+namespace ABFReportEditor.Views.InfoViews;
 
 [QueryProperty(nameof(ViewModel), "ViewModel")]
 public partial class CustomerInfoPage : ContentPage

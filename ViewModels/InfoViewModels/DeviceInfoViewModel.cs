@@ -1,11 +1,5 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
-using ABFReportEditor.Util;
-
-namespace ABFReportEditor.ViewModels
+﻿namespace ABFReportEditor.ViewModels.InfoViewModels
 {
-    // TODO: IMPLEMENT PROTECTION TYPE & SERVICE TYPE FIELDS
-    
     public class DeviceInfoViewModel : BaseBackflowViewModel
     {
         // Dropdown Options

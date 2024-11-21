@@ -3,11 +3,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:ABFReportEditor.ViewModels"
-             x:Class="ABFReportEditor.Views.DeviceInfoPage"
+             xmlns:infoViewModels="clr-namespace:ABFReportEditor.ViewModels.InfoViewModels"
+             x:Class="ABFReportEditor.Views.InfoViews.DeviceInfoPage"
              Title="Device Information">
     
     <ContentPage.BindingContext>
-        <viewmodels:DeviceInfoViewModel />
+        <infoViewModels:DeviceInfoViewModel />
     </ContentPage.BindingContext>
     
     <ScrollView>

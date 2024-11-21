@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ABFReportEditor.ViewModels;
+﻿using ABFReportEditor.ViewModels.InfoViewModels;
 
-namespace ABFReportEditor.Views;
+namespace ABFReportEditor.Views.InfoViews;
 
 [QueryProperty(nameof(ViewModel), "ViewModel")]
 public partial class DeviceInfoPage : ContentPage

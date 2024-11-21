@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
-using ABFReportEditor.Util;
-
-namespace ABFReportEditor.ViewModels
+﻿namespace ABFReportEditor.ViewModels.InfoViewModels
 {
     public class CustomerInfoViewModel : BaseBackflowViewModel
     {
