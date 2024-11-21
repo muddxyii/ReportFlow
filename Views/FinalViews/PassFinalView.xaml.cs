@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ABFReportEditor.Views.FinalViews;
 
-public partial class PassFinalView : ContentPage
+[QueryProperty(nameof(ViewModel), "ViewModel")]
+public partial class PassFinalView
 {
     public PassFinalView()
     {

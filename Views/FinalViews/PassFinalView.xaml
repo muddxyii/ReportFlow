@@ -1,54 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ABFReportEditor.Views.FinalViews.PassFinalView"
-             Title="Pass Final">
-    
+<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
+                    xmlns:finalViewModels="clr-namespace:ABFReportEditor.ViewModels.FinalViewModels"
+                    x:Class="ABFReportEditor.Views.FinalViews.PassFinalView"
+                    x:TypeArguments="finalViewModels:PassViewModel"
+                    Title="Pass Final">
+
+       <views:BaseViewPage.BindingContext>
+              <finalViewModels:PassViewModel />
+       </views:BaseViewPage.BindingContext>
+       
     <ScrollView>
         <VerticalStackLayout Spacing="10" Padding="20">
-            <!-- Tester Information -->
+            <!-- Test Name and Date -->
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Passed By (Tester Name)" 
-                       FontAttributes="Bold" 
-                       Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Certified Tester No." 
-                       FontAttributes="Bold" 
-                       Grid.Row="0" Grid.Column="1"/>
-                
-                <Entry Placeholder="Tester Name"
-                       Grid.Row="1" Grid.Column="0"/>
-                <Entry Placeholder="Certification Number"
-                       Keyboard="Numeric"
-                       Grid.Row="1" Grid.Column="1"/>
+                <Label Text="Passed By (Tester Name)"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="0" />
+                <Label Text="Date Passed"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="1" />
+
+                <Picker ItemsSource="{Binding TesterNameOptions}"
+                       SelectedItem="{Binding TesterName}"
+                       Grid.Row="1" Grid.Column="0" />
+                <DatePicker Date="{Binding DatePassed}"
+                       Grid.Row="1" Grid.Column="1" />
             </Grid>
 
-            <!-- Date and Test Kit -->
+            <!-- Certification Number and Test Kit -->
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Date Passed" 
-                       FontAttributes="Bold" 
-                       Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Test Kit Serial" 
-                       FontAttributes="Bold" 
-                       Grid.Row="0" Grid.Column="1"/>
-                
-                <DatePicker Date="{Binding DatePassed}"
-                           Grid.Row="1" Grid.Column="0"/>
-                <Entry Placeholder="Test Kit Serial Number"
-                       Grid.Row="1" Grid.Column="1"/>
+                <Label Text="Certified Tester No."
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="0" />
+                <Label Text="Test Kit Serial"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="1" />
+
+                <Picker ItemsSource="{Binding TesterNoOptions}"
+                       SelectedItem="{Binding TesterNo}"
+                       Grid.Row="1" Grid.Column="0" />
+                <Picker ItemsSource="{Binding TestKitSerialOptions}"
+                        SelectedItem="{Binding TestKitSerial}"
+                        Grid.Row="1" Grid.Column="1" />
             </Grid>
 
             <!-- Comments -->
-            <Label Text="Comments" 
-                   FontAttributes="Bold" 
-                   Margin="0,10,0,0"/>
+            <Label Text="Comments"
+                   FontAttributes="Bold"
+                   Margin="0,10,0,0" />
             <Editor Placeholder="Enter comments here"
+                    Text="{Binding Comments}"
                     HeightRequest="100"
-                    AutoSize="TextChanges"/>
+                    AutoSize="TextChanges" />
 
-            <!-- Submit Button -->
-            <Button Text="Submit Report" 
-                    Margin="0,20,0,0"/>
+            <!-- Share Button -->
+            <Button Text="Share Report"
+                    Command="{Binding NextCommand}"
+                    Margin="0,20,0,0" />
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</views:BaseViewPage>
