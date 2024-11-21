@@ -73,6 +73,7 @@
             </Grid>
             
             <Button Text="Next"
+                    Command="{Binding NextCommand}"
                     Margin="0,20,0,0"/>
         </VerticalStackLayout>
     </ScrollView>
