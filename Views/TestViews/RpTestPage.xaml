@@ -2,14 +2,20 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ABFReportEditor.ViewModels.TestViewModels"
              x:Class="ABFReportEditor.Views.TestViews.RpTestPage"
              Title="RP Test">
+    
+    <ContentPage.BindingContext>
+        <viewmodels:RpTestViewModel />
+    </ContentPage.BindingContext>
     
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="20">
             <Label Text="Line Pressure" FontAttributes="Bold"/>
             <Grid ColumnDefinitions="*, Auto">
                 <Entry Placeholder="Enter line pressure" 
+                       Text="{Binding LinePressure}"
                        Keyboard="Numeric"/>
                 <Label Text="PSID" 
                        VerticalOptions="Center"
@@ -20,6 +26,7 @@
             <Label Text="Check Valve #1" FontAttributes="Bold"/>
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Pressure reading"
+                       Text="{Binding CheckValve1}"
                        Keyboard="Numeric"/>
                 <Label Text="PSID" 
                        Grid.Column="1"
@@ -40,6 +47,7 @@
             <Label Text="Check Valve #2" FontAttributes="Bold"/>
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Pressure reading"
+                       Text="{Binding CheckValve2}"
                        Keyboard="Numeric"/>
                 <Label Text="PSID" 
                        Grid.Column="1"
@@ -60,6 +68,7 @@
             <Label Text="Pressure Relief Valve" FontAttributes="Bold"/>
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Relief valve opened at"
+                       Text="{Binding  PressureReliefOpening}"
                        Keyboard="Numeric"/>
                 <Label Text="PSID" 
                        Grid.Column="1"
