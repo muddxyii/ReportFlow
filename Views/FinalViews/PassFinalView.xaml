@@ -5,11 +5,11 @@
                     xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
                     xmlns:finalViewModels="clr-namespace:ABFReportEditor.ViewModels.FinalViewModels"
                     x:Class="ABFReportEditor.Views.FinalViews.PassFinalView"
-                    x:TypeArguments="finalViewModels:PassViewModel"
+                    x:TypeArguments="finalViewModels:PassFinalViewModel"
                     Title="Pass Final">
 
        <views:BaseViewPage.BindingContext>
-              <finalViewModels:PassViewModel />
+              <finalViewModels:PassFinalViewModel />
        </views:BaseViewPage.BindingContext>
        
     <ScrollView>

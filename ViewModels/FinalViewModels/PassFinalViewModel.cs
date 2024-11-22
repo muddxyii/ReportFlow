@@ -1,6 +1,6 @@
 namespace ABFReportEditor.ViewModels.FinalViewModels;
 
-public class PassViewModel : BaseBackflowViewModel
+public class PassFinalViewModel : BaseBackflowViewModel
 {
     // Dropdown options
     public List<String> TesterNameOptions { get; } =
