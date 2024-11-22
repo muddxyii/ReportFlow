@@ -1,3 +1,5 @@
+using ABFReportEditor.ViewModels.FinalViewModels;
+
 namespace ABFReportEditor.ViewModels.TestViewModels;
 
 public class RpTestViewModel : BaseBackflowViewModel
@@ -97,23 +99,43 @@ public class RpTestViewModel : BaseBackflowViewModel
 
     protected override async Task OnNext()
     {
-        // TODO: Implement pass/fail logic
-        
-        // Save form data
-        Dictionary<string, string> formFields = new Dictionary<string, string>()
+        if (IsBackflowPassing())
         {
-            { "LinePressure", LinePressure ?? string.Empty },
-            { "FinalCT1", CheckValve1 ?? string.Empty },
-            { "FinalCT2", CheckValve2 ?? string.Empty },
-            { "FinalRV", PressureReliefOpening ?? string.Empty },
-            { "FinalCT1Box", (CheckValve1Leaked ? "Off" : "On") },
-            { "FinalCT2Box", (CheckValve2Leaked ? "Off" : "On") },
-        };
-        SaveFormData(formFields);
-        
-        
-        // Load next view model
-        await Shell.Current.GoToAsync("PassFinal");
+            // Save form data
+            Dictionary<string, string> formFields = new Dictionary<string, string>()
+            {
+                { "LinePressure", LinePressure ?? string.Empty },
+                { "FinalCT1", CheckValve1 ?? string.Empty },
+                { "FinalCT2", CheckValve2 ?? string.Empty },
+                { "FinalRV", PressureReliefOpening ?? string.Empty },
+                { "FinalCT1Box", (CheckValve1Leaked ? "Off" : "On") },
+                { "FinalCT2Box", (CheckValve2Leaked ? "Off" : "On") },
+            };
+            SaveFormData(formFields);
+            
+            // Load next view model
+            var viewModel = new PassFinalViewModel();
+            viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(), 
+                FormData ?? throw new InvalidOperationException());
+            await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
+            {
+                { "ViewModel", viewModel }
+            });
+        }
+        else
+        {
+            // send to repair screen
+        }
+    }
+    
+    #endregion
+    
+    #region Private methods
+
+    private bool IsBackflowPassing()
+    {
+        // TODO: Implement pass/fail logic
+        return true;
     }
     
     #endregion

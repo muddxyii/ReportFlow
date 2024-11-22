@@ -83,10 +83,20 @@ public class PassFinalViewModel : BaseBackflowViewModel
     protected override async Task OnNext()
     {
         // TODO: Implement share pdf logic
-        await Application.Current.MainPage.DisplayAlert(
-            "Not Implemented",
-            $"This feature has not been implemented.",
-            "OK"
-        );
+        // Save form data
+        Dictionary<string, string> formFields = new Dictionary<string, string>()
+        {
+            { "FinalTester", TesterName ?? string.Empty },
+            { "DatePassed", DatePassed.ToShortTimeString() ?? string.Empty },
+            { "FinalTesterNo", TesterNo ?? string.Empty },
+            { "FinalTestKitSerial", TestKitSerial ?? string.Empty },
+            { "ReportComments", Comments ?? string.Empty },
+        };
+        SaveFormData(formFields);
+
+        
+        string? serialNo = FormData.GetValueOrDefault("SerialNo");
+        string fileName = $"{serialNo ?? "Unknown"}_{DateTime.Now:yyyy-M-d}.pdf";
+        await SavePdf(fileName);
     }
 }
