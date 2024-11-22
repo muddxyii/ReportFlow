@@ -1,4 +1,6 @@
-﻿namespace ABFReportEditor.ViewModels.InfoViewModels;
+﻿using ABFReportEditor.ViewModels.TestViewModels;
+
+namespace ABFReportEditor.ViewModels.InfoViewModels;
 
 public class DeviceInfoViewModel : BaseBackflowViewModel
 {
@@ -220,7 +222,13 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         switch (Type)
         {
             case "RP":
-                await Shell.Current.GoToAsync("RpTest");
+                var viewModel = new RpTestViewModel();
+                viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                    FormData ?? throw new InvalidOperationException());
+                await Shell.Current.GoToAsync("RpTest", new Dictionary<string, object>
+                {
+                    { "ViewModel", viewModel }
+                });
                 break;
             case "DC":
                 await Shell.Current.GoToAsync("DcTest");
