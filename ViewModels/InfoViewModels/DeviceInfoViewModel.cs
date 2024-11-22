@@ -199,6 +199,9 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
     protected override async Task OnNext()
     {
+        // Check if the necessary fields were filled
+        if (Type == null) return;
+        
         // Save form fields to form data
         Dictionary<string, string> formFields = new Dictionary<string, string>()
         {
