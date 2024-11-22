@@ -80,6 +80,24 @@ public static class PdfUtils
 
             // Get the form from the PDF
             var form = PdfAcroForm.GetAcroForm(pdfDoc, true);
+            
+            // Clear existing form fields
+            foreach (var field in form.GetAllFormFields())
+            {
+                var fieldType = field.Value.GetFormType();
+                switch (fieldType.ToString())
+                {
+                    case "/Tx":
+                        field.Value.SetValue("");
+                        break;
+                    case "/Ch":
+                        field.Value.SetValue("");
+                        break;
+                    case "/Btn":
+                        field.Value.SetValue("Off");
+                        break;
+                }
+            }
 
             // Update all form fields
             foreach (var field in formData)
