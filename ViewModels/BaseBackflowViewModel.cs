@@ -49,8 +49,7 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
         var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
         LoadFormFields(formFields);
         
-        // Load FormData
-        SaveFormData(formFields);
+        SaveFormData(formData);
     }
 
     protected void SaveFormData(Dictionary<string, string> formFields)
@@ -61,10 +60,8 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
         }
     }
     
-    protected async Task SavePdf()
+    protected async Task SavePdf(string fileName)
     {
-        //string? serialNo = FormData.GetValueOrDefault("SerialNo");
-        string fileName = $"test_{DateTime.Now:yyyy-M-d}.pdf";
         await PdfUtils.SavePdfWithFormData(PdfData, FormData, fileName);
     }
     
