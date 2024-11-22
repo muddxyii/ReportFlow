@@ -127,12 +127,29 @@ public static class PdfUtils
                 : filePath;
 
             // Notify the user
+            // await MainThread.InvokeOnMainThreadAsync(async () =>
+            // {
+            //     await Application.Current.MainPage.DisplayAlert(
+            //         "Success",
+            //         $"PDF saved to: {displayPath}",
+            //         "OK");
+            // });
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Success",
+                var action = await Application.Current.MainPage.DisplayActionSheet(
                     $"PDF saved to: {displayPath}",
-                    "OK");
+                    "Ok",
+                    null,
+                    "Click to Share");
+
+                if (action == "Click to Share")
+                {
+                    await Share.RequestAsync(new ShareFileRequest
+                    {
+                        Title = "Share PDF",
+                        File = new ShareFile(filePath)
+                    });
+                }
             });
         }
         catch (Exception ex)
