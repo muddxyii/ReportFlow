@@ -57,6 +57,7 @@
                 <Entry Placeholder="Pressure reading"
                        Text="{Binding CheckValve2}"
                        Keyboard="Numeric"
+                       IsEnabled="False"
                        TextChanged="OnEntryNumericChanged"/>
                 <Label Text="PSID" 
                        Grid.Column="1"

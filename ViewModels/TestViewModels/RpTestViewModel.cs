@@ -149,6 +149,12 @@ public class RpTestViewModel : BaseBackflowViewModel
         else
         {
             // send to repair screen
+            await Application.Current.MainPage.DisplayAlert(
+                "Missing implementation",
+                $"The backflow failed, the next view model hasn't been implemented.",
+                "OK"
+            );
+            return;
         }
     }
 
