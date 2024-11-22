@@ -5,7 +5,7 @@ namespace ABFReportEditor.ViewModels.TestViewModels;
 public class RpTestViewModel : BaseBackflowViewModel
 {
     #region Private properties
-    
+
     private string? _linePressure;
     private string? _checkValve1;
     private string? _checkValve2;
@@ -13,11 +13,11 @@ public class RpTestViewModel : BaseBackflowViewModel
     private bool _checkValve1Leaked;
     private bool _checkValve2Leaked;
     private bool _reliefValveDidNotOpen;
-    
+
     #endregion
-    
+
     #region Public Properties
-    
+
     public string? LinePressure
     {
         get => _linePressure;
@@ -27,7 +27,7 @@ public class RpTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(LinePressure));
         }
     }
-    
+
     public string? CheckValve1
     {
         get => _checkValve1;
@@ -37,7 +37,7 @@ public class RpTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(LinePressure));
         }
     }
-    
+
     public string? CheckValve2
     {
         get => _checkValve2;
@@ -47,7 +47,7 @@ public class RpTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(_checkValve2));
         }
     }
-    
+
     public string? PressureReliefOpening
     {
         get => _pressureReliefOpening;
@@ -57,7 +57,7 @@ public class RpTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(_pressureReliefOpening));
         }
     }
-    
+
     public bool CheckValve1Leaked
     {
         get => _checkValve1Leaked;
@@ -87,11 +87,11 @@ public class RpTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(ReliefValveDidNotOpen));
         }
     }
-    
+
     #endregion
-    
+
     #region Abstract function implementation
-    
+
     protected override void LoadFormFields(Dictionary<string, string> formFields)
     {
         // Don't load previous fields
@@ -99,6 +99,30 @@ public class RpTestViewModel : BaseBackflowViewModel
 
     protected override async Task OnNext()
     {
+        // List of required fields with their display names
+        var requiredFields = new Dictionary<string, string>
+        {
+            { nameof(LinePressure), "LinePressure" },
+            { nameof(CheckValve1), "CheckValve1" },
+            { nameof(PressureReliefOpening), "PressureReliefOpening" }
+        };
+
+        // Check for missing required fields
+        foreach (var field in requiredFields)
+        {
+            var propertyValue = GetType().GetProperty(field.Key)?.GetValue(this) as string;
+            if (string.IsNullOrEmpty(propertyValue))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Fields are empty",
+                    $"The field '{field.Value}' has not been filled.",
+                    "OK"
+                );
+                return;
+            }
+        }
+
+        // Check if backflow passed or not
         if (IsBackflowPassing())
         {
             // Save form data
@@ -112,10 +136,10 @@ public class RpTestViewModel : BaseBackflowViewModel
                 { "FinalCT2Box", (CheckValve2Leaked ? "Off" : "On") },
             };
             SaveFormData(formFields);
-            
+
             // Load next view model
             var viewModel = new PassFinalViewModel();
-            viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(), 
+            viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
                 FormData ?? throw new InvalidOperationException());
             await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
             {
@@ -127,9 +151,9 @@ public class RpTestViewModel : BaseBackflowViewModel
             // send to repair screen
         }
     }
-    
+
     #endregion
-    
+
     #region Private methods
 
     private bool IsBackflowPassing()
@@ -137,6 +161,6 @@ public class RpTestViewModel : BaseBackflowViewModel
         // TODO: Implement pass/fail logic
         return true;
     }
-    
+
     #endregion
 }
