@@ -19,7 +19,8 @@
             <Grid ColumnDefinitions="*, Auto">
                 <Entry Placeholder="Enter line pressure" 
                        Text="{Binding LinePressure}"
-                       Keyboard="Numeric"/>
+                       Keyboard="Numeric"
+                       TextChanged="OnEntryNumericChanged"/>
                 <Label Text="PSID" 
                        VerticalOptions="Center"
                        Grid.Column="1"
@@ -31,7 +32,8 @@
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Pressure reading"
                        Text="{Binding CheckValve1}"
-                       Keyboard="Numeric"/>
+                       Keyboard="Numeric"
+                       TextChanged="OnEntryNumericChanged"/>
                 <Label Text="PSID" 
                        Grid.Column="1"
                        VerticalOptions="Center"
@@ -54,7 +56,8 @@
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Pressure reading"
                        Text="{Binding CheckValve2}"
-                       Keyboard="Numeric"/>
+                       Keyboard="Numeric"
+                       TextChanged="OnEntryNumericChanged"/>
                 <Label Text="PSID" 
                        Grid.Column="1"
                        VerticalOptions="Center"
@@ -77,7 +80,8 @@
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Relief valve opened at"
                        Text="{Binding  PressureReliefOpening}"
-                       Keyboard="Numeric"/>
+                       Keyboard="Numeric"
+                       TextChanged="OnEntryNumericChanged"/>
                 <Label Text="PSID" 
                        Grid.Column="1"
                        VerticalOptions="Center"
