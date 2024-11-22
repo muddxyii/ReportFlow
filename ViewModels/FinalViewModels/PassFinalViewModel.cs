@@ -87,10 +87,10 @@ public class PassFinalViewModel : BaseBackflowViewModel
         Dictionary<string, string> formFields = new Dictionary<string, string>()
         {
             { "FinalTester", TesterName ?? string.Empty },
-            { "DatePassed", DatePassed.ToShortTimeString() ?? string.Empty },
+            { "DatePassed", DatePassed.ToString("M/d/yyyy") ?? string.Empty },
             { "FinalTesterNo", TesterNo ?? string.Empty },
             { "FinalTestKitSerial", TestKitSerial ?? string.Empty },
-            { "ReportComments", Comments ?? string.Empty },
+            { "ReportComments", Comments?.ToUpper() ?? string.Empty },
         };
         SaveFormData(formFields);
 
