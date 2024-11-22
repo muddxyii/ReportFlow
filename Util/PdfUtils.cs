@@ -1,4 +1,5 @@
-﻿using iText.Forms;
+﻿using ABFReportEditor.Interfaces;
+using iText.Forms;
 using iText.Kernel.Pdf;
 
 namespace ABFReportEditor.Util;
@@ -11,7 +12,7 @@ public static class PdfUtils
         using var memoryStream = new MemoryStream(pdfBytes);
         using var pdfReader = new PdfReader(memoryStream);
         using var pdfDoc = new PdfDocument(pdfReader);
-        
+
         var form = PdfAcroForm.GetAcroForm(pdfDoc, false);
         if (form != null)
         {
@@ -21,11 +22,49 @@ public static class PdfUtils
                 formFields[field.Key] = field.Value.GetValueAsString();
             }
         }
+
         return formFields;
     }
-    
-    public static async Task SavePdfWithFormData(byte[] originalPdf, 
-        Dictionary<string, string> formData, 
+
+    private static string GetPdfStoragePath(string fileName)
+    {
+        string baseDirectory;
+
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            // Use app-specifict external storage on Android
+            var fileHelper = IPlatformApplication.Current?.Services.GetService<IFileHelper>();
+            baseDirectory = fileHelper?.GetPublicStoragePath("Reports");
+        }
+        else
+        {
+            // Use Documents folder on Windows
+            baseDirectory = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "Reports");
+        }
+
+        // Ensure the directory exists
+        Directory.CreateDirectory(baseDirectory);
+
+        // Generate unique filename
+        string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+        string extension = Path.GetExtension(fileName);
+        string filePath = Path.Combine(baseDirectory, fileName);
+        int counter = 1;
+
+        while (File.Exists(filePath))
+        {
+            filePath = Path.Combine(baseDirectory,
+                $"{fileNameWithoutExt}_{counter}{extension}");
+            counter++;
+        }
+
+        return filePath;
+    }
+
+    public static async Task SavePdfWithFormData(byte[] originalPdf,
+        Dictionary<string, string> formData,
         string fileName)
     {
         try
@@ -33,15 +72,15 @@ public static class PdfUtils
             // Create a memory stream for the PDF manipulation
             using var inputStream = new MemoryStream(originalPdf);
             using var outputStream = new MemoryStream();
-            
+
             // Create PDF reader and writer
             var reader = new PdfReader(inputStream);
             var writer = new PdfWriter(outputStream);
             var pdfDoc = new PdfDocument(reader, writer);
-            
+
             // Get the form from the PDF
             var form = PdfAcroForm.GetAcroForm(pdfDoc, true);
-            
+
             // Update all form fields
             foreach (var field in formData)
             {
@@ -50,41 +89,39 @@ public static class PdfUtils
                     form.GetField(field.Key).SetValue(field.Value);
                 }
             }
-            
+
             // Close the document to apply changes
             pdfDoc.Close();
-            
-            // Get the file path
-            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filePath = Path.Combine(documentsPath, fileName);
-            
-            // Ensure unique filename
-            int counter = 1;
-            string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
-            string extension = Path.GetExtension(fileName);
-            
-            while (File.Exists(filePath))
-            {
-                filePath = Path.Combine(documentsPath, 
-                    $"{fileNameWithoutExt}_{counter}{extension}");
-                counter++;
-            }
-            
+
+            // Get platform-specific file path
+            string filePath = GetPdfStoragePath(fileName);
+
             // Write the file
             await File.WriteAllBytesAsync(filePath, outputStream.ToArray());
-            
-            // Optionally notify the user
-            await Application.Current.MainPage.DisplayAlert(
-                "Success", 
-                $"PDF saved to: {filePath}", 
-                "OK");
+
+            // Get a friendly path to display to the user
+            string displayPath = DeviceInfo.Platform == DevicePlatform.Android
+                ? $"Reports/{Path.GetFileName(filePath)}"
+                : filePath;
+
+            // Notify the user
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Success",
+                    $"PDF saved to: {displayPath}",
+                    "OK");
+            });
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Error", 
-                $"Failed to save PDF: {ex.Message}", 
-                "OK");
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    $"Failed to save PDF: {ex.Message}",
+                    "OK");
+            });
         }
     }
 }
