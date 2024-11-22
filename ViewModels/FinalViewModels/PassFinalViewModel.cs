@@ -83,6 +83,30 @@ public class PassFinalViewModel : BaseBackflowViewModel
     protected override async Task OnNext()
     {
         // TODO: Implement share pdf logic
+        
+        // List of required fields with their display names
+        var requiredFields = new Dictionary<string, string>
+        {
+            { nameof(TesterName), "Tester Name" },
+            { nameof(TesterNo), "Tester Number" },
+            { nameof(TestKitSerial), "Test Kit Serial" }
+        };
+
+        // Check for missing required fields
+        foreach (var field in requiredFields)
+        {
+            var propertyValue = GetType().GetProperty(field.Key)?.GetValue(this) as string;
+            if (string.IsNullOrEmpty(propertyValue))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Fields are empty",
+                    $"The field '{field.Value}' has not been filled.",
+                    "OK"
+                );
+                return;
+            }
+        }
+        
         // Save form data
         Dictionary<string, string> formFields = new Dictionary<string, string>()
         {
@@ -94,7 +118,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
         };
         SaveFormData(formFields);
 
-        
+        // Save as pdf        
         string? serialNo = FormData.GetValueOrDefault("SerialNo");
         string fileName = $"{serialNo ?? "Unknown"}_{DateTime.Now:yyyy-M-d}.pdf";
         await SavePdf(fileName);

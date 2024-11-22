@@ -102,9 +102,9 @@ public class RpTestViewModel : BaseBackflowViewModel
         // List of required fields with their display names
         var requiredFields = new Dictionary<string, string>
         {
-            { nameof(LinePressure), "LinePressure" },
-            { nameof(CheckValve1), "CheckValve1" },
-            { nameof(PressureReliefOpening), "PressureReliefOpening" }
+            { nameof(LinePressure), "Line Pressure" },
+            { nameof(CheckValve1), "Check Valve 1" },
+            { nameof(PressureReliefOpening), "Pressure Relief Opening" }
         };
 
         // Check for missing required fields
@@ -165,6 +165,10 @@ public class RpTestViewModel : BaseBackflowViewModel
     private bool IsBackflowPassing()
     {
         // TODO: Implement pass/fail logic
+        if (CheckValve1Leaked || CheckValve2Leaked || ReliefValveDidNotOpen)
+        {
+            return false;
+        }
         return true;
     }
 
