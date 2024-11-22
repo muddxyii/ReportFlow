@@ -99,12 +99,16 @@ public static class PdfUtils
                 }
             }
 
-            // Update all form fields
+            // Update and autosize all form fields
             foreach (var field in formData)
             {
-                if (form.GetField(field.Key) != null)
+                var pdfField = form.GetField(field.Key);
+                if (pdfField != null)
                 {
-                    form.GetField(field.Key).SetValue(field.Value);
+                    pdfField.SetValue(field.Value);
+
+                    // Adjust font size and appearance for autosizing
+                    pdfField.SetFontSizeAutoScale();
                 }
             }
 
