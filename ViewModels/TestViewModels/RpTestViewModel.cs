@@ -2,7 +2,8 @@ namespace ABFReportEditor.ViewModels.TestViewModels;
 
 public class RpTestViewModel : BaseBackflowViewModel
 {
-    // Private fields
+    #region Private properties
+    
     private string? _linePressure;
     private string? _checkValve1;
     private string? _checkValve2;
@@ -11,7 +12,10 @@ public class RpTestViewModel : BaseBackflowViewModel
     private bool _checkValve2Leaked;
     private bool _reliefValveDidNotOpen;
     
-    // Properties
+    #endregion
+    
+    #region Public Properties
+    
     public string? LinePressure
     {
         get => _linePressure;
@@ -82,7 +86,10 @@ public class RpTestViewModel : BaseBackflowViewModel
         }
     }
     
-    // Methods
+    #endregion
+    
+    #region Abstract function implementation
+    
     protected override void LoadFormFields(Dictionary<string, string> formFields)
     {
         // Don't load previous fields
@@ -91,6 +98,23 @@ public class RpTestViewModel : BaseBackflowViewModel
     protected override async Task OnNext()
     {
         // TODO: Implement pass/fail logic
+        
+        // Save form data
+        Dictionary<string, string> formFields = new Dictionary<string, string>()
+        {
+            { "LinePressure", LinePressure ?? string.Empty },
+            { "FinalCT1", CheckValve1 ?? string.Empty },
+            { "FinalCT2", CheckValve2 ?? string.Empty },
+            { "FinalRV", PressureReliefOpening ?? string.Empty },
+            { "FinalCT1Box", (CheckValve1Leaked ? "Off" : "On") },
+            { "FinalCT2Box", (CheckValve2Leaked ? "Off" : "On") },
+        };
+        SaveFormData(formFields);
+        
+        
+        // Load next view model
         await Shell.Current.GoToAsync("PassFinal");
     }
+    
+    #endregion
 }
