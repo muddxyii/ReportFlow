@@ -126,21 +126,23 @@ public class RpTestViewModel : BaseBackflowViewModel
 
     protected override void LoadFormFields(Dictionary<string, string> formFields)
     {
-        // Don't load previous fields
+        // Init check valve leaked buttons as true
+        CheckValve1Leaked = true;
+        CheckValve2Leaked = true;
     }
 
     protected override async Task OnNext()
     {
-        // List of required fields with their display names
+        // List of required fields with their error message
         var requiredFields = new Dictionary<string, string>
         {
             { nameof(LinePressure), "Line Pressure" },
-            { nameof(ShutoffValve), "Shutoff Valve Status" },
-            { nameof(CheckValve1), "Check Valve 1" },
-            { nameof(PressureReliefOpening), "Pressure Relief Opening" }
+            { nameof(ShutoffValve), "SOV Status" },
+            { nameof(CheckValve1), "CV1 Value" },
+            { nameof(PressureReliefOpening), "RV Opening Value" }
         };
 
-        // Check for missing required fields
+        // Check string fields
         foreach (var field in requiredFields)
         {
             var propertyValue = GetType().GetProperty(field.Key)?.GetValue(this) as string;
@@ -148,7 +150,7 @@ public class RpTestViewModel : BaseBackflowViewModel
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Fields are empty",
-                    $"The field '{field.Value}' has not been filled.",
+                    $"Error: '{field.Value}'",
                     "OK"
                 );
                 return;
@@ -163,9 +165,10 @@ public class RpTestViewModel : BaseBackflowViewModel
             {
                 { "LinePressure", LinePressure ?? string.Empty },
                 { "SOVList", ShutoffValve ?? string.Empty },
-                { "FinalCT1", CheckValve1 ?? string.Empty },
-                { "FinalCT2", CheckValve2 ?? string.Empty },
-                { "FinalRV", PressureReliefOpening ?? string.Empty },
+                { "SOVComment", SOVComment?.ToUpper() ?? string.Empty },
+                { "FinalCT1", decimal.TryParse(CheckValve1, out decimal cv1) ? cv1.ToString("F1") : string.Empty },
+                { "FinalCT2", decimal.TryParse(CheckValve2, out decimal cv2) ? cv2.ToString("F1") : string.Empty },
+                { "FinalRV", decimal.TryParse(PressureReliefOpening, out decimal rv) ? rv.ToString("F1") : string.Empty },
                 { "FinalCT1Box", (CheckValve1Leaked ? "Off" : "On") },
                 { "FinalCT2Box", (CheckValve2Leaked ? "Off" : "On") },
             };
@@ -212,13 +215,13 @@ public class RpTestViewModel : BaseBackflowViewModel
         }
 
         // Check if Check Valve 1 is <= 5 PSID
-        if (checkValve1Value > 5.0m)
+        if (checkValve1Value < 5.0m)
         {
             return false;
         }
 
         // Check if Relief Valve is <= 2 PSID
-        if (reliefValveValue > 2.0m)
+        if (reliefValveValue < 2.0m)
         {
             return false;
         }
