@@ -164,11 +164,33 @@ public class RpTestViewModel : BaseBackflowViewModel
 
     private bool IsBackflowPassing()
     {
-        // TODO: Implement pass/fail logic
+        // Return false if any component has leaked or failed to open
         if (CheckValve1Leaked || CheckValve2Leaked || ReliefValveDidNotOpen)
         {
             return false;
         }
+        
+        // Parse input values to decimal for numerical comparison
+        if (!decimal.TryParse(_checkValve1, out decimal checkValve1Value) ||
+            !decimal.TryParse(_pressureReliefOpening, out decimal reliefValveValue))
+        {
+            return false; // Invalid input values
+        }
+        
+        // Check if Check Valve 1 is <= 5 PSID
+        if (checkValve1Value > 5.0m)
+        {
+            return false;
+        }
+
+        // Check if Relief Valve is <= 2 PSID
+        if (reliefValveValue > 2.0m)
+        {
+            return false;
+        }
+        
+        // TODO: Add shut off valve #2 checkstate
+        
         return true;
     }
 
