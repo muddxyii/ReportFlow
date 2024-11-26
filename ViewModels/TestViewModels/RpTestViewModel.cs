@@ -226,6 +226,11 @@ public class RpTestViewModel : BaseBackflowViewModel
             return false;
         }
 
+        if (checkValve1Value -3.0m < reliefValveValue)
+        {
+            return false;
+        }
+
         // TODO: Add shut off valve #2 checkstate
 
         return true;
