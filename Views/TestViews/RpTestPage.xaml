@@ -66,16 +66,6 @@
             <!-- Check Valve #2 -->
             <Label Text="Check Valve #2" FontAttributes="Bold" />
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
-                <Entry Placeholder="Pressure reading"
-                       Text="{Binding CheckValve2}"
-                       Keyboard="Numeric"
-                       IsEnabled="False"
-                       TextChanged="OnEntryNumericChanged" />
-                <Label Text="PSID"
-                       Grid.Column="1"
-                       VerticalOptions="Center"
-                       Margin="10,0,0,0" />
-
                 <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
                     <RadioButton x:Name="CheckValve2ClosedRadio"
                                  Content="Closed Tight"
