@@ -4,9 +4,21 @@ namespace ABFReportEditor.ViewModels.TestViewModels;
 
 public class RpTestViewModel : BaseBackflowViewModel
 {
+    #region Dropdown Items
+
+    public List<string> ShutoffValveOptions { get; } =
+    [
+        "BOTH OK", "BOTH CLOSED", "BOTH VALVES",
+        "#1 VALVE", "#2 VALVE"
+    ];
+
+    #endregion
+
     #region Private properties
 
     private string? _linePressure;
+    private string? _shutoffValve;
+    private string? _sovComment;
     private string? _checkValve1;
     private string? _checkValve2;
     private string? _pressureReliefOpening;
@@ -25,6 +37,26 @@ public class RpTestViewModel : BaseBackflowViewModel
         {
             _linePressure = value;
             OnPropertyChanged(nameof(LinePressure));
+        }
+    }
+    
+    public string? ShutoffValve
+    {
+        get => _shutoffValve;
+        set
+        {
+            _shutoffValve = value;
+            OnPropertyChanged(nameof(ShutoffValve));
+        }
+    }
+    
+    public string? SOVComment
+    {
+        get => _sovComment;
+        set
+        {
+            _sovComment = value;
+            OnPropertyChanged(nameof(SOVComment));
         }
     }
 
@@ -103,6 +135,7 @@ public class RpTestViewModel : BaseBackflowViewModel
         var requiredFields = new Dictionary<string, string>
         {
             { nameof(LinePressure), "Line Pressure" },
+            { nameof(ShutoffValve), "Shutoff Valve Status" },
             { nameof(CheckValve1), "Check Valve 1" },
             { nameof(PressureReliefOpening), "Pressure Relief Opening" }
         };
@@ -129,6 +162,7 @@ public class RpTestViewModel : BaseBackflowViewModel
             Dictionary<string, string> formFields = new Dictionary<string, string>()
             {
                 { "LinePressure", LinePressure ?? string.Empty },
+                { "SOVList", ShutoffValve ?? string.Empty },
                 { "FinalCT1", CheckValve1 ?? string.Empty },
                 { "FinalCT2", CheckValve2 ?? string.Empty },
                 { "FinalRV", PressureReliefOpening ?? string.Empty },
@@ -169,14 +203,14 @@ public class RpTestViewModel : BaseBackflowViewModel
         {
             return false;
         }
-        
+
         // Parse input values to decimal for numerical comparison
         if (!decimal.TryParse(_checkValve1, out decimal checkValve1Value) ||
             !decimal.TryParse(_pressureReliefOpening, out decimal reliefValveValue))
         {
             return false; // Invalid input values
         }
-        
+
         // Check if Check Valve 1 is <= 5 PSID
         if (checkValve1Value > 5.0m)
         {
@@ -188,9 +222,9 @@ public class RpTestViewModel : BaseBackflowViewModel
         {
             return false;
         }
-        
+
         // TODO: Add shut off valve #2 checkstate
-        
+
         return true;
     }
 
