@@ -69,7 +69,7 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
     
     #region Abstract methods
     
-    protected abstract void LoadFormFields(Dictionary<string, string> formFields);
+    protected virtual void LoadFormFields(Dictionary<string, string> formFields) {}
     
     // Template method for navigation logic
     protected abstract Task OnNext();
