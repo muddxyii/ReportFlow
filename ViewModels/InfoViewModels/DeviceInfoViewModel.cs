@@ -225,16 +225,24 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         switch (Type)
         {
             case "RP":
-                var viewModel = new RpTestViewModel();
-                viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                var rpViewModel = new RpTestViewModel();
+                rpViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
                     FormData ?? throw new InvalidOperationException());
+                
                 await Shell.Current.GoToAsync("RpTest", new Dictionary<string, object>
                 {
-                    { "ViewModel", viewModel }
+                    { "ViewModel", rpViewModel }
                 });
                 break;
             case "DC":
-                await Shell.Current.GoToAsync("DcTest");
+                var dcViewModel = new DcTestViewModel();
+                dcViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                    FormData ?? throw new InvalidOperationException());
+                
+                await Shell.Current.GoToAsync("DcTest", new Dictionary<string, object>
+                {
+                    { "ViewModel", dcViewModel }
+                });
                 break;
             case "PVB":
                 await Shell.Current.GoToAsync("PvbTest");
