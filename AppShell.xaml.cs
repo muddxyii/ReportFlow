@@ -1,6 +1,7 @@
 ﻿using ABFReportEditor.Views;
 using ABFReportEditor.Views.FinalViews;
 using ABFReportEditor.Views.InfoViews;
+using ABFReportEditor.Views.RepairViews;
 using ABFReportEditor.Views.TestViews;
 
 namespace ABFReportEditor;
@@ -19,6 +20,9 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("RpTest", typeof(RpTestPage));
         Routing.RegisterRoute("DcTest", typeof(DcTestPage));
         Routing.RegisterRoute("PvbTest", typeof(PvbTestPage));
+        
+        // Repair RepairViews
+        Routing.RegisterRoute("RpRepair", typeof(RpRepairPage));
         
         // Register FinalViews
         Routing.RegisterRoute("PassFinal", typeof(PassFinalView));
