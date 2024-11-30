@@ -36,7 +36,7 @@
                         WidthRequest="150" />
                 <Entry Grid.Column="1"
                        Placeholder="Enter SOV comment"
-                       Text="{Binding SOVComment}" />
+                       Text="{Binding SovComment}" />
             </Grid>
 
             <!-- Check Valve #1 -->
