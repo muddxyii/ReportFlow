@@ -60,6 +60,9 @@
       <MauiXaml Update="Views\InfoViews\DeviceInfoPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="Views\RepairViews\DcRepairPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -69,6 +72,10 @@
       </Compile>
       <Compile Update="Views\InfoViews\DeviceInfoPage.xaml.cs">
         <DependentUpon>DeviceInfoPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\RepairViews\DcRepairPage.xaml.cs">
+        <DependentUpon>DcRepairPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
