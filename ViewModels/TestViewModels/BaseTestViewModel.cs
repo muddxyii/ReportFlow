@@ -227,13 +227,16 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     protected virtual bool ValidateFields()
     {
+        if (string.IsNullOrEmpty(LinePressure) || string.IsNullOrEmpty(ShutoffValve)) return false;
+        
         return true;
     }
 
+    // TODO: Add shut off valve #2 checkstate
     protected abstract bool IsBackflowPassing();
 
     #endregion
-    
+
     #endregion
 
 }
