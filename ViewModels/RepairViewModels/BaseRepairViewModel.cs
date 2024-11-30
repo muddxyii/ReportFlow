@@ -2,7 +2,7 @@ using ABFReportEditor.ViewModels.TestViewModels;
 
 namespace ABFReportEditor.ViewModels.RepairViewModels;
 
-public abstract class BaseRepairViewModel : BaseBackflowViewModel
+public class BaseRepairViewModel : BaseBackflowViewModel
 {
     #region Private properties
     
