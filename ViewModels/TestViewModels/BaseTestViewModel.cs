@@ -1,5 +1,5 @@
-using System.ComponentModel;
 using ABFReportEditor.ViewModels.FinalViewModels;
+using ABFReportEditor.ViewModels.RepairViewModels;
 
 namespace ABFReportEditor.ViewModels.TestViewModels;
 
@@ -211,14 +211,39 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         // Save Form Data
         SaveFormData(_failedFieldsToSave);
         
-        // TODO: Implement Repair Screen
-        // send to repair screen
-        await Application.Current.MainPage.DisplayAlert(
-            "Missing implementation",
-            $"The backflow failed, the next view model hasn't been implemented.",
-            "OK"
-        );
-        return;   
+        // Create 'RepairViewModel'
+        var repairViewModel = new BaseRepairViewModel();
+        repairViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+            FormData ?? throw new InvalidOperationException());
+        
+        // Load 'RepairViewModel' Based On Type
+        var type = FormData?.GetValueOrDefault("BFType");
+        if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
+        
+        switch (type)
+        {
+            case "RP":
+                await Shell.Current.GoToAsync("RpRepair", new Dictionary<string, object>
+                {
+                    { "ViewModel", repairViewModel }
+                });
+                break;
+            case "DC":
+                await Application.Current.MainPage.DisplayAlert(
+                    "Not Implemented",
+                    $"The type '{type}' has not been implemented.",
+                    "OK"
+                );
+                break;
+                break;
+            default:
+                await Application.Current.MainPage.DisplayAlert(
+                    "Not Implemented",
+                    $"The type '{type}' has not been implemented.",
+                    "OK"
+                );
+                break;
+        }
     }
 
     #endregion
