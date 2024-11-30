@@ -229,12 +229,10 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
                 });
                 break;
             case "DC":
-                await Application.Current.MainPage.DisplayAlert(
-                    "Not Implemented",
-                    $"The type '{type}' has not been implemented.",
-                    "OK"
-                );
-                break;
+                await Shell.Current.GoToAsync("DcRepair", new Dictionary<string, object>
+                {
+                    { "ViewModel", repairViewModel }
+                });
                 break;
             default:
                 await Application.Current.MainPage.DisplayAlert(
