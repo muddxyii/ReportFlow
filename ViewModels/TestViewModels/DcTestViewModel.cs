@@ -1,74 +1,47 @@
 namespace ABFReportEditor.ViewModels.TestViewModels;
 
-public class DcTestViewModel : BaseBackflowViewModel
+public class DcTestViewModel : BaseTestViewModel
 {
-    // Private fields
-    private string? _linePressure;
-    private string? _checkValve1;
-    private string? _checkValve2;
-    private bool _checkValve1Leaked;
-    private bool _checkValve2Leaked;
-    
-    // Properties
-    public string? LinePressure
+    protected override bool ValidateFields()
     {
-        get => _linePressure;
-        set
-        {
-            _linePressure = value;
-            OnPropertyChanged(nameof(LinePressure));
-        }
+        // Do base validation
+        if (!base.ValidateFields()) return false;
+        
+        // Do DC Specific Checks
+        if (string.IsNullOrEmpty(CheckValve1) || string.IsNullOrEmpty(CheckValve2)) return false;
+        
+        return true;
     }
     
-    public string? CheckValve1
+    protected override bool IsBackflowPassing()
     {
-        get => _checkValve1;
-        set
+        // Return false if any component has leaked or failed to open
+        if (CheckValve1Leaked || CheckValve2Leaked || ReliefValveDidNotOpen) return false;
+        
+        // Parse input values to decimal for numerical comparison
+        if (!decimal.TryParse(CheckValve1, out decimal checkValve1Value) ||
+            !decimal.TryParse(CheckValve2, out decimal checkValve2Value))
         {
-            _checkValve1 = value;
-            OnPropertyChanged(nameof(LinePressure));
+            return false; // Invalid input values
         }
-    }
-    
-    public string? CheckValve2
-    {
-        get => _checkValve2;
-        set
+        
+        // Check if Check Valve 1 is <= 5 PSID
+        if (checkValve1Value < 5.0m)
         {
-            _checkValve2 = value;
-            OnPropertyChanged(nameof(_checkValve2));
+            return false;
         }
-    }
-    
-    public bool CheckValve1Leaked
-    {
-        get => _checkValve1Leaked;
-        set
-        {
-            _checkValve1Leaked = value;
-            OnPropertyChanged(nameof(CheckValve1Leaked));
-        }
-    }
 
-    public bool CheckValve2Leaked
-    {
-        get => _checkValve2Leaked;
-        set
+        // Check if Relief Valve is <= 2 PSID
+        if (checkValve2Value < 2.0m)
         {
-            _checkValve2Leaked = value;
-            OnPropertyChanged(nameof(CheckValve2Leaked));
+            return false;
         }
-    }
-    
-    // Methods
-    protected override void LoadFormFields(Dictionary<string, string> formFields)
-    {
-        // Don't load previous fields
-    }
 
-    protected override async Task OnNext()
-    {
-        // TODO: Implement pass/fail logic
-        await Shell.Current.GoToAsync("PassFinal");
+        if (checkValve1Value -3.0m < checkValve2Value)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
