@@ -17,6 +17,15 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     #endregion
     
+    #region PVB Related Properties
+    
+    public List<string> BackPressureOptions { get; } =
+    [
+        "NO", "YES"
+    ];
+    
+    #endregion
+    
     #endregion
     
     #region Private properties
@@ -45,6 +54,16 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     #endregion
     
+    #region PVB Related Properties
+    
+    private string? _airInletOpening;
+    private bool _airInletLeaked;
+    private bool _airInletDidNotOpen;
+    private string? _ckPvb;
+    private bool _ckPvbLeaked;
+
+    #endregion
+    
     #region BaseTestViewModel
     
     Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
@@ -56,6 +75,8 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     #region Public Properties
 
+    #region All BF Properties
+    
     public string? LinePressure
     {
         get => _linePressure;
@@ -92,6 +113,9 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         }
     }
 
+    #endregion
+    
+    #region Check Related Properties
     public string? CheckValve1
     {
         get => _checkValve1;
@@ -142,6 +166,10 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         }
     }
 
+    #endregion
+    
+    #region RV Related Properties
+    
     public string? PressureReliefOpening
     {
         get => _pressureReliefOpening;
@@ -165,6 +193,70 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         }
     }
 
+    #endregion
+    
+    #region PVB Related Properties
+    
+    public string? AirInletOpening
+    {
+        get => _airInletOpening;
+        set
+        {
+            _airInletOpening = value;
+            _failedFieldsToSave["InitialAirInlet"] = decimal.TryParse(AirInletOpening, out decimal fai) ? fai.ToString("F1") : string.Empty;
+            _passedFieldsToSave["FinalAirInlet"] = decimal.TryParse(AirInletOpening, out decimal pai) ? pai.ToString("F1") : string.Empty;
+            OnPropertyChanged(nameof(_airInletOpening));
+        }
+    }
+    
+    public bool AirInletLeaked
+    {
+        get => _airInletLeaked;
+        set
+        {
+            _airInletLeaked = value;
+            _failedFieldsToSave["InitialAirInletLeaked"] = AirInletLeaked ? "On" : "Off";
+            OnPropertyChanged(nameof(AirInletLeaked));
+        }
+    }
+    
+    public bool AirInletDidNotOpen
+    {
+        get => _airInletDidNotOpen;
+        set
+        {
+            _airInletDidNotOpen = value;
+            _failedFieldsToSave["InitialCkPVBLDidNotOpen"] = AirInletDidNotOpen ? "On" : "Off";
+            OnPropertyChanged(nameof(AirInletDidNotOpen));
+        }
+    }
+    
+    public string? CkPvb
+    {
+        get => _ckPvb;
+        set
+        {
+            _ckPvb = value;
+            _failedFieldsToSave["InitialCk1PVB"] = decimal.TryParse(CkPvb, out decimal fai) ? fai.ToString("F1") : string.Empty;
+            _passedFieldsToSave["Check Valve"] = decimal.TryParse(CkPvb, out decimal pai) ? pai.ToString("F1") : string.Empty;
+            OnPropertyChanged(nameof(CkPvb));
+        }
+    }
+
+    
+    public bool CkPvbLeaked
+    {
+        get => _ckPvbLeaked;
+        set
+        {
+            _ckPvbLeaked = value;
+            _failedFieldsToSave["InitialCkPVBLeaked"] = CkPvbLeaked ? "On" : "Off";
+            OnPropertyChanged(nameof(CkPvbLeaked));
+        }
+    }
+    
+    #endregion
+    
     #endregion
 
     #region Functions
