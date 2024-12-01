@@ -16,7 +16,7 @@ public class DcTestViewModel : BaseTestViewModel
     protected override bool IsBackflowPassing()
     {
         // Return false if any component has leaked or failed to open
-        if (CheckValve1Leaked || CheckValve2Leaked || ReliefValveDidNotOpen) return false;
+        if (CheckValve1Leaked || CheckValve2Leaked) return false;
         
         // Parse input values to decimal for numerical comparison
         if (!decimal.TryParse(CheckValve1, out decimal checkValve1Value) ||
@@ -25,19 +25,8 @@ public class DcTestViewModel : BaseTestViewModel
             return false; // Invalid input values
         }
         
-        // Check if Check Valve 1 is <= 5 PSID
-        if (checkValve1Value < 5.0m)
-        {
-            return false;
-        }
-
-        // Check if Relief Valve is <= 2 PSID
-        if (checkValve2Value < 2.0m)
-        {
-            return false;
-        }
-
-        if (checkValve1Value -3.0m < checkValve2Value)
+        // Check if Check Valve 1 or CV2 is <= 1
+        if (checkValve1Value <= 1.0m || checkValve2Value <= 1.0m)
         {
             return false;
         }
