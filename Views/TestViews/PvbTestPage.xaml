@@ -1,60 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ABFReportEditor.Views.TestViews.PvbTestPage"
-             Title="PVB Test">
+<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:testViewModels="clr-namespace:ABFReportEditor.ViewModels.TestViewModels"
+                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
+                    x:Class="ABFReportEditor.Views.TestViews.PvbTestPage"
+                    x:TypeArguments="testViewModels:PvbTestViewModel"
+                    Title="PVB Test">
      
+    <views:BaseViewPage.BindingContext>
+        <testViewModels:PvbTestViewModel />
+    </views:BaseViewPage.BindingContext>
+    
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="20">
-            <Label Text="Line Pressure" FontAttributes="Bold"/>
+            <!-- Line Pressure -->
+            <Label Text="Line Pressure" FontAttributes="Bold" />
             <Grid ColumnDefinitions="*, Auto">
-                <Entry Placeholder="Enter line pressure" 
-                       Keyboard="Numeric"/>
-                <Label Text="PSID" 
+                <Entry Placeholder="Enter line pressure"
+                       Text="{Binding LinePressure}"
+                       Keyboard="Numeric"
+                       TextChanged="OnEntryNumericChanged" />
+                <Label Text="PSID"
                        VerticalOptions="Center"
                        Grid.Column="1"
-                       Margin="10,0,0,0"/>
+                       Margin="10,0,0,0" />
             </Grid>
 
-            <Label Text="Air Inlet Opened At" FontAttributes="Bold"/>
-            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
-                <Entry Placeholder="Pressure reading"
-                       Keyboard="Numeric"/>
-                <Label Text="PSID" 
-                       Grid.Column="1"
-                       VerticalOptions="Center"
-                       Margin="10,0,0,0"/>
-                        
-                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <RadioButton x:Name="AirInletLeakedRadio" 
-                                 Content="Leaked"
-                                 GroupName="AirInletStatus"/>
-                    <RadioButton x:Name="AirInletOpenRadio" 
-                                 Content="Did Not Open"
-                                 GroupName="AirInletStatus"
-                                 Margin="20,0,0,0"/>
-                </HorizontalStackLayout>
+            <!-- Shutoff Valve -->
+            <Label Text="Shutoff Valve Status" FontAttributes="Bold" />
+            <Grid ColumnDefinitions="150,*" ColumnSpacing="20">
+                <Picker Grid.Column="0"
+                        ItemsSource="{Binding ShutoffValveOptions}"
+                        SelectedItem="{Binding ShutoffValve}"
+                        WidthRequest="150" />
+                <Entry Grid.Column="1"
+                       Placeholder="Enter SOV comment"
+                       Text="{Binding SovComment}" />
             </Grid>
 
-            <Label Text="Check Held At" FontAttributes="Bold"/>
-            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
-                <Entry Placeholder="Pressure reading"
-                       Keyboard="Numeric"/>
-                <Label Text="PSID" 
-                       Grid.Column="1"
-                       VerticalOptions="Center"
-                       Margin="10,0,0,0"/>
-                        
-                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox x:Name="CheckLeakedCheckbox"/>
-                    <Label Text="Leaked"
-                           VerticalOptions="Center"/>
-                </HorizontalStackLayout>
+            <!-- Back Pressure -->
+            <Label Text="Back Pressure" FontAttributes="Bold" />
+            <Grid ColumnDefinitions="150,*" ColumnSpacing="20">
+                <Picker Grid.Column="0"
+                        ItemsSource="{Binding BackPressureOptions}"
+                        SelectedItem="{Binding BackPressure}"
+                        WidthRequest="150" />
             </Grid>
             
+            <!-- Air Inlet Opening -->
+            <Label Text="Air Inlet Opening" FontAttributes="Bold" />
+            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
+                <Entry Placeholder="Pressure reading"
+                       Text="{Binding AirInletOpening}"
+                       Keyboard="Numeric"
+                       TextChanged="OnEntryNumericChanged" />
+                <Label Text="PSID"
+                       Grid.Column="1"
+                       VerticalOptions="Center"
+                       Margin="10,0,0,0" />
+
+                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <Label Text="Air Inlet Leaked"
+                           VerticalOptions="Center" />
+                    <CheckBox IsChecked="{Binding AirInletLeaked}"
+                              VerticalOptions="Center" />
+                    <Label Text="Air Inlet Did Not Open"
+                           VerticalOptions="Center"
+                           Margin="20,0,0,0" />
+                    <CheckBox IsChecked="{Binding AirInletDidNotOpen}"
+                              VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <!-- PVB Check -->
+            <Label Text="Check Holding Point" FontAttributes="Bold" />
+            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
+                <Entry Placeholder="Check held at"
+                       Text="{Binding  CkPvb}"
+                       Keyboard="Numeric"
+                       TextChanged="OnEntryNumericChanged" />
+                <Label Text="PSID"
+                       Grid.Column="1"
+                       VerticalOptions="Center"
+                       Margin="10,0,0,0" />
+
+                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding CkPvbLeaked}" />
+                    <Label Text="Leaked"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+
             <Button Text="Next"
-                    Margin="0,20,0,0"/>
+                    Command="{Binding NextCommand}"
+                    Margin="0,20,0,0" />
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</views:BaseViewPage>

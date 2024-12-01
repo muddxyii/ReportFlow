@@ -56,6 +56,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     #region PVB Related Properties
     
+    private string? _backPressure;
     private string? _airInletOpening;
     private bool _airInletLeaked;
     private bool _airInletDidNotOpen;
@@ -196,6 +197,18 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     #endregion
     
     #region PVB Related Properties
+    
+    public string? BackPressure
+    {
+        get => _backPressure;
+        set
+        {
+            _backPressure = value;
+            _failedFieldsToSave["BackPressure"] = value ?? string.Empty;
+            _passedFieldsToSave["BackPressure"] = value ?? string.Empty;
+            OnPropertyChanged(nameof(BackPressure));
+        }
+    }
     
     public string? AirInletOpening
     {
