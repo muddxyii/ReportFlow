@@ -245,7 +245,14 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
                 });
                 break;
             case "PVB":
-                await Shell.Current.GoToAsync("PvbTest");
+                var pvbViewModel = new PvbTestViewModel();
+                pvbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                    FormData ?? throw new InvalidOperationException());
+                
+                await Shell.Current.GoToAsync("PvbTest", new Dictionary<string, object>
+                {
+                    { "ViewModel", pvbViewModel }
+                });
                 break;
             case "SVB":
                 await Application.Current.MainPage.DisplayAlert(
