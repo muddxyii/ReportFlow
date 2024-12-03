@@ -54,7 +54,8 @@
             <Editor Placeholder="Enter comments here"
                     Text="{Binding Comments}"
                     HeightRequest="100"
-                    AutoSize="TextChanges" />
+                    AutoSize="TextChanges"
+                    TextTransform="Uppercase"/>
 
             <!-- Share Button -->
             <Button Text="Share Report"
