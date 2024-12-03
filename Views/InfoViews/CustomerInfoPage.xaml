@@ -19,15 +19,18 @@
                 <Label Text="Facility/Owner" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
                 <Entry Placeholder="Permit/Account No." 
+                       TextTransform="Uppercase"
                        Text="{Binding PermitNumber}" 
                        Grid.Row="1" Grid.Column="0"/>
                 <Entry Placeholder="Facility/Owner" 
+                       TextTransform="Uppercase"
                        Text="{Binding FacilityOwner}" 
                        Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
             <Label Text="Customer Address" FontAttributes="Bold"/>
             <Entry Placeholder="Customer Address"
+                   TextTransform="Uppercase"
                    Text="{Binding CustomerAddress}"/>
 
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
@@ -35,9 +38,11 @@
                 <Label Text="Phone" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
                 <Entry Placeholder="Contact" 
+                       TextTransform="Uppercase"
                        Text="{Binding Contact}" 
                        Grid.Row="1" Grid.Column="0"/>
                 <Entry Placeholder="Phone" 
+                       TextTransform="Uppercase"
                        Text="{Binding Phone}" 
                        Keyboard="Telephone"
                        Grid.Row="1" Grid.Column="1"/>
@@ -50,10 +55,12 @@
 
             <Label Text="Owner Representative" FontAttributes="Bold"/>
             <Entry Placeholder="Owner Representative"
+                   TextTransform="Uppercase"
                    Text="{Binding OwnerRep}"/>
 
             <Label Text="Representative Address" FontAttributes="Bold"/>
             <Entry Placeholder="Representative Address"
+                   TextTransform="Uppercase"
                    Text="{Binding RepAddress}"/>
 
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
@@ -61,9 +68,11 @@
                 <Label Text="Contact Phone" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
                 <Entry Placeholder="Person to Contact" 
+                       TextTransform="Uppercase"
                        Text="{Binding PersonToContact}" 
                        Grid.Row="1" Grid.Column="0"/>
                 <Entry Placeholder="Contact Phone" 
+                       TextTransform="Uppercase"
                        Text="{Binding ContactPhone}" 
                        Keyboard="Telephone"
                        Grid.Row="1" Grid.Column="1"/>
