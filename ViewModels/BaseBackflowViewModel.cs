@@ -65,7 +65,7 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
         await PdfUtils.SavePdfWithFormData(PdfData, FormData, fileName);
     }
 
-    protected async Task<bool> ValidateFields((string Value, string Name)[] fieldsToCheck)
+    protected async Task<bool> AreFieldsValid((string Value, string Name)[] fieldsToCheck)
     {
         foreach (var field in fieldsToCheck)
         {

@@ -2,13 +2,17 @@ namespace ABFReportEditor.ViewModels.TestViewModels;
 
 public class DcTestViewModel : BaseTestViewModel
 {
-    protected override bool ValidateFields()
+    protected override async Task<bool> ValidateFields()
     {
         // Do base validation
-        if (!base.ValidateFields()) return false;
+        if (!await base.ValidateFields()) return false;
         
         // Do DC Specific Checks
-        if (string.IsNullOrEmpty(CheckValve1) || string.IsNullOrEmpty(CheckValve2)) return false;
+        if (!await AreFieldsValid(new (string Value, string Name)[]
+            {
+                (CheckValve1 ?? "", "Check Valve #1"),
+                (CheckValve2 ?? "", "Check Valve #2"),
+            })) return false;
         
         return true;
     }

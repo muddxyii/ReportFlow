@@ -202,7 +202,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     protected override async Task OnNext()
     {
         // Check if the necessary fields were filled
-        if (!await ValidateFields(new (string Value, string Name)[]
+        if (!await AreFieldsValid(new (string Value, string Name)[]
             {
                 (Type ?? "", "Backflow Type"),
                 (PrimaryService ?? "", "Primary Service At Location"),

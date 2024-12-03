@@ -284,7 +284,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     protected override async Task OnNext()
     {
-        if (!ValidateFields()) return;
+        if (!await ValidateFields()) return;
         if (IsBackflowPassing())
         {
             await HandlePassingTest();
@@ -353,9 +353,13 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     # region Abstract
 
-    protected virtual bool ValidateFields()
+    protected virtual async Task<bool> ValidateFields()
     {
-        if (string.IsNullOrEmpty(LinePressure) || string.IsNullOrEmpty(ShutoffValve)) return false;
+        if (!await AreFieldsValid(new (string Value, string Name)[]
+            {
+                (LinePressure ?? "", "Line Pressure"),
+                (ShutoffValve ?? "", "Shutoff Valve"),
+            })) return false;
         
         return true;
     }

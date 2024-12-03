@@ -4,13 +4,17 @@ namespace ABFReportEditor.ViewModels.TestViewModels;
 
 public class RpTestViewModel : BaseTestViewModel
 {
-    protected override bool ValidateFields()
+    protected override async Task<bool> ValidateFields()
     {
         // Do base validation
-        if (!base.ValidateFields()) return false;
+        if (!await base.ValidateFields()) return false;
         
         // Do RP Specific Checks
-        if (string.IsNullOrEmpty(CheckValve1) || string.IsNullOrEmpty(PressureReliefOpening)) return false;
+        if (!await AreFieldsValid(new (string Value, string Name)[]
+            {
+                (CheckValve1 ?? "", "Check Valve 1"),
+                (PressureReliefOpening ?? "", "Pressure Relief Opening"),
+            })) return false;
         
         return true;
     }

@@ -4,13 +4,17 @@ namespace ABFReportEditor.ViewModels.TestViewModels;
 
 public class PvbTestViewModel : BaseTestViewModel
 {
-    protected override bool ValidateFields()
+    protected override async Task<bool> ValidateFields()
     {
         // Do base validation
-        if (!base.ValidateFields()) return false;
+        if (!await base.ValidateFields()) return false;
         
-        // Do Pvb Specific Checks
-        if (string.IsNullOrEmpty(AirInletOpening) || string.IsNullOrEmpty(CkPvb)) return false;
+        // Do PVB Specific Checks
+        if (!await AreFieldsValid(new (string Value, string Name)[]
+            {
+                (AirInletOpening ?? "", "Air Inlet Opening"),
+                (CkPvb ?? "", "PVB Check"),
+            })) return false;
         
         return true;
     }
