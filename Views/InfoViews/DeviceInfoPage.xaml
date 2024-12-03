@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:infoViewModels="clr-namespace:ABFReportEditor.ViewModels.InfoViewModels"
@@ -8,15 +7,19 @@
                     x:TypeArguments="infoViewModels:DeviceInfoViewModel"
                     Title="Device Information">
     
-       <views:BaseViewPage.BindingContext>
-              <infoViewModels:DeviceInfoViewModel />
-       </views:BaseViewPage.BindingContext>
+    <views:BaseViewPage.BindingContext>
+        <infoViewModels:DeviceInfoViewModel />
+    </views:BaseViewPage.BindingContext>
        
     <ScrollView>
         <VerticalStackLayout Spacing="10" Padding="20">
             <Label Text="Water Purveyor" FontAttributes="Bold"/>
             <Entry Placeholder="Water Purveyor"
                    Text="{Binding WaterPurveyor}"/>
+            
+            <Label Text="Water Meter No." FontAttributes="Bold"/>
+            <Entry Placeholder="Water Meter No."
+                   Text="{Binding WaterMeterNo}"/>
             
             <Label Text="Assembly Address" FontAttributes="Bold"/>
             <Entry Placeholder="Assembly Address"
@@ -32,54 +35,51 @@
             
             <Label Text="Installation Status" FontAttributes="Bold"/>
             <Picker ItemsSource="{Binding InstallationStatusOptions}"
-                   SelectedItem="{Binding InstallationStatus}"/>
+                    SelectedItem="{Binding InstallationStatus}"/>
             
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                   <Label Text="Protection Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                   <Label Text="Service Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                <Label Text="Protection Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Service Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
-                   <Picker ItemsSource="{Binding ProtectionTypeOptions}" 
-                           SelectedItem="{Binding ProtectionType}"
-                           Grid.Row="1" Grid.Column="0"/>
-                   <Picker ItemsSource="{Binding ServiceTypeOptions}"
-                           SelectedItem="{Binding ServiceType}"
-                           Grid.Row="1" Grid.Column="1"/>
+                <Picker ItemsSource="{Binding ProtectionTypeOptions}" 
+                        SelectedItem="{Binding ProtectionType}"
+                        Grid.Row="1" Grid.Column="0"/>
+                <Picker ItemsSource="{Binding ServiceTypeOptions}"
+                        SelectedItem="{Binding ServiceType}"
+                        Grid.Row="1" Grid.Column="1"/>
             </Grid>
             
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Water Meter No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Serial No." FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                <Label Text="Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Manufacturer" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
-                <Entry Placeholder="Water Meter No."
-                       Text="{Binding WaterMeterNo}"
-                       Grid.Row="1" Grid.Column="0"/>
-                <Entry Placeholder="Serial No." 
-                       Text="{Binding SerialNo}"
-                       Grid.Row="1" Grid.Column="1"/>
+                <Picker ItemsSource="{Binding TypeOptions}"
+                        SelectedItem="{Binding Type}"
+                        Grid.Row="1" Grid.Column="0"/>
+                <Picker ItemsSource="{Binding ManufacturerOptions}" 
+                        SelectedItem="{Binding Manufacturer}"
+                        Grid.Row="1" Grid.Column="1"/>
             </Grid>
-            
+
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Model No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Size" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                <Label Text="Size" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Model No." FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
-                <Entry Placeholder="Model No."
-                       Text="{Binding ModelNo}"
-                       Grid.Row="1" Grid.Column="0"/>
                 <Entry Placeholder="Size"
                        Text="{Binding Size}"
+                       Grid.Row="1" Grid.Column="0"/>
+                <Entry Placeholder="Model No."
+                       Text="{Binding ModelNo}"
                        Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Manufacturer" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Type" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                <Label Text="Serial No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
-                <Picker ItemsSource="{Binding ManufacturerOptions}" 
-                       SelectedItem="{Binding Manufacturer}"
+                <Entry Placeholder="Serial No." 
+                       Text="{Binding SerialNo}"
                        Grid.Row="1" Grid.Column="0"/>
-                <Picker ItemsSource="{Binding TypeOptions}"
-                       SelectedItem="{Binding Type}"
-                       Grid.Row="1" Grid.Column="1"/>
             </Grid>
 
             <Button Text="Next" 

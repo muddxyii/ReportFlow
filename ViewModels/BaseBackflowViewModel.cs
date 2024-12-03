@@ -64,6 +64,25 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
     {
         await PdfUtils.SavePdfWithFormData(PdfData, FormData, fileName);
     }
+
+    protected async Task<bool> ValidateFields((string Value, string Name)[] fieldsToCheck)
+    {
+        foreach (var field in fieldsToCheck)
+        {
+            if (string.IsNullOrEmpty(field.Value))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Not a valid field",
+                    $"Please fill '{field.Name}'.",
+                    "OK"
+                );
+
+                return false;
+            }
+        }
+
+        return true;
+    }
     
     #endregion
     

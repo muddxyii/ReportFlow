@@ -200,7 +200,11 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     protected override async Task OnNext()
     {
         // Check if the necessary fields were filled
-        if (Type == null) return;
+        if (!await ValidateFields(new (string Value, string Name)[]
+            {
+                (Type ?? "", "Backflow Type"),
+                (PrimaryService ?? "", "Primary Service At Location"),
+            })) return;
         
         // Save form fields to form data
         Dictionary<string, string> formFields = new Dictionary<string, string>()
