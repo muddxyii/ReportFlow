@@ -339,6 +339,12 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
                     { "ViewModel", repairViewModel }
                 });
                 break;
+            case "PVB":
+                await Shell.Current.GoToAsync("PvbRepair", new Dictionary<string, object>
+                {
+                    { "ViewModel", repairViewModel }
+                });
+                break;
             default:
                 await Application.Current.MainPage.DisplayAlert(
                     "Not Implemented",

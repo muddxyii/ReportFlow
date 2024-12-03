@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:repairViewModels="clr-namespace:ABFReportEditor.ViewModels.RepairViewModels"
+                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
+                    x:Class="ABFReportEditor.Views.RepairViews.PvbRepairPage"
+                    x:TypeArguments="repairViewModels:BaseRepairViewModel"
+                    Title="PVB Repair">
+    
+    <ContentPage.BindingContext>
+        <repairViewModels:BaseRepairViewModel />
+    </ContentPage.BindingContext>
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="20">
+            <!-- PVB -->
+            <Label Text="RV" FontAttributes="Bold" />
+            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                <!-- Cleaned -->
+                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding PvbCleaned}" />
+                    <Label Text="Cleaned" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Rubber Kit -->
+                <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding PvbRubberKit}" />
+                    <Label Text="Rubber Kit" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Disc Holder -->
+                <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding PvbDiscHolder}" />
+                    <Label Text="Disc Holder" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Spring -->
+                <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding PvbSpring}" />
+                    <Label Text="Spring" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Disc Holder -->
+                <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding PvbGuide}" />
+                    <Label Text="Guide" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Disc Holder -->
+                <HorizontalStackLayout Grid.Row="6" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding PvbSeat}" />
+                    <Label Text="Seat" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Other -->
+                <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding PvbOther}" />
+                    <Label Text="Other" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Button Text="Next"
+                    Command="{Binding NextCommand}"
+                    Margin="0,20,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BaseViewPage>
