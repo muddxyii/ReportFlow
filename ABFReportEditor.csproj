@@ -15,13 +15,18 @@
         <ApplicationTitle>ABFReportEditor</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.abfreporteditor</ApplicationId>
+        <ApplicationId>abfreporteditor</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>1.0.2</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         
         <!-- Build Time Optimization -->
+        <WindowsPackageType>None</WindowsPackageType>
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        
         <EnableIncrementalBuild>true</EnableIncrementalBuild>
         <IncrementalBuild>true</IncrementalBuild>
 
