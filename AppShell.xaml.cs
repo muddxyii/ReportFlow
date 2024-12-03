@@ -24,6 +24,7 @@ public partial class AppShell : Shell
         // Repair RepairViews
         Routing.RegisterRoute("RpRepair", typeof(RpRepairPage));
         Routing.RegisterRoute("DcRepair", typeof(DcRepairPage));
+        //Routing.RegisterRoute("PvbRepair", typeof(PvbRepairPage));
         
         // Register FinalViews
         Routing.RegisterRoute("PassFinal", typeof(PassFinalView));

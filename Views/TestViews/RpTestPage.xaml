@@ -82,9 +82,7 @@
             <Label Text="Pressure Relief Valve" FontAttributes="Bold" />
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Relief valve opened at"
-                       Text="{Binding  PressureReliefOpening}"
-                       Keyboard="Numeric"
-                       TextChanged="OnEntryNumericChanged" />
+                       Text="{Binding  PressureReliefOpening}"/>
                 <Label Text="PSID"
                        Grid.Column="1"
                        VerticalOptions="Center"
