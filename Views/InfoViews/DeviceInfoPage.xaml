@@ -15,22 +15,27 @@
         <VerticalStackLayout Spacing="10" Padding="20">
             <Label Text="Water Purveyor" FontAttributes="Bold"/>
             <Entry Placeholder="Water Purveyor"
+                   TextTransform="Uppercase"
                    Text="{Binding WaterPurveyor}"/>
             
             <Label Text="Water Meter No." FontAttributes="Bold"/>
             <Entry Placeholder="Water Meter No."
+                   TextTransform="Uppercase"
                    Text="{Binding WaterMeterNo}"/>
             
             <Label Text="Assembly Address" FontAttributes="Bold"/>
             <Entry Placeholder="Assembly Address"
+                   TextTransform="Uppercase"
                    Text="{Binding AssemblyAddress}"/>
             
             <Label Text="On Site Location of Assembly" FontAttributes="Bold"/>
             <Entry Placeholder="On Site Location of Assembly"
+                   TextTransform="Uppercase"
                    Text="{Binding OnSiteLocation}"/>
             
             <Label Text="Primary Service at Location" FontAttributes="Bold"/>
             <Entry Placeholder="Primary Service at Location"
+                   TextTransform="Uppercase"
                    Text="{Binding PrimaryService}"/>
             
             <Label Text="Installation Status" FontAttributes="Bold"/>
@@ -69,6 +74,7 @@
                        Text="{Binding Size}"
                        Grid.Row="1" Grid.Column="0"/>
                 <Entry Placeholder="Model No."
+                       TextTransform="Uppercase"
                        Text="{Binding ModelNo}"
                        Grid.Row="1" Grid.Column="1"/>
             </Grid>
@@ -77,7 +83,8 @@
                 <Label Text="Serial No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
                 <Label Text="" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
                 
-                <Entry Placeholder="Serial No." 
+                <Entry Placeholder="Serial No."
+                       TextTransform="Uppercase"
                        Text="{Binding SerialNo}"
                        Grid.Row="1" Grid.Column="0"/>
             </Grid>

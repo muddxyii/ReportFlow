@@ -123,6 +123,8 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         {
             _waterMeterNo = value;
             OnPropertyChanged(nameof(WaterMeterNo));
+            
+            if (value == "INTERNAL") ProtectionType = "PRIMARY / POINT OF USE";
         }
     }
 
