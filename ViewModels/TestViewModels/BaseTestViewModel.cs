@@ -147,7 +147,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         set
         {
             _checkValve1Leaked = value;
-            _failedFieldsToSave["InitialCT1Box"] = CheckValve1Leaked ? "Off" : "On";
+            _failedFieldsToSave["InitialCTBox"] = CheckValve1Leaked ? "Off" : "On";
             _failedFieldsToSave["InitialCT1Leaked"] = CheckValve1Leaked ? "On" : "Off";
             _passedFieldsToSave["FinalCT1Box"] = CheckValve1Leaked ? "Off" : "On";
             OnPropertyChanged(nameof(CheckValve1Leaked));
