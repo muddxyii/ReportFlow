@@ -1,3 +1,5 @@
+using System.Windows.Input;
+using ABFReportEditor.ViewModels.FinalViewModels;
 using ABFReportEditor.ViewModels.TestViewModels;
 
 namespace ABFReportEditor.ViewModels.RepairViewModels;
@@ -422,6 +424,26 @@ public class BaseRepairViewModel : BaseBackflowViewModel
                 );
                 break;
         }
+    }
+
+    public ICommand SkipCommand { get; }
+
+    public BaseRepairViewModel()
+    {
+        SkipCommand = new Command(async () => await OnSkip());
+    }
+    
+    protected async Task OnSkip()
+    {
+        // Load 'PassFinalViewModel'
+        var viewModel = new PassFinalViewModel();
+        viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+            FormData ?? throw new InvalidOperationException());
+        
+        await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
+        {
+            { "ViewModel", viewModel }
+        });
     }
     
     #endregion

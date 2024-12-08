@@ -23,9 +23,9 @@
         
         <!-- Build Time Optimization -->
         <WindowsPackageType>None</WindowsPackageType>
-        <PublishSingleFile>true</PublishSingleFile>
-        <SelfContained>true</SelfContained>
-        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <PublishSingleFile Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' AND '$(WindowsPackageType)' != 'None'">true</PublishSingleFile>
+        <SelfContained Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' AND '$(WindowsPackageType)' != 'None'">true</SelfContained>
+        <IncludeNativeLibrariesForSelfExtract Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' AND '$(WindowsPackageType)' != 'None'">true</IncludeNativeLibrariesForSelfExtract>
         
         <EnableIncrementalBuild>true</EnableIncrementalBuild>
         <IncrementalBuild>true</IncrementalBuild>
