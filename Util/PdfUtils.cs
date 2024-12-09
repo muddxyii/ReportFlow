@@ -1,5 +1,6 @@
 ﻿using ABFReportEditor.Interfaces;
 using iText.Forms;
+using iText.Forms.Fields;
 using iText.Kernel.Pdf;
 
 namespace ABFReportEditor.Util;
@@ -98,17 +99,21 @@ public static class PdfUtils
                         break;
                 }
             }
-
+            
             // Update and autosize all form fields
+            form.SetNeedAppearances(true);
             foreach (var field in formData)
             {
                 var pdfField = form.GetField(field.Key);
                 if (pdfField != null)
                 {
                     pdfField.SetValue(field.Value);
-
-                    // Adjust font size and appearance for autosizing
+                    
+                    // Enable auto-scaling
                     pdfField.SetFontSizeAutoScale();
+                    
+                    // Regenerate the appearance with auto-sized text
+                    pdfField.RegenerateField();
                 }
             }
 

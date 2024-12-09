@@ -3,7 +3,7 @@ namespace ABFReportEditor.ViewModels.FinalViewModels;
 public class PassFinalViewModel : BaseBackflowViewModel
 {
     #region PassFinalViewModel Properties
-    
+
     Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
     Dictionary<string, string> _repairedFieldsToSave = new Dictionary<string, string>();
     Dictionary<string, string> _passedFieldsToSave = new Dictionary<string, string>();
@@ -11,7 +11,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
     private bool _showInitialFields;
     private bool _showRepairedFields;
     private bool _showPassedFields;
-    
+
     public bool ShowInitialFields
     {
         get => _showInitialFields;
@@ -31,7 +31,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(ShowRepairedFields));
         }
     }
-    
+
     public bool ShowPassedFields
     {
         get => _showPassedFields;
@@ -41,11 +41,11 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(ShowPassedFields));
         }
     }
-    
+
     #endregion
-    
+
     #region Dropdown Items
-    
+
     public List<String> TesterNameOptions { get; } =
         ["MIGUEL CARILLO", "JAYSON PADILLA", "JACOB S. PADILLA"];
 
@@ -61,11 +61,11 @@ public class PassFinalViewModel : BaseBackflowViewModel
     #endregion
 
     #region Tester Fields
-    
+
     private string? _initialTester;
     private string? _repairedTester;
     private string? _finalTester;
-    
+
     public string? InitialTester
     {
         get => _initialTester;
@@ -76,7 +76,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(InitialTester));
         }
     }
-    
+
     public string? RepairedTester
     {
         get => _repairedTester;
@@ -87,7 +87,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(RepairedTester));
         }
     }
-    
+
     public string? FinalTester
     {
         get => _finalTester;
@@ -100,13 +100,13 @@ public class PassFinalViewModel : BaseBackflowViewModel
     }
 
     #endregion
-    
+
     #region Tester Cert No Fields
-    
+
     private string? _initialTesterNo;
     private string? _repairedTesterNo;
     private string? _finalFinalTesterNo;
-    
+
     public string? InitialTesterNo
     {
         get => _initialTesterNo;
@@ -117,7 +117,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(InitialTesterNo));
         }
     }
-    
+
     public string? RepairedTesterNo
     {
         get => _repairedTesterNo;
@@ -128,7 +128,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(RepairedTesterNo));
         }
     }
-    
+
     public string? FinalTesterNo
     {
         get => _finalFinalTesterNo;
@@ -139,15 +139,15 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(FinalTesterNo));
         }
     }
-    
+
     #endregion
-    
+
     #region Date Related Fields
-    
+
     private DateTime _dateFailed = DateTime.Today;
     private DateTime _dateRepaired = DateTime.Today;
     private DateTime _datePassed = DateTime.Today;
-    
+
     public DateTime DateFailed
     {
         get => _dateFailed;
@@ -158,7 +158,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(DateFailed));
         }
     }
-    
+
     public DateTime DateRepaired
     {
         get => _dateRepaired;
@@ -169,7 +169,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(DateRepaired));
         }
     }
-    
+
     public DateTime DatePassed
     {
         get => _datePassed;
@@ -180,15 +180,15 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(DatePassed));
         }
     }
-    
+
     #endregion
 
     #region Test Kit Serial Fields
-    
+
     private string? _initialTestKitSerial;
     private string? _repairedTestKitSerial;
     private string? _finalTestKitSerial;
-    
+
     public string? InitialTestKitSerial
     {
         get => _initialTestKitSerial;
@@ -199,7 +199,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(InitialTestKitSerial));
         }
     }
-    
+
     public string? RepairedTestKitSerial
     {
         get => _repairedTestKitSerial;
@@ -210,7 +210,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(RepairedTestKitSerial));
         }
     }
-    
+
     public string? FinalTestKitSerial
     {
         get => _finalTestKitSerial;
@@ -221,13 +221,13 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(FinalTestKitSerial));
         }
     }
-    
+
     #endregion
-    
+
     #region Comments Field
-    
+
     private string? _comments;
-    
+
     public string? Comments
     {
         get => _comments;
@@ -237,35 +237,48 @@ public class PassFinalViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(Comments));
         }
     }
-    
+
     #endregion
 
+    #region Constructors
+    
     public PassFinalViewModel()
     {
         _showInitialFields = false;
         _showRepairedFields = false;
         _showPassedFields = false;
     }
-    
+
     public PassFinalViewModel(bool showInitialFields, bool showRepairedFields, bool showPassedFields)
     {
         _showInitialFields = showInitialFields;
         _showRepairedFields = showRepairedFields;
         _showPassedFields = showPassedFields;
     }
+
+    #endregion
     
     protected override async Task OnNext()
     {
         // Validate and save fields
-        if (!await ValidateFailedBy()) return;
-        SaveFormData(_failedFieldsToSave);
-        
-        if (!await ValidateRepairedBy()) return;
-        SaveFormData(_repairedFieldsToSave);
-        
-        if (!await ValidatePassedBy()) return;
-        SaveFormData(_passedFieldsToSave);
-        
+        if (ShowInitialFields)
+        {
+            if (!await ValidateFailedBy()) return;
+            SaveFormData(_failedFieldsToSave);
+        }
+
+        if (ShowRepairedFields)
+        {
+            if (!await ValidateRepairedBy()) return;
+            SaveFormData(_repairedFieldsToSave);
+        }
+
+        if (ShowPassedFields)
+        {
+            if (!await ValidatePassedBy()) return;
+            SaveFormData(_passedFieldsToSave);
+        }
+
         // Save Comments
         Dictionary<string, string> formFields = new Dictionary<string, string>()
         {
@@ -280,7 +293,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
     }
 
     #region Validation
-    
+
     private async Task<bool> ValidateFailedBy()
     {
         // List of required fields with their display names
@@ -308,7 +321,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
 
         return true;
     }
-    
+
     private async Task<bool> ValidateRepairedBy()
     {
         // List of required fields with their display names
@@ -333,10 +346,10 @@ public class PassFinalViewModel : BaseBackflowViewModel
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     private async Task<bool> ValidatePassedBy()
     {
         // List of required fields with their display names
@@ -361,9 +374,9 @@ public class PassFinalViewModel : BaseBackflowViewModel
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     #endregion
 }
