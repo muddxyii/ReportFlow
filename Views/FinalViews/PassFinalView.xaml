@@ -8,42 +8,114 @@
                     x:TypeArguments="finalViewModels:PassFinalViewModel"
                     Title="Pass Final">
 
-       <views:BaseViewPage.BindingContext>
-              <finalViewModels:PassFinalViewModel />
-       </views:BaseViewPage.BindingContext>
-       
+    <views:BaseViewPage.BindingContext>
+        <finalViewModels:PassFinalViewModel />
+    </views:BaseViewPage.BindingContext>
+
     <ScrollView>
         <VerticalStackLayout Spacing="10" Padding="20">
-            <!-- Test Name and Date -->
-            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Passed By (Tester Name)"
+            <!-- Initial Test Name and Date -->
+            <Grid IsVisible="{Binding ShowInitialFields}" 
+                RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="[Initial] Tester Name"
                        FontAttributes="Bold"
                        Grid.Row="0" Grid.Column="0" />
-                <Label Text="Date Passed"
+                <Label Text="[Initial] Date Passed"
                        FontAttributes="Bold"
                        Grid.Row="0" Grid.Column="1" />
 
                 <Picker ItemsSource="{Binding TesterNameOptions}"
-                       SelectedItem="{Binding TesterName}"
-                       Grid.Row="1" Grid.Column="0" />
-                <DatePicker Date="{Binding DatePassed}"
-                       Grid.Row="1" Grid.Column="1" />
+                        SelectedItem="{Binding InitialTester}"
+                        Grid.Row="1" Grid.Column="0" />
+                <DatePicker Date="{Binding DateFailed}"
+                            Grid.Row="1" Grid.Column="1" />
             </Grid>
 
-            <!-- Certification Number and Test Kit -->
-            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Certified Tester No."
+            <!-- Initial Certification Number and Test Kit -->
+            <Grid IsVisible="{Binding ShowInitialFields}" 
+                  RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="[Initial] Certified Tester No."
                        FontAttributes="Bold"
                        Grid.Row="0" Grid.Column="0" />
-                <Label Text="Test Kit Serial"
+                <Label Text="[Initial] Test Kit Serial"
                        FontAttributes="Bold"
                        Grid.Row="0" Grid.Column="1" />
 
                 <Picker ItemsSource="{Binding TesterNoOptions}"
-                       SelectedItem="{Binding TesterNo}"
-                       Grid.Row="1" Grid.Column="0" />
+                        SelectedItem="{Binding InitialTesterNo}"
+                        Grid.Row="1" Grid.Column="0" />
                 <Picker ItemsSource="{Binding TestKitSerialOptions}"
-                        SelectedItem="{Binding TestKitSerial}"
+                        SelectedItem="{Binding InitialTestKitSerial}"
+                        Grid.Row="1" Grid.Column="1" />
+            </Grid>
+            
+            <!-- Repaired Test Name and Date -->
+            <Grid IsVisible="{Binding ShowRepairedFields}" 
+                  RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="Repaired Tester Name"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="0" />
+                <Label Text="Repaired Date Passed"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="1" />
+
+                <Picker ItemsSource="{Binding TesterNameOptions}"
+                        SelectedItem="{Binding RepairedTester}"
+                        Grid.Row="1" Grid.Column="0" />
+                <DatePicker Date="{Binding DateRepaired}"
+                            Grid.Row="1" Grid.Column="1" />
+            </Grid>
+
+            <!-- Repaired Certification Number and Test Kit -->
+            <Grid IsVisible="{Binding ShowRepairedFields}" 
+                  RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="[Repaired] Certified Tester No."
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="0" />
+                <Label Text="[Repaired] Test Kit Serial"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="1" />
+
+                <Picker ItemsSource="{Binding TesterNoOptions}"
+                        SelectedItem="{Binding RepairedTesterNo}"
+                        Grid.Row="1" Grid.Column="0" />
+                <Picker ItemsSource="{Binding TestKitSerialOptions}"
+                        SelectedItem="{Binding RepairedTesterNo}"
+                        Grid.Row="1" Grid.Column="1" />
+            </Grid>
+
+            <!-- Final Test Name and Date -->
+            <Grid IsVisible="{Binding ShowPassedFields}" 
+                  RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="[Final] Tester Name"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="0" />
+                <Label Text="[Final] Date Passed"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="1" />
+
+                <Picker ItemsSource="{Binding TesterNameOptions}"
+                        SelectedItem="{Binding FinalTester}"
+                        Grid.Row="1" Grid.Column="0" />
+                <DatePicker Date="{Binding DatePassed}"
+                            Grid.Row="1" Grid.Column="1" />
+            </Grid>
+
+            <!-- Final Certification Number and Test Kit -->
+            <Grid IsVisible="{Binding ShowPassedFields}" 
+                  RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Label Text="[Final] Certified Tester No."
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="0" />
+                <Label Text="[Final] Test Kit Serial"
+                       FontAttributes="Bold"
+                       Grid.Row="0" Grid.Column="1" />
+
+                <Picker ItemsSource="{Binding TesterNoOptions}"
+                        SelectedItem="{Binding FinalTesterNo}"
+                        Grid.Row="1" Grid.Column="0" />
+                <Picker ItemsSource="{Binding TestKitSerialOptions}"
+                        SelectedItem="{Binding FinalTestKitSerial}"
                         Grid.Row="1" Grid.Column="1" />
             </Grid>
 
@@ -55,7 +127,7 @@
                     Text="{Binding Comments}"
                     HeightRequest="100"
                     AutoSize="TextChanges"
-                    TextTransform="Uppercase"/>
+                    TextTransform="Uppercase" />
 
             <!-- Share Button -->
             <Button Text="Share Report"

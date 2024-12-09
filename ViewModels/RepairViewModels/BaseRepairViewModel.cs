@@ -436,7 +436,7 @@ public class BaseRepairViewModel : BaseBackflowViewModel
     protected async Task OnSkip()
     {
         // Load 'PassFinalViewModel'
-        var viewModel = new PassFinalViewModel();
+        var viewModel = new PassFinalViewModel(true, false, false);
         viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
             FormData ?? throw new InvalidOperationException());
         

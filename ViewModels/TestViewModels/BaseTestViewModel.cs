@@ -300,8 +300,21 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         // Save Form Data
         SaveFormData(_passedFieldsToSave);
         
+        // Check if previously failed
+        var ck1 = FormData?.GetValueOrDefault("InitialCT1");
+        var airInlet = FormData?.GetValueOrDefault("InitialAirInlet");
+        var viewModel = new PassFinalViewModel(false, false, false);
+        
+        if (!string.IsNullOrEmpty(ck1) || !string.IsNullOrEmpty(airInlet))
+        {
+            viewModel = new PassFinalViewModel(true, true, true);
+        }
+        else
+        {
+            viewModel = new PassFinalViewModel(false, false, true);
+        }
+        
         // Load 'PassFinalViewModel'
-        var viewModel = new PassFinalViewModel();
         viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
             FormData ?? throw new InvalidOperationException());
         
