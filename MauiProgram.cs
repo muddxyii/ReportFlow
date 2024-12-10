@@ -18,6 +18,7 @@ public static class MauiProgram
 
 #if ANDROID
             builder.Services.AddSingleton<IFileHelper, FileHelper>();
+            builder.Services.AddTransient<IFileHandlingService, FileHandlingService>();
 #endif
 
 #if DEBUG
