@@ -83,7 +83,8 @@
             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto">
                 <Entry Placeholder="Relief valve opened at"
                        TextTransform="Uppercase"
-                       Text="{Binding  PressureReliefOpening}"/>
+                       Text="{Binding  PressureReliefOpening}"
+                       Keyboard="Numeric"/>
                 <Label Text="PSID"
                        Grid.Column="1"
                        VerticalOptions="Center"
@@ -93,6 +94,11 @@
                     <CheckBox x:Name="ReliefValveFailCheckbox"
                               IsChecked="{Binding ReliefValveDidNotOpen}" />
                     <Label Text="Did Not Open"
+                           VerticalOptions="Center" />
+                    <CheckBox x:Name="LeakingCheckbox"
+                              IsChecked="{Binding ReliefValveLeaking}"
+                              Margin="20,0,0,0" />
+                    <Label Text="Leaking"
                            VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Grid>
