@@ -47,7 +47,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
     #region Dropdown Items
 
     public List<String> TesterNameOptions { get; } =
-        ["MIGUEL CARILLO", "JAYSON PADILLA", "JACOB S. PADILLA"];
+        ["MIGUEL CARRILLO", "JAYSON PADILLA", "JACOB S. PADILLA"];
 
     public List<string> TesterNoOptions { get; } =
     [
