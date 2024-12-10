@@ -51,6 +51,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     private string? _pressureReliefOpening;
     private bool _reliefValveDidNotOpen;
+    private bool _reliefValveLeaking;
 
     #endregion
     
@@ -67,8 +68,8 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     #region BaseTestViewModel
     
-    Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
-    Dictionary<string, string> _passedFieldsToSave = new Dictionary<string, string>();
+    private Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
+    private Dictionary<string, string> _passedFieldsToSave = new Dictionary<string, string>();
     
     #endregion
     
@@ -191,6 +192,16 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             _reliefValveDidNotOpen = value;
             _failedFieldsToSave["InitialRVDidNotOpen"] = ReliefValveDidNotOpen ? "On" : "Off";
             OnPropertyChanged(nameof(ReliefValveDidNotOpen));
+        }
+    }
+    
+    public bool ReliefValveLeaking
+    {
+        get => _reliefValveLeaking;
+        set
+        {
+            _reliefValveLeaking = value;
+            OnPropertyChanged(nameof(ReliefValveLeaking));
         }
     }
 
@@ -326,6 +337,22 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     private async Task HandleFailingTest()
     {
+        // Special Case For Leaking RVs
+        if (ReliefValveLeaking)
+        {
+            if (_failedFieldsToSave.TryGetValue("InitialPSIRV", out string curStr))
+            {
+                if (!curStr.StartsWith("LEAKING"))
+                {
+                    _failedFieldsToSave["InitialPSIRV"] = "LEAKING/" + curStr;
+                }
+            }
+            else
+            {
+                _failedFieldsToSave["InitialPSIRV"] = "LEAKING";
+            }
+        }
+        
         // Save Form Data
         SaveFormData(_failedFieldsToSave);
         
