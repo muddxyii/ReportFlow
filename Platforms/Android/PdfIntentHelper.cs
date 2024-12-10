@@ -4,15 +4,19 @@ namespace ABFReportEditor;
 
 public class PdfIntentHelper : IPdfIntentHelper
 {
-    public async Task<byte[]> GetPdfBytes(Uri uri)  // Make async
+    public async Task<byte[]> GetPdfBytes(Uri uri)
     {
+        Android.Net.Uri androidUri = null;
+        Stream stream = null;
+        MemoryStream memoryStream = null;
+
         try 
         {
-            var androidUri = Android.Net.Uri.Parse(uri.ToString());
-            using var stream = Android.App.Application.Context.ContentResolver?.OpenInputStream(androidUri);
+            androidUri = Android.Net.Uri.Parse(uri.ToString());
+            stream = Android.App.Application.Context.ContentResolver?.OpenInputStream(androidUri);
             if (stream != null)
             {
-                using var memoryStream = new MemoryStream();
+                memoryStream = new MemoryStream();
                 await stream.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
             }
@@ -20,6 +24,12 @@ public class PdfIntentHelper : IPdfIntentHelper
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error reading PDF: {ex}");
+            throw;
+        }
+        finally
+        {
+            stream?.Dispose();
+            memoryStream?.Dispose();
         }
         
         return null;

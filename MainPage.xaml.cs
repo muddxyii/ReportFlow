@@ -10,15 +10,20 @@ public partial class MainPage : ContentPage
         InitializeComponent();
 
 #if ANDROID
+        System.Diagnostics.Debug.WriteLine("Checking for PDF intent...");
     if (Platform.CurrentActivity?.Intent?.Data != null)
     {
-        var uri = new Uri(Platform.CurrentActivity.Intent.Data.ToString());
-        HandlePdfIntent(uri);
+        System.Diagnostics.Debug.WriteLine($"Found intent data: {Platform.CurrentActivity.Intent.Data}");
+        using (var data = Platform.CurrentActivity.Intent.Data)
+        {
+            var uri = new Uri(data.ToString());
+            HandlePdfIntent(uri);
+        }
     }
 #endif
     }
 
-    private async void HandlePdfIntent(Uri pdfUri)
+    public async void HandlePdfIntent(Uri pdfUri)
     {
         try
         {

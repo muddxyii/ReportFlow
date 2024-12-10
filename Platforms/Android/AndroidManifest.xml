@@ -6,8 +6,10 @@
 			android:roundIcon="@mipmap/appicon_round"
 			android:supportsRtl="true">
 
-		<activity android:name="com.anybackflow.MainActivity"
-		android:exported="true">
+		<activity android:name="anybackflow.abfreporteditor.activity"
+				  android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode"
+				  android:theme="@style/Maui.SplashTheme"
+				  android:exported="true">
 			<!-- Launch from app icon -->
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
