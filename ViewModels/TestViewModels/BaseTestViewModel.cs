@@ -51,6 +51,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     private string? _pressureReliefOpening;
     private bool _reliefValveDidNotOpen;
+    private bool _reliefValveLeaking;
 
     #endregion
     
@@ -67,8 +68,8 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     #region BaseTestViewModel
     
-    Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
-    Dictionary<string, string> _passedFieldsToSave = new Dictionary<string, string>();
+    private Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
+    private Dictionary<string, string> _passedFieldsToSave = new Dictionary<string, string>();
     
     #endregion
     
@@ -125,7 +126,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             _checkValve1 = value;
             _failedFieldsToSave["InitialCT1"] = decimal.TryParse(CheckValve1, out decimal fcv1) ? fcv1.ToString("F1") : string.Empty;
             _passedFieldsToSave["FinalCT1"] = decimal.TryParse(CheckValve1, out decimal pcv1) ? pcv1.ToString("F1") : string.Empty;
-            OnPropertyChanged(nameof(LinePressure));
+            OnPropertyChanged(nameof(CheckValve1));
         }
     }
 
@@ -137,7 +138,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             _checkValve2 = value;
             _failedFieldsToSave["InitialCT2"] = decimal.TryParse(CheckValve2, out decimal fcv2) ? fcv2.ToString("F1") : string.Empty;
             _passedFieldsToSave["FinalCT2"] = decimal.TryParse(CheckValve2, out decimal pcv2) ? pcv2.ToString("F1") : string.Empty;
-            OnPropertyChanged(nameof(_checkValve2));
+            OnPropertyChanged(nameof(CheckValve2));
         }
     }
     
@@ -147,9 +148,9 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         set
         {
             _checkValve1Leaked = value;
-            _failedFieldsToSave["InitialCTBox"] = CheckValve1Leaked ? "Off" : "On";
-            _failedFieldsToSave["InitialCT1Leaked"] = CheckValve1Leaked ? "On" : "Off";
-            _passedFieldsToSave["FinalCT1Box"] = CheckValve1Leaked ? "Off" : "On";
+            _failedFieldsToSave["InitialCTBox"] = value ? "Off" : "On";
+            _failedFieldsToSave["InitialCT1Leaked"] = value ? "On" : "Off";
+            _passedFieldsToSave["FinalCT1Box"] = value ? "Off" : "On";
             OnPropertyChanged(nameof(CheckValve1Leaked));
         }
     }
@@ -160,9 +161,9 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         set
         {
             _checkValve2Leaked = value;
-            _failedFieldsToSave["InitialCT2Box"] = CheckValve2Leaked ? "Off" : "On";
-            _failedFieldsToSave["InitialCT2Leaked"] = CheckValve2Leaked ? "On" : "Off";
-            _passedFieldsToSave["FinalCT2Box"] = CheckValve2Leaked ? "Off" : "On";
+            _failedFieldsToSave["InitialCT2Box"] = value ? "Off" : "On";
+            _failedFieldsToSave["InitialCT2Leaked"] = value ? "On" : "Off";
+            _passedFieldsToSave["FinalCT2Box"] = value ? "Off" : "On";
             OnPropertyChanged(nameof(CheckValve2Leaked));
         }
     }
@@ -191,6 +192,16 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             _reliefValveDidNotOpen = value;
             _failedFieldsToSave["InitialRVDidNotOpen"] = ReliefValveDidNotOpen ? "On" : "Off";
             OnPropertyChanged(nameof(ReliefValveDidNotOpen));
+        }
+    }
+    
+    public bool ReliefValveLeaking
+    {
+        get => _reliefValveLeaking;
+        set
+        {
+            _reliefValveLeaking = value;
+            OnPropertyChanged(nameof(ReliefValveLeaking));
         }
     }
 
@@ -278,8 +289,23 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     protected override void LoadFormFields(Dictionary<string, string> formFields)
     {
         // Init check valve leaked buttons as true
-        CheckValve1Leaked = true;
-        CheckValve2Leaked = true;
+        var type = FormData?.GetValueOrDefault("BFType");
+        switch (type)
+        {
+            case "RP":
+                CheckValve1Leaked = true;
+                CheckValve2Leaked = true;
+                break;
+            case "DC":
+                CheckValve1Leaked = true;
+                CheckValve2Leaked = true;
+                break;
+            case "SC":
+                CheckValve1Leaked = true;
+                break;
+            default:
+                break;
+        }
     }
 
     protected override async Task OnNext()
@@ -326,6 +352,22 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     private async Task HandleFailingTest()
     {
+        // Special Case For Leaking RVs
+        if (ReliefValveLeaking)
+        {
+            if (_failedFieldsToSave.TryGetValue("InitialPSIRV", out string curStr))
+            {
+                if (!curStr.StartsWith("LEAKING"))
+                {
+                    _failedFieldsToSave["InitialPSIRV"] = "LEAKING/" + curStr;
+                }
+            }
+            else
+            {
+                _failedFieldsToSave["InitialPSIRV"] = "LEAKING";
+            }
+        }
+        
         // Save Form Data
         SaveFormData(_failedFieldsToSave);
         
@@ -352,8 +394,20 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
                     { "ViewModel", repairViewModel }
                 });
                 break;
+            case "SC":
+                await Shell.Current.GoToAsync("ScRepair", new Dictionary<string, object>
+                {
+                    { "ViewModel", repairViewModel }
+                });
+                break;
             case "PVB":
                 await Shell.Current.GoToAsync("PvbRepair", new Dictionary<string, object>
+                {
+                    { "ViewModel", repairViewModel }
+                });
+                break;
+            case "SVB":
+                await Shell.Current.GoToAsync("SvbRepair", new Dictionary<string, object>
                 {
                     { "ViewModel", repairViewModel }
                 });

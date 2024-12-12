@@ -80,7 +80,7 @@
                         SelectedItem="{Binding RepairedTesterNo}"
                         Grid.Row="1" Grid.Column="0" />
                 <Picker ItemsSource="{Binding TestKitSerialOptions}"
-                        SelectedItem="{Binding RepairedTesterNo}"
+                        SelectedItem="{Binding RepairedTestKitSerial}"
                         Grid.Row="1" Grid.Column="1" />
             </Grid>
 

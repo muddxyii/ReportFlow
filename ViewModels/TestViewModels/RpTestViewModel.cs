@@ -22,7 +22,7 @@ public class RpTestViewModel : BaseTestViewModel
     protected override bool IsBackflowPassing()
     {
         // Return false if any component has leaked or failed to open
-        if (CheckValve1Leaked || CheckValve2Leaked || ReliefValveDidNotOpen) return false;
+        if (CheckValve1Leaked || CheckValve2Leaked || ReliefValveDidNotOpen || ReliefValveLeaking) return false;
         
         // Parse input values to decimal for numerical comparison
         if (!decimal.TryParse(CheckValve1, out decimal checkValve1Value) ||

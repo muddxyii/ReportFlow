@@ -18,7 +18,7 @@
         <ApplicationId>com.anybackflow.abfreporteditor</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.0.4</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>1.0.5</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         
         <!-- Build Time Optimization -->
@@ -75,6 +75,18 @@
       <MauiXaml Update="Views\RepairViews\PvbRepairPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="Views\TestViews\SvbTestPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\RepairViews\SvbRepairPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\TestViews\ScTestPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\RepairViews\ScRepairPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -92,6 +104,22 @@
       </Compile>
       <Compile Update="Views\RepairViews\PvbRepairPage.xaml.cs">
         <DependentUpon>PvbRepairPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\TestViews\SvbTestPage.xaml.cs">
+        <DependentUpon>SvbTestPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\RepairViews\SvbRepairPage.xaml.cs">
+        <DependentUpon>SvbRepairPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\TestViews\ScTestPage.xaml.cs">
+        <DependentUpon>ScTestPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\RepairViews\ScRepairPage.xaml.cs">
+        <DependentUpon>ScRepairPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

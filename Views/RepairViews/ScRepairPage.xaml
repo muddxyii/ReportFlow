@@ -4,9 +4,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:repairViewModels="clr-namespace:ABFReportEditor.ViewModels.RepairViewModels"
                     xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
-                    x:Class="ABFReportEditor.Views.RepairViews.DcRepairPage"
+                    x:Class="ABFReportEditor.Views.RepairViews.ScRepairPage"
                     x:TypeArguments="repairViewModels:BaseRepairViewModel"
-                    Title="DC Repair">
+                    Title="SC Repair">
     
     <ContentPage.BindingContext>
         <repairViewModels:BaseRepairViewModel />
@@ -50,46 +50,6 @@
                 <!-- Other -->
                 <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="2" Margin="0,10,0,0">
                     <CheckBox IsChecked="{Binding Ck1Other}" />
-                    <Label Text="Other" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-            </Grid>
-            
-            <!-- Check Valve #2 -->
-            <Label Text="Check Valve #2" FontAttributes="Bold" />
-            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-                <!-- Cleaned -->
-                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding Ck2Cleaned}" />
-                    <Label Text="Cleaned" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Check Disc -->
-                <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding Ck2CheckDisc}" />
-                    <Label Text="Check Disc" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Disc Holder -->
-                <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding Ck2DiscHolder}" />
-                    <Label Text="Disc Holder" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Spring -->
-                <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding Ck2Spring}" />
-                    <Label Text="Spring" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Disc Holder -->
-                <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding Ck2Guide}" />
-                    <Label Text="Guide" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Disc Holder -->
-                <HorizontalStackLayout Grid.Row="6" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding Ck2Seat}" />
-                    <Label Text="Seat" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Other -->
-                <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding Ck2Other}" />
                     <Label Text="Other" VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Grid>

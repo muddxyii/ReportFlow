@@ -416,6 +416,36 @@ public class BaseRepairViewModel : BaseBackflowViewModel
                     { "ViewModel", dcViewModel }
                 });
                 break;
+            case "SC":
+                var scViewModel = new ScTestViewModel();
+                scViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                    FormData ?? throw new InvalidOperationException());
+                
+                await Shell.Current.GoToAsync("ScTest", new Dictionary<string, object>
+                {
+                    { "ViewModel", scViewModel }
+                });
+                break;
+            case "PVB":
+                var pvbViewModel = new PvbTestViewModel();
+                pvbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                    FormData ?? throw new InvalidOperationException());
+                
+                await Shell.Current.GoToAsync("PvbTest", new Dictionary<string, object>
+                {
+                    { "ViewModel", pvbViewModel }
+                });
+                break;
+            case "SVB":
+                var svbViewModel = new SvbTestViewModel();
+                svbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                    FormData ?? throw new InvalidOperationException());
+                
+                await Shell.Current.GoToAsync("SvbTest", new Dictionary<string, object>
+                {
+                    { "ViewModel", svbViewModel }
+                });
+                break;
             default:
                 await Application.Current.MainPage.DisplayAlert(
                     "Not Implemented",
