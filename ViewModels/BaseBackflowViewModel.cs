@@ -44,12 +44,13 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 
     public void LoadPdfData(byte[] pdfBytes, Dictionary<string, string> formData)
     {
+        // Save FormData
+        SaveFormData(formData);
+        
         // Load PdfBytes
         PdfData = pdfBytes;
         var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
         LoadFormFields(formFields);
-        
-        SaveFormData(formData);
     }
 
     protected void SaveFormData(Dictionary<string, string> formFields)
