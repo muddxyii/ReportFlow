@@ -261,11 +261,14 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
                 });
                 break;
             case "SVB":
-                await Application.Current.MainPage.DisplayAlert(
-                    "Not Implemented",
-                    $"The type '{Type}' has not been implemented.",
-                    "OK"
-                );
+                var svbViewModel = new SvbTestViewModel();
+                svbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                    FormData ?? throw new InvalidOperationException());
+                
+                await Shell.Current.GoToAsync("SvbTest", new Dictionary<string, object>
+                {
+                    { "ViewModel", svbViewModel }
+                });
                 break;
             case "SC":
                 await Application.Current.MainPage.DisplayAlert(

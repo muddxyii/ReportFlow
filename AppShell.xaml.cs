@@ -20,11 +20,13 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("RpTest", typeof(RpTestPage));
         Routing.RegisterRoute("DcTest", typeof(DcTestPage));
         Routing.RegisterRoute("PvbTest", typeof(PvbTestPage));
+        Routing.RegisterRoute("SvbTest", typeof(SvbTestPage));
         
         // Repair RepairViews
         Routing.RegisterRoute("RpRepair", typeof(RpRepairPage));
         Routing.RegisterRoute("DcRepair", typeof(DcRepairPage));
         Routing.RegisterRoute("PvbRepair", typeof(PvbRepairPage));
+        Routing.RegisterRoute("SvbRepair", typeof(SvbRepairPage));
         
         // Register FinalViews
         Routing.RegisterRoute("PassFinal", typeof(PassFinalView));

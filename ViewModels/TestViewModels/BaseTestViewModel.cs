@@ -385,6 +385,12 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
                     { "ViewModel", repairViewModel }
                 });
                 break;
+            case "SVB":
+                await Shell.Current.GoToAsync("SvbRepair", new Dictionary<string, object>
+                {
+                    { "ViewModel", repairViewModel }
+                });
+                break;
             default:
                 await Application.Current.MainPage.DisplayAlert(
                     "Not Implemented",
