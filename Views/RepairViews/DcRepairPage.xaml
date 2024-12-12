@@ -6,7 +6,7 @@
                     xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
                     x:Class="ABFReportEditor.Views.RepairViews.DcRepairPage"
                     x:TypeArguments="repairViewModels:BaseRepairViewModel"
-                    Title="RP Repair">
+                    Title="DC Repair">
     
     <ContentPage.BindingContext>
         <repairViewModels:BaseRepairViewModel />
