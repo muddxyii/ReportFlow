@@ -264,18 +264,21 @@ public class PassFinalViewModel : BaseBackflowViewModel
         if (ShowInitialFields)
         {
             if (!await ValidateFailedBy()) return;
+            DateFailed = _dateFailed;
             SaveFormData(_failedFieldsToSave);
         }
 
         if (ShowRepairedFields)
         {
             if (!await ValidateRepairedBy()) return;
+            DateRepaired = _dateRepaired;
             SaveFormData(_repairedFieldsToSave);
         }
 
         if (ShowPassedFields)
         {
             if (!await ValidatePassedBy()) return;
+            DatePassed = _datePassed;
             SaveFormData(_passedFieldsToSave);
         }
 
