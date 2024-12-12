@@ -126,7 +126,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             _checkValve1 = value;
             _failedFieldsToSave["InitialCT1"] = decimal.TryParse(CheckValve1, out decimal fcv1) ? fcv1.ToString("F1") : string.Empty;
             _passedFieldsToSave["FinalCT1"] = decimal.TryParse(CheckValve1, out decimal pcv1) ? pcv1.ToString("F1") : string.Empty;
-            OnPropertyChanged(nameof(LinePressure));
+            OnPropertyChanged(nameof(CheckValve1));
         }
     }
 
@@ -138,7 +138,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             _checkValve2 = value;
             _failedFieldsToSave["InitialCT2"] = decimal.TryParse(CheckValve2, out decimal fcv2) ? fcv2.ToString("F1") : string.Empty;
             _passedFieldsToSave["FinalCT2"] = decimal.TryParse(CheckValve2, out decimal pcv2) ? pcv2.ToString("F1") : string.Empty;
-            OnPropertyChanged(nameof(_checkValve2));
+            OnPropertyChanged(nameof(CheckValve2));
         }
     }
     
@@ -148,9 +148,9 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         set
         {
             _checkValve1Leaked = value;
-            _failedFieldsToSave["InitialCTBox"] = CheckValve1Leaked ? "Off" : "On";
-            _failedFieldsToSave["InitialCT1Leaked"] = CheckValve1Leaked ? "On" : "Off";
-            _passedFieldsToSave["FinalCT1Box"] = CheckValve1Leaked ? "Off" : "On";
+            _failedFieldsToSave["InitialCTBox"] = value ? "Off" : "On";
+            _failedFieldsToSave["InitialCT1Leaked"] = value ? "On" : "Off";
+            _passedFieldsToSave["FinalCT1Box"] = value ? "Off" : "On";
             OnPropertyChanged(nameof(CheckValve1Leaked));
         }
     }
@@ -161,9 +161,9 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         set
         {
             _checkValve2Leaked = value;
-            _failedFieldsToSave["InitialCT2Box"] = CheckValve2Leaked ? "Off" : "On";
-            _failedFieldsToSave["InitialCT2Leaked"] = CheckValve2Leaked ? "On" : "Off";
-            _passedFieldsToSave["FinalCT2Box"] = CheckValve2Leaked ? "Off" : "On";
+            _failedFieldsToSave["InitialCT2Box"] = value ? "Off" : "On";
+            _failedFieldsToSave["InitialCT2Leaked"] = value ? "On" : "Off";
+            _passedFieldsToSave["FinalCT2Box"] = value ? "Off" : "On";
             OnPropertyChanged(nameof(CheckValve2Leaked));
         }
     }
@@ -289,8 +289,23 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     protected override void LoadFormFields(Dictionary<string, string> formFields)
     {
         // Init check valve leaked buttons as true
-        CheckValve1Leaked = true;
-        CheckValve2Leaked = true;
+        var type = FormData?.GetValueOrDefault("BFType");
+        switch (type)
+        {
+            case "RP":
+                CheckValve1Leaked = true;
+                CheckValve2Leaked = true;
+                break;
+            case "DC":
+                CheckValve1Leaked = true;
+                CheckValve2Leaked = true;
+                break;
+            case "SC":
+                CheckValve1Leaked = true;
+                break;
+            default:
+                break;
+        }
     }
 
     protected override async Task OnNext()
