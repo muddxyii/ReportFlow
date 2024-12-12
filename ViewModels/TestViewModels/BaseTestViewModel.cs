@@ -379,6 +379,12 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
                     { "ViewModel", repairViewModel }
                 });
                 break;
+            case "SC":
+                await Shell.Current.GoToAsync("ScRepair", new Dictionary<string, object>
+                {
+                    { "ViewModel", repairViewModel }
+                });
+                break;
             case "PVB":
                 await Shell.Current.GoToAsync("PvbRepair", new Dictionary<string, object>
                 {

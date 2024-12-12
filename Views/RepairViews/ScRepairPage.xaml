@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:repairViewModels="clr-namespace:ABFReportEditor.ViewModels.RepairViewModels"
+                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
+                    x:Class="ABFReportEditor.Views.RepairViews.ScRepairPage"
+                    x:TypeArguments="repairViewModels:BaseRepairViewModel"
+                    Title="RP Repair">
+    
+    <ContentPage.BindingContext>
+        <repairViewModels:BaseRepairViewModel />
+    </ContentPage.BindingContext>
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="20">
+            <!-- Check Valve #1 -->
+            <Label Text="Check Valve #1" FontAttributes="Bold" />
+            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                <!-- Cleaned -->
+                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding Ck1Cleaned}" />
+                    <Label Text="Cleaned" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Check Disc -->
+                <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding Ck1CheckDisc}" />
+                    <Label Text="Check Disc" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Disc Holder -->
+                <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding Ck1DiscHolder}" />
+                    <Label Text="Disc Holder" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Spring -->
+                <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding Ck1Spring}" />
+                    <Label Text="Spring" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Disc Holder -->
+                <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding Ck1Guide}" />
+                    <Label Text="Guide" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Disc Holder -->
+                <HorizontalStackLayout Grid.Row="6" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding Ck1Seat}" />
+                    <Label Text="Seat" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <!-- Other -->
+                <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding Ck1Other}" />
+                    <Label Text="Other" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+            
+            <VerticalStackLayout>
+                <Button Text="Next"
+                        Command="{Binding NextCommand}"
+                        Margin="0,20,0,0" />
+                <Button Text="Skip Repair"
+                        Command="{Binding SkipCommand}" 
+                        Margin="0,10,0,0" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BaseViewPage>

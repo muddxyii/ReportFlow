@@ -250,6 +250,16 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
                     { "ViewModel", dcViewModel }
                 });
                 break;
+            case "SC":
+                var scViewModel = new ScTestViewModel();
+                scViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
+                    FormData ?? throw new InvalidOperationException());
+                
+                await Shell.Current.GoToAsync("ScTest", new Dictionary<string, object>
+                {
+                    { "ViewModel", scViewModel }
+                });
+                break;
             case "PVB":
                 var pvbViewModel = new PvbTestViewModel();
                 pvbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
@@ -269,13 +279,6 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
                 {
                     { "ViewModel", svbViewModel }
                 });
-                break;
-            case "SC":
-                await Application.Current.MainPage.DisplayAlert(
-                    "Not Implemented",
-                    $"The type '{Type}' has not been implemented yet.",
-                    "OK"
-                );
                 break;
             case "TYPE 2":
                 await Application.Current.MainPage.DisplayAlert(

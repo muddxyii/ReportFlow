@@ -14,7 +14,7 @@ A comprehensive mobile solution for digitizing backflow testing and reporting wo
 | RP            | ✓         | x           | ✓              |
 | DC            | ✓         | x           | ✓              |
 | SVB           | ✓         | x           | ✓              |
-| SC            | x         | x           | x              |
+| SC            | ✓         | x           | ✓              |
 | TYPE 2        | x         | x           | x              |
 | Custom Types  | x         | x           | x              |
 

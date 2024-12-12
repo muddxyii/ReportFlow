@@ -81,6 +81,12 @@
       <MauiXaml Update="Views\RepairViews\SvbRepairPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="Views\TestViews\ScTestPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Views\RepairViews\ScRepairPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -106,6 +112,14 @@
       </Compile>
       <Compile Update="Views\RepairViews\SvbRepairPage.xaml.cs">
         <DependentUpon>SvbRepairPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\TestViews\ScTestPage.xaml.cs">
+        <DependentUpon>ScTestPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\RepairViews\ScRepairPage.xaml.cs">
+        <DependentUpon>ScRepairPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
