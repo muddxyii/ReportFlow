@@ -37,9 +37,10 @@ public partial class MainPage : ContentPage
 
             // Extract Old Form Data
             var oldFormData = PdfUtils.ExtractPdfFormData(fileStream);
+            var infoFormData = GetInfoData(oldFormData);
             
             // Load Next Model
-            var viewModel = new CustomerInfoViewModel(oldFormData);
+            var viewModel = new CustomerInfoViewModel(infoFormData);
             await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
             {
                 ["ViewModel"] = viewModel
@@ -51,6 +52,34 @@ public partial class MainPage : ContentPage
         }
     }
 
+    private Dictionary<string, string> GetInfoData(Dictionary<string, string> oldFormData)
+    {
+        var infoFormData = new Dictionary<string, string>();
+    
+        // Define required fields
+        string[] requiredFields =
+        [
+            // Customer Info
+            "PermitAccountNo", "FacilityOwner", "Address", "Contact", "Phone", "Email",
+            "OwnerRep", "RepAddress", "PersontoContact", "Phone-0",
+    
+            // Device Info
+            "WaterPurveyor", "AssemblyAddress", "On Site Location of Assembly", 
+            "PrimaryBusinessService", "InstallationIs", "ProtectionType", "ServiceType",
+            "WaterMeterNo", "SerialNo", "ModelNo", "Size", "Manufacturer", "BFType"
+        ];
+    
+        foreach (var field in requiredFields)
+        {
+            if (oldFormData != null && oldFormData.TryGetValue(field, out var value))
+            {
+                infoFormData[field] = value;
+            }
+        }
+    
+        return infoFormData;
+    }
+    
     #region Open Pdf Button
     
     private async void OnOpenPdfClicked(object sender, EventArgs e)
