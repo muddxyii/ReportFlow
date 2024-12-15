@@ -8,7 +8,7 @@
             Padding="30,0"
             Spacing="25">
             <Label
-                Text="Welcome to the &#10;Report Flow!"
+                Text="Welcome to&#10;Report Flow!"
                 Style="{StaticResource SubHeadline}"/>
 
             <Grid

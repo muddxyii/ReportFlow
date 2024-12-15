@@ -124,4 +124,9 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\PdfTemplates\Abf-Fillable-12-24.pdf" />
+      <EmbeddedResource Include="Resources\PdfTemplates\Abf-Fillable-12-24.pdf" />
+    </ItemGroup>
+
 </Project>
