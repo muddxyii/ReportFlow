@@ -1,6 +1,6 @@
 namespace ReportFlow.ViewModels.TestViewModels;
 
-public class DcTestViewModel : BaseTestViewModel
+public class DcTestViewModel(Dictionary<string, string>? formData) : BaseTestViewModel(formData)
 {
     protected override async Task<bool> ValidateFields()
     {
@@ -37,4 +37,6 @@ public class DcTestViewModel : BaseTestViewModel
 
         return true;
     }
+    
+    public DcTestViewModel() : this(new Dictionary<string, string>()) {}
 }

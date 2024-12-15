@@ -22,7 +22,7 @@
                 <Button
                     Grid.Row="0"
                     x:Name="OpenPdfBtn"
-                    Text="Open Report" 
+                    Text="Open Existing Report" 
                     Clicked="OnOpenPdfClicked"/>
                 
                 <Button

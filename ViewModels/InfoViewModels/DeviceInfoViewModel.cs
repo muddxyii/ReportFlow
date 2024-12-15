@@ -5,7 +5,7 @@ namespace ReportFlow.ViewModels.InfoViewModels;
 public class DeviceInfoViewModel : BaseBackflowViewModel
 {
     #region Dropdown Items
-    
+
     public List<string> InstallationStatusOptions { get; } =
         ["NEW", "EXISTING", "REPLACEMENT"];
 
@@ -25,7 +25,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         ["RP", "DC", "PVB", "SVB", "SC", "TYPE 2"];
 
     #endregion
-    
+
     #region Private Properties
 
     private string? _waterPurveyor;
@@ -43,9 +43,9 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     private string? _type;
 
     #endregion
-    
+
     #region Public Properties
-    
+
     public string? WaterPurveyor
     {
         get => _waterPurveyor;
@@ -123,7 +123,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         {
             _waterMeterNo = value;
             OnPropertyChanged(nameof(WaterMeterNo));
-            
+
             if (value == "INTERNAL") ProtectionType = "PRIMARY / POINT OF USE";
         }
     }
@@ -179,25 +179,36 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     }
 
     #endregion
+
+    #region Constructor
+    
+    public DeviceInfoViewModel(Dictionary<string, string>? formData) : base(formData)
+    {
+        InitFormFields();
+    }
+
+    protected sealed override void InitFormFields()
+    {
+        if (FormData == null) return;
+        
+        WaterPurveyor = FormData.GetValueOrDefault("WaterPurveyor");
+        AssemblyAddress = FormData.GetValueOrDefault("AssemblyAddress");
+        OnSiteLocation = FormData.GetValueOrDefault("On Site Location of Assembly");
+        PrimaryService = FormData.GetValueOrDefault("PrimaryBusinessService");
+        InstallationStatus = FormData.GetValueOrDefault("InstallationIs");
+        ProtectionType = FormData.GetValueOrDefault("ProtectionType");
+        ServiceType = FormData.GetValueOrDefault("ServiceType");
+        WaterMeterNo = FormData.GetValueOrDefault("WaterMeterNo");
+        SerialNo = FormData.GetValueOrDefault("SerialNo");
+        ModelNo = FormData.GetValueOrDefault("ModelNo");
+        Size = FormData.GetValueOrDefault("Size");
+        Manufacturer = FormData.GetValueOrDefault("Manufacturer");
+        Type = FormData.GetValueOrDefault("BFType");
+    }
+    
+    #endregion
     
     #region Abstract Methods
-    
-    protected override void LoadFormFields(Dictionary<string, string> formFields)
-    {
-        WaterPurveyor = formFields.GetValueOrDefault("WaterPurveyor");
-        AssemblyAddress = formFields.GetValueOrDefault("AssemblyAddress");
-        OnSiteLocation = formFields.GetValueOrDefault("On Site Location of Assembly");
-        PrimaryService = formFields.GetValueOrDefault("PrimaryBusinessService");
-        InstallationStatus = formFields.GetValueOrDefault("InstallationIs");
-        ProtectionType = formFields.GetValueOrDefault("ProtectionType");
-        ServiceType = formFields.GetValueOrDefault("ServiceType");
-        WaterMeterNo = formFields.GetValueOrDefault("WaterMeterNo");
-        SerialNo = formFields.GetValueOrDefault("SerialNo");
-        ModelNo = formFields.GetValueOrDefault("ModelNo");
-        Size = formFields.GetValueOrDefault("Size");
-        Manufacturer = formFields.GetValueOrDefault("Manufacturer");
-        Type = formFields.GetValueOrDefault("BFType");
-    }
 
     protected override async Task OnNext()
     {
@@ -231,50 +242,35 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         switch (Type)
         {
             case "RP":
-                var rpViewModel = new RpTestViewModel();
-                rpViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var rpViewModel = new RpTestViewModel(FormData);
                 await Shell.Current.GoToAsync("RpTest", new Dictionary<string, object>
                 {
                     { "ViewModel", rpViewModel }
                 });
                 break;
             case "DC":
-                var dcViewModel = new DcTestViewModel();
-                dcViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var dcViewModel = new DcTestViewModel(FormData);
                 await Shell.Current.GoToAsync("DcTest", new Dictionary<string, object>
                 {
                     { "ViewModel", dcViewModel }
                 });
                 break;
             case "SC":
-                var scViewModel = new ScTestViewModel();
-                scViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var scViewModel = new ScTestViewModel(FormData);
                 await Shell.Current.GoToAsync("ScTest", new Dictionary<string, object>
                 {
                     { "ViewModel", scViewModel }
                 });
                 break;
             case "PVB":
-                var pvbViewModel = new PvbTestViewModel();
-                pvbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var pvbViewModel = new PvbTestViewModel(FormData);
                 await Shell.Current.GoToAsync("PvbTest", new Dictionary<string, object>
                 {
                     { "ViewModel", pvbViewModel }
                 });
                 break;
             case "SVB":
-                var svbViewModel = new SvbTestViewModel();
-                svbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var svbViewModel = new SvbTestViewModel(FormData);
                 await Shell.Current.GoToAsync("SvbTest", new Dictionary<string, object>
                 {
                     { "ViewModel", svbViewModel }
@@ -298,4 +294,6 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     }
     
     #endregion
+    
+    public DeviceInfoViewModel() : this(new Dictionary<string, string>()) {}
 }

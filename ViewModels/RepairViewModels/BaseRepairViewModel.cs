@@ -4,7 +4,7 @@ using ReportFlow.ViewModels.TestViewModels;
 
 namespace ReportFlow.ViewModels.RepairViewModels;
 
-public class BaseRepairViewModel : BaseBackflowViewModel
+public class BaseRepairViewModel: BaseBackflowViewModel
 {
     #region Private properties
     
@@ -385,6 +385,21 @@ public class BaseRepairViewModel : BaseBackflowViewModel
     
     #region Functions
     
+    #region Implementations 
+    public ICommand SkipCommand { get; }
+
+    public BaseRepairViewModel() : base(new Dictionary<string, string>())
+    {
+        SkipCommand = new Command(async () => await OnSkip());
+    }
+    
+    public BaseRepairViewModel(Dictionary<string, string>? formData) : base(formData)
+    {
+        SkipCommand = new Command(async () => await OnSkip());
+    }
+
+    #endregion
+    
     protected override async Task OnNext()
     {
         // Save Form Data
@@ -397,50 +412,35 @@ public class BaseRepairViewModel : BaseBackflowViewModel
         switch (type)
         {
             case "RP":
-                var rpViewModel = new RpTestViewModel();
-                rpViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var rpViewModel = new RpTestViewModel(FormData);
                 await Shell.Current.GoToAsync("RpTest", new Dictionary<string, object>
                 {
                     { "ViewModel", rpViewModel }
                 });
                 break;
             case "DC":
-                var dcViewModel = new DcTestViewModel();
-                dcViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var dcViewModel = new DcTestViewModel(FormData);
                 await Shell.Current.GoToAsync("DcTest", new Dictionary<string, object>
                 {
                     { "ViewModel", dcViewModel }
                 });
                 break;
             case "SC":
-                var scViewModel = new ScTestViewModel();
-                scViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var scViewModel = new ScTestViewModel(FormData);
                 await Shell.Current.GoToAsync("ScTest", new Dictionary<string, object>
                 {
                     { "ViewModel", scViewModel }
                 });
                 break;
             case "PVB":
-                var pvbViewModel = new PvbTestViewModel();
-                pvbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var pvbViewModel = new PvbTestViewModel(FormData);
                 await Shell.Current.GoToAsync("PvbTest", new Dictionary<string, object>
                 {
                     { "ViewModel", pvbViewModel }
                 });
                 break;
             case "SVB":
-                var svbViewModel = new SvbTestViewModel();
-                svbViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-                    FormData ?? throw new InvalidOperationException());
-                
+                var svbViewModel = new SvbTestViewModel(FormData);
                 await Shell.Current.GoToAsync("SvbTest", new Dictionary<string, object>
                 {
                     { "ViewModel", svbViewModel }
@@ -455,21 +455,12 @@ public class BaseRepairViewModel : BaseBackflowViewModel
                 break;
         }
     }
-
-    public ICommand SkipCommand { get; }
-
-    public BaseRepairViewModel()
-    {
-        SkipCommand = new Command(async () => await OnSkip());
-    }
     
     protected async Task OnSkip()
     {
         // Load 'PassFinalViewModel'
-        var viewModel = new PassFinalViewModel(true, false, false);
-        viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-            FormData ?? throw new InvalidOperationException());
-        
+        var viewModel = new PassFinalViewModel(FormData,
+            true, false, false);
         await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
         {
             { "ViewModel", viewModel }

@@ -282,11 +282,17 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     #endregion
     
     #endregion
-
-    #region Functions
     
-    # region Implementations
-    protected override void LoadFormFields(Dictionary<string, string> formFields)
+    #region Constructor
+
+    public BaseTestViewModel() : base(new Dictionary<string, string>()) {}
+    
+    public BaseTestViewModel(Dictionary<string, string>? formData) : base(formData)
+    {
+        InitFormFields();
+    }
+
+    protected sealed override void InitFormFields()
     {
         // Init check valve leaked buttons as true
         var type = FormData?.GetValueOrDefault("BFType");
@@ -307,6 +313,10 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
                 break;
         }
     }
+    
+    #endregion
+    
+    # region Method Implementations
 
     protected override async Task OnNext()
     {
@@ -329,20 +339,19 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         // Check if previously failed
         var ck1 = FormData?.GetValueOrDefault("InitialCT1");
         var airInlet = FormData?.GetValueOrDefault("InitialAirInlet");
-        var viewModel = new PassFinalViewModel(false, false, false);
+        var viewModel = new PassFinalViewModel(FormData, 
+            false, false, false);
         
         if (!string.IsNullOrEmpty(ck1) || !string.IsNullOrEmpty(airInlet))
         {
-            viewModel = new PassFinalViewModel(true, true, true);
+            viewModel = new PassFinalViewModel(FormData,
+                true, true, true);
         }
         else
         {
-            viewModel = new PassFinalViewModel(false, false, true);
+            viewModel = new PassFinalViewModel(FormData,
+                false, false, true);
         }
-        
-        // Load 'PassFinalViewModel'
-        viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-            FormData ?? throw new InvalidOperationException());
         
         await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
         {
@@ -372,9 +381,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         SaveFormData(_failedFieldsToSave);
         
         // Create 'RepairViewModel'
-        var repairViewModel = new BaseRepairViewModel();
-        repairViewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-            FormData ?? throw new InvalidOperationException());
+        var repairViewModel = new BaseRepairViewModel(FormData);
         
         // Load 'RepairViewModel' Based On Type
         var type = FormData?.GetValueOrDefault("BFType");
@@ -441,7 +448,5 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     protected abstract bool IsBackflowPassing();
 
     #endregion
-
-    #endregion
-
+    
 }

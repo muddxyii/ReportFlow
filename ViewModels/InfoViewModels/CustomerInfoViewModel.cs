@@ -121,22 +121,35 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
 
     #endregion
 
-    #region Abstract function implementation
+    #region Constructor
 
-    protected override void LoadFormFields(Dictionary<string, string> formFields)
+    public CustomerInfoViewModel() : base(new Dictionary<string, string>()) {}
+    
+    public CustomerInfoViewModel(Dictionary<string, string>? formData) : base(formData)
     {
-        PermitNumber = formFields.GetValueOrDefault("PermitAccountNo");
-        FacilityOwner = formFields.GetValueOrDefault("FacilityOwner");
-        CustomerAddress = formFields.GetValueOrDefault("Address");
-        Contact = formFields.GetValueOrDefault("Contact");
-        Phone = formFields.GetValueOrDefault("Phone");
-        Email = formFields.GetValueOrDefault("Email");
-        OwnerRep = formFields.GetValueOrDefault("OwnerRep");
-        RepAddress = formFields.GetValueOrDefault("RepAddress");
-        PersonToContact = formFields.GetValueOrDefault("PersontoContact");
-        ContactPhone = formFields.GetValueOrDefault("Phone-0");
+        InitFormFields();
     }
-
+    
+    protected sealed override void InitFormFields()
+    {
+        if (FormData == null) return;
+        
+        PermitNumber = FormData.GetValueOrDefault("PermitAccountNo");
+        FacilityOwner = FormData.GetValueOrDefault("FacilityOwner");
+        CustomerAddress = FormData.GetValueOrDefault("Address");
+        Contact = FormData.GetValueOrDefault("Contact");
+        Phone = FormData.GetValueOrDefault("Phone");
+        Email = FormData.GetValueOrDefault("Email");
+        OwnerRep = FormData.GetValueOrDefault("OwnerRep");
+        RepAddress = FormData.GetValueOrDefault("RepAddress");
+        PersonToContact = FormData.GetValueOrDefault("PersontoContact");
+        ContactPhone = FormData.GetValueOrDefault("Phone-0");
+    }
+    
+    #endregion
+    
+    #region Abstract function implementation
+    
     protected override async Task OnNext()
     {
         // Save form fields to form data
@@ -155,10 +168,8 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
         };
         SaveFormData(formFields);
 
-        // Create next view model with PdfBytes and FormData
-        var viewModel = new DeviceInfoViewModel();
-        viewModel.LoadPdfData(PdfData ?? throw new InvalidOperationException(),
-            FormData ?? throw new InvalidOperationException());
+        // Create next view model with FormData
+        var viewModel = new DeviceInfoViewModel(FormData);
         await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
         {
             ["ViewModel"] = viewModel

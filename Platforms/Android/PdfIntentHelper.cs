@@ -1,37 +1,35 @@
 using ReportFlow.Interfaces;
+using FileNotFoundException = Java.IO.FileNotFoundException;
 
 namespace ReportFlow;
 
 public class PdfIntentHelper : IPdfIntentHelper
 {
-    public async Task<byte[]> GetPdfBytes(Uri uri)
+    public async Task<Stream> GetPdfStream(Uri uri)
     {
-        Android.Net.Uri androidUri = null;
-        Stream stream = null;
-        MemoryStream memoryStream = null;
-
-        try 
+        try
         {
-            androidUri = Android.Net.Uri.Parse(uri.ToString());
-            stream = Android.App.Application.Context.ContentResolver?.OpenInputStream(androidUri);
-            if (stream != null)
-            {
-                memoryStream = new MemoryStream();
-                await stream.CopyToAsync(memoryStream);
-                return memoryStream.ToArray();
-            }
+            var androidUri = Android.Net.Uri.Parse(uri.ToString());
+            var contentStream = Android.App.Application.Context.ContentResolver?.OpenInputStream(androidUri);
+
+            if (contentStream == null)
+                throw new FileNotFoundException("Could not find PDF file");
+
+            // Create a memory stream that will hold the PDF data
+            var pdfStream = new MemoryStream();
+            await contentStream.CopyToAsync(pdfStream);
+            await contentStream.DisposeAsync();
+
+            // Reset position for PDF reading
+            pdfStream.Position = 0;
+
+            // Return the stream ready for PDF processing
+            return pdfStream;
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error reading PDF: {ex}");
             throw;
         }
-        finally
-        {
-            stream?.Dispose();
-            memoryStream?.Dispose();
-        }
-        
-        return null;
     }
 }
