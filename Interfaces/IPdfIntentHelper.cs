@@ -1,4 +1,4 @@
-namespace ABFReportEditor.Interfaces;
+namespace ReportFlow.Interfaces;
 
 public interface IPdfIntentHelper
 {

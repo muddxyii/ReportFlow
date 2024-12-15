@@ -1,4 +1,4 @@
-namespace ABFReportEditor.Views.FinalViews;
+namespace ReportFlow.Views.FinalViews;
 
 [QueryProperty(nameof(ViewModel), "ViewModel")]
 public partial class PassFinalView

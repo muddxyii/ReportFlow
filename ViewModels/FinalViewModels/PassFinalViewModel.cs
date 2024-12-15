@@ -1,4 +1,4 @@
-namespace ABFReportEditor.ViewModels.FinalViewModels;
+namespace ReportFlow.ViewModels.FinalViewModels;
 
 public class PassFinalViewModel : BaseBackflowViewModel
 {

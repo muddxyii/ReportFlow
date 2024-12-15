@@ -1,6 +1,6 @@
-﻿using ABFReportEditor.ViewModels.TestViewModels;
+﻿using ReportFlow.ViewModels.TestViewModels;
 
-namespace ABFReportEditor.ViewModels.InfoViewModels;
+namespace ReportFlow.ViewModels.InfoViewModels;
 
 public class DeviceInfoViewModel : BaseBackflowViewModel
 {

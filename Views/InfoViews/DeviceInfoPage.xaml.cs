@@ -1,4 +1,4 @@
-﻿namespace ABFReportEditor.Views.InfoViews;
+﻿namespace ReportFlow.Views.InfoViews;
 
 [QueryProperty(nameof(ViewModel), "ViewModel")]
 public partial class DeviceInfoPage

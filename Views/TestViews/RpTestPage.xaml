@@ -2,9 +2,9 @@
 
 <views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:testViewModels="clr-namespace:ABFReportEditor.ViewModels.TestViewModels"
-                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
-                    x:Class="ABFReportEditor.Views.TestViews.RpTestPage"
+                    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
+                    xmlns:testViewModels="clr-namespace:ReportFlow.ViewModels.TestViewModels"
+                    x:Class="ReportFlow.Views.TestViews.RpTestPage"
                     x:TypeArguments="testViewModels:RpTestViewModel"
                     Title="RP Test">
 

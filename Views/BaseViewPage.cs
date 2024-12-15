@@ -1,6 +1,6 @@
-using ABFReportEditor.ViewModels;
+using ReportFlow.ViewModels;
 
-namespace ABFReportEditor.Views;
+namespace ReportFlow.Views;
 
 public abstract class BaseViewPage<T> : ContentPage where T : BaseBackflowViewModel
 {

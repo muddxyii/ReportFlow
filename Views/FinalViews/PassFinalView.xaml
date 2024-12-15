@@ -2,9 +2,9 @@
 
 <views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
-                    xmlns:finalViewModels="clr-namespace:ABFReportEditor.ViewModels.FinalViewModels"
-                    x:Class="ABFReportEditor.Views.FinalViews.PassFinalView"
+                    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
+                    xmlns:finalViewModels="clr-namespace:ReportFlow.ViewModels.FinalViewModels"
+                    x:Class="ReportFlow.Views.FinalViews.PassFinalView"
                     x:TypeArguments="finalViewModels:PassFinalViewModel"
                     Title="Pass Final">
 

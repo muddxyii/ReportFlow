@@ -1,4 +1,4 @@
-﻿namespace ABFReportEditor;
+﻿namespace ReportFlow;
 
 public partial class App : Application
 {

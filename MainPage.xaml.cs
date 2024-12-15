@@ -1,7 +1,7 @@
-﻿using ABFReportEditor.Interfaces;
-using ABFReportEditor.ViewModels.InfoViewModels;
+﻿using ReportFlow.Interfaces;
+using ReportFlow.ViewModels.InfoViewModels;
 
-namespace ABFReportEditor;
+namespace ReportFlow;
 
 public partial class MainPage : ContentPage
 {

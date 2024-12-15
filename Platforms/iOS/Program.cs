@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace ABFReportEditor;
+namespace ReportFlow;
 
 public class Program
 {

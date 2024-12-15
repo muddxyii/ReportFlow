@@ -1,4 +1,4 @@
-﻿namespace ABFReportEditor.ViewModels.InfoViewModels;
+﻿namespace ReportFlow.ViewModels.InfoViewModels;
 
 public class CustomerInfoViewModel : BaseBackflowViewModel
 {

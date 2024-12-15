@@ -2,9 +2,9 @@
 
 <views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:infoViewModels="clr-namespace:ABFReportEditor.ViewModels.InfoViewModels"
-                    xmlns:views="clr-namespace:ABFReportEditor.Views;assembly=ABFReportEditor"
-                    x:Class="ABFReportEditor.Views.InfoViews.CustomerInfoPage"
+                    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
+                    xmlns:infoViewModels="clr-namespace:ReportFlow.ViewModels.InfoViewModels"
+                    x:Class="ReportFlow.Views.InfoViews.CustomerInfoPage"
                     x:TypeArguments="infoViewModels:CustomerInfoViewModel"
                     Title="Customer Information">
     

@@ -1,6 +1,6 @@
-using ABFReportEditor.Interfaces;
+using ReportFlow.Interfaces;
 
-namespace ABFReportEditor;
+namespace ReportFlow;
 
 public class PdfIntentHelper : IPdfIntentHelper
 {

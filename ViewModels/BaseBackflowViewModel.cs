@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
-using ABFReportEditor.Util;
+using ReportFlow.Util;
 
-namespace ABFReportEditor.ViewModels;
+namespace ReportFlow.ViewModels;
 
 public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 {

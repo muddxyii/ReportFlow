@@ -1,4 +1,4 @@
-namespace ABFReportEditor.ViewModels.TestViewModels;
+namespace ReportFlow.ViewModels.TestViewModels;
 
 public class PvbTestViewModel : BaseTestViewModel
 {
