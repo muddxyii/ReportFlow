@@ -9,6 +9,7 @@
 		<activity android:name="anybackflow.reportflow.activity"
 				  android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode"
 				  android:theme="@style/Maui.SplashTheme"
+				  android:launchMode="singleTask"
 				  android:exported="true">
 			<!-- Launch from app icon -->
 			<intent-filter>

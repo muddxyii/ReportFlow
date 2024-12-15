@@ -12,6 +12,9 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
         
+        // Register MainPage
+        Routing.RegisterRoute("MainPage", typeof(MainPage));
+        
         // Register InfoViews
         Routing.RegisterRoute("CustomerInfo", typeof(CustomerInfoPage));
         Routing.RegisterRoute("DeviceInfo", typeof(DeviceInfoPage));
