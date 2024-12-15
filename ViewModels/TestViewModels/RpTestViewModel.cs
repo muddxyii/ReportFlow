@@ -1,6 +1,4 @@
-using ABFReportEditor.ViewModels.FinalViewModels;
-
-namespace ABFReportEditor.ViewModels.TestViewModels;
+namespace ReportFlow.ViewModels.TestViewModels;
 
 public class RpTestViewModel : BaseTestViewModel
 {

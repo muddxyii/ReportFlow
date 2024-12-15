@@ -4,7 +4,7 @@
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-namespace ABFReportEditor.WinUI;
+namespace ReportFlow.WinUI;
 
 /// <summary>
 /// Provides application-specific behavior to supplement the default Application class.

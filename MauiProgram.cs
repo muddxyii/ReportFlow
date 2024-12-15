@@ -1,7 +1,7 @@
-﻿using ABFReportEditor.Interfaces;
+﻿using ReportFlow.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace ABFReportEditor;
+namespace ReportFlow;
 
 public static class MauiProgram
 {

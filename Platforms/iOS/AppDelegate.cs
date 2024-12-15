@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace ABFReportEditor;
+namespace ReportFlow;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

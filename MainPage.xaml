@@ -1,20 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ABFReportEditor.MainPage">
+             x:Class="ReportFlow.MainPage">
 
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
-
             <Label
-                Text="Welcome to the &#10;ABF Report Editor!"
+                Text="Welcome to the &#10;Report Flow!"
                 Style="{StaticResource SubHeadline}"/>
 
             <Grid

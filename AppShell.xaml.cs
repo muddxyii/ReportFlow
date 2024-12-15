@@ -1,10 +1,10 @@
-﻿using ABFReportEditor.Views;
-using ABFReportEditor.Views.FinalViews;
-using ABFReportEditor.Views.InfoViews;
-using ABFReportEditor.Views.RepairViews;
-using ABFReportEditor.Views.TestViews;
+﻿using ReportFlow.Views;
+using ReportFlow.Views.FinalViews;
+using ReportFlow.Views.InfoViews;
+using ReportFlow.Views.RepairViews;
+using ReportFlow.Views.TestViews;
 
-namespace ABFReportEditor;
+namespace ReportFlow;
 
 public partial class AppShell : Shell
 {

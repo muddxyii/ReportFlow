@@ -6,7 +6,7 @@
 			android:roundIcon="@mipmap/appicon_round"
 			android:supportsRtl="true">
 
-		<activity android:name="anybackflow.abfreporteditor.activity"
+		<activity android:name="anybackflow.reportflow.activity"
 				  android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode"
 				  android:theme="@style/Maui.SplashTheme"
 				  android:exported="true">

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ABFReportEditor.Views.TestViews;
+namespace ReportFlow.Views.TestViews;
 
 [QueryProperty(nameof(ViewModel), "ViewModel")]
 public partial class PvbTestPage

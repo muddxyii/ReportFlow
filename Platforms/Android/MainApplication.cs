@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace ABFReportEditor;
+namespace ReportFlow;
 
 [Application]
 public class MainApplication : MauiApplication
