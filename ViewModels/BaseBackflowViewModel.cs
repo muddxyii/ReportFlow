@@ -7,18 +7,8 @@ namespace ReportFlow.ViewModels;
 public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 {
     #region Properties
-    public Dictionary<string, string>? FormData { get; set; } = new Dictionary<string, string>();
-    private byte[]? _pdfData;
     
-    public byte[]? PdfData
-    {
-        get => _pdfData;
-        set
-        {
-            _pdfData = value;
-            OnPropertyChanged(nameof(PdfData));
-        }
-    }
+    protected Dictionary<string, string>? FormData { get; } = new Dictionary<string, string>();
     
     public ICommand NextCommand { get; }
     
@@ -26,36 +16,22 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 
     #region Constructor
 
-    protected BaseBackflowViewModel()
+    protected BaseBackflowViewModel(Dictionary<string, string>? formData)
     {
+        // SaveFormData
+        SaveFormData(formData ?? new Dictionary<string, string>());
+        
+        // Register Next Command
         NextCommand = new Command(async () => await OnNext());
     }
     
     #endregion
 
-    #region Data loading and saving methods
-    
-    public void LoadPdfData(byte[] pdfBytes)
-    {
-        PdfData = pdfBytes;
-        var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
-        LoadFormFields(formFields);
-    }
+    #region Data Related Methods (Saving, Validating, etc.)
 
-    public void LoadPdfData(byte[] pdfBytes, Dictionary<string, string> formData)
+    protected void SaveFormData(Dictionary<string, string> formData)
     {
-        // Save FormData
-        SaveFormData(formData);
-        
-        // Load PdfBytes
-        PdfData = pdfBytes;
-        var formFields = PdfUtils.ExtractPdfFormData(pdfBytes);
-        LoadFormFields(formFields);
-    }
-
-    protected void SaveFormData(Dictionary<string, string> formFields)
-    {
-        foreach (var form in formFields)
+        foreach (var form in formData)
         {
             if (FormData != null) FormData[form.Key] = form.Value;
         }
@@ -63,9 +39,19 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
     
     protected async Task SavePdf(string fileName)
     {
-        await PdfUtils.SavePdfWithFormData(PdfData, FormData, fileName);
+        // Select Pdf Template
+        var pdfTemplate = "ReportFlow.Resources.PdfTemplates.Abf-Fillable-12-24.pdf";
+        
+        // Load Pdf Stream
+        await using var resourceStream = GetType().Assembly.GetManifestResourceStream(pdfTemplate);
+        if (resourceStream == null)
+            throw new FileNotFoundException("Template not found.");
+
+        // Save PDF with form data
+        await PdfUtils.SavePdfWithFormData(resourceStream, FormData, fileName);
     }
 
+    // Checks if field is valid, if not it creates a pop-up
     protected async Task<bool> AreFieldsValid((string Value, string Name)[] fieldsToCheck)
     {
         foreach (var field in fieldsToCheck)
@@ -73,7 +59,7 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
             if (string.IsNullOrEmpty(field.Value))
             {
                 await Application.Current.MainPage.DisplayAlert(
-                    "Not a valid field",
+                    "Invalid Field",
                     $"Please fill '{field.Name}'.",
                     "OK"
                 );
@@ -88,8 +74,8 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
     #endregion
     
     #region Abstract methods
-    
-    protected virtual void LoadFormFields(Dictionary<string, string> formFields) {}
+
+    protected virtual void InitFormFields() {}
     
     // Template method for navigation logic
     protected abstract Task OnNext();

@@ -240,22 +240,18 @@ public class PassFinalViewModel : BaseBackflowViewModel
 
     #endregion
 
-    #region Constructors
+    #region Constructor
     
-    public PassFinalViewModel()
-    {
-        _showInitialFields = false;
-        _showRepairedFields = false;
-        _showPassedFields = false;
-    }
-
-    public PassFinalViewModel(bool showInitialFields, bool showRepairedFields, bool showPassedFields)
+    public PassFinalViewModel(Dictionary<string, string>? formData,
+        bool showInitialFields, bool showRepairedFields, bool showPassedFields) : base(formData)
     {
         _showInitialFields = showInitialFields;
         _showRepairedFields = showRepairedFields;
         _showPassedFields = showPassedFields;
     }
 
+    public PassFinalViewModel() : base(new Dictionary<string, string>()) {}
+    
     #endregion
     
     protected override async Task OnNext()

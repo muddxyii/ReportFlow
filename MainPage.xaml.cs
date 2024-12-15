@@ -1,4 +1,5 @@
 ﻿using ReportFlow.Interfaces;
+using ReportFlow.Util;
 using ReportFlow.ViewModels.InfoViewModels;
 
 namespace ReportFlow;
@@ -23,25 +24,27 @@ public partial class MainPage : ContentPage
 #endif
     }
 
-    public async void HandlePdfIntent(Uri pdfUri)
+    // Loads File Stream (Assumes File Is A Pdf)
+    private async void LoadFileStream(Stream? fileStream)
     {
         try
         {
-            var pdfIntentHelper = IPlatformApplication.Current?.Services.GetService<IPdfIntentHelper>();
-            var pdfBytes = await pdfIntentHelper.GetPdfBytes(pdfUri);
-            if (pdfBytes != null)
+            if (fileStream == null)
             {
-                var viewModel = new CustomerInfoViewModel();
-                viewModel.LoadPdfData(pdfBytes);
-                await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
-                {
-                    ["ViewModel"] = viewModel
-                });
+                await DisplayAlert("Error", "Invalid file stream", "OK");
+                return;
             }
-            else
+
+            // Extract Old Form Data
+            var oldFormData = PdfUtils.ExtractPdfFormData(fileStream);
+            var infoFormData = GetInfoData(oldFormData);
+            
+            // Load Next Model
+            var viewModel = new CustomerInfoViewModel(infoFormData);
+            await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
             {
-                await DisplayAlert("Error", "Could not read PDF file", "OK");
-            }
+                ["ViewModel"] = viewModel
+            });
         }
         catch (Exception ex)
         {
@@ -49,10 +52,41 @@ public partial class MainPage : ContentPage
         }
     }
 
+    private Dictionary<string, string> GetInfoData(Dictionary<string, string> oldFormData)
+    {
+        var infoFormData = new Dictionary<string, string>();
+    
+        // Define required fields
+        string[] requiredFields =
+        [
+            // Customer Info
+            "PermitAccountNo", "FacilityOwner", "Address", "Contact", "Phone", "Email",
+            "OwnerRep", "RepAddress", "PersontoContact", "Phone-0",
+    
+            // Device Info
+            "WaterPurveyor", "AssemblyAddress", "On Site Location of Assembly", 
+            "PrimaryBusinessService", "InstallationIs", "ProtectionType", "ServiceType",
+            "WaterMeterNo", "SerialNo", "ModelNo", "Size", "Manufacturer", "BFType"
+        ];
+    
+        foreach (var field in requiredFields)
+        {
+            if (oldFormData != null && oldFormData.TryGetValue(field, out var value))
+            {
+                infoFormData[field] = value;
+            }
+        }
+    
+        return infoFormData;
+    }
+    
+    #region Open Pdf Button
+    
     private async void OnOpenPdfClicked(object sender, EventArgs e)
     {
         try
         {
+            // Select File Options
             var options = new PickOptions
             {
                 FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
@@ -63,36 +97,67 @@ public partial class MainPage : ContentPage
                 })
             };
 
+            // Load File Result
             var result = await FilePicker.PickAsync(options);
-            if (result != null)
-            {
-                if (result.FileName.EndsWith("pdf", StringComparison.OrdinalIgnoreCase))
-                {
-                    var viewModel = new CustomerInfoViewModel();
-                    viewModel.LoadPdfData(File.ReadAllBytes(result.FullPath));
-                    await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
-                    {
-                        ["ViewModel"] = viewModel
-                    });
-                }
-                else
-                {
-                    await DisplayAlert("Error", "Please select a PDF file", "OK");
-                }
-            }
+            if (result == null)
+                throw new FileNotFoundException("No file selected.");
+
+            // Load File Stream
+            LoadFileStream(await result.OpenReadAsync());
         }
         catch (Exception ex)
         {
             await DisplayAlert("Error", ex.Message, "OK");
         }
     }
+    
+    #endregion
 
+    #region Create Pdf Button
+    
     private async void OnCreatePdfClicked(object? sender, EventArgs e)
     {
-        await Application.Current.MainPage.DisplayAlert(
-            "Not Implemented",
-            $"This feature has not been implemented.",
-            "OK"
-        );
+        try
+        {
+            // Select Pdf Template
+            var pdfTemplate = "ReportFlow.Resources.PdfTemplates.Abf-Fillable-12-24.pdf";
+
+            // Load Pdf Stream
+            await using var resourceStream = GetType().Assembly.GetManifestResourceStream(pdfTemplate);
+            if (resourceStream == null)
+                throw new FileNotFoundException("Template not found.");
+
+            // Load File Stream
+            LoadFileStream(resourceStream);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
     }
+    
+    #endregion
+
+#if ANDROID
+    public async void HandlePdfIntent(Uri pdfUri)
+    {
+        try
+        {
+            // Get Intent File Stream
+            var pdfIntentHelper = IPlatformApplication.Current?.Services.GetService<IPdfIntentHelper>();
+            var pdfStream = await pdfIntentHelper.GetPdfStream(pdfUri);
+            
+            if (pdfStream == null)
+                throw new FileNotFoundException("File not found.");
+            
+            // Load File Stream
+            LoadFileStream(pdfStream);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+#endif
+    
 }

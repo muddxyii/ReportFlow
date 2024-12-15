@@ -2,5 +2,5 @@ namespace ReportFlow.Interfaces;
 
 public interface IPdfIntentHelper
 {
-    public Task<byte[]> GetPdfBytes(Uri uri);
+    public Task<Stream> GetPdfStream(Uri uri);
 }

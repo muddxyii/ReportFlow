@@ -6,11 +6,11 @@ namespace ReportFlow.Util;
 
 public static class PdfUtils
 {
-    public static Dictionary<string, string> ExtractPdfFormData(byte[] pdfBytes)
+    // Returns form fields
+    public static Dictionary<string, string> ExtractPdfFormData(Stream pdfStream)
     {
         var formFields = new Dictionary<string, string>();
-        using var memoryStream = new MemoryStream(pdfBytes);
-        using var pdfReader = new PdfReader(memoryStream);
+        using var pdfReader = new PdfReader(pdfStream);
         using var pdfDoc = new PdfDocument(pdfReader);
 
         var form = PdfAcroForm.GetAcroForm(pdfDoc, false);
@@ -22,7 +22,6 @@ public static class PdfUtils
                 formFields[field.Key] = field.Value.GetValueAsString();
             }
         }
-
         return formFields;
     }
 
@@ -34,14 +33,14 @@ public static class PdfUtils
         {
             // Use app-specifict external storage on Android
             var fileHelper = IPlatformApplication.Current?.Services.GetService<IFileHelper>();
-            baseDirectory = fileHelper?.GetPublicStoragePath("Reports");
+            baseDirectory = fileHelper?.GetPublicStoragePath("ReportFlow");
         }
         else
         {
             // Use Documents folder on Windows
             baseDirectory = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "Reports");
+                "ReportFlow");
         }
 
         // Ensure the directory exists
@@ -63,24 +62,22 @@ public static class PdfUtils
         return filePath;
     }
 
-    public static async Task SavePdfWithFormData(byte[] originalPdf,
+    public static async Task SavePdfWithFormData(Stream pdfTemplateStream,
         Dictionary<string, string> formData,
         string fileName)
     {
         try
         {
-            // Create a memory stream for the PDF manipulation
-            using var inputStream = new MemoryStream(originalPdf);
             using var outputStream = new MemoryStream();
 
-            // Create PDF reader and writer
-            var reader = new PdfReader(inputStream);
+            // Create PDF reader and writer directly from the input stream
+            var reader = new PdfReader(pdfTemplateStream);
             var writer = new PdfWriter(outputStream);
             var pdfDoc = new PdfDocument(reader, writer);
 
             // Get the form from the PDF
             var form = PdfAcroForm.GetAcroForm(pdfDoc, true);
-            
+
             // Clear existing form fields
             foreach (var field in form.GetAllFormFields())
             {
@@ -98,8 +95,8 @@ public static class PdfUtils
                         break;
                 }
             }
-            
-            // Update and autosize all form fields
+
+            // The rest remains the same
             form.SetNeedAppearances(true);
             foreach (var field in formData)
             {
@@ -107,54 +104,50 @@ public static class PdfUtils
                 if (pdfField != null)
                 {
                     pdfField.SetValue(field.Value);
-                    
-                    // Enable auto-scaling
                     pdfField.SetFontSizeAutoScale();
-                    
-                    // Regenerate the appearance with auto-sized text
                     pdfField.RegenerateField();
                 }
             }
 
-            // Close the document to apply changes
             pdfDoc.Close();
 
-            // Get platform-specific file path
             string filePath = GetPdfStoragePath(fileName);
-
-            // Write the file
             await File.WriteAllBytesAsync(filePath, outputStream.ToArray());
 
-            // Get a friendly path to display to the user
             string displayPath = DeviceInfo.Platform == DevicePlatform.Android
-                ? $"Reports/{Path.GetFileName(filePath)}"
+                ? $"ReportFlow/{Path.GetFileName(filePath)}"
                 : filePath;
 
-            // Notify the user
-            // await MainThread.InvokeOnMainThreadAsync(async () =>
-            // {
-            //     await Application.Current.MainPage.DisplayAlert(
-            //         "Success",
-            //         $"PDF saved to: {displayPath}",
-            //         "OK");
-            // });
-            await MainThread.InvokeOnMainThreadAsync(async () =>
+            if (DeviceInfo.Platform == DevicePlatform.Android)
             {
-                var action = await Application.Current.MainPage.DisplayActionSheet(
-                    $"PDF saved to: {displayPath}",
-                    "Ok",
-                    null,
-                    "Click to Share");
-
-                if (action == "Click to Share")
+                await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
-                    await Share.RequestAsync(new ShareFileRequest
+                    var action = await Application.Current.MainPage.DisplayActionSheet(
+                        $"PDF saved to: {displayPath}",
+                        "Ok",
+                        null,
+                        "Click to Share");
+
+                    if (action == "Click to Share")
                     {
-                        Title = "Share PDF",
-                        File = new ShareFile(filePath)
-                    });
-                }
-            });
+                        await Share.RequestAsync(new ShareFileRequest
+                        {
+                            Title = "Share PDF",
+                            File = new ShareFile(filePath)
+                        });
+                    }
+                });
+            }
+            else
+            {
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Success",
+                        $"PDF saved to: {displayPath}",
+                        "OK");
+                });
+            }
         }
         catch (Exception ex)
         {
