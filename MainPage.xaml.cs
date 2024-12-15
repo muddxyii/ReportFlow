@@ -143,6 +143,8 @@ public partial class MainPage : ContentPage
     {
         try
         {
+            System.Diagnostics.Debug.WriteLine("[MainPage] HandlePdfIntent called with URI: " + pdfUri);
+            
             // Get Intent File Stream
             var pdfIntentHelper = IPlatformApplication.Current?.Services.GetService<IPdfIntentHelper>();
             var pdfStream = await pdfIntentHelper.GetPdfStream(pdfUri);

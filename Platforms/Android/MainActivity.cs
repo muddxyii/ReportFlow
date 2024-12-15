@@ -5,7 +5,8 @@ using Android.OS;
 
 namespace ReportFlow;
 
-[Activity(Name="anybackflow.reportflow.activity", Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop,
+[Activity(Name = "anybackflow.reportflow.activity", Theme = "@style/Maui.SplashTheme", MainLauncher = true,
+    LaunchMode = LaunchMode.SingleTask,
     ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode |
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
@@ -13,11 +14,22 @@ public class MainActivity : MauiAppCompatActivity
     protected override void OnNewIntent(Intent? intent)
     {
         base.OnNewIntent(intent);
+        System.Diagnostics.Debug.WriteLine("[MainActivity] OnNewIntent called");
 
         if (intent?.Data != null)
         {
-            var mainPage = Microsoft.Maui.Controls.Application.Current?.MainPage as MainPage;
-            mainPage?.HandlePdfIntent(new Uri(intent.Data.ToString() ?? throw new InvalidOperationException()));
+            System.Diagnostics.Debug.WriteLine("[MainActivity] Intent Data is valid");
+            
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Shell.Current.GoToAsync("///MainPage");
+            
+                if (Shell.Current?.CurrentPage is MainPage mainPage)
+                {
+                    mainPage.HandlePdfIntent(new Uri(intent.Data.ToString() ?? 
+                                                     throw new InvalidOperationException()));
+                }
+            });
         }
     }
 }
