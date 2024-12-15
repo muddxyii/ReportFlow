@@ -18,7 +18,7 @@
         <ApplicationId>com.anybackflow.abfreporteditor</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.0.5</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>1.0.6</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         
         <!-- Build Time Optimization -->
@@ -38,10 +38,10 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#2563EB"/>
 
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#2563EB"/>
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*"/>
