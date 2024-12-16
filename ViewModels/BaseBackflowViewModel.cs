@@ -60,7 +60,7 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Invalid Field",
-                    $"Please fill '{field.Name}'.",
+                    $"'{field.Name}' must be filled.",
                     "OK"
                 );
 

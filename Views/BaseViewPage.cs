@@ -16,6 +16,8 @@ public abstract class BaseViewPage<T> : ContentPage where T : BaseBackflowViewMo
         }
     }
 
+    #region Entry Related
+    
     protected void OnEntryNumericChanged(object sender, TextChangedEventArgs e)
     {
         if (sender is not Entry entry) return;
@@ -33,4 +35,43 @@ public abstract class BaseViewPage<T> : ContentPage where T : BaseBackflowViewMo
             entry.CursorPosition = Math.Max(cursorPosition, 0);
         }
     }
+
+    #endregion
+    
+    #region Picker Related
+    
+    protected void OnLabelTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is Picker picker)
+        {
+            picker.Focus();
+        }
+        else if (e.Parameter is DatePicker datePicker)
+        {
+            datePicker.Focus();
+        }
+    }
+    
+    #endregion
+    
+    #region Checkbox Related
+    
+    protected void OnCheckboxLabelTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is CheckBox checkbox)
+        {
+            checkbox.IsChecked = !checkbox.IsChecked;
+        }
+    }
+    
+    #endregion
+    
+    #region Section Related
+    
+    protected virtual void OnSectionButtonClicked(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+    
+    #endregion
 }

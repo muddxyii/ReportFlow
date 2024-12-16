@@ -1,66 +1,133 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 
-<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:repairViewModels="clr-namespace:ReportFlow.ViewModels.RepairViewModels"
-                    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
-                    x:Class="ReportFlow.Views.RepairViews.SvbRepairPage"
-                    x:TypeArguments="repairViewModels:BaseRepairViewModel"
-                    Title="SVB Repair">
-    
+<views:BaseViewPage
+    Title="SVB Repair"
+    x:Class="ReportFlow.Views.RepairViews.SvbRepairPage"
+    x:TypeArguments="repairViewModels:BaseRepairViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:repairViewModels="clr-namespace:ReportFlow.ViewModels.RepairViewModels"
+    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
     <ContentPage.BindingContext>
         <repairViewModels:BaseRepairViewModel />
     </ContentPage.BindingContext>
-    
-    <ScrollView>
-        <VerticalStackLayout Padding="10" Spacing="20">
-            <!-- PVB -->
-            <Label Text="RV" FontAttributes="Bold" />
-            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-                <!-- Cleaned -->
-                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding PvbCleaned}" />
-                    <Label Text="Cleaned" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Rubber Kit -->
-                <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding PvbRubberKit}" />
-                    <Label Text="Rubber Kit" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Disc Holder -->
-                <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding PvbDiscHolder}" />
-                    <Label Text="Disc Holder" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Spring -->
-                <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding PvbSpring}" />
-                    <Label Text="Spring" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Disc Holder -->
-                <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding PvbGuide}" />
-                    <Label Text="Guide" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Disc Holder -->
-                <HorizontalStackLayout Grid.Row="6" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding PvbSeat}" />
-                    <Label Text="Seat" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <!-- Other -->
-                <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                    <CheckBox IsChecked="{Binding PvbOther}" />
-                    <Label Text="Other" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-            </Grid>
+
+    <ScrollView Style="{StaticResource PageLayout}">
+        <VerticalStackLayout Style="{StaticResource ContentStack}">
+            <!--  PVB  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="PVB ▼"
+                        x:Name="PvbButton" />
+
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="PvbContent">
+                        <!--  Cleaned  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="CleanedContainerPvb">
+                            <CheckBox
+                                IsChecked="{Binding PvbCleaned}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="CleanedPvbCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Cleaned">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference CleanedPvbCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Rubber Kit  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="RubberKitContainerPvb">
+                            <CheckBox
+                                IsChecked="{Binding PvbRubberKit}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="RubberKitPvbCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Rubber Kit">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference RubberKitPvbCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Disc Holder  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="DiscHolderContainerPvb">
+                            <CheckBox
+                                IsChecked="{Binding PvbDiscHolder}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="DiscHolderPvbCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Disc Holder">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference DiscHolderPvbCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Spring  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="SpringContainerPvb">
+                            <CheckBox
+                                IsChecked="{Binding PvbSpring}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="SpringPvbCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Spring">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference SpringPvbCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Guide  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="GuideContainerPvb">
+                            <CheckBox
+                                IsChecked="{Binding PvbGuide}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="GuidePvbCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Guide">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference GuidePvbCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Seat  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="SeatContainerPvb">
+                            <CheckBox
+                                IsChecked="{Binding PvbSeat}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="SeatPvbCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Seat">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference SeatPvbCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Other  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="OtherContainerPvb">
+                            <CheckBox
+                                IsChecked="{Binding PvbOther}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="OtherPvbCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Other">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference OtherPvbCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
 
             <VerticalStackLayout>
-                <Button Text="Next"
-                        Command="{Binding NextCommand}"
-                        Margin="0,20,0,0" />
-                <Button Text="Skip Repair"
-                        Command="{Binding SkipCommand}" 
-                        Margin="0,10,0,0" />
+                <Button
+                    Command="{Binding NextCommand}"
+                    Style="{StaticResource PrimaryButton}"
+                    Text="Next" />
+                <Button
+                    Command="{Binding SkipCommand}"
+                    Style="{StaticResource PrimaryButton}"
+                    Text="Skip Repair" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

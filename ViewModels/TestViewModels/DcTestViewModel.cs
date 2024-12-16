@@ -20,7 +20,7 @@ public class DcTestViewModel(Dictionary<string, string>? formData) : BaseTestVie
     protected override bool IsBackflowPassing()
     {
         // Return false if any component has leaked or failed to open
-        if (CheckValve1Leaked || CheckValve2Leaked) return false;
+        if (!CheckValve1Ct || !CheckValve2Ct) return false;
         
         // Parse input values to decimal for numerical comparison
         if (!decimal.TryParse(CheckValve1, out decimal checkValve1Value) ||
@@ -30,7 +30,7 @@ public class DcTestViewModel(Dictionary<string, string>? formData) : BaseTestVie
         }
         
         // Check if Check Valve 1 or CV2 is <= 1
-        if (checkValve1Value <= 1.0m || checkValve2Value <= 1.0m)
+        if (checkValve1Value < 1.0m || checkValve2Value < 1.0m)
         {
             return false;
         }

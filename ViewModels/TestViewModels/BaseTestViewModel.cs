@@ -42,8 +42,8 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     
     private string? _checkValve1;
     private string? _checkValve2;
-    private bool _checkValve1Leaked;
-    private bool _checkValve2Leaked;
+    private bool _checkValve1Ct;
+    private bool _checkValve2Ct;
     
     #endregion
     
@@ -142,29 +142,29 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         }
     }
     
-    public bool CheckValve1Leaked
+    public bool CheckValve1Ct
     {
-        get => _checkValve1Leaked;
+        get => _checkValve1Ct;
         set
         {
-            _checkValve1Leaked = value;
-            _failedFieldsToSave["InitialCTBox"] = value ? "Off" : "On";
-            _failedFieldsToSave["InitialCT1Leaked"] = value ? "On" : "Off";
-            _passedFieldsToSave["FinalCT1Box"] = value ? "Off" : "On";
-            OnPropertyChanged(nameof(CheckValve1Leaked));
+            _checkValve1Ct = value;
+            _failedFieldsToSave["InitialCTBox"] = value ? "On" : "Off";
+            _failedFieldsToSave["InitialCT1Leaked"] = value ? "Off" : "On";
+            _passedFieldsToSave["FinalCT1Box"] = value ? "On" : "Off";
+            OnPropertyChanged(nameof(CheckValve1Ct));
         }
     }
 
-    public bool CheckValve2Leaked
+    public bool CheckValve2Ct
     {
-        get => _checkValve2Leaked;
+        get => _checkValve2Ct;
         set
         {
-            _checkValve2Leaked = value;
-            _failedFieldsToSave["InitialCT2Box"] = value ? "Off" : "On";
-            _failedFieldsToSave["InitialCT2Leaked"] = value ? "On" : "Off";
-            _passedFieldsToSave["FinalCT2Box"] = value ? "Off" : "On";
-            OnPropertyChanged(nameof(CheckValve2Leaked));
+            _checkValve2Ct = value;
+            _failedFieldsToSave["InitialCT2Box"] = value ? "On" : "Off";
+            _failedFieldsToSave["InitialCT2Leaked"] = value ? "Off" : "On";
+            _passedFieldsToSave["FinalCT2Box"] = value ? "On" : "Off";
+            OnPropertyChanged(nameof(CheckValve2Ct));
         }
     }
 
@@ -287,32 +287,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public BaseTestViewModel() : base(new Dictionary<string, string>()) {}
     
-    public BaseTestViewModel(Dictionary<string, string>? formData) : base(formData)
-    {
-        InitFormFields();
-    }
-
-    protected sealed override void InitFormFields()
-    {
-        // Init check valve leaked buttons as true
-        var type = FormData?.GetValueOrDefault("BFType");
-        switch (type)
-        {
-            case "RP":
-                CheckValve1Leaked = true;
-                CheckValve2Leaked = true;
-                break;
-            case "DC":
-                CheckValve1Leaked = true;
-                CheckValve2Leaked = true;
-                break;
-            case "SC":
-                CheckValve1Leaked = true;
-                break;
-            default:
-                break;
-        }
-    }
+    public BaseTestViewModel(Dictionary<string, string>? formData) : base(formData) {}
     
     #endregion
     
