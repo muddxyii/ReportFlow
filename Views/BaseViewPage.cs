@@ -54,6 +54,18 @@ public abstract class BaseViewPage<T> : ContentPage where T : BaseBackflowViewMo
     
     #endregion
     
+    #region Checkbox Related
+    
+    protected void OnCheckboxLabelTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is CheckBox checkbox)
+        {
+            checkbox.IsChecked = !checkbox.IsChecked;
+        }
+    }
+    
+    #endregion
+    
     #region Section Related
     
     protected virtual void OnSectionButtonClicked(object sender, EventArgs e)

@@ -1,22 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <!-- Layout Styles -->
-    <Style x:Key="PageLayout" TargetType="ScrollView">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <!--  Layout Styles  -->
+    <Style TargetType="ScrollView" x:Key="PageLayout">
         <Setter Property="Padding" Value="20" />
     </Style>
 
-    <Style x:Key="ContentStack" TargetType="VerticalStackLayout">
+    <Style TargetType="VerticalStackLayout" x:Key="ContentStack">
         <Setter Property="Spacing" Value="8" />
     </Style>
 
-    <Style x:Key="FormGrid" TargetType="Grid">
+    <Style TargetType="Grid" x:Key="FormGrid">
         <Setter Property="ColumnSpacing" Value="8" />
         <Setter Property="RowSpacing" Value="8" />
     </Style>
 
-    <!-- Collapsible Section Frame -->
-    <Style x:Key="CollapsibleSection" TargetType="Frame">
+    <Style TargetType="HorizontalStackLayout" x:Key="CheckboxContainer">
+        <Setter Property="Spacing" Value="12" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+    </Style>
+
+    <!--  Collapsible Section Frame  -->
+    <Style TargetType="Frame" x:Key="CollapsibleSection">
         <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="0,0,0,8" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
@@ -25,64 +30,72 @@
         <Setter Property="HasShadow" Value="False" />
     </Style>
 
-    <!-- Section Header Button -->
-    <Style x:Key="SectionHeader" TargetType="Button">
+    <!--  Section Header Button  -->
+    <Style TargetType="Button" x:Key="SectionHeader">
         <Setter Property="Padding" Value="16,12" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Secondary}}" />
         <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="BorderWidth" Value="0" />
     </Style>
 
-    <!-- Section Content -->
-    <Style x:Key="SectionContent" TargetType="VerticalStackLayout">
+    <!--  Section Content  -->
+    <Style TargetType="VerticalStackLayout" x:Key="SectionContent">
         <Setter Property="Padding" Value="16,0,16,16" />
         <Setter Property="Spacing" Value="8" />
     </Style>
-    
-    <!-- Label Styles -->
-    <Style x:Key="FieldLabel" TargetType="Label">
+
+    <!--  Label Styles  -->
+    <Style TargetType="Label" x:Key="FieldLabel">
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}" />
         <Setter Property="FontSize" Value="14" />
     </Style>
-    <Style x:Key="PickerLabel" TargetType="Label" BasedOn="{StaticResource FieldLabel}">
+    <Style
+        BasedOn="{StaticResource FieldLabel}"
+        TargetType="Label"
+        x:Key="PickerLabel">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Secondary}}" />
     </Style>
+    <Style TargetType="Label" x:Key="CheckboxLabel">
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
 
-    <!-- Entry Styles -->
-    <Style x:Key="FormEntry" TargetType="Entry">
+    <!--  Entry Styles  -->
+    <Style TargetType="Entry" x:Key="FormEntry">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray600}}" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="TextTransform" Value="Uppercase" />
     </Style>
-    <Style x:Key="FormEntryInvalid" TargetType="Entry">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Magenta}, Dark={StaticResource Magenta}}" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-        <Setter Property="TextTransform" Value="Uppercase" />
-    </Style>
-    
-    <!-- Picker Style -->
-    <Style x:Key="FormPicker" TargetType="Picker">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-    </Style>
-    
 
-    <!-- DatePicker Style -->
-    <Style x:Key="FormDatePicker" TargetType="DatePicker">
+    <!--  Picker Style  -->
+    <Style TargetType="Picker" x:Key="FormPicker">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
         <Setter Property="MinimumHeightRequest" Value="44" />
     </Style>
 
-    <!-- Editor Style -->
-    <Style x:Key="FormEditor" TargetType="Editor">
+    <!--  DatePicker Style  -->
+    <Style TargetType="DatePicker" x:Key="FormDatePicker">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+    </Style>
+
+    <!--  Checkbox Style  -->
+    <Style TargetType="CheckBox" x:Key="FormCheckbox">
+        <Setter Property="Color" Value="{StaticResource Primary}" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!--  Editor Style  -->
+    <Style TargetType="Editor" x:Key="FormEditor">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
@@ -91,8 +104,8 @@
         <Setter Property="TextTransform" Value="Uppercase" />
     </Style>
 
-    <!-- Button Style -->
-    <Style x:Key="PrimaryButton" TargetType="Button">
+    <!--  Button Style  -->
+    <Style TargetType="Button" x:Key="PrimaryButton">
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="TextColor" Value="{StaticResource PrimaryDarkText}" />
         <Setter Property="FontAttributes" Value="Bold" />
