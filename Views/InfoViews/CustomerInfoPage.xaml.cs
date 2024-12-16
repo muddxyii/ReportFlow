@@ -13,7 +13,8 @@ public partial class CustomerInfoPage
         if (sender is Button button)
         {
             // Get the content section based on button name
-            var contentName = button.Text.Contains("Owner") ? "OwnerSectionContent" : 
+            var contentName = button.Text.Contains("Permit") ? "PermitAccountContent" :
+                button.Text.Contains("Owner") ? "OwnerSectionContent" :
                 "RepresentativeSectionContent";
             
             var content = FindByName(contentName) as VerticalStackLayout;

@@ -1,12 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
-                    xmlns:infoViewModels="clr-namespace:ReportFlow.ViewModels.InfoViewModels"
-                    x:Class="ReportFlow.Views.InfoViews.CustomerInfoPage"
-                    x:TypeArguments="infoViewModels:CustomerInfoViewModel"
-                    Title="Customer Information">
+<views:BaseViewPage
+    Title="Customer Information"
+    x:Class="ReportFlow.Views.InfoViews.CustomerInfoPage"
+    x:TypeArguments="infoViewModels:CustomerInfoViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:infoViewModels="clr-namespace:ReportFlow.ViewModels.InfoViewModels"
+    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <views:BaseViewPage.BindingContext>
         <infoViewModels:CustomerInfoViewModel />
@@ -14,109 +15,155 @@
 
     <ScrollView Style="{StaticResource PageLayout}">
         <VerticalStackLayout Style="{StaticResource ContentStack}">
-            <!-- Permit/Account No. -->
-            <Label Style="{StaticResource FieldLabel}" Text="Permit/Account No." />
-            <Entry Style="{StaticResource FormEntry}"
-                   Placeholder="Permit/Account No."
-                   Text="{Binding PermitNumber}" />
-
-            <!-- Facility Owner -->
+            <!--  Permit/Account No.  -->
             <Frame Style="{StaticResource CollapsibleSection}">
                 <VerticalStackLayout Spacing="0">
-                    <!-- Header -->
-                    <Button Text="Facility Owner Details ▼"
-                            x:Name="OwnerSectionButton"
-                            Clicked="OnSectionButtonClicked"
-                            Style="{StaticResource SectionHeader}" />
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Permit/Account No. ▼"
+                        x:Name="PermitAccountButton" />
 
-                    <VerticalStackLayout x:Name="OwnerSectionContent"
-                                         Style="{StaticResource SectionContent}">
-                        <!-- Facility/Owner -->
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="PermitAccountContent">
+                        <Entry
+                            Placeholder="Permit/Account No."
+                            Style="{StaticResource FormEntry}"
+                            Text="{Binding PermitNumber}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--  Facility Owner  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <!--  Header  -->
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Facility Owner Details ▼"
+                        x:Name="OwnerSectionButton" />
+
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="OwnerSectionContent">
+                        <!--  Facility/Owner  -->
                         <Label Style="{StaticResource FieldLabel}" Text="Facility/Owner" />
-                        <Entry Style="{StaticResource FormEntry}"
-                               Placeholder="Facility/Owner"
-                               Text="{Binding FacilityOwner}" />
+                        <Entry
+                            Placeholder="Facility/Owner"
+                            Style="{StaticResource FormEntry}"
+                            Text="{Binding FacilityOwner}" />
 
-                        <!-- Customer Address -->
+                        <!--  Customer Address  -->
                         <Label Style="{StaticResource FieldLabel}" Text="Customer Address" />
-                        <Editor Style="{StaticResource FormEditor}" Placeholder="Customer Address"
-                                Text="{Binding CustomerAddress}" />
+                        <Editor
+                            Placeholder="Customer Address"
+                            Style="{StaticResource FormEditor}"
+                            Text="{Binding CustomerAddress}" />
 
-                        <!-- Email -->
+                        <!--  Email  -->
                         <Label Style="{StaticResource FieldLabel}" Text="Email" />
-                        <Entry Style="{StaticResource FormEntry}"
-                               Placeholder="Email"
-                               Text="{Binding Email}"
-                               Keyboard="Email" />
+                        <Entry
+                            Keyboard="Email"
+                            Placeholder="Email"
+                            Style="{StaticResource FormEntry}"
+                            Text="{Binding Email}" />
 
-                        <!-- Contact & Phone -->
-                        <Grid Style="{StaticResource FormGrid}" RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
-                            <Label Style="{StaticResource FieldLabel}"
-                                   Text="Contact" Grid.Row="0" Grid.Column="0" />
-                            <Label Style="{StaticResource FieldLabel}"
-                                   Text="Phone" Grid.Row="0" Grid.Column="1" />
+                        <!--  Contact & Phone  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource FieldLabel}"
+                                Text="Contact" />
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource FieldLabel}"
+                                Text="Phone" />
 
-                            <Entry Style="{StaticResource FormEntry}"
-                                   Placeholder="Contact"
-                                   Text="{Binding Contact}"
-                                   Grid.Row="1" Grid.Column="0" />
-                            <Entry Style="{StaticResource FormEntry}"
-                                   Placeholder="Phone"
-                                   Text="{Binding Phone}"
-                                   Keyboard="Telephone"
-                                   Grid.Row="1" Grid.Column="1" />
+                            <Entry
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                Placeholder="Contact"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding Contact}" />
+                            <Entry
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Keyboard="Telephone"
+                                Placeholder="Phone"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding Phone}" />
                         </Grid>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Owner Representative -->
+            <!--  Owner Representative  -->
             <Frame Style="{StaticResource CollapsibleSection}">
                 <VerticalStackLayout Spacing="0">
-                    <!-- Header -->
-                    <Button Text="Representative Details ▼"
-                            x:Name="RepresentativeSectionButton"
-                            Clicked="OnSectionButtonClicked"
-                            Style="{StaticResource SectionHeader}" />
+                    <!--  Header  -->
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Representative Details ▼"
+                        x:Name="RepresentativeSectionButton" />
 
-                    <VerticalStackLayout x:Name="RepresentativeSectionContent"
-                                         Style="{StaticResource SectionContent}">
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="RepresentativeSectionContent">
 
-                        <!-- Owner Representative -->
+                        <!--  Owner Representative  -->
                         <Label Style="{StaticResource FieldLabel}" Text="Owner Representative" />
-                        <Entry Style="{StaticResource FormEntry}"
-                               Placeholder="Owner Representative"
-                               Text="{Binding OwnerRep}" />
+                        <Entry
+                            Placeholder="Owner Representative"
+                            Style="{StaticResource FormEntry}"
+                            Text="{Binding OwnerRep}" />
 
-                        <!-- Rep Address -->
+                        <!--  Rep Address  -->
                         <Label Style="{StaticResource FieldLabel}" Text="Representative Address" />
-                        <Editor Style="{StaticResource FormEditor}" Placeholder="Representative Address"
-                                Text="{Binding RepAddress}" />
+                        <Editor
+                            Placeholder="Representative Address"
+                            Style="{StaticResource FormEditor}"
+                            Text="{Binding RepAddress}" />
 
-                        <!-- Person to Contact & Contact Phone -->
-                        <Grid Style="{StaticResource FormGrid}" RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
-                            <Label Style="{StaticResource FieldLabel}" Text="Person to Contact" Grid.Row="0"
-                                   Grid.Column="0" />
-                            <Label Style="{StaticResource FieldLabel}" Text="Contact Phone" Grid.Row="0"
-                                   Grid.Column="1" />
+                        <!--  Person to Contact & Contact Phone  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource FieldLabel}"
+                                Text="Person to Contact" />
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource FieldLabel}"
+                                Text="Contact Phone" />
 
-                            <Entry Style="{StaticResource FormEntry}"
-                                   Placeholder="Person to Contact"
-                                   Text="{Binding PersonToContact}"
-                                   Grid.Row="1" Grid.Column="0" />
-                            <Entry Style="{StaticResource FormEntry}"
-                                   Placeholder="Contact Phone"
-                                   Text="{Binding ContactPhone}"
-                                   Keyboard="Telephone"
-                                   Grid.Row="1" Grid.Column="1" />
+                            <Entry
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                Placeholder="Person to Contact"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding PersonToContact}" />
+                            <Entry
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Keyboard="Telephone"
+                                Placeholder="Contact Phone"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding ContactPhone}" />
                         </Grid>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Frame>
 
-            <Button Style="{StaticResource PrimaryButton}"
-                    Text="Next"
-                    Command="{Binding NextCommand}" />
+            <Button
+                Command="{Binding NextCommand}"
+                Style="{StaticResource PrimaryButton}"
+                Text="Next" />
         </VerticalStackLayout>
     </ScrollView>
 </views:BaseViewPage>
