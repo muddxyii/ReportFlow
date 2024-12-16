@@ -16,9 +16,8 @@ public partial class PassFinalView
             var contentName = button.Text.Contains("Fail") ? "InitialSectionContent" :
                 button.Text.Contains("Repair") ? "RepairedSectionContent" : 
                 "FinalSectionContent";
-            
-            var content = FindByName(contentName) as VerticalStackLayout;
-            if (content != null)
+
+            if (FindByName(contentName) is VerticalStackLayout content)
             {
                 // Toggle visibility
                 content.IsVisible = !content.IsVisible;
