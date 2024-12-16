@@ -28,7 +28,7 @@ public class ScTestViewModel(Dictionary<string, string>? formData) : BaseTestVie
         }
         
         // Check if Check Valve 1 or CV2 is <= 1
-        if (checkValve1Value <= 1.0m)
+        if (checkValve1Value < 1.0m)
         {
             return false;
         }

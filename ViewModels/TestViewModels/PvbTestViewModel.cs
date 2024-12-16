@@ -33,7 +33,7 @@ public class PvbTestViewModel(Dictionary<string, string>? formData) : BaseTestVi
         }
 
         // Check if Air Inlet Open and Check 1 <= 1
-        if (airInletValue <= 1 || ck1Pvb <= 1)
+        if (airInletValue < 1 || ck1Pvb < 1)
         {
             return false;
         }
