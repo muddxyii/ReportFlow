@@ -314,7 +314,8 @@
                    Text="Comments" />
             <Editor Style="{StaticResource FormEditor}"
                     Placeholder="Enter comments here"
-                    Text="{Binding Comments}" />
+                    Text="{Binding Comments}"
+                    HeightRequest="100"/>
 
             <!-- Share Button -->
             <Button Style="{StaticResource PrimaryButton}"

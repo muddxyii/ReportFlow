@@ -87,7 +87,7 @@
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
         <Setter Property="AutoSize" Value="TextChanges" />
-        <Setter Property="MinimumHeightRequest" Value="100" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="TextTransform" Value="Uppercase" />
     </Style>
 
