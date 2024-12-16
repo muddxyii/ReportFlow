@@ -15,7 +15,7 @@
     </Style>
 
     <Style TargetType="HorizontalStackLayout" x:Key="CheckboxContainer">
-        <Setter Property="Spacing" Value="12" />
+        <Setter Property="Spacing" Value="8" />
         <Setter Property="Padding" Value="8,4" />
         <Setter Property="MinimumHeightRequest" Value="44" />
     </Style>
@@ -38,12 +38,13 @@
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontSize" Value="16" />
     </Style>
 
     <!--  Section Content  -->
     <Style TargetType="VerticalStackLayout" x:Key="SectionContent">
         <Setter Property="Padding" Value="16,0,16,16" />
-        <Setter Property="Spacing" Value="8" />
+        <Setter Property="Spacing" Value="4" />
     </Style>
 
     <!--  Label Styles  -->
@@ -61,7 +62,7 @@
     <Style TargetType="Label" x:Key="CheckboxLabel">
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="16" />
     </Style>
 
     <!--  Entry Styles  -->
