@@ -46,7 +46,20 @@
             </Grid>
 
             <!--  Check Valve #1  -->
-            <Label Style="{StaticResource FieldLabel}" Text="Check Valve #1" />
+            <Grid ColumnDefinitions="Auto,*" Style="{StaticResource HeaderWithCheckbox}">
+                <Label Style="{StaticResource SectionHeaderLabel}" Text="Check Valve #1" />
+                <HorizontalStackLayout Grid.Column="1" Style="{StaticResource InlineCheckboxContainer}">
+                    <CheckBox
+                        IsChecked="{Binding CheckValve1Ct}"
+                        Style="{StaticResource FormCheckbox}"
+                        x:Name="CheckValve1ClosedCheckbox" />
+                    <Label Style="{StaticResource CheckboxLabel}" Text="Closed Tight">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{x:Reference CheckValve1ClosedCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </Grid>
             <Grid ColumnDefinitions="*, Auto" Style="{StaticResource EntryWithUnitsGrid}">
                 <Entry
                     Keyboard="Numeric"
@@ -60,22 +73,21 @@
                     Text="PSID" />
             </Grid>
 
-            <HorizontalStackLayout Style="{StaticResource RadioGroup}">
-                <RadioButton
-                    Content="Closed Tight"
-                    GroupName="CheckValve1Status"
-                    Style="{StaticResource FormRadioButton}"
-                    x:Name="CheckValve1ClosedRadio" />
-                <RadioButton
-                    Content="Leaked"
-                    GroupName="CheckValve1Status"
-                    IsChecked="{Binding CheckValve1Leaked}"
-                    Style="{StaticResource FormRadioButton}"
-                    x:Name="CheckValve1LeakedRadio" />
-            </HorizontalStackLayout>
-
             <!--  Check Valve #2  -->
-            <Label Style="{StaticResource FieldLabel}" Text="Check Valve #2" />
+            <Grid ColumnDefinitions="Auto,*" Style="{StaticResource HeaderWithCheckbox}">
+                <Label Style="{StaticResource SectionHeaderLabel}" Text="Check Valve #2" />
+                <HorizontalStackLayout Grid.Column="1" Style="{StaticResource InlineCheckboxContainer}">
+                    <CheckBox
+                        IsChecked="{Binding CheckValve2Ct}"
+                        Style="{StaticResource FormCheckbox}"
+                        x:Name="CheckValve2ClosedCheckbox" />
+                    <Label Style="{StaticResource CheckboxLabel}" Text="Closed Tight">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{x:Reference CheckValve2ClosedCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </Grid>
             <Grid ColumnDefinitions="*, Auto" Style="{StaticResource EntryWithUnitsGrid}">
                 <Entry
                     Keyboard="Numeric"
@@ -88,20 +100,6 @@
                     Style="{StaticResource UnitsLabel}"
                     Text="PSID" />
             </Grid>
-
-            <HorizontalStackLayout Style="{StaticResource RadioGroup}">
-                <RadioButton
-                    Content="Closed Tight"
-                    GroupName="CheckValve2Status"
-                    Style="{StaticResource FormRadioButton}"
-                    x:Name="CheckValve2ClosedRadio" />
-                <RadioButton
-                    Content="Leaked"
-                    GroupName="CheckValve2Status"
-                    IsChecked="{Binding CheckValve2Leaked}"
-                    Style="{StaticResource FormRadioButton}"
-                    x:Name="CheckValve2LeakedRadio" />
-            </HorizontalStackLayout>
 
             <Button
                 Command="{Binding NextCommand}"

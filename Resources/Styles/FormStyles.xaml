@@ -118,6 +118,16 @@
         <Setter Property="Spacing" Value="{StaticResource SpacingXSmall}" />
     </Style>
 
+    <Style TargetType="Grid" x:Key="HeaderWithCheckbox">
+        <Setter Property="ColumnSpacing" Value="{StaticResource SpacingMedium}" />
+        <Setter Property="Margin" Value="{StaticResource MarginStandard}" />
+    </Style>
+
+    <Style TargetType="HorizontalStackLayout" x:Key="InlineCheckboxContainer">
+        <Setter Property="Spacing" Value="{StaticResource SpacingSmall}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
     <!--  ===============================================  -->
     <!--  FORM CONTROL STYLES  -->
     <!--  ===============================================  -->
@@ -138,6 +148,14 @@
         <Setter Property="FontSize" Value="{StaticResource TextSizeSmall}" />
         <Setter Property="MinimumWidthRequest" Value="{StaticResource FormControlMinWidth}" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource FieldLabel}"
+        TargetType="Label"
+        x:Key="SectionHeaderLabel">
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Margin" Value="{StaticResource PaddingNone}" />
     </Style>
 
     <!--  Input Controls  -->
