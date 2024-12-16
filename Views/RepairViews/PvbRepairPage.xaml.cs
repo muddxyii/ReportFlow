@@ -12,7 +12,7 @@ public partial class PvbRepairPage
     {
         if (sender is Button button)
         {
-            var contentName = button.Text.Contains("1") ? "PvbContent" : "";
+            var contentName = button.Text.Contains("PVB") ? "PvbContent" : "";
             if (FindByName(contentName) is VerticalStackLayout content)
             {
                 content.IsVisible = !content.IsVisible;
