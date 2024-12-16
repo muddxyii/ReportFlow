@@ -1,119 +1,218 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <!--  Layout Styles  -->
+    <!--  ===============================================  -->
+    <!--  GLOBAL CONSTANTS AND DESIGN TOKENS  -->
+    <!--  ===============================================  -->
+
+    <!--  Spacing System  -->
+    <x:Double x:Key="SpacingXxSmall">2</x:Double>
+    <x:Double x:Key="SpacingXSmall">4</x:Double>
+    <x:Double x:Key="SpacingSmall">8</x:Double>
+    <x:Double x:Key="SpacingMedium">16</x:Double>
+    <x:Double x:Key="SpacingLarge">20</x:Double>
+    <x:Double x:Key="SpacingXLarge">24</x:Double>
+    <x:Double x:Key="SpacingXxLarge">32</x:Double>
+
+    <!--  Typography Scale  -->
+    <x:Double x:Key="TextSizeXSmall">12</x:Double>
+    <x:Double x:Key="TextSizeSmall">14</x:Double>
+    <x:Double x:Key="TextSizeBody">16</x:Double>
+    <x:Double x:Key="TextSizeTitle">18</x:Double>
+    <x:Double x:Key="TextSizeLarge">20</x:Double>
+    <x:Double x:Key="TextSizeXLarge">24</x:Double>
+
+    <!--  Form Control Dimensions  -->
+    <x:Double x:Key="FormControlHeight">44</x:Double>
+    <x:Double x:Key="FormControlMinWidth">50</x:Double>
+    <x:Double x:Key="CornerRadiusStandard">8</x:Double>
+    <x:Double x:Key="ButtonHeight">50</x:Double>
+
+    <!--  Common Thickness Values  -->
+    <Thickness x:Key="PaddingNone">0</Thickness>
+    <Thickness x:Key="PaddingStandard">8,4,8,4</Thickness>
+    <Thickness x:Key="PaddingSection">16,0,16,16</Thickness>
+    <Thickness x:Key="PaddingSectionHeader">16,12,16,12</Thickness>
+    <Thickness x:Key="MarginNone">0</Thickness>
+    <Thickness x:Key="MarginStandard">0,0,0,8</Thickness>
+    <Thickness x:Key="ButtonPadding">24,12,24,12</Thickness>
+    <Thickness x:Key="ButtonMargin">0,16,0,0</Thickness>
+
+    <!--  ===============================================  -->
+    <!--  BASE STYLES  -->
+    <!--  ===============================================  -->
+
+    <!--  Base Form Control  -->
+    <Style TargetType="VisualElement" x:Key="BaseFormControl">
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource FormControlHeight}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
+    </Style>
+
+    <!--  Base Text  -->
+    <Style TargetType="Label" x:Key="BaseText">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="FontSize" Value="{StaticResource TextSizeBody}" />
+    </Style>
+
+    <!--  ===============================================  -->
+    <!--  LAYOUT STYLES  -->
+    <!--  ===============================================  -->
+
     <Style TargetType="ScrollView" x:Key="PageLayout">
-        <Setter Property="Padding" Value="20" />
+        <Setter Property="Padding" Value="{StaticResource SpacingLarge}" />
     </Style>
 
     <Style TargetType="VerticalStackLayout" x:Key="ContentStack">
-        <Setter Property="Spacing" Value="8" />
+        <Setter Property="Spacing" Value="{StaticResource SpacingSmall}" />
     </Style>
 
     <Style TargetType="Grid" x:Key="FormGrid">
-        <Setter Property="ColumnSpacing" Value="8" />
-        <Setter Property="RowSpacing" Value="8" />
+        <Setter Property="ColumnSpacing" Value="{StaticResource SpacingSmall}" />
+        <Setter Property="RowSpacing" Value="{StaticResource SpacingSmall}" />
     </Style>
+
+    <!--  ===============================================  -->
+    <!--  CONTAINER STYLES  -->
+    <!--  ===============================================  -->
 
     <Style TargetType="HorizontalStackLayout" x:Key="CheckboxContainer">
-        <Setter Property="Spacing" Value="8" />
-        <Setter Property="Padding" Value="8,4" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="Spacing" Value="{StaticResource SpacingSmall}" />
+        <Setter Property="Padding" Value="{StaticResource PaddingStandard}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource FormControlHeight}" />
     </Style>
 
-    <!--  Collapsible Section Frame  -->
+    <Style TargetType="Grid" x:Key="EntryWithUnitsGrid">
+        <Setter Property="ColumnSpacing" Value="{StaticResource SpacingSmall}" />
+    </Style>
+
+    <Style TargetType="HorizontalStackLayout" x:Key="RadioGroup">
+        <Setter Property="Spacing" Value="{StaticResource SpacingSmall}" />
+        <Setter Property="Padding" Value="{StaticResource PaddingStandard}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource FormControlHeight}" />
+    </Style>
+
+    <!--  ===============================================  -->
+    <!--  SECTION STYLES  -->
+    <!--  ===============================================  -->
+
     <Style TargetType="Frame" x:Key="CollapsibleSection">
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="0,0,0,8" />
+        <Setter Property="Padding" Value="{StaticResource PaddingNone}" />
+        <Setter Property="Margin" Value="{StaticResource MarginStandard}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="CornerRadius" Value="{StaticResource CornerRadiusStandard}" />
         <Setter Property="HasShadow" Value="False" />
     </Style>
 
-    <!--  Section Header Button  -->
     <Style TargetType="Button" x:Key="SectionHeader">
-        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="Padding" Value="{StaticResource PaddingSectionHeader}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Secondary}}" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontSize" Value="{StaticResource TextSizeTitle}" />
     </Style>
 
-    <!--  Section Content  -->
     <Style TargetType="VerticalStackLayout" x:Key="SectionContent">
-        <Setter Property="Padding" Value="16,0,16,16" />
-        <Setter Property="Spacing" Value="4" />
+        <Setter Property="Padding" Value="{StaticResource PaddingSection}" />
+        <Setter Property="Spacing" Value="{StaticResource SpacingXSmall}" />
     </Style>
 
-    <!--  Label Styles  -->
-    <Style TargetType="Label" x:Key="FieldLabel">
+    <!--  ===============================================  -->
+    <!--  FORM CONTROL STYLES  -->
+    <!--  ===============================================  -->
+
+    <!--  Labels  -->
+    <Style
+        BasedOn="{StaticResource BaseText}"
+        TargetType="Label"
+        x:Key="FieldLabel">
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}" />
-        <Setter Property="FontSize" Value="14" />
     </Style>
+
+    <Style
+        BasedOn="{StaticResource BaseText}"
+        TargetType="Label"
+        x:Key="UnitsLabel">
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="FontSize" Value="{StaticResource TextSizeSmall}" />
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource FormControlMinWidth}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+    </Style>
+
+    <!--  Input Controls  -->
+    <Style
+        BasedOn="{StaticResource BaseFormControl}"
+        TargetType="Entry"
+        x:Key="FormEntry">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+        <Setter Property="TextTransform" Value="Uppercase" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource BaseFormControl}"
+        TargetType="Picker"
+        x:Key="FormPicker">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource BaseFormControl}"
+        TargetType="DatePicker"
+        x:Key="FormDatePicker">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource BaseFormControl}"
+        TargetType="Editor"
+        x:Key="FormEditor">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+        <Setter Property="AutoSize" Value="TextChanges" />
+        <Setter Property="TextTransform" Value="Uppercase" />
+    </Style>
+
+    <!--  Selection Controls  -->
+    <Style TargetType="CheckBox" x:Key="FormCheckbox">
+        <Setter Property="Color" Value="{StaticResource Primary}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource FormControlHeight}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style TargetType="RadioButton" x:Key="FormRadioButton">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource FormControlHeight}" />
+    </Style>
+
+    <!--  Labels for Selection Controls  -->
+    <Style
+        BasedOn="{StaticResource BaseText}"
+        TargetType="Label"
+        x:Key="CheckboxLabel">
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
     <Style
         BasedOn="{StaticResource FieldLabel}"
         TargetType="Label"
         x:Key="PickerLabel">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Secondary}}" />
     </Style>
-    <Style TargetType="Label" x:Key="CheckboxLabel">
-        <Setter Property="VerticalOptions" Value="Center" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}" />
-        <Setter Property="FontSize" Value="16" />
-    </Style>
 
-    <!--  Entry Styles  -->
-    <Style TargetType="Entry" x:Key="FormEntry">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray600}}" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-        <Setter Property="TextTransform" Value="Uppercase" />
-    </Style>
+    <!--  ===============================================  -->
+    <!--  BUTTON STYLES  -->
+    <!--  ===============================================  -->
 
-    <!--  Picker Style  -->
-    <Style TargetType="Picker" x:Key="FormPicker">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-    </Style>
-
-    <!--  DatePicker Style  -->
-    <Style TargetType="DatePicker" x:Key="FormDatePicker">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-    </Style>
-
-    <!--  Checkbox Style  -->
-    <Style TargetType="CheckBox" x:Key="FormCheckbox">
-        <Setter Property="Color" Value="{StaticResource Primary}" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-        <Setter Property="VerticalOptions" Value="Center" />
-    </Style>
-
-    <!--  Editor Style  -->
-    <Style TargetType="Editor" x:Key="FormEditor">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray900}}" />
-        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-        <Setter Property="AutoSize" Value="TextChanges" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-        <Setter Property="TextTransform" Value="Uppercase" />
-    </Style>
-
-    <!--  Button Style  -->
     <Style TargetType="Button" x:Key="PrimaryButton">
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="TextColor" Value="{StaticResource PrimaryDarkText}" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="Padding" Value="24,12" />
-        <Setter Property="MinimumHeightRequest" Value="50" />
-        <Setter Property="Margin" Value="0,16,0,0" />
+        <Setter Property="CornerRadius" Value="{StaticResource CornerRadiusStandard}" />
+        <Setter Property="Padding" Value="{StaticResource ButtonPadding}" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource ButtonHeight}" />
+        <Setter Property="Margin" Value="{StaticResource ButtonMargin}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
