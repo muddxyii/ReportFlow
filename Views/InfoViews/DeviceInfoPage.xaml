@@ -1,12 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
-<views:BaseViewPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
-                    xmlns:infoViewModels="clr-namespace:ReportFlow.ViewModels.InfoViewModels"
-                    x:Class="ReportFlow.Views.InfoViews.DeviceInfoPage"
-                    x:TypeArguments="infoViewModels:DeviceInfoViewModel"
-                    Title="Device Information">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseViewPage
+    Title="Device Information"
+    x:Class="ReportFlow.Views.InfoViews.DeviceInfoPage"
+    x:TypeArguments="infoViewModels:DeviceInfoViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:infoViewModels="clr-namespace:ReportFlow.ViewModels.InfoViewModels"
+    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <views:BaseViewPage.BindingContext>
         <infoViewModels:DeviceInfoViewModel />
@@ -15,151 +15,214 @@
     <ScrollView Style="{StaticResource PageLayout}">
         <VerticalStackLayout Style="{StaticResource ContentStack}">
 
-            <!-- Water Purveyor -->
-            <Label Style="{StaticResource FieldLabel}" Text="Water Purveyor" />
-            <Entry Style="{StaticResource FormEntry}" Placeholder="Water Purveyor"
-                   Text="{Binding WaterPurveyor}" />
+            <!--  Location Details  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Location Details ▼"
+                        x:Name="LocationSectionButton" />
 
-            <!-- Water Meter -->
-            <Label Style="{StaticResource FieldLabel}" Text="Water Meter No." />
-            <Entry Style="{StaticResource FormEntry}" Placeholder="Water Meter No."
-                   Text="{Binding WaterMeterNo}" />
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="LocationSectionContent">
+                        <Label Style="{StaticResource FieldLabel}" Text="Water Purveyor" />
+                        <Entry
+                            Placeholder="Water Purveyor"
+                            Style="{StaticResource FormEntry}"
+                            Text="{Binding WaterPurveyor}" />
 
-            <!-- Assembly Address -->
-            <Label Style="{StaticResource FieldLabel}" Text="Assembly Address" />
-            <Editor Style="{StaticResource FormEditor}" Placeholder="Assembly Address"
-                    Text="{Binding AssemblyAddress}" />
+                        <Label Style="{StaticResource FieldLabel}" Text="Water Meter No." />
+                        <Entry
+                            Placeholder="Water Meter No."
+                            Style="{StaticResource FormEntry}"
+                            Text="{Binding WaterMeterNo}" />
 
-            <!-- On Site Location -->
-            <Label Style="{StaticResource FieldLabel}" Text="On Site Location of Assembly" />
-            <Editor Style="{StaticResource FormEditor}" Placeholder="On Site Location of Assembly"
-                    Text="{Binding OnSiteLocation}" />
+                        <Label Style="{StaticResource FieldLabel}" Text="Assembly Address" />
+                        <Editor
+                            Placeholder="Assembly Address"
+                            Style="{StaticResource FormEditor}"
+                            Text="{Binding AssemblyAddress}" />
 
-            <!-- Primary Service -->
-            <Label Style="{StaticResource FieldLabel}" Text="Primary Service at Location" />
-            <Entry Style="{StaticResource FormEntry}" Placeholder="Primary Service at Location"
-                   Text="{Binding PrimaryService}" />
+                        <Label Style="{StaticResource FieldLabel}" Text="On Site Location of Assembly" />
+                        <Editor
+                            Placeholder="On Site Location of Assembly"
+                            Style="{StaticResource FormEditor}"
+                            Text="{Binding OnSiteLocation}" />
 
-            <!-- Installation Status -->
-            <Label x:Name="InstallationStatusLabel"
-                   Style="{StaticResource PickerLabel}"
-                   Text="Installation Type">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer
-                        CommandParameter="{x:Reference InstallationStatusPicker}"
-                        Tapped="OnLabelTapped" />
-                </Label.GestureRecognizers>
-            </Label>
-            <Picker x:Name="InstallationStatusPicker"
-                    Style="{StaticResource FormPicker}"
-                    ItemsSource="{Binding InstallationStatusOptions}"
-                    SelectedItem="{Binding InstallationStatus}" />
+                        <Label Style="{StaticResource FieldLabel}" Text="Primary Service at Location" />
+                        <Entry
+                            Placeholder="Primary Service at Location"
+                            Style="{StaticResource FormEntry}"
+                            Text="{Binding PrimaryService}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
 
-            <!-- Protection & Service Types -->
-            <Grid Style="{StaticResource FormGrid}"
-                  RowDefinitions="Auto,Auto"
-                  ColumnDefinitions="*,*">
+            <!--  Installation Details  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Installation Details ▼"
+                        x:Name="InstallationSectionButton" />
 
-                <!-- Labels Row -->
-                <Label x:Name="ProtectionTypeLabel"
-                       Style="{StaticResource PickerLabel}"
-                       Text="Protection Type"
-                       Grid.Row="0" Grid.Column="0">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
-                            CommandParameter="{x:Reference ProtectionTypePicker}"
-                            Tapped="OnLabelTapped" />
-                    </Label.GestureRecognizers>
-                </Label>
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="InstallationSectionContent">
+                        <Label
+                            Style="{StaticResource PickerLabel}"
+                            Text="Installation Type"
+                            x:Name="InstallationStatusLabel">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{x:Reference InstallationStatusPicker}" Tapped="OnLabelTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Picker
+                            ItemsSource="{Binding InstallationStatusOptions}"
+                            SelectedItem="{Binding InstallationStatus}"
+                            Style="{StaticResource FormPicker}"
+                            x:Name="InstallationStatusPicker" />
 
-                <Label x:Name="ServiceTypeLabel"
-                       Style="{StaticResource PickerLabel}"
-                       Text="Service Type"
-                       Grid.Row="0" Grid.Column="1">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
-                            CommandParameter="{x:Reference ServiceTypePicker}"
-                            Tapped="OnLabelTapped" />
-                    </Label.GestureRecognizers>
-                </Label>
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Protection Type"
+                                x:Name="ProtectionTypeLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference ProtectionTypePicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
 
-                <!-- Inputs Row -->
-                <Picker x:Name="ProtectionTypePicker"
-                        Style="{StaticResource FormPicker}"
-                        ItemsSource="{Binding ProtectionTypeOptions}"
-                        SelectedItem="{Binding ProtectionType}"
-                        Grid.Row="1" Grid.Column="0" />
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Service Type"
+                                x:Name="ServiceTypeLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference ServiceTypePicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
 
-                <Picker x:Name="ServiceTypePicker"
-                        Style="{StaticResource FormPicker}"
-                        ItemsSource="{Binding ServiceTypeOptions}"
-                        SelectedItem="{Binding ServiceType}"
-                        Grid.Row="1" Grid.Column="1" />
-            </Grid>
+                            <Picker
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                ItemsSource="{Binding ProtectionTypeOptions}"
+                                SelectedItem="{Binding ProtectionType}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="ProtectionTypePicker" />
 
-            <!-- Bf Type & Manufacturer -->
-            <Grid Style="{StaticResource FormGrid}"
-                  RowDefinitions="Auto,Auto"
-                  ColumnDefinitions="*,*">
+                            <Picker
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                ItemsSource="{Binding ServiceTypeOptions}"
+                                SelectedItem="{Binding ServiceType}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="ServiceTypePicker" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
 
-                <!-- Labels Row -->
-                <Label x:Name="TypeLabel"
-                       Style="{StaticResource PickerLabel}"
-                       Text="Type"
-                       Grid.Row="0" Grid.Column="0">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
-                            CommandParameter="{x:Reference TypePicker}"
-                            Tapped="OnLabelTapped" />
-                    </Label.GestureRecognizers>
-                </Label>
+            <!--  Device Details  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Device Details ▼"
+                        x:Name="DeviceSectionButton" />
 
-                <Label x:Name="ManufacturerLabel"
-                       Style="{StaticResource PickerLabel}"
-                       Text="Manufacturer"
-                       Grid.Row="0" Grid.Column="1">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
-                            CommandParameter="{x:Reference ManufacturerPicker}"
-                            Tapped="OnLabelTapped" />
-                    </Label.GestureRecognizers>
-                </Label>
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="DeviceSectionContent">
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Type"
+                                x:Name="TypeLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference TypePicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
 
-                <!-- Inputs Row -->
-                <Picker x:Name="TypePicker"
-                        Style="{StaticResource FormPicker}"
-                        ItemsSource="{Binding TypeOptions}"
-                        SelectedItem="{Binding Type}"
-                        Grid.Row="1" Grid.Column="0" />
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Manufacturer"
+                                x:Name="ManufacturerLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference ManufacturerPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
 
-                <Picker x:Name="ManufacturerPicker"
-                        Style="{StaticResource FormPicker}"
-                        ItemsSource="{Binding ManufacturerOptions}"
-                        SelectedItem="{Binding Manufacturer}"
-                        Grid.Row="1" Grid.Column="1" />
-            </Grid>
+                            <Picker
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TypeOptions}"
+                                SelectedItem="{Binding Type}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="TypePicker" />
 
-            <!-- Size & Model No -->
-            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Style="{StaticResource FieldLabel}" Text="Size" Grid.Row="0" Grid.Column="0" />
-                <Label Style="{StaticResource FieldLabel}" Text="Model No." Grid.Row="0" Grid.Column="1" />
+                            <Picker
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                ItemsSource="{Binding ManufacturerOptions}"
+                                SelectedItem="{Binding Manufacturer}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="ManufacturerPicker" />
+                        </Grid>
 
-                <Entry Style="{StaticResource FormEntry}" Placeholder="Size"
-                       Text="{Binding Size}"
-                       Grid.Row="1" Grid.Column="0" />
-                <Entry Style="{StaticResource FormEntry}" Placeholder="Model No."
-                       Text="{Binding ModelNo}"
-                       Grid.Row="1" Grid.Column="1" />
-            </Grid>
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource FieldLabel}"
+                                Text="Size" />
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource FieldLabel}"
+                                Text="Model No." />
 
-            <!-- Serial No. -->
-            <Label Style="{StaticResource FieldLabel}" Text="Serial No." />
-            <Entry Style="{StaticResource FormEntry}" Placeholder="Serial No."
-                   Text="{Binding SerialNo}" />
+                            <Entry
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                Placeholder="Size"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding Size}" />
+                            <Entry
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Placeholder="Model No."
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding ModelNo}" />
+                        </Grid>
 
-            <Button Style="{StaticResource PrimaryButton}"
-                    Text="Next"
-                    Command="{Binding NextCommand}" />
+                        <Label Style="{StaticResource FieldLabel}" Text="Serial No." />
+                        <Entry
+                            Placeholder="Serial No."
+                            Style="{StaticResource FormEntry}"
+                            Text="{Binding SerialNo}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button
+                Command="{Binding NextCommand}"
+                Style="{StaticResource PrimaryButton}"
+                Text="Next" />
         </VerticalStackLayout>
     </ScrollView>
 </views:BaseViewPage>
