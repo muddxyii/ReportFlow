@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-
 <views:BaseViewPage
     Title="RP Test"
     x:Class="ReportFlow.Views.TestViews.RpTestPage"
@@ -15,117 +14,166 @@
 
     <ScrollView Style="{StaticResource PageLayout}">
         <VerticalStackLayout Style="{StaticResource ContentStack}">
+            <!--  Line Pressure Section  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Line Pressure ▼"
+                        x:Name="LinePressureButton" />
 
-            <!--  Line Pressure  -->
-            <Label Style="{StaticResource FieldLabel}" Text="Line Pressure" />
-            <Grid ColumnDefinitions="*, Auto" Style="{StaticResource EntryWithUnitsGrid}">
-                <Entry
-                    Keyboard="Numeric"
-                    Placeholder="Enter line pressure"
-                    Style="{StaticResource FormEntry}"
-                    Text="{Binding LinePressure}"
-                    TextChanged="OnEntryNumericChanged" />
-                <Label
-                    Grid.Column="1"
-                    Style="{StaticResource UnitsLabel}"
-                    Text="PSID" />
-            </Grid>
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="LinePressureContent">
+                        <Grid ColumnDefinitions="*, Auto" Style="{StaticResource EntryWithUnitsGrid}">
+                            <Entry
+                                Keyboard="Numeric"
+                                Placeholder="Enter line pressure"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding LinePressure}"
+                                TextChanged="OnEntryNumericChanged" />
+                            <Label
+                                Grid.Column="1"
+                                Style="{StaticResource UnitsLabel}"
+                                Text="PSID" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
 
-            <!--  Shutoff Valve  -->
-            <Label Style="{StaticResource FieldLabel}" Text="Shutoff Valve Status" />
-            <Grid ColumnDefinitions="150,*" Style="{StaticResource FormGrid}">
-                <Picker
-                    ItemsSource="{Binding ShutoffValveOptions}"
-                    SelectedItem="{Binding ShutoffValve}"
-                    Style="{StaticResource FormPicker}" />
-                <Editor
-                    Grid.Column="1"
-                    Placeholder="Enter SOV comment"
-                    Style="{StaticResource FormEditor}"
-                    Text="{Binding SovComment}" />
-            </Grid>
+            <!--  Shutoff Valve Section  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Shutoff Valve Status ▼"
+                        x:Name="ShutoffValveButton" />
 
-            <!--  Check Valve #1  -->
-            <Grid ColumnDefinitions="Auto,*" Style="{StaticResource HeaderWithCheckbox}">
-                <Label Style="{StaticResource SectionHeaderLabel}" Text="Check Valve #1" />
-                <HorizontalStackLayout Grid.Column="1" Style="{StaticResource InlineCheckboxContainer}">
-                    <CheckBox
-                        IsChecked="{Binding CheckValve1Ct}"
-                        Style="{StaticResource FormCheckbox}"
-                        x:Name="CheckValve1ClosedCheckbox" />
-                    <Label Style="{StaticResource CheckboxLabel}" Text="Closed Tight">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer CommandParameter="{x:Reference CheckValve1ClosedCheckbox}" Tapped="OnCheckboxLabelTapped" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </HorizontalStackLayout>
-            </Grid>
-            <Grid ColumnDefinitions="*, Auto" Style="{StaticResource EntryWithUnitsGrid}">
-                <Entry
-                    Keyboard="Numeric"
-                    Placeholder="Pressure reading"
-                    Style="{StaticResource FormEntry}"
-                    Text="{Binding CheckValve1}"
-                    TextChanged="OnEntryNumericChanged" />
-                <Label
-                    Grid.Column="1"
-                    Style="{StaticResource UnitsLabel}"
-                    Text="PSID" />
-            </Grid>
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="ShutoffValveContent">
+                        <Grid ColumnDefinitions="150,*" Style="{StaticResource FormGrid}">
+                            <Picker
+                                ItemsSource="{Binding ShutoffValveOptions}"
+                                SelectedItem="{Binding ShutoffValve}"
+                                Style="{StaticResource FormPicker}" />
+                            <Editor
+                                Grid.Column="1"
+                                Placeholder="Enter SOV comment"
+                                Style="{StaticResource FormEditor}"
+                                Text="{Binding SovComment}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
 
-            <!--  Check Valve #2  -->
-            <Grid ColumnDefinitions="Auto,*" Style="{StaticResource HeaderWithCheckbox}">
-                <Label Style="{StaticResource SectionHeaderLabel}" Text="Check Valve #2" />
-                <HorizontalStackLayout Grid.Column="1" Style="{StaticResource InlineCheckboxContainer}">
-                    <CheckBox
-                        IsChecked="{Binding CheckValve2Ct}"
-                        Style="{StaticResource FormCheckbox}"
-                        x:Name="CheckValve2ClosedCheckbox" />
-                    <Label Style="{StaticResource CheckboxLabel}" Text="Closed Tight">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer CommandParameter="{x:Reference CheckValve2ClosedCheckbox}" Tapped="OnCheckboxLabelTapped" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </HorizontalStackLayout>
-            </Grid>
+            <!--  Check Valves Section  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Check Valves ▼"
+                        x:Name="CheckValvesButton" />
 
-            <!--  Relief Valve  -->
-            <Label Style="{StaticResource FieldLabel}" Text="Pressure Relief Valve" />
-            <Grid ColumnDefinitions="*, Auto" Style="{StaticResource EntryWithUnitsGrid}">
-                <Entry
-                    Keyboard="Numeric"
-                    Placeholder="Relief valve opened at"
-                    Style="{StaticResource FormEntry}"
-                    Text="{Binding PressureReliefOpening}" />
-                <Label
-                    Grid.Column="1"
-                    Style="{StaticResource UnitsLabel}"
-                    Text="PSID" />
-            </Grid>
-            <!--  Relief Valve Did Not Open  -->
-            <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="RvDnoContainer">
-                <CheckBox
-                    IsChecked="{Binding ReliefValveDidNotOpen}"
-                    Style="{StaticResource FormCheckbox}"
-                    x:Name="RvDidNotOpenCheckbox" />
-                <Label Style="{StaticResource CheckboxLabel}" Text="Did Not Open">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer CommandParameter="{x:Reference RvDidNotOpenCheckbox}" Tapped="OnCheckboxLabelTapped" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </HorizontalStackLayout>
-            <!--  Relief Valve Leaking  -->
-            <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="RvLeakedContainer">
-                <CheckBox
-                    IsChecked="{Binding ReliefValveLeaking}"
-                    Style="{StaticResource FormCheckbox}"
-                    x:Name="RvLeakedCheckbox" />
-                <Label Style="{StaticResource CheckboxLabel}" Text="Leaking">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer CommandParameter="{x:Reference RvLeakedCheckbox}" Tapped="OnCheckboxLabelTapped" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </HorizontalStackLayout>
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="CheckValvesContent">
+                        <!--  Check Valve #1  -->
+                        <Grid ColumnDefinitions="Auto,*" Style="{StaticResource HeaderWithCheckbox}">
+                            <Label Style="{StaticResource SectionHeaderLabel}" Text="Check Valve #1" />
+                            <HorizontalStackLayout Grid.Column="1" Style="{StaticResource InlineCheckboxContainer}">
+                                <CheckBox
+                                    IsChecked="{Binding CheckValve1Ct}"
+                                    Style="{StaticResource FormCheckbox}"
+                                    x:Name="CheckValve1ClosedCheckbox" />
+                                <Label Style="{StaticResource CheckboxLabel}" Text="Closed Tight">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{x:Reference CheckValve1ClosedCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Grid>
+                        <Grid ColumnDefinitions="*, Auto" Style="{StaticResource EntryWithUnitsGrid}">
+                            <Entry
+                                Keyboard="Numeric"
+                                Placeholder="Pressure reading"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding CheckValve1}"
+                                TextChanged="OnEntryNumericChanged" />
+                            <Label
+                                Grid.Column="1"
+                                Style="{StaticResource UnitsLabel}"
+                                Text="PSID" />
+                        </Grid>
+
+                        <!--  Check Valve #2  -->
+                        <Grid ColumnDefinitions="Auto,*" Style="{StaticResource HeaderWithCheckbox}">
+                            <Label Style="{StaticResource SectionHeaderLabel}" Text="Check Valve #2" />
+                            <HorizontalStackLayout Grid.Column="1" Style="{StaticResource InlineCheckboxContainer}">
+                                <CheckBox
+                                    IsChecked="{Binding CheckValve2Ct}"
+                                    Style="{StaticResource FormCheckbox}"
+                                    x:Name="CheckValve2ClosedCheckbox" />
+                                <Label Style="{StaticResource CheckboxLabel}" Text="Closed Tight">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{x:Reference CheckValve2ClosedCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--  Relief Valve Section  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Relief Valve ▼"
+                        x:Name="ReliefValveButton" />
+
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="ReliefValveContent">
+                        <!--  Relief Valve  -->
+                        <Grid ColumnDefinitions="*, Auto" Style="{StaticResource EntryWithUnitsGrid}">
+                            <Entry
+                                Keyboard="Numeric"
+                                Placeholder="Relief valve opened at"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding PressureReliefOpening}" />
+                            <Label
+                                Grid.Column="1"
+                                Style="{StaticResource UnitsLabel}"
+                                Text="PSID" />
+                        </Grid>
+
+                        <!--  Relief Valve Did Not Open  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="RvDnoContainer">
+                            <CheckBox
+                                IsChecked="{Binding ReliefValveDidNotOpen}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="RvDidNotOpenCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Did Not Open">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference RvDidNotOpenCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Relief Valve Leaking  -->
+                        <HorizontalStackLayout Style="{StaticResource CheckboxContainer}" x:Name="RvLeakedContainer">
+                            <CheckBox
+                                IsChecked="{Binding ReliefValveLeaking}"
+                                Style="{StaticResource FormCheckbox}"
+                                x:Name="RvLeakedCheckbox" />
+                            <Label Style="{StaticResource CheckboxLabel}" Text="Leaking">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference RvLeakedCheckbox}" Tapped="OnCheckboxLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
 
             <Button
                 Command="{Binding NextCommand}"
