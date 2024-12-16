@@ -56,28 +56,9 @@ public abstract class BaseViewPage<T> : ContentPage where T : BaseBackflowViewMo
     
     #region Section Related
     
-    protected void OnSectionButtonClicked(object sender, EventArgs e)
+    protected virtual void OnSectionButtonClicked(object sender, EventArgs e)
     {
-        if (sender is Button button)
-        {
-            // Get the content section based on button name
-            var contentName = button.Text.Contains("Fail") ? "InitialSectionContent" :
-                button.Text.Contains("Repair") ? "RepairedSectionContent" : 
-                "FinalSectionContent";
-            
-            var content = FindByName(contentName) as VerticalStackLayout;
-            if (content != null)
-            {
-                // Toggle visibility
-                content.IsVisible = !content.IsVisible;
-                
-                // Update button text
-                button.Text = button.Text.Replace(
-                    content.IsVisible ? "▶" : "▼", 
-                    content.IsVisible ? "▼" : "▶"
-                );
-            }
-        }
+        throw new NotImplementedException();
     }
     
     #endregion

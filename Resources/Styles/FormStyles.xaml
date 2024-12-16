@@ -37,7 +37,7 @@
     <!-- Section Content -->
     <Style x:Key="SectionContent" TargetType="VerticalStackLayout">
         <Setter Property="Padding" Value="16,0,16,16" />
-        <Setter Property="Spacing" Value="16" />
+        <Setter Property="Spacing" Value="8" />
     </Style>
     
     <!-- Label Styles -->
