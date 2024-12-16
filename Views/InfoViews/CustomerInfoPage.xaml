@@ -7,80 +7,88 @@
                     x:Class="ReportFlow.Views.InfoViews.CustomerInfoPage"
                     x:TypeArguments="infoViewModels:CustomerInfoViewModel"
                     Title="Customer Information">
-    
-       <views:BaseViewPage.BindingContext>
-              <infoViewModels:CustomerInfoViewModel />
-       </views:BaseViewPage.BindingContext>
-       
-    <ScrollView>
-        <VerticalStackLayout Spacing="10" Padding="20">
-            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Permit/Account No." FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Facility/Owner" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
-                
-                <Entry Placeholder="Permit/Account No." 
-                       TextTransform="Uppercase"
-                       Text="{Binding PermitNumber}" 
-                       Grid.Row="1" Grid.Column="0"/>
-                <Entry Placeholder="Facility/Owner" 
-                       TextTransform="Uppercase"
-                       Text="{Binding FacilityOwner}" 
-                       Grid.Row="1" Grid.Column="1"/>
+
+    <views:BaseViewPage.BindingContext>
+        <infoViewModels:CustomerInfoViewModel />
+    </views:BaseViewPage.BindingContext>
+
+    <ScrollView Style="{StaticResource PageLayout}">
+        <VerticalStackLayout Style="{StaticResource ContentStack}">
+            <!-- Permit/Account No. & Facility Owner -->
+            <Grid Style="{StaticResource FormGrid}" RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
+                <Label Style="{StaticResource FieldLabel}"
+                       Text="Permit/Account No." Grid.Row="0" Grid.Column="0" />
+                <Label Style="{StaticResource FieldLabel}"
+                       Text="Facility/Owner" Grid.Row="0" Grid.Column="1" />
+
+                <Entry Style="{StaticResource FormEntry}"
+                       Placeholder="Permit/Account No."
+                       Text="{Binding PermitNumber}"
+                       Grid.Row="1" Grid.Column="0" />
+                <Entry Style="{StaticResource FormEntry}"
+                       Placeholder="Facility/Owner"
+                       Text="{Binding FacilityOwner}"
+                       Grid.Row="1" Grid.Column="1" />
             </Grid>
 
-            <Label Text="Customer Address" FontAttributes="Bold"/>
-            <Entry Placeholder="Customer Address"
-                   TextTransform="Uppercase"
-                   Text="{Binding CustomerAddress}"/>
+            <!-- Customer Address -->
+            <Label Style="{StaticResource FieldLabel}" Text="Customer Address" />
+            <Entry Style="{StaticResource FormEntry}"
+                   Placeholder="Customer Address"
+                   Text="{Binding CustomerAddress}" />
 
-            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Contact" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Phone" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
-                
-                <Entry Placeholder="Contact" 
-                       TextTransform="Uppercase"
-                       Text="{Binding Contact}" 
-                       Grid.Row="1" Grid.Column="0"/>
-                <Entry Placeholder="Phone" 
-                       TextTransform="Uppercase"
-                       Text="{Binding Phone}" 
+            <!-- Contact & Phone -->
+            <Grid Style="{StaticResource FormGrid}" RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
+                <Label Style="{StaticResource FieldLabel}"
+                       Text="Contact" Grid.Row="0" Grid.Column="0" />
+                <Label Style="{StaticResource FieldLabel}"
+                       Text="Phone" Grid.Row="0" Grid.Column="1" />
+
+                <Entry Style="{StaticResource FormEntry}"
+                       Placeholder="Contact"
+                       Text="{Binding Contact}"
+                       Grid.Row="1" Grid.Column="0" />
+                <Entry Style="{StaticResource FormEntry}"
+                       Placeholder="Phone"
+                       Text="{Binding Phone}"
                        Keyboard="Telephone"
-                       Grid.Row="1" Grid.Column="1"/>
+                       Grid.Row="1" Grid.Column="1" />
             </Grid>
 
-            <Label Text="Email" FontAttributes="Bold"/>
-            <Entry Placeholder="Email" 
+            <Label Style="{StaticResource FieldLabel}" Text="Email" />
+            <Entry Style="{StaticResource FormEntry}"
+                   Placeholder="Email"
                    Text="{Binding Email}"
-                   Keyboard="Email"/>
+                   Keyboard="Email" />
 
-            <Label Text="Owner Representative" FontAttributes="Bold"/>
-            <Entry Placeholder="Owner Representative"
-                   TextTransform="Uppercase"
-                   Text="{Binding OwnerRep}"/>
+            <Label Style="{StaticResource FieldLabel}" Text="Owner Representative" />
+            <Entry Style="{StaticResource FormEntry}"
+                   Placeholder="Owner Representative"
+                   Text="{Binding OwnerRep}" />
 
-            <Label Text="Representative Address" FontAttributes="Bold"/>
-            <Entry Placeholder="Representative Address"
-                   TextTransform="Uppercase"
-                   Text="{Binding RepAddress}"/>
+            <Label Style="{StaticResource FieldLabel}" Text="Representative Address" />
+            <Entry Style="{StaticResource FormEntry}"
+                   Placeholder="Representative Address"
+                   Text="{Binding RepAddress}" />
 
-            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Label Text="Person to Contact" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
-                <Label Text="Contact Phone" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
-                
-                <Entry Placeholder="Person to Contact" 
-                       TextTransform="Uppercase"
-                       Text="{Binding PersonToContact}" 
-                       Grid.Row="1" Grid.Column="0"/>
-                <Entry Placeholder="Contact Phone" 
-                       TextTransform="Uppercase"
-                       Text="{Binding ContactPhone}" 
+            <Grid Style="{StaticResource FormGrid}" RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
+                <Label Style="{StaticResource FieldLabel}" Text="Person to Contact" Grid.Row="0" Grid.Column="0" />
+                <Label Style="{StaticResource FieldLabel}" Text="Contact Phone" Grid.Row="0" Grid.Column="1" />
+
+                <Entry Style="{StaticResource FormEntry}"
+                       Placeholder="Person to Contact"
+                       Text="{Binding PersonToContact}"
+                       Grid.Row="1" Grid.Column="0" />
+                <Entry Style="{StaticResource FormEntry}"
+                       Placeholder="Contact Phone"
+                       Text="{Binding ContactPhone}"
                        Keyboard="Telephone"
-                       Grid.Row="1" Grid.Column="1"/>
+                       Grid.Row="1" Grid.Column="1" />
             </Grid>
 
-            <Button Text="Next" 
-                    Command="{Binding NextCommand}"
-                    Margin="0,20,0,0"/>
+            <Button Style="{StaticResource PrimaryButton}"
+                    Text="Next"
+                    Command="{Binding NextCommand}" />
         </VerticalStackLayout>
     </ScrollView>
 </views:BaseViewPage>

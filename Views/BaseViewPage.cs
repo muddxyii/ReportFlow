@@ -16,6 +16,8 @@ public abstract class BaseViewPage<T> : ContentPage where T : BaseBackflowViewMo
         }
     }
 
+    #region Entry Related
+    
     protected void OnEntryNumericChanged(object sender, TextChangedEventArgs e)
     {
         if (sender is not Entry entry) return;
@@ -33,4 +35,50 @@ public abstract class BaseViewPage<T> : ContentPage where T : BaseBackflowViewMo
             entry.CursorPosition = Math.Max(cursorPosition, 0);
         }
     }
+
+    #endregion
+    
+    #region Picker Related
+    
+    protected void OnLabelTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is Picker picker)
+        {
+            picker.Focus();
+        }
+        else if (e.Parameter is DatePicker datePicker)
+        {
+            datePicker.Focus();
+        }
+    }
+    
+    #endregion
+    
+    #region Section Related
+    
+    protected void OnSectionButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button)
+        {
+            // Get the content section based on button name
+            var contentName = button.Text.Contains("Fail") ? "InitialSectionContent" :
+                button.Text.Contains("Repair") ? "RepairedSectionContent" : 
+                "FinalSectionContent";
+            
+            var content = FindByName(contentName) as VerticalStackLayout;
+            if (content != null)
+            {
+                // Toggle visibility
+                content.IsVisible = !content.IsVisible;
+                
+                // Update button text
+                button.Text = button.Text.Replace(
+                    content.IsVisible ? "▶" : "▼", 
+                    content.IsVisible ? "▼" : "▶"
+                );
+            }
+        }
+    }
+    
+    #endregion
 }
