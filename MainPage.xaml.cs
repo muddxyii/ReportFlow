@@ -161,5 +161,13 @@ public partial class MainPage : ContentPage
         }
     }
 #endif
-    
+
+    private async void OnSettingsClicked(object? sender, EventArgs e)
+    {
+        await Application.Current.MainPage.DisplayAlert(
+            "Not Implemented",
+            $"The settings page is not implemented yet.",
+            "OK"
+        );
+    }
 }
