@@ -6,17 +6,22 @@ namespace ReportFlow.Services;
 public class ReportCacheService : IReportCacheService
 {
     private readonly string _cachePath;
-    private readonly IFileHelper _fileHelper;
 
-    public ReportCacheService(IFileHelper fileHelper)
+    public ReportCacheService()
     {
-        _fileHelper = fileHelper;
-        _cachePath = DeviceInfo.Platform == DevicePlatform.Android
-            ? _fileHelper.GetPublicStoragePath(Path.Combine("ReportFlow", "Caches"))
-            : Path.Combine(
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            // Use app-specific external storage on Android
+            var fileHelper = IPlatformApplication.Current?.Services.GetService<IFileHelper>();
+            _cachePath = fileHelper?.GetPublicStoragePath(Path.Combine("ReportFlow", "Caches"));
+        }
+        else
+        {
+            _cachePath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 "ReportFlow",
                 "Caches");
+        }
         
         Directory.CreateDirectory(_cachePath);
     }
