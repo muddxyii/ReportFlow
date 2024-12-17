@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using ReportFlow.Interfaces;
 using ReportFlow.Util;
 
 namespace ReportFlow.ViewModels;
@@ -7,8 +8,9 @@ namespace ReportFlow.ViewModels;
 public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 {
     #region Properties
-    
-    protected Dictionary<string, string>? FormData { get; } = new Dictionary<string, string>();
+
+    private readonly IReportCacheService _reportCacheService;
+    protected Dictionary<string, string> FormData { get; } = new Dictionary<string, string>();
     
     public ICommand NextCommand { get; }
     
@@ -16,24 +18,52 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 
     #region Constructor
 
-    protected BaseBackflowViewModel(Dictionary<string, string>? formData)
+    protected BaseBackflowViewModel(
+        Dictionary<string, string>? formData = null)
     {
-        // SaveFormData
+        // Import Form Data
         SaveFormData(formData ?? new Dictionary<string, string>());
-        
-        // Register Next Command
         NextCommand = new Command(async () => await OnNext());
+        
+        // Get Cache Service
+        _reportCacheService = IPlatformApplication.Current?.Services.GetRequiredService<IReportCacheService>() ?? throw new InvalidOperationException();
+        
+        // Assign Report ID If Nonexistent
+        if (!FormData.ContainsKey("report_id"))
+            FormData["report_id"] = Guid.NewGuid().ToString();
+
+        // Load Cached Data
+        LoadCachedData();
     }
     
     #endregion
 
+    #region Cached Data Methods
+    
+    private async void LoadCachedData()
+    {
+        var cachedData = await _reportCacheService.LoadReportDataAsync(FormData["report_id"]);
+        if (cachedData != null)
+            SaveFormData(cachedData);
+    }
+
+    protected async Task SaveFormDataWithCache(Dictionary<string, string> formData)
+    {
+        SaveFormData(formData);
+        var cacheData = new Dictionary<string, string>(FormData);
+        cacheData.Remove("report_id");
+        await _reportCacheService.SaveReportDataAsync(FormData["report_id"], cacheData);
+    }
+    
+    #endregion
+    
     #region Data Related Methods (Saving, Validating, etc.)
 
     protected void SaveFormData(Dictionary<string, string> formData)
     {
         foreach (var form in formData)
         {
-            if (FormData != null) FormData[form.Key] = form.Value;
+            FormData[form.Key] = form.Value;
         }
     }
     

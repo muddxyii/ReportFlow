@@ -1,5 +1,6 @@
 ﻿using ReportFlow.Interfaces;
 using Microsoft.Extensions.Logging;
+using ReportFlow.Services;
 
 namespace ReportFlow;
 
@@ -15,6 +16,9 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+        
+        // Add Cache Systems
+        builder.Services.AddSingleton<IReportCacheService, ReportCacheService>();
 
 #if ANDROID
             builder.Services.AddSingleton<IFileHelper, FileHelper>();
