@@ -14,7 +14,8 @@ public partial class PassFinalView
         {
             // Get the content section based on button name
             var contentName = button.Text.Contains("Fail") ? "InitialSectionContent" :
-                button.Text.Contains("Repair") ? "RepairedSectionContent" : 
+                button.Text.Contains("Repair") ? "RepairedSectionContent" :
+                button.Text.Contains("Comments") ? "CommentsSectionContent" :
                 "FinalSectionContent";
 
             if (FindByName(contentName) is VerticalStackLayout content)
