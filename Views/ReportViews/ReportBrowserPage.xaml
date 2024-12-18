@@ -6,24 +6,21 @@
     xmlns:reportViewModels="using:ReportFlow.ViewModels.ReportViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsLoading}">
-        <CollectionView EmptyView="No reports found" ItemsSource="{Binding Reports}">
+    <RefreshView
+        Command="{Binding RefreshCommand}"
+        IsRefreshing="{Binding IsLoading}"
+        Margin="16">
+        <CollectionView ItemsSource="{Binding Reports}" Style="{StaticResource ReportList}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="reportViewModels:ReportItemViewModel">
-                    <Frame Margin="10" Padding="10">
+                    <Frame Style="{StaticResource ReportCard}">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type reportViewModels:ReportBrowserViewModel}}, Path=OpenReportCommand}" CommandParameter="{Binding ReportId}" />
                         </Frame.GestureRecognizers>
-                        <VerticalStackLayout>
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="Medium"
-                                Text="{Binding CustomerName}" />
-                            <Label FontSize="Small" Text="{Binding Address}" />
-                            <Label
-                                FontSize="Small"
-                                Text="{Binding DateCreated, StringFormat='{0:d}'}"
-                                TextColor="Gray" />
+                        <VerticalStackLayout Style="{StaticResource ReportCardContent}">
+                            <Label Style="{StaticResource ReportCardTitle}" Text="{Binding CustomerName}" />
+                            <Label Style="{StaticResource ReportCardDetail}" Text="{Binding Address}" />
+                            <Label Style="{StaticResource ReportCardMetadata}" Text="{Binding DateCreated, StringFormat='{0:d}'}" />
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
