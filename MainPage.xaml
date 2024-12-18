@@ -17,16 +17,22 @@
 
                 <VerticalStackLayout>
                     <Button
+                        Clicked="OnBrowseReportsClicked"
+                        Style="{StaticResource PrimaryButton}"
+                        Text="Browse Existing Reports"
+                        x:Name="BrowseReportsBtn" />
+
+                    <Button
                         Clicked="OnOpenPdfClicked"
                         Style="{StaticResource PrimaryButton}"
-                        Text="Open Existing Report"
+                        Text="Open Existing PDF"
                         x:Name="OpenPdfBtn" />
 
                     <Button
-                        Clicked="OnCreatePdfClicked"
+                        Clicked="OnCreateReportClicked"
                         Style="{StaticResource PrimaryButton}"
                         Text="Create New Report"
-                        x:Name="CreatePdfBtn" />
+                        x:Name="CreateReportBtn" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>

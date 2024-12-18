@@ -1,6 +1,7 @@
 ﻿using ReportFlow.Interfaces;
 using ReportFlow.Util;
 using ReportFlow.ViewModels.InfoViewModels;
+using ReportFlow.ViewModels.ReportViewModels;
 
 namespace ReportFlow;
 
@@ -115,7 +116,7 @@ public partial class MainPage : ContentPage
 
     #region Create Pdf Button
     
-    private async void OnCreatePdfClicked(object? sender, EventArgs e)
+    private async void OnCreateReportClicked(object? sender, EventArgs e)
     {
         try
         {
@@ -138,6 +139,36 @@ public partial class MainPage : ContentPage
     
     #endregion
 
+    #region Browse Reports Button
+    
+    private async void OnBrowseReportsClicked(object? sender, EventArgs e)
+    {
+        try 
+        {
+            var reportCacheService = IPlatformApplication.Current?.Services.GetService<IReportCacheService>();
+            if (reportCacheService == null)
+            {
+                await DisplayAlert("Error", "Report service not available", "OK");
+                return;
+            }
+
+            // Load existing report IDs
+            var reportIds = await reportCacheService.GetSavedReportIdsAsync();
+        
+            // Navigate to the browse page with the data
+            await Shell.Current.GoToAsync("ReportBrowser", new Dictionary<string, object>
+            {
+                ["ViewModel"] = new ReportBrowserViewModel(reportCacheService)
+            });
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+    
+    #endregion
+    
 #if ANDROID
     public async void HandlePdfIntent(Uri pdfUri)
     {
