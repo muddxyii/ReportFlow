@@ -84,7 +84,7 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
                 {
                     ReportId = reportId,
                     CustomerName = reportData.GetValueOrDefault("FacilityOwner", "Unknown"),
-                    Address = reportData.GetValueOrDefault("Address", "Unknown"),
+                    Address = reportData.GetValueOrDefault("AssemblyAddress", "Unknown"),
                     DateCreated = DateTime.TryParse(reportData.GetValueOrDefault("DateCreated"), out var date) 
                         ? date 
                         : DateTime.MinValue
