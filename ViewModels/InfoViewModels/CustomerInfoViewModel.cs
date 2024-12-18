@@ -132,8 +132,6 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
     
     protected sealed override void InitFormFields()
     {
-        if (FormData == null) return;
-        
         PermitNumber = FormData.GetValueOrDefault("PermitAccountNo");
         FacilityOwner = FormData.GetValueOrDefault("FacilityOwner");
         CustomerAddress = FormData.GetValueOrDefault("Address");
@@ -166,7 +164,7 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
             { "PersontoContact", PersonToContact ?? String.Empty },
             { "Phone-0", ContactPhone ?? String.Empty }
         };
-        SaveFormData(formFields);
+        await SaveFormDataWithCache(formFields);
 
         // Create next view model with FormData
         var viewModel = new DeviceInfoViewModel(FormData);

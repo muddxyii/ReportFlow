@@ -11,23 +11,26 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 
     private readonly IReportCacheService _reportCacheService;
     protected Dictionary<string, string> FormData { get; } = new Dictionary<string, string>();
-    
+
     public ICommand NextCommand { get; }
-    
+
     #endregion
 
     #region Constructor
 
     protected BaseBackflowViewModel(
-        Dictionary<string, string>? formData = null)
+        Dictionary<string, string> formData)
     {
+        if (!formData.Any()) return;
+
         // Import Form Data
-        SaveFormData(formData ?? new Dictionary<string, string>());
+        SaveFormData(formData);
         NextCommand = new Command(async () => await OnNext());
-        
+
         // Get Cache Service
-        _reportCacheService = IPlatformApplication.Current?.Services.GetRequiredService<IReportCacheService>() ?? throw new InvalidOperationException();
-        
+        _reportCacheService = IPlatformApplication.Current?.Services.GetRequiredService<IReportCacheService>() ??
+                              throw new InvalidOperationException();
+
         // Assign Report ID If Nonexistent
         if (!FormData.ContainsKey("report_id"))
             FormData["report_id"] = Guid.NewGuid().ToString();
@@ -35,11 +38,11 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
         // Load Cached Data
         LoadCachedData();
     }
-    
+
     #endregion
 
     #region Cached Data Methods
-    
+
     private async void LoadCachedData()
     {
         var cachedData = await _reportCacheService.LoadReportDataAsync(FormData["report_id"]);
@@ -54,9 +57,9 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
         cacheData.Remove("report_id");
         await _reportCacheService.SaveReportDataAsync(FormData["report_id"], cacheData);
     }
-    
+
     #endregion
-    
+
     #region Data Related Methods (Saving, Validating, etc.)
 
     protected void SaveFormData(Dictionary<string, string> formData)
@@ -66,12 +69,12 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
             FormData[form.Key] = form.Value;
         }
     }
-    
+
     protected async Task SavePdf(string fileName)
     {
         // Select Pdf Template
         var pdfTemplate = "ReportFlow.Resources.PdfTemplates.Abf-Fillable-12-24.pdf";
-        
+
         // Load Pdf Stream
         await using var resourceStream = GetType().Assembly.GetManifestResourceStream(pdfTemplate);
         if (resourceStream == null)
@@ -100,26 +103,28 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 
         return true;
     }
-    
+
     #endregion
-    
+
     #region Abstract methods
 
-    protected virtual void InitFormFields() {}
-    
+    protected virtual void InitFormFields()
+    {
+    }
+
     // Template method for navigation logic
     protected abstract Task OnNext();
 
     #endregion
-    
+
     #region INotifyPropertyChanged Implementation
 
     public event PropertyChangedEventHandler? PropertyChanged;
-    
+
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-    
+
     #endregion
 }
