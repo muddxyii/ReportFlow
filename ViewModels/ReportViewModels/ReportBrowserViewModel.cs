@@ -13,18 +13,33 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
     private ObservableCollection<ReportItemViewModel> _reports;
     private bool _isLoading;
     private readonly SemaphoreSlim _loadingLock = new(1, 1);
+    private bool _hasReports;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public ObservableCollection<ReportItemViewModel> Reports
     {
         get => _reports;
-        set
+        private set
         {
             if (_reports != value)
             {
                 _reports = value;
                 OnPropertyChanged(nameof(Reports));
+                HasReports = _reports.Any();
+            }
+        }
+    }
+    
+    public bool HasReports
+    {
+        get => _hasReports;
+        private set
+        {
+            if (_hasReports != value)
+            {
+                _hasReports = value;
+                OnPropertyChanged(nameof(HasReports));
             }
         }
     }
@@ -32,7 +47,7 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
     public bool IsLoading
     {
         get => _isLoading;
-        set
+        private set
         {
             if (_isLoading != value)
             {
@@ -44,6 +59,7 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
 
     public ICommand RefreshCommand { get; }
     public ICommand OpenReportCommand { get; }
+    public ICommand DeleteReportCommand { get; }
 
     public ReportBrowserViewModel(IReportCacheService reportCacheService)
     {
@@ -52,9 +68,15 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
         
         RefreshCommand = new Command(async () => await LoadReportsAsync());
         OpenReportCommand = new Command<string>(async (reportId) => await OpenReportAsync(reportId));
+        DeleteReportCommand = new Command<string>(async (reportId) => await DeleteReportAsync(reportId));
         
-        // Load reports when constructed
-        MainThread.BeginInvokeOnMainThread(async () => await LoadReportsAsync());
+        // Initialize reports
+        InitializeReports();
+    }
+    
+    private async void InitializeReports()
+    {
+        await LoadReportsAsync();
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -70,26 +92,36 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
         try
         {
             IsLoading = true;
-            Reports.Clear();
+            var tempReports = new List<ReportItemViewModel>();
 
-            var reportIds = (await _reportCacheService.GetSavedReportIdsAsync()).Distinct();
-            foreach (var reportId in reportIds)
+            var allMetadata = await _reportCacheService.GetAllReportMetadataAsync();
+            
+            foreach (var metadata in allMetadata)
             {
-                if (reportId == null) continue;
-                
-                var reportData = await _reportCacheService.LoadReportDataAsync(reportId);
+                var reportData = await _reportCacheService.LoadReportDataAsync(metadata.ReportId);
                 if (reportData == null) continue;
 
-                Reports.Add(new ReportItemViewModel
+                tempReports.Add(new ReportItemViewModel
                 {
-                    ReportId = reportId,
+                    ReportId = metadata.ReportId,
                     CustomerName = reportData.GetValueOrDefault("FacilityOwner", "Unknown"),
                     Address = reportData.GetValueOrDefault("AssemblyAddress", "Unknown"),
-                    DateCreated = DateTime.TryParse(reportData.GetValueOrDefault("DateCreated"), out var date) 
-                        ? date 
-                        : DateTime.MinValue
+                    DateCreated = metadata.CreatedDate,
+                    LastModified = metadata.LastModifiedDate
                 });
             }
+
+            // Sort by last modified date descending
+            var sortedReports = tempReports.OrderByDescending(r => r.LastModified).ToList();
+            
+            // Update the observable collection
+            Reports.Clear();
+            foreach (var report in sortedReports)
+            {
+                Reports.Add(report);
+            }
+            
+            HasReports = Reports.Any();
         }
         finally
         {
@@ -112,5 +144,19 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
         {
             ["ViewModel"] = viewModel
         });
+    }
+    
+    private async Task DeleteReportAsync(string reportId)
+    {
+        var shouldDelete = await Shell.Current.DisplayAlert(
+            "Delete Report",
+            "Are you sure you want to delete this report?",
+            "Delete",
+            "Cancel");
+
+        if (!shouldDelete) return;
+
+        await _reportCacheService.DeleteReportDataAsync(reportId);
+        await LoadReportsAsync();
     }
 }

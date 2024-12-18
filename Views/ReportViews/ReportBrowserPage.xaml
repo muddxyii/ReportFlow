@@ -9,19 +9,78 @@
     <RefreshView
         Command="{Binding RefreshCommand}"
         IsRefreshing="{Binding IsLoading}"
-        Margin="16">
+        Margin="{StaticResource SpacingMedium}">
         <CollectionView ItemsSource="{Binding Reports}" Style="{StaticResource ReportList}">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="{StaticResource SpacingSmall}"
+                    VerticalOptions="Center">
+
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource ReportCardTitle}"
+                        Text="No Reports Found" />
+
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource ReportCardMetadata}"
+                        Text="Pull down to refresh" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="reportViewModels:ReportItemViewModel">
                     <Frame Style="{StaticResource ReportCard}">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type reportViewModels:ReportBrowserViewModel}}, Path=OpenReportCommand}" CommandParameter="{Binding ReportId}" />
-                        </Frame.GestureRecognizers>
-                        <VerticalStackLayout Style="{StaticResource ReportCardContent}">
-                            <Label Style="{StaticResource ReportCardTitle}" Text="{Binding CustomerName}" />
-                            <Label Style="{StaticResource ReportCardDetail}" Text="{Binding Address}" />
-                            <Label Style="{StaticResource ReportCardMetadata}" Text="{Binding DateCreated, StringFormat='{0:d}'}" />
-                        </VerticalStackLayout>
+                        <Grid
+                            ColumnDefinitions="*, Auto"
+                            ColumnSpacing="{StaticResource SpacingMedium}"
+                            Padding="{StaticResource SpacingSmall}">
+
+                            <!--  Content Section  -->
+                            <VerticalStackLayout Grid.Column="0" Style="{StaticResource ReportCardContent}">
+                                <Label Style="{StaticResource ReportCardTitle}" Text="{Binding CustomerName}" />
+
+                                <Label Style="{StaticResource ReportCardDetail}" Text="{Binding Address}" />
+
+                                <Grid
+                                    ColumnDefinitions="Auto,Auto"
+                                    ColumnSpacing="{StaticResource SpacingMedium}"
+                                    Margin="0,4,0,0">
+                                    <Label
+                                        Grid.Column="0"
+                                        Style="{StaticResource ReportCardMetadata}"
+                                        Text="{Binding DateCreated, StringFormat='Created: {0:MMM d, yyyy}'}" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Style="{StaticResource ReportCardMetadata}"
+                                        Text="{Binding LastModified, StringFormat='Modified: {0:MMM d, yyyy}'}" />
+                                </Grid>
+                            </VerticalStackLayout>
+
+                            <!--  Actions Section  -->
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                MinimumWidthRequest="100"
+                                Spacing="{StaticResource SpacingSmall}"
+                                VerticalOptions="Center">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type reportViewModels:ReportBrowserViewModel}}, Path=OpenReportCommand}"
+                                    CommandParameter="{Binding ReportId}"
+                                    HeightRequest="36"
+                                    Margin="{StaticResource MarginNone}"
+                                    Padding="8,0"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Text="Open" />
+
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type reportViewModels:ReportBrowserViewModel}}, Path=DeleteReportCommand}"
+                                    CommandParameter="{Binding ReportId}"
+                                    HeightRequest="36"
+                                    Padding="8,0"
+                                    Style="{StaticResource DeleteButton}"
+                                    Text="Delete" />
+                            </VerticalStackLayout>
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -9,6 +9,7 @@ public class ReportItemViewModel : INotifyPropertyChanged
     private string _customerName = string.Empty;
     private string _address = string.Empty;
     private DateTime _dateCreated;
+    private DateTime _lastModified;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -60,6 +61,19 @@ public class ReportItemViewModel : INotifyPropertyChanged
             {
                 _dateCreated = value;
                 OnPropertyChanged(nameof(DateCreated));
+            }
+        }
+    }
+    
+    public DateTime LastModified
+    {
+        get => _lastModified;
+        set
+        {
+            if (_lastModified != value)
+            {
+                _lastModified = value;
+                OnPropertyChanged();
             }
         }
     }

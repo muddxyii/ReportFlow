@@ -2,7 +2,7 @@
 
 public class ReportMetadata
 {
-    private DateTime CreatedDate { get; }
+    public DateTime CreatedDate { get; }
     public DateTime LastModifiedDate { get; set; }
     public string ReportId { get; set; }
     public string? ReportType { get; set; }
