@@ -1,7 +1,7 @@
-﻿using ReportFlow.Views;
-using ReportFlow.Views.FinalViews;
+﻿using ReportFlow.Views.FinalViews;
 using ReportFlow.Views.InfoViews;
 using ReportFlow.Views.RepairViews;
+using ReportFlow.Views.ReportViews;
 using ReportFlow.Views.TestViews;
 
 namespace ReportFlow;
@@ -14,6 +14,9 @@ public partial class AppShell : Shell
         
         // Register MainPage
         Routing.RegisterRoute("MainPage", typeof(MainPage));
+        
+        // Register Report Browser
+        Routing.RegisterRoute("ReportBrowser", typeof(ReportBrowserPage));
         
         // Register InfoViews
         Routing.RegisterRoute("CustomerInfo", typeof(CustomerInfoPage));

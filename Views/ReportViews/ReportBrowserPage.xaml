@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Browse Reports"
+    x:Class="ReportFlow.Views.ReportViews.ReportBrowserPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:reportViewModels="using:ReportFlow.ViewModels.ReportViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsLoading}">
+        <CollectionView EmptyView="No reports found" ItemsSource="{Binding Reports}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="reportViewModels:ReportItemViewModel">
+                    <Frame Margin="10" Padding="10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type reportViewModels:ReportBrowserViewModel}}, Path=OpenReportCommand}" CommandParameter="{Binding ReportId}" />
+                        </Frame.GestureRecognizers>
+                        <VerticalStackLayout>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Text="{Binding CustomerName}" />
+                            <Label FontSize="Small" Text="{Binding Address}" />
+                            <Label
+                                FontSize="Small"
+                                Text="{Binding DateCreated, StringFormat='{0:d}'}"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
