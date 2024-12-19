@@ -24,9 +24,12 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
         Dictionary<string, string> formData)
     {
         if (!formData.Any()) return;
+
         // Import Form Data
         SaveFormData(formData);
         NextCommand = new Command(async () => await OnNext());
+        BackCommand = new Command(async () => await OnBack());
+
         // Get Cache Service
         _reportCacheService = IPlatformApplication.Current?.Services.GetRequiredService<IReportCacheService>() ??
                               throw new InvalidOperationException();
@@ -64,16 +67,8 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
     /// </summary>
     protected Dictionary<string, string> FormData { get; } = new();
 
-    /// <summary>
-    ///     Gets the command that is executed to proceed to the next step in the workflow.
-    /// </summary>
-    /// <remarks>
-    ///     This property is bound to user interface elements (e.g., buttons) to handle navigation or
-    ///     progression actions within the application. The command is typically implemented to call
-    ///     the <c>OnNext</c> method, which is defined in derived classes to customize the behavior
-    ///     for the current context.
-    /// </remarks>
     public ICommand NextCommand { get; }
+    public ICommand BackCommand { get; }
 
     #endregion
 
@@ -205,15 +200,8 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
     {
     }
 
-    // Template method for navigation logic
-    /// <summary>
-    ///     Handles logic and operations when navigating to the next step in the workflow.
-    ///     This method must be implemented by derived classes to define their specific navigation behavior.
-    /// </summary>
-    /// <returns>
-    ///     A task representing the asynchronous operation to process and transition to the next step.
-    /// </returns>
     protected abstract Task OnNext();
+    protected abstract Task OnBack();
 
     #endregion
 

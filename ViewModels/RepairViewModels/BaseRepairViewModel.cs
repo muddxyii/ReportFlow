@@ -1,15 +1,16 @@
 using System.Windows.Input;
 using ReportFlow.ViewModels.FinalViewModels;
+using ReportFlow.ViewModels.InfoViewModels;
 using ReportFlow.ViewModels.TestViewModels;
 
 namespace ReportFlow.ViewModels.RepairViewModels;
 
-public class BaseRepairViewModel: BaseBackflowViewModel
+public class BaseRepairViewModel : BaseBackflowViewModel
 {
     #region Private properties
-    
+
     #region Check Related Properties
-    
+
     private bool _ck1Cleaned;
     private bool _ck2Cleaned;
     private bool _ck1CheckDisc;
@@ -24,11 +25,11 @@ public class BaseRepairViewModel: BaseBackflowViewModel
     private bool _ck2Seat;
     private bool _ck1Other;
     private bool _ck2Other;
-    
+
     #endregion
-    
+
     #region RV Related Properties
-    
+
     private bool _rvCleaned;
     private bool _rvRubberKit;
     private bool _rvDiscHolder;
@@ -38,9 +39,9 @@ public class BaseRepairViewModel: BaseBackflowViewModel
     private bool _rvOther;
 
     #endregion
-    
+
     #region PVB Related Properties
-    
+
     private bool _pvbCleaned;
     private bool _pvbRubberKit;
     private bool _pvbDiscHolder;
@@ -48,21 +49,21 @@ public class BaseRepairViewModel: BaseBackflowViewModel
     private bool _pvbGuide;
     private bool _pvbSeat;
     private bool _pvbOther;
-    
+
     #endregion
-    
+
     #region BaseRepairViewModel
-    
-    Dictionary<string, string> _fieldsToSave = new Dictionary<string, string>();
-    
+
+    private Dictionary<string, string> _fieldsToSave = new();
+
     #endregion
-    
+
     #endregion
-    
+
     #region Public properties
-    
+
     #region Check Related Properties
-    
+
     public bool Ck1Cleaned
     {
         get => _ck1Cleaned;
@@ -73,7 +74,7 @@ public class BaseRepairViewModel: BaseBackflowViewModel
             OnPropertyChanged(nameof(Ck1Cleaned));
         }
     }
-    
+
     public bool Ck2Cleaned
     {
         get => _ck2Cleaned;
@@ -216,9 +217,9 @@ public class BaseRepairViewModel: BaseBackflowViewModel
             OnPropertyChanged(nameof(Ck2Other));
         }
     }
-    
+
     #endregion
-    
+
     #region RV Related Properties
 
     public bool RvCleaned
@@ -299,7 +300,7 @@ public class BaseRepairViewModel: BaseBackflowViewModel
     }
 
     #endregion
-    
+
     #region PVB Related Properties
 
     public bool PvbCleaned
@@ -380,31 +381,32 @@ public class BaseRepairViewModel: BaseBackflowViewModel
     }
 
     #endregion
-    
+
     #endregion
-    
+
     #region Functions
-    
-    #region Implementations 
+
+    #region Implementations
+
     public ICommand SkipCommand { get; }
 
     public BaseRepairViewModel() : base(new Dictionary<string, string>())
     {
         SkipCommand = new Command(async () => await OnSkip());
     }
-    
+
     public BaseRepairViewModel(Dictionary<string, string>? formData) : base(formData)
     {
         SkipCommand = new Command(async () => await OnSkip());
     }
 
     #endregion
-    
+
     protected override async Task OnNext()
     {
         // Save Form Data
         await SaveFormDataWithCache(_fieldsToSave);
-        
+
         // Load 'TestViewModel' Based On Type
         var type = FormData?.GetValueOrDefault("BFType");
         if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
@@ -455,7 +457,17 @@ public class BaseRepairViewModel: BaseBackflowViewModel
                 break;
         }
     }
-    
+
+    protected override async Task OnBack()
+    {
+        // Load Previous Page
+        var viewModel = new DeviceInfoViewModel(FormData);
+        await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
+        {
+            ["ViewModel"] = viewModel
+        });
+    }
+
     protected async Task OnSkip()
     {
         // Load 'PassFinalViewModel'
@@ -466,6 +478,6 @@ public class BaseRepairViewModel: BaseBackflowViewModel
             { "ViewModel", viewModel }
         });
     }
-    
+
     #endregion
 }

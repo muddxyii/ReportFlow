@@ -123,13 +123,15 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
 
     #region Constructor
 
-    public CustomerInfoViewModel() : base(new Dictionary<string, string>()) {}
-    
+    public CustomerInfoViewModel() : base(new Dictionary<string, string>())
+    {
+    }
+
     public CustomerInfoViewModel(Dictionary<string, string>? formData) : base(formData)
     {
         InitFormFields();
     }
-    
+
     protected sealed override void InitFormFields()
     {
         PermitNumber = FormData.GetValueOrDefault("PermitAccountNo");
@@ -143,27 +145,35 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
         PersonToContact = FormData.GetValueOrDefault("PersontoContact");
         ContactPhone = FormData.GetValueOrDefault("Phone-0");
     }
-    
+
     #endregion
-    
+
     #region Abstract function implementation
-    
+
+    private Dictionary<string, string> GetFormFields()
+    {
+        // Save form fields to form data
+        Dictionary<string, string> formFields = new()
+        {
+            { "PermitAccountNo", PermitNumber ?? string.Empty },
+            { "FacilityOwner", FacilityOwner ?? string.Empty },
+            { "Address", CustomerAddress ?? string.Empty },
+            { "Contact", Contact ?? string.Empty },
+            { "Phone", Phone ?? string.Empty },
+            { "Email", Email ?? string.Empty },
+            { "OwnerRep", OwnerRep ?? string.Empty },
+            { "RepAddress", RepAddress ?? string.Empty },
+            { "PersontoContact", PersonToContact ?? string.Empty },
+            { "Phone-0", ContactPhone ?? string.Empty }
+        };
+
+        return formFields;
+    }
+
     protected override async Task OnNext()
     {
         // Save form fields to form data
-        Dictionary<string, string> formFields = new Dictionary<string, string>()
-        {
-            { "PermitAccountNo", PermitNumber ?? String.Empty },
-            { "FacilityOwner", FacilityOwner ?? String.Empty },
-            { "Address", CustomerAddress ?? String.Empty },
-            { "Contact", Contact ?? String.Empty },
-            { "Phone", Phone ?? String.Empty },
-            { "Email", Email ?? String.Empty },
-            { "OwnerRep", OwnerRep ?? String.Empty },
-            { "RepAddress", RepAddress ?? String.Empty },
-            { "PersontoContact", PersonToContact ?? String.Empty },
-            { "Phone-0", ContactPhone ?? String.Empty }
-        };
+        var formFields = GetFormFields();
         await SaveFormDataWithCache(formFields);
 
         // Create next view model with FormData
@@ -172,6 +182,15 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
         {
             ["ViewModel"] = viewModel
         });
+    }
+
+    protected override async Task OnBack()
+    {
+        // Save form fields to form data
+        var formFields = GetFormFields();
+        await SaveFormDataWithCache(formFields);
+
+        await Shell.Current.GoToAsync("///MainPage");
     }
 
     #endregion

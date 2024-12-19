@@ -9,10 +9,10 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     public List<string> InstallationStatusOptions { get; } =
         ["NEW", "EXISTING", "REPLACEMENT"];
 
-    public List<String> ProtectionTypeOptions { get; } =
+    public List<string> ProtectionTypeOptions { get; } =
         ["SECONDARY / CONTAINMENT", "PRIMARY / POINT OF USE"];
 
-    public List<String> ServiceTypeOptions { get; } =
+    public List<string> ServiceTypeOptions { get; } =
         ["DOMESTIC", "IRRIGATION", "FIRE"];
 
     public List<string> ManufacturerOptions { get; } =
@@ -181,7 +181,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     #endregion
 
     #region Constructor
-    
+
     public DeviceInfoViewModel(Dictionary<string, string>? formData) : base(formData)
     {
         InitFormFields();
@@ -190,7 +190,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     protected sealed override void InitFormFields()
     {
         if (FormData == null) return;
-        
+
         WaterPurveyor = FormData.GetValueOrDefault("WaterPurveyor");
         AssemblyAddress = FormData.GetValueOrDefault("AssemblyAddress");
         OnSiteLocation = FormData.GetValueOrDefault("On Site Location of Assembly");
@@ -205,10 +205,32 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         Manufacturer = FormData.GetValueOrDefault("Manufacturer");
         Type = FormData.GetValueOrDefault("BFType");
     }
-    
+
     #endregion
-    
+
     #region Abstract Methods
+
+    private Dictionary<string, string> GetFormFields()
+    {
+        var formFields = new Dictionary<string, string>()
+        {
+            { "WaterPurveyor", WaterPurveyor ?? string.Empty },
+            { "AssemblyAddress", AssemblyAddress ?? string.Empty },
+            { "On Site Location of Assembly", OnSiteLocation ?? string.Empty },
+            { "PrimaryBusinessService", PrimaryService ?? string.Empty },
+            { "InstallationIs", InstallationStatus ?? string.Empty },
+            { "ProtectionType", ProtectionType ?? string.Empty },
+            { "ServiceType", ServiceType ?? string.Empty },
+            { "WaterMeterNo", WaterMeterNo ?? string.Empty },
+            { "SerialNo", SerialNo ?? string.Empty },
+            { "ModelNo", ModelNo ?? string.Empty },
+            { "Size", Size ?? string.Empty },
+            { "Manufacturer", Manufacturer ?? string.Empty },
+            { "BFType", Type ?? string.Empty }
+        };
+
+        return formFields;
+    }
 
     protected override async Task OnNext()
     {
@@ -216,28 +238,13 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         if (!await AreFieldsValid(new (string Value, string Name)[]
             {
                 (Type ?? "", "Backflow Type"),
-                (PrimaryService ?? "", "Primary Service At Location"),
+                (PrimaryService ?? "", "Primary Service At Location")
             })) return;
-        
+
         // Save form fields to form data
-        Dictionary<string, string> formFields = new Dictionary<string, string>()
-        {
-            { "WaterPurveyor", WaterPurveyor ?? String.Empty },
-            { "AssemblyAddress", AssemblyAddress ?? String.Empty },
-            { "On Site Location of Assembly", OnSiteLocation ?? String.Empty },
-            { "PrimaryBusinessService", PrimaryService ?? String.Empty },
-            { "InstallationIs", InstallationStatus ?? String.Empty },
-            { "ProtectionType", ProtectionType ?? String.Empty },
-            { "ServiceType", ServiceType ?? String.Empty },
-            { "WaterMeterNo", WaterMeterNo ?? String.Empty },
-            { "SerialNo", SerialNo ?? String.Empty },
-            { "ModelNo", ModelNo ?? String.Empty },
-            { "Size", Size ?? String.Empty },
-            { "Manufacturer", Manufacturer ?? String.Empty },
-            { "BFType", Type ?? String.Empty }
-        };
+        var formFields = GetFormFields();
         await SaveFormDataWithCache(formFields);
-        
+
         // Load next viewmodel
         switch (Type)
         {
@@ -292,8 +299,23 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
                 break;
         }
     }
-    
+
+    protected override async Task OnBack()
+    {
+        // Save form fields to form data
+        var formFields = GetFormFields();
+        await SaveFormDataWithCache(formFields);
+
+        var viewModel = new CustomerInfoViewModel(FormData);
+        await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
+        {
+            ["ViewModel"] = viewModel
+        });
+    }
+
     #endregion
-    
-    public DeviceInfoViewModel() : this(new Dictionary<string, string>()) {}
+
+    public DeviceInfoViewModel() : this(new Dictionary<string, string>())
+    {
+    }
 }

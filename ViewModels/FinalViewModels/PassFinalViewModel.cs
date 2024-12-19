@@ -1,3 +1,5 @@
+using ReportFlow.ViewModels.InfoViewModels;
+
 namespace ReportFlow.ViewModels.FinalViewModels;
 
 public class PassFinalViewModel : BaseBackflowViewModel
@@ -291,6 +293,16 @@ public class PassFinalViewModel : BaseBackflowViewModel
         var serialNo = FormData.GetValueOrDefault("SerialNo");
         var fileName = $"{serialNo ?? "Unknown"}_{DateTime.Now:yyyy-M-d}.pdf";
         await SavePdf(fileName);
+    }
+
+    protected override async Task OnBack()
+    {
+        // Load Previous Page
+        var viewModel = new DeviceInfoViewModel(FormData);
+        await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
+        {
+            ["ViewModel"] = viewModel
+        });
     }
 
     #region Validation

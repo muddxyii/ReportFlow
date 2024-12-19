@@ -1,4 +1,5 @@
 using ReportFlow.ViewModels.FinalViewModels;
+using ReportFlow.ViewModels.InfoViewModels;
 using ReportFlow.ViewModels.RepairViewModels;
 
 namespace ReportFlow.ViewModels.TestViewModels;
@@ -6,28 +7,28 @@ namespace ReportFlow.ViewModels.TestViewModels;
 public abstract class BaseTestViewModel : BaseBackflowViewModel
 {
     #region Dropdown Items
-    
+
     #region ALl BF Dropdowns
-    
+
     public List<string> ShutoffValveOptions { get; } =
     [
         "BOTH OK", "BOTH CLOSED", "BOTH VALVES",
         "#1 VALVE", "#2 VALVE"
     ];
-    
+
     #endregion
-    
+
     #region PVB Related Properties
-    
+
     public List<string> BackPressureOptions { get; } =
     [
         "NO", "YES"
     ];
-    
+
     #endregion
-    
+
     #endregion
-    
+
     #region Private properties
 
     #region All BF Properties
@@ -37,26 +38,26 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     private string? _sovComment;
 
     #endregion
-    
+
     #region Check Related Properties
-    
+
     private string? _checkValve1;
     private string? _checkValve2;
     private bool _checkValve1Ct;
     private bool _checkValve2Ct;
-    
+
     #endregion
-    
+
     #region RV Related Properties
-    
+
     private string? _pressureReliefOpening;
     private bool _reliefValveDidNotOpen;
     private bool _reliefValveLeaking;
 
     #endregion
-    
+
     #region PVB Related Properties
-    
+
     private string? _backPressure;
     private string? _airInletOpening;
     private bool _airInletLeaked;
@@ -65,20 +66,20 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     private bool _ckPvbLeaked;
 
     #endregion
-    
+
     #region BaseTestViewModel
-    
-    private Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
-    private Dictionary<string, string> _passedFieldsToSave = new Dictionary<string, string>();
-    
+
+    private Dictionary<string, string> _failedFieldsToSave = new();
+    private Dictionary<string, string> _passedFieldsToSave = new();
+
     #endregion
-    
+
     #endregion
-    
+
     #region Public Properties
 
     #region All BF Properties
-    
+
     public string? LinePressure
     {
         get => _linePressure;
@@ -90,7 +91,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(LinePressure));
         }
     }
-    
+
     public string? ShutoffValve
     {
         get => _shutoffValve;
@@ -102,7 +103,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(ShutoffValve));
         }
     }
-    
+
     public string? SovComment
     {
         get => _sovComment;
@@ -116,16 +117,19 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     }
 
     #endregion
-    
+
     #region Check Related Properties
+
     public string? CheckValve1
     {
         get => _checkValve1;
         set
         {
             _checkValve1 = value;
-            _failedFieldsToSave["InitialCT1"] = decimal.TryParse(CheckValve1, out decimal fcv1) ? fcv1.ToString("F1") : string.Empty;
-            _passedFieldsToSave["FinalCT1"] = decimal.TryParse(CheckValve1, out decimal pcv1) ? pcv1.ToString("F1") : string.Empty;
+            _failedFieldsToSave["InitialCT1"] =
+                decimal.TryParse(CheckValve1, out var fcv1) ? fcv1.ToString("F1") : string.Empty;
+            _passedFieldsToSave["FinalCT1"] =
+                decimal.TryParse(CheckValve1, out var pcv1) ? pcv1.ToString("F1") : string.Empty;
             OnPropertyChanged(nameof(CheckValve1));
         }
     }
@@ -136,12 +140,14 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         set
         {
             _checkValve2 = value;
-            _failedFieldsToSave["InitialCT2"] = decimal.TryParse(CheckValve2, out decimal fcv2) ? fcv2.ToString("F1") : string.Empty;
-            _passedFieldsToSave["FinalCT2"] = decimal.TryParse(CheckValve2, out decimal pcv2) ? pcv2.ToString("F1") : string.Empty;
+            _failedFieldsToSave["InitialCT2"] =
+                decimal.TryParse(CheckValve2, out var fcv2) ? fcv2.ToString("F1") : string.Empty;
+            _passedFieldsToSave["FinalCT2"] =
+                decimal.TryParse(CheckValve2, out var pcv2) ? pcv2.ToString("F1") : string.Empty;
             OnPropertyChanged(nameof(CheckValve2));
         }
     }
-    
+
     public bool CheckValve1Ct
     {
         get => _checkValve1Ct;
@@ -169,21 +175,25 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     }
 
     #endregion
-    
+
     #region RV Related Properties
-    
+
     public string? PressureReliefOpening
     {
         get => _pressureReliefOpening;
         set
         {
             _pressureReliefOpening = value;
-            _failedFieldsToSave["InitialPSIRV"] = decimal.TryParse(PressureReliefOpening, out decimal frv) ? frv.ToString("F1") : string.Empty;
-            _passedFieldsToSave["FinalRV"] = decimal.TryParse(PressureReliefOpening, out decimal prv) ? prv.ToString("F1") : string.Empty;
+            _failedFieldsToSave["InitialPSIRV"] = decimal.TryParse(PressureReliefOpening, out var frv)
+                ? frv.ToString("F1")
+                : string.Empty;
+            _passedFieldsToSave["FinalRV"] = decimal.TryParse(PressureReliefOpening, out var prv)
+                ? prv.ToString("F1")
+                : string.Empty;
             OnPropertyChanged(nameof(_pressureReliefOpening));
         }
     }
-    
+
     public bool ReliefValveDidNotOpen
     {
         get => _reliefValveDidNotOpen;
@@ -194,7 +204,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(ReliefValveDidNotOpen));
         }
     }
-    
+
     public bool ReliefValveLeaking
     {
         get => _reliefValveLeaking;
@@ -206,9 +216,9 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     }
 
     #endregion
-    
+
     #region PVB Related Properties
-    
+
     public string? BackPressure
     {
         get => _backPressure;
@@ -220,19 +230,21 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(BackPressure));
         }
     }
-    
+
     public string? AirInletOpening
     {
         get => _airInletOpening;
         set
         {
             _airInletOpening = value;
-            _failedFieldsToSave["InitialAirInlet"] = decimal.TryParse(AirInletOpening, out decimal fai) ? fai.ToString("F1") : string.Empty;
-            _passedFieldsToSave["FinalAirInlet"] = decimal.TryParse(AirInletOpening, out decimal pai) ? pai.ToString("F1") : string.Empty;
+            _failedFieldsToSave["InitialAirInlet"] =
+                decimal.TryParse(AirInletOpening, out var fai) ? fai.ToString("F1") : string.Empty;
+            _passedFieldsToSave["FinalAirInlet"] =
+                decimal.TryParse(AirInletOpening, out var pai) ? pai.ToString("F1") : string.Empty;
             OnPropertyChanged(nameof(_airInletOpening));
         }
     }
-    
+
     public bool AirInletLeaked
     {
         get => _airInletLeaked;
@@ -243,7 +255,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(AirInletLeaked));
         }
     }
-    
+
     public bool AirInletDidNotOpen
     {
         get => _airInletDidNotOpen;
@@ -254,20 +266,22 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(AirInletDidNotOpen));
         }
     }
-    
+
     public string? CkPvb
     {
         get => _ckPvb;
         set
         {
             _ckPvb = value;
-            _failedFieldsToSave["InitialCk1PVB"] = decimal.TryParse(CkPvb, out decimal fai) ? fai.ToString("F1") : string.Empty;
-            _passedFieldsToSave["Check Valve"] = decimal.TryParse(CkPvb, out decimal pai) ? pai.ToString("F1") : string.Empty;
+            _failedFieldsToSave["InitialCk1PVB"] =
+                decimal.TryParse(CkPvb, out var fai) ? fai.ToString("F1") : string.Empty;
+            _passedFieldsToSave["Check Valve"] =
+                decimal.TryParse(CkPvb, out var pai) ? pai.ToString("F1") : string.Empty;
             OnPropertyChanged(nameof(CkPvb));
         }
     }
 
-    
+
     public bool CkPvbLeaked
     {
         get => _ckPvbLeaked;
@@ -278,56 +292,62 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             OnPropertyChanged(nameof(CkPvbLeaked));
         }
     }
-    
+
     #endregion
-    
+
     #endregion
-    
+
     #region Constructor
 
-    public BaseTestViewModel() : base(new Dictionary<string, string>()) {}
-    
-    public BaseTestViewModel(Dictionary<string, string>? formData) : base(formData) {}
-    
+    public BaseTestViewModel() : base(new Dictionary<string, string>())
+    {
+    }
+
+    public BaseTestViewModel(Dictionary<string, string>? formData) : base(formData)
+    {
+    }
+
     #endregion
-    
+
     # region Method Implementations
 
     protected override async Task OnNext()
     {
         if (!await ValidateFields()) return;
         if (IsBackflowPassing())
-        {
             await HandlePassingTest();
-        }
         else
-        {
             await HandleFailingTest();
-        }
+    }
+
+    protected override async Task OnBack()
+    {
+        // Load Previous Page
+        var viewModel = new DeviceInfoViewModel(FormData);
+        await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
+        {
+            ["ViewModel"] = viewModel
+        });
     }
 
     private async Task HandlePassingTest()
     {
         // Save Form Data
         await SaveFormDataWithCache(_passedFieldsToSave);
-        
+
         // Check if previously failed
         var ck1 = FormData?.GetValueOrDefault("InitialCT1");
         var airInlet = FormData?.GetValueOrDefault("InitialAirInlet");
-        var viewModel = new PassFinalViewModel(FormData, 
+        var viewModel = new PassFinalViewModel(FormData,
             false, false, false);
-        
+
         if (!string.IsNullOrEmpty(ck1) || !string.IsNullOrEmpty(airInlet))
-        {
             viewModel = new PassFinalViewModel(FormData,
                 true, true, true);
-        }
         else
-        {
             viewModel = new PassFinalViewModel(FormData,
                 false, false, true);
-        }
-        
+
         await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
         {
             { "ViewModel", viewModel }
@@ -339,29 +359,26 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         // Special Case For Leaking RVs
         if (ReliefValveLeaking)
         {
-            if (_failedFieldsToSave.TryGetValue("InitialPSIRV", out string curStr))
+            if (_failedFieldsToSave.TryGetValue("InitialPSIRV", out var curStr))
             {
-                if (!curStr.StartsWith("LEAKING"))
-                {
-                    _failedFieldsToSave["InitialPSIRV"] = "LEAKING/" + curStr;
-                }
+                if (!curStr.StartsWith("LEAKING")) _failedFieldsToSave["InitialPSIRV"] = "LEAKING/" + curStr;
             }
             else
             {
                 _failedFieldsToSave["InitialPSIRV"] = "LEAKING";
             }
         }
-        
+
         // Save Form Data
         await SaveFormDataWithCache(_failedFieldsToSave);
-        
+
         // Create 'RepairViewModel'
         var repairViewModel = new BaseRepairViewModel(FormData);
-        
+
         // Load 'RepairViewModel' Based On Type
         var type = FormData?.GetValueOrDefault("BFType");
         if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
-        
+
         switch (type)
         {
             case "RP":
@@ -405,7 +422,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     }
 
     #endregion
-    
+
     # region Abstract
 
     protected virtual async Task<bool> ValidateFields()
@@ -413,9 +430,9 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         if (!await AreFieldsValid(new (string Value, string Name)[]
             {
                 (LinePressure ?? "", "Line Pressure"),
-                (ShutoffValve ?? "", "Shutoff Valve"),
+                (ShutoffValve ?? "", "Shutoff Valve")
             })) return false;
-        
+
         return true;
     }
 
@@ -423,5 +440,4 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     protected abstract bool IsBackflowPassing();
 
     #endregion
-    
 }
