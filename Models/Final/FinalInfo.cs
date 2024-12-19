@@ -24,7 +24,8 @@ public class FinalInfo
             fields.Add("InitialTester", InitialTest.Name ?? string.Empty);
             fields.Add("InitialTesterNo", InitialTest.CertificationNo ?? string.Empty);
             fields.Add("InitialTestKitSerial", InitialTest.TestKitSerial ?? string.Empty);
-            fields.Add("DateFailed", InitialTest.Date.ToString("M/d/yyyy"));
+            if (!string.IsNullOrEmpty(InitialTest.Name))
+                fields.Add("DateFailed", InitialTest.Date.ToString("M/d/yyyy"));
         }
 
         if (RepairedTest != null)
@@ -32,7 +33,8 @@ public class FinalInfo
             fields.Add("RepairedTester", RepairedTest.Name ?? string.Empty);
             fields.Add("RepairedTesterNo", RepairedTest.CertificationNo ?? string.Empty);
             fields.Add("RepairedTestKitSerial", RepairedTest.TestKitSerial ?? string.Empty);
-            fields.Add("DateRepaired", RepairedTest.Date.ToString("M/d/yyyy"));
+            if (!string.IsNullOrEmpty(RepairedTest.Name))
+                fields.Add("DateRepaired", RepairedTest.Date.ToString("M/d/yyyy"));
         }
 
         if (FinalTest != null)
@@ -40,7 +42,8 @@ public class FinalInfo
             fields.Add("FinalTester", FinalTest.Name ?? string.Empty);
             fields.Add("FinalTesterNo", FinalTest.CertificationNo ?? string.Empty);
             fields.Add("FinalTestKitSerial", FinalTest.TestKitSerial ?? string.Empty);
-            fields.Add("DatePassed", FinalTest.Date.ToString("M/d/yyyy"));
+            if (!string.IsNullOrEmpty(FinalTest.Name))
+                fields.Add("DatePassed", FinalTest.Date.ToString("M/d/yyyy"));
         }
 
         fields.Add("ReportComments", Comments?.ToUpper() ?? string.Empty);
