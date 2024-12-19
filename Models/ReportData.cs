@@ -1,5 +1,6 @@
 ﻿using ReportFlow.Interfaces;
 using ReportFlow.Models.Info;
+using DeviceInfo = ReportFlow.Models.Info.DeviceInfo;
 
 namespace ReportFlow.Models;
 
@@ -9,7 +10,7 @@ public class ReportData
     public string ReportId { get; init; }
 
     public CustomerInfo CustomerInfo { get; set; }
-
+    public DeviceInfo DeviceInfo { get; set; }
 
     public ReportData(Dictionary<string, string> oldPdfData)
     {
@@ -21,5 +22,6 @@ public class ReportData
 
         // Load Models
         CustomerInfo = CustomerInfo.FromFormFields(oldPdfData);
+        DeviceInfo = DeviceInfo.FromFormFields(oldPdfData);
     }
 }
