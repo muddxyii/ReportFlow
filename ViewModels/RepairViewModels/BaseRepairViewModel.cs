@@ -403,7 +403,7 @@ public class BaseRepairViewModel: BaseBackflowViewModel
     protected override async Task OnNext()
     {
         // Save Form Data
-        SaveFormData(_fieldsToSave);
+        await SaveFormDataWithCache(_fieldsToSave);
         
         // Load 'TestViewModel' Based On Type
         var type = FormData?.GetValueOrDefault("BFType");

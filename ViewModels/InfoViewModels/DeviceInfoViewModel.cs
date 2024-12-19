@@ -236,7 +236,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
             { "Manufacturer", Manufacturer ?? String.Empty },
             { "BFType", Type ?? String.Empty }
         };
-        SaveFormData(formFields);
+        await SaveFormDataWithCache(formFields);
         
         // Load next viewmodel
         switch (Type)

@@ -4,9 +4,9 @@ public class PassFinalViewModel : BaseBackflowViewModel
 {
     #region PassFinalViewModel Properties
 
-    Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
-    Dictionary<string, string> _repairedFieldsToSave = new Dictionary<string, string>();
-    Dictionary<string, string> _passedFieldsToSave = new Dictionary<string, string>();
+    private Dictionary<string, string> _failedFieldsToSave = new();
+    private Dictionary<string, string> _repairedFieldsToSave = new();
+    private Dictionary<string, string> _passedFieldsToSave = new();
 
     private bool _showInitialFields;
     private bool _showRepairedFields;
@@ -46,7 +46,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
 
     #region Dropdown Items
 
-    public List<String> TesterNameOptions { get; } =
+    public List<string> TesterNameOptions { get; } =
         ["MIGUEL CARRILLO", "JAYSON PADILLA", "JACOB S. PADILLA"];
 
     public List<string> TesterNoOptions { get; } =
@@ -241,7 +241,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
     #endregion
 
     #region Constructor
-    
+
     public PassFinalViewModel(Dictionary<string, string>? formData,
         bool showInitialFields, bool showRepairedFields, bool showPassedFields) : base(formData)
     {
@@ -250,10 +250,12 @@ public class PassFinalViewModel : BaseBackflowViewModel
         _showPassedFields = showPassedFields;
     }
 
-    public PassFinalViewModel() : base(new Dictionary<string, string>()) {}
-    
+    public PassFinalViewModel() : base(new Dictionary<string, string>())
+    {
+    }
+
     #endregion
-    
+
     protected override async Task OnNext()
     {
         // Validate and save fields
@@ -279,15 +281,15 @@ public class PassFinalViewModel : BaseBackflowViewModel
         }
 
         // Save Comments
-        Dictionary<string, string> formFields = new Dictionary<string, string>()
+        Dictionary<string, string> formFields = new()
         {
-            { "ReportComments", Comments?.ToUpper() ?? string.Empty },
+            { "ReportComments", Comments?.ToUpper() ?? string.Empty }
         };
-        SaveFormData(formFields);
+        await SaveFormDataWithCache(formFields);
 
         // Save as pdf        
-        string? serialNo = FormData.GetValueOrDefault("SerialNo");
-        string fileName = $"{serialNo ?? "Unknown"}_{DateTime.Now:yyyy-M-d}.pdf";
+        var serialNo = FormData.GetValueOrDefault("SerialNo");
+        var fileName = $"{serialNo ?? "Unknown"}_{DateTime.Now:yyyy-M-d}.pdf";
         await SavePdf(fileName);
     }
 

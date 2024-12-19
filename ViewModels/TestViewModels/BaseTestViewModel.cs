@@ -309,7 +309,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     private async Task HandlePassingTest()
     {
         // Save Form Data
-        SaveFormData(_passedFieldsToSave);
+        await SaveFormDataWithCache(_passedFieldsToSave);
         
         // Check if previously failed
         var ck1 = FormData?.GetValueOrDefault("InitialCT1");
@@ -353,7 +353,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         }
         
         // Save Form Data
-        SaveFormData(_failedFieldsToSave);
+        await SaveFormDataWithCache(_failedFieldsToSave);
         
         // Create 'RepairViewModel'
         var repairViewModel = new BaseRepairViewModel(FormData);
