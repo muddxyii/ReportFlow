@@ -49,14 +49,14 @@
                         <Entry
                             Placeholder="Facility/Owner"
                             Style="{StaticResource FormEntry}"
-                            Text="{Binding FacilityOwner}" />
+                            Text="{Binding OwnerName}" />
 
                         <!--  Customer Address  -->
-                        <Label Style="{StaticResource FieldLabel}" Text="Customer Address" />
+                        <Label Style="{StaticResource FieldLabel}" Text="Address" />
                         <Editor
-                            Placeholder="Customer Address"
+                            Placeholder="Address"
                             Style="{StaticResource FormEditor}"
-                            Text="{Binding CustomerAddress}" />
+                            Text="{Binding OwnerAddress}" />
 
                         <!--  Email  -->
                         <Label Style="{StaticResource FieldLabel}" Text="Email" />
@@ -87,14 +87,14 @@
                                 Grid.Row="1"
                                 Placeholder="Contact"
                                 Style="{StaticResource FormEntry}"
-                                Text="{Binding Contact}" />
+                                Text="{Binding OwnerContact}" />
                             <Entry
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Keyboard="Telephone"
                                 Placeholder="Phone"
                                 Style="{StaticResource FormEntry}"
-                                Text="{Binding Phone}" />
+                                Text="{Binding OwnerPhone}" />
                         </Grid>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
@@ -117,7 +117,7 @@
                         <Entry
                             Placeholder="Owner Representative"
                             Style="{StaticResource FormEntry}"
-                            Text="{Binding OwnerRep}" />
+                            Text="{Binding RepName}" />
 
                         <!--  Rep Address  -->
                         <Label Style="{StaticResource FieldLabel}" Text="Representative Address" />
@@ -135,26 +135,26 @@
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 Style="{StaticResource FieldLabel}"
-                                Text="Person to Contact" />
+                                Text="Contact" />
                             <Label
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Style="{StaticResource FieldLabel}"
-                                Text="Contact Phone" />
+                                Text="Phone" />
 
                             <Entry
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                Placeholder="Person to Contact"
+                                Placeholder="Contact"
                                 Style="{StaticResource FormEntry}"
-                                Text="{Binding PersonToContact}" />
+                                Text="{Binding RepContact}" />
                             <Entry
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Keyboard="Telephone"
-                                Placeholder="Contact Phone"
+                                Placeholder="Phone"
                                 Style="{StaticResource FormEntry}"
-                                Text="{Binding ContactPhone}" />
+                                Text="{Binding RepPhone}" />
                         </Grid>
                     </VerticalStackLayout>
                 </VerticalStackLayout>

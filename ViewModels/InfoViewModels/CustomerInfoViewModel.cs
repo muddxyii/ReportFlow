@@ -1,180 +1,153 @@
-﻿namespace ReportFlow.ViewModels.InfoViewModels;
+﻿using ReportFlow.Models.Info;
+
+namespace ReportFlow.ViewModels.InfoViewModels;
 
 public class CustomerInfoViewModel : BaseBackflowViewModel
 {
-    #region Private properties
+    private CustomerInfo _customerInfo;
 
-    private string? _permitNumber;
-    private string? _facilityOwner;
-    private string? _customerAddress;
-    private string? _contact;
-    private string? _phone;
-    private string? _email;
-    private string? _ownerRep;
-    private string? _repAddress;
-    private string? _personToContact;
-    private string? _contactPhone;
-
-    #endregion
-
-    #region Public properties
+    #region Permit Number
 
     public string? PermitNumber
     {
-        get => _permitNumber;
+        get => _customerInfo.PermitNumber;
         set
         {
-            _permitNumber = value;
+            _customerInfo.PermitNumber = value;
             OnPropertyChanged(nameof(PermitNumber));
         }
     }
 
-    public string? FacilityOwner
+    #endregion
+
+    #region Facility Owner Details
+
+    public string? OwnerName
     {
-        get => _facilityOwner;
+        get => _customerInfo.OwnerDetails?.Name;
         set
         {
-            _facilityOwner = value;
-            OnPropertyChanged(nameof(FacilityOwner));
+            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            _customerInfo.OwnerDetails.Name = value;
+
+            OnPropertyChanged(nameof(OwnerName));
         }
     }
 
-    public string? CustomerAddress
+    public string? OwnerAddress
     {
-        get => _customerAddress;
+        get => _customerInfo.OwnerDetails?.Address;
         set
         {
-            _customerAddress = value;
-            OnPropertyChanged(nameof(CustomerAddress));
+            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            _customerInfo.OwnerDetails.Address = value;
+            OnPropertyChanged(nameof(OwnerAddress));
         }
     }
 
-    public string? Contact
+    public string? OwnerContact
     {
-        get => _contact;
+        get => _customerInfo.OwnerDetails?.Contact;
         set
         {
-            _contact = value;
-            OnPropertyChanged(nameof(Contact));
+            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            _customerInfo.OwnerDetails.Contact = value;
+            OnPropertyChanged(nameof(OwnerContact));
         }
     }
 
-    public string? Phone
+    public string? OwnerPhone
     {
-        get => _phone;
+        get => _customerInfo.OwnerDetails?.Phone;
         set
         {
-            _phone = value;
-            OnPropertyChanged(nameof(Phone));
+            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            _customerInfo.OwnerDetails.Phone = value;
+            OnPropertyChanged(nameof(OwnerPhone));
         }
     }
 
     public string? Email
     {
-        get => _email;
+        get => _customerInfo.OwnerDetails?.Email;
         set
         {
-            _email = value;
+            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            _customerInfo.OwnerDetails.Email = value;
             OnPropertyChanged(nameof(Email));
         }
     }
 
-    public string? OwnerRep
+    #endregion
+
+    #region Representative Details
+
+    public string? RepName
     {
-        get => _ownerRep;
+        get => _customerInfo.RepDetails?.Name;
         set
         {
-            _ownerRep = value;
-            OnPropertyChanged(nameof(OwnerRep));
+            _customerInfo.RepDetails ??= new RepresentativeDetails();
+            _customerInfo.RepDetails.Name = value;
+            OnPropertyChanged(nameof(RepName));
         }
     }
 
     public string? RepAddress
     {
-        get => _repAddress;
+        get => _customerInfo.RepDetails?.Address;
         set
         {
-            _repAddress = value;
+            _customerInfo.RepDetails ??= new RepresentativeDetails();
+            _customerInfo.RepDetails.Address = value;
             OnPropertyChanged(nameof(RepAddress));
         }
     }
 
-    public string? PersonToContact
+    public string? RepContact
     {
-        get => _personToContact;
+        get => _customerInfo.RepDetails?.Contact;
         set
         {
-            _personToContact = value;
-            OnPropertyChanged(nameof(PersonToContact));
+            _customerInfo.RepDetails ??= new RepresentativeDetails();
+            _customerInfo.RepDetails.Contact = value;
+            OnPropertyChanged(nameof(RepContact));
         }
     }
 
-    public string? ContactPhone
+    public string? RepPhone
     {
-        get => _contactPhone;
+        get => _customerInfo.RepDetails?.Phone;
         set
         {
-            _contactPhone = value;
-            OnPropertyChanged(nameof(ContactPhone));
+            _customerInfo.RepDetails ??= new RepresentativeDetails();
+            _customerInfo.RepDetails.Phone = value;
+            OnPropertyChanged(nameof(RepPhone));
         }
     }
 
     #endregion
 
-    #region Constructor
+    #region Constructors
 
     public CustomerInfoViewModel() : base(new Dictionary<string, string>())
     {
+        _customerInfo = new CustomerInfo();
     }
 
-    public CustomerInfoViewModel(Dictionary<string, string>? formData) : base(formData)
+    public CustomerInfoViewModel(Dictionary<string, string> formData) : base(formData)
     {
-        InitFormFields();
-    }
-
-    protected sealed override void InitFormFields()
-    {
-        PermitNumber = FormData.GetValueOrDefault("PermitAccountNo");
-        FacilityOwner = FormData.GetValueOrDefault("FacilityOwner");
-        CustomerAddress = FormData.GetValueOrDefault("Address");
-        Contact = FormData.GetValueOrDefault("Contact");
-        Phone = FormData.GetValueOrDefault("Phone");
-        Email = FormData.GetValueOrDefault("Email");
-        OwnerRep = FormData.GetValueOrDefault("OwnerRep");
-        RepAddress = FormData.GetValueOrDefault("RepAddress");
-        PersonToContact = FormData.GetValueOrDefault("PersontoContact");
-        ContactPhone = FormData.GetValueOrDefault("Phone-0");
+        _customerInfo = CustomerInfo.FromFormFields(formData);
     }
 
     #endregion
 
-    #region Abstract function implementation
-
-    private Dictionary<string, string> GetFormFields()
-    {
-        // Save form fields to form data
-        Dictionary<string, string> formFields = new()
-        {
-            { "PermitAccountNo", PermitNumber ?? string.Empty },
-            { "FacilityOwner", FacilityOwner ?? string.Empty },
-            { "Address", CustomerAddress ?? string.Empty },
-            { "Contact", Contact ?? string.Empty },
-            { "Phone", Phone ?? string.Empty },
-            { "Email", Email ?? string.Empty },
-            { "OwnerRep", OwnerRep ?? string.Empty },
-            { "RepAddress", RepAddress ?? string.Empty },
-            { "PersontoContact", PersonToContact ?? string.Empty },
-            { "Phone-0", ContactPhone ?? string.Empty }
-        };
-
-        return formFields;
-    }
+    #region Navigation Methods
 
     protected override async Task OnNext()
     {
         // Save form fields to form data
-        var formFields = GetFormFields();
-        await SaveFormDataWithCache(formFields);
+        await SaveFormDataWithCache(_customerInfo.ToFormFields());
 
         // Create next view model with FormData
         var viewModel = new DeviceInfoViewModel(FormData);
@@ -187,8 +160,7 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
     protected override async Task OnBack()
     {
         // Save form fields to form data
-        var formFields = GetFormFields();
-        await SaveFormDataWithCache(formFields);
+        await SaveFormDataWithCache(_customerInfo.ToFormFields());
 
         await Shell.Current.GoToAsync("///MainPage");
     }
