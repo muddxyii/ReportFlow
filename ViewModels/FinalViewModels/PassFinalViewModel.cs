@@ -1,18 +1,16 @@
+using ReportFlow.Models.Final;
 using ReportFlow.ViewModels.InfoViewModels;
 
 namespace ReportFlow.ViewModels.FinalViewModels;
 
 public class PassFinalViewModel : BaseBackflowViewModel
 {
-    #region PassFinalViewModel Properties
-
-    private Dictionary<string, string> _failedFieldsToSave = new();
-    private Dictionary<string, string> _repairedFieldsToSave = new();
-    private Dictionary<string, string> _passedFieldsToSave = new();
-
+    private FinalInfo _finalInfo;
     private bool _showInitialFields;
     private bool _showRepairedFields;
     private bool _showPassedFields;
+
+    #region Show Fields Properties
 
     public bool ShowInitialFields
     {
@@ -62,187 +60,165 @@ public class PassFinalViewModel : BaseBackflowViewModel
 
     #endregion
 
-    #region Tester Fields
-
-    private string? _initialTester;
-    private string? _repairedTester;
-    private string? _finalTester;
+    #region Initial Test Properties
 
     public string? InitialTester
     {
-        get => _initialTester;
+        get => _finalInfo.InitialTest?.Name;
         set
         {
-            _initialTester = value;
-            _failedFieldsToSave["InitialTester"] = value ?? "";
+            _finalInfo.InitialTest ??= new TesterInfo();
+            _finalInfo.InitialTest.Name = value;
             OnPropertyChanged(nameof(InitialTester));
         }
     }
 
-    public string? RepairedTester
+    public string? InitialTesterNo
     {
-        get => _repairedTester;
+        get => _finalInfo.InitialTest?.CertificationNo;
         set
         {
-            _repairedTester = value;
-            _repairedFieldsToSave["RepairedTester"] = value ?? "";
-            OnPropertyChanged(nameof(RepairedTester));
+            _finalInfo.InitialTest ??= new TesterInfo();
+            _finalInfo.InitialTest.CertificationNo = value;
+            OnPropertyChanged(nameof(InitialTesterNo));
         }
     }
 
-    public string? FinalTester
+    public string? InitialTestKitSerial
     {
-        get => _finalTester;
+        get => _finalInfo.InitialTest?.TestKitSerial;
         set
         {
-            _finalTester = value;
-            _passedFieldsToSave["FinalTester"] = value ?? "";
-            OnPropertyChanged(nameof(FinalTester));
+            _finalInfo.InitialTest ??= new TesterInfo();
+            _finalInfo.InitialTest.TestKitSerial = value;
+            OnPropertyChanged(nameof(InitialTestKitSerial));
+        }
+    }
+
+    public DateTime DateFailed
+    {
+        get => _finalInfo.InitialTest?.Date ?? DateTime.Today;
+        set
+        {
+            _finalInfo.InitialTest ??= new TesterInfo();
+            _finalInfo.InitialTest.Date = value;
+            OnPropertyChanged(nameof(DateFailed));
         }
     }
 
     #endregion
 
-    #region Tester Cert No Fields
+    #region Repaired Test Properties
 
-    private string? _initialTesterNo;
-    private string? _repairedTesterNo;
-    private string? _finalFinalTesterNo;
-
-    public string? InitialTesterNo
+    public string? RepairedTester
     {
-        get => _initialTesterNo;
+        get => _finalInfo.RepairedTest?.Name;
         set
         {
-            _initialTesterNo = value;
-            _failedFieldsToSave["InitialTesterNo"] = value ?? "";
-            OnPropertyChanged(nameof(InitialTesterNo));
+            _finalInfo.RepairedTest ??= new TesterInfo();
+            _finalInfo.RepairedTest.Name = value;
+            OnPropertyChanged(nameof(RepairedTester));
         }
     }
 
     public string? RepairedTesterNo
     {
-        get => _repairedTesterNo;
+        get => _finalInfo.RepairedTest?.CertificationNo;
         set
         {
-            _repairedTesterNo = value;
-            _repairedFieldsToSave["RepairedTesterNo"] = value ?? "";
+            _finalInfo.RepairedTest ??= new TesterInfo();
+            _finalInfo.RepairedTest.CertificationNo = value;
             OnPropertyChanged(nameof(RepairedTesterNo));
         }
     }
 
-    public string? FinalTesterNo
+    public string? RepairedTestKitSerial
     {
-        get => _finalFinalTesterNo;
+        get => _finalInfo.RepairedTest?.TestKitSerial;
         set
         {
-            _finalFinalTesterNo = value;
-            _passedFieldsToSave["FinalTesterNo"] = value ?? "";
-            OnPropertyChanged(nameof(FinalTesterNo));
-        }
-    }
-
-    #endregion
-
-    #region Date Related Fields
-
-    private DateTime _dateFailed = DateTime.Today;
-    private DateTime _dateRepaired = DateTime.Today;
-    private DateTime _datePassed = DateTime.Today;
-
-    public DateTime DateFailed
-    {
-        get => _dateFailed;
-        set
-        {
-            _dateFailed = value;
-            _failedFieldsToSave["DateFailed"] = value.ToString("M/d/yyyy") ?? string.Empty;
-            OnPropertyChanged(nameof(DateFailed));
+            _finalInfo.RepairedTest ??= new TesterInfo();
+            _finalInfo.RepairedTest.TestKitSerial = value;
+            OnPropertyChanged(nameof(RepairedTestKitSerial));
         }
     }
 
     public DateTime DateRepaired
     {
-        get => _dateRepaired;
+        get => _finalInfo.RepairedTest?.Date ?? DateTime.Today;
         set
         {
-            _dateRepaired = value;
-            _repairedFieldsToSave["DateRepaired"] = value.ToString("M/d/yyyy") ?? string.Empty;
+            _finalInfo.RepairedTest ??= new TesterInfo();
+            _finalInfo.RepairedTest.Date = value;
             OnPropertyChanged(nameof(DateRepaired));
+        }
+    }
+
+    #endregion
+
+    #region Final Test Properties
+
+    public string? FinalTester
+    {
+        get => _finalInfo.FinalTest?.Name;
+        set
+        {
+            _finalInfo.FinalTest ??= new TesterInfo();
+            _finalInfo.FinalTest.Name = value;
+            OnPropertyChanged(nameof(FinalTester));
+        }
+    }
+
+    public string? FinalTesterNo
+    {
+        get => _finalInfo.FinalTest?.CertificationNo;
+        set
+        {
+            _finalInfo.FinalTest ??= new TesterInfo();
+            _finalInfo.FinalTest.CertificationNo = value;
+            OnPropertyChanged(nameof(FinalTesterNo));
+        }
+    }
+
+    public string? FinalTestKitSerial
+    {
+        get => _finalInfo.FinalTest?.TestKitSerial;
+        set
+        {
+            _finalInfo.FinalTest ??= new TesterInfo();
+            _finalInfo.FinalTest.TestKitSerial = value;
+            OnPropertyChanged(nameof(FinalTestKitSerial));
         }
     }
 
     public DateTime DatePassed
     {
-        get => _datePassed;
+        get => _finalInfo.FinalTest?.Date ?? DateTime.Today;
         set
         {
-            _datePassed = value;
-            _passedFieldsToSave["DatePassed"] = value.ToString("M/d/yyyy") ?? string.Empty;
+            _finalInfo.FinalTest ??= new TesterInfo();
+            _finalInfo.FinalTest.Date = value;
             OnPropertyChanged(nameof(DatePassed));
         }
     }
 
     #endregion
 
-    #region Test Kit Serial Fields
-
-    private string? _initialTestKitSerial;
-    private string? _repairedTestKitSerial;
-    private string? _finalTestKitSerial;
-
-    public string? InitialTestKitSerial
-    {
-        get => _initialTestKitSerial;
-        set
-        {
-            _initialTestKitSerial = value;
-            _failedFieldsToSave["InitialTestKitSerial"] = value ?? "";
-            OnPropertyChanged(nameof(InitialTestKitSerial));
-        }
-    }
-
-    public string? RepairedTestKitSerial
-    {
-        get => _repairedTestKitSerial;
-        set
-        {
-            _repairedTestKitSerial = value;
-            _repairedFieldsToSave["RepairedTestKitSerial"] = value ?? "";
-            OnPropertyChanged(nameof(RepairedTestKitSerial));
-        }
-    }
-
-    public string? FinalTestKitSerial
-    {
-        get => _finalTestKitSerial;
-        set
-        {
-            _finalTestKitSerial = value;
-            _passedFieldsToSave["FinalTestKitSerial"] = value ?? "";
-            OnPropertyChanged(nameof(FinalTestKitSerial));
-        }
-    }
-
-    #endregion
-
-    #region Comments Field
-
-    private string? _comments;
+    #region Comments
 
     public string? Comments
     {
-        get => _comments;
+        get => _finalInfo.Comments;
         set
         {
-            _comments = value;
+            _finalInfo.Comments = value;
             OnPropertyChanged(nameof(Comments));
         }
     }
 
     #endregion
 
-    #region Constructor
+    #region Constructors
 
     public PassFinalViewModel(Dictionary<string, string>? formData,
         bool showInitialFields, bool showRepairedFields, bool showPassedFields) : base(formData)
@@ -250,46 +226,26 @@ public class PassFinalViewModel : BaseBackflowViewModel
         _showInitialFields = showInitialFields;
         _showRepairedFields = showRepairedFields;
         _showPassedFields = showPassedFields;
+        _finalInfo = FinalInfo.FromFormFields(FormData);
     }
 
     public PassFinalViewModel() : base(new Dictionary<string, string>())
     {
+        _finalInfo = new FinalInfo();
     }
 
     #endregion
 
+    #region Navigation Methods
+    
     protected override async Task OnNext()
     {
-        // Validate and save fields
-        if (ShowInitialFields)
-        {
-            if (!await ValidateFailedBy()) return;
-            DateFailed = _dateFailed;
-            SaveFormData(_failedFieldsToSave);
-        }
+        if (ShowInitialFields && !await ValidateFailedBy()) return;
+        if (ShowRepairedFields && !await ValidateRepairedBy()) return;
+        if (ShowPassedFields && !await ValidatePassedBy()) return;
 
-        if (ShowRepairedFields)
-        {
-            if (!await ValidateRepairedBy()) return;
-            DateRepaired = _dateRepaired;
-            SaveFormData(_repairedFieldsToSave);
-        }
+        await SaveFormDataWithCache(_finalInfo.ToFormFields());
 
-        if (ShowPassedFields)
-        {
-            if (!await ValidatePassedBy()) return;
-            DatePassed = _datePassed;
-            SaveFormData(_passedFieldsToSave);
-        }
-
-        // Save Comments
-        Dictionary<string, string> formFields = new()
-        {
-            { "ReportComments", Comments?.ToUpper() ?? string.Empty }
-        };
-        await SaveFormDataWithCache(formFields);
-
-        // Save as pdf        
         var serialNo = FormData.GetValueOrDefault("SerialNo");
         var fileName = $"{serialNo ?? "Unknown"}_{DateTime.Now:yyyy-M-d}.pdf";
         await SavePdf(fileName);
@@ -297,7 +253,6 @@ public class PassFinalViewModel : BaseBackflowViewModel
 
     protected override async Task OnBack()
     {
-        // Load Previous Page
         var viewModel = new DeviceInfoViewModel(FormData);
         await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
         {
@@ -305,11 +260,12 @@ public class PassFinalViewModel : BaseBackflowViewModel
         });
     }
 
-    #region Validation
+    #endregion
+    
+    #region Validation Methods
 
     private async Task<bool> ValidateFailedBy()
     {
-        // List of required fields with their display names
         var requiredFields = new Dictionary<string, string>
         {
             { nameof(InitialTester), "[Failed] Tester Name" },
@@ -317,27 +273,11 @@ public class PassFinalViewModel : BaseBackflowViewModel
             { nameof(InitialTestKitSerial), "[Failed] - Test Kit Serial" }
         };
 
-        // Check for missing required fields
-        foreach (var field in requiredFields)
-        {
-            var propertyValue = GetType().GetProperty(field.Key)?.GetValue(this) as string;
-            if (string.IsNullOrEmpty(propertyValue))
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Fields are empty",
-                    $"The field '{field.Value}' has not been filled.",
-                    "OK"
-                );
-                return false;
-            }
-        }
-
-        return true;
+        return await ValidateFields(requiredFields);
     }
 
     private async Task<bool> ValidateRepairedBy()
     {
-        // List of required fields with their display names
         var requiredFields = new Dictionary<string, string>
         {
             { nameof(RepairedTester), "[Repaired] Tester Name" },
@@ -345,27 +285,11 @@ public class PassFinalViewModel : BaseBackflowViewModel
             { nameof(RepairedTestKitSerial), "[Repaired] - Test Kit Serial" }
         };
 
-        // Check for missing required fields
-        foreach (var field in requiredFields)
-        {
-            var propertyValue = GetType().GetProperty(field.Key)?.GetValue(this) as string;
-            if (string.IsNullOrEmpty(propertyValue))
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Fields are empty",
-                    $"The field '{field.Value}' has not been filled.",
-                    "OK"
-                );
-                return false;
-            }
-        }
-
-        return true;
+        return await ValidateFields(requiredFields);
     }
 
     private async Task<bool> ValidatePassedBy()
     {
-        // List of required fields with their display names
         var requiredFields = new Dictionary<string, string>
         {
             { nameof(FinalTester), "[Final] Tester Name" },
@@ -373,7 +297,11 @@ public class PassFinalViewModel : BaseBackflowViewModel
             { nameof(FinalTestKitSerial), "[Final] Test Kit Serial" }
         };
 
-        // Check for missing required fields
+        return await ValidateFields(requiredFields);
+    }
+
+    private async Task<bool> ValidateFields(Dictionary<string, string> requiredFields)
+    {
         foreach (var field in requiredFields)
         {
             var propertyValue = GetType().GetProperty(field.Key)?.GetValue(this) as string;
