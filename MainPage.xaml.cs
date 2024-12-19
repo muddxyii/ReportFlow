@@ -148,9 +148,6 @@ public partial class MainPage : ContentPage
                 return;
             }
 
-            // Load existing report IDs
-            var reportIds = await reportCacheService.GetSavedReportIdsAsync();
-
             // Navigate to the browse page with the data
             await Shell.Current.GoToAsync("ReportBrowser", new Dictionary<string, object>
             {
