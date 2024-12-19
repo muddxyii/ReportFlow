@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 using ReportFlow.Interfaces;
 
 namespace ReportFlow.Services.ReportServices;
@@ -7,6 +8,11 @@ namespace ReportFlow.Services.ReportServices;
 public class ReportCacheService : IReportCacheService
 {
     private readonly string _cachePath;
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ReportCacheService"/> class.
@@ -76,7 +82,7 @@ public class ReportCacheService : IReportCacheService
         var metadataFilePath = GetMetadataFilePath(reportId);
 
         // Save form data as JSON
-        var json = JsonSerializer.Serialize(formData);
+        var json = JsonSerializer.Serialize(formData,_jsonOptions);
         await File.WriteAllTextAsync(dataFilePath, json);
 
         // Update or create metadata
@@ -85,7 +91,7 @@ public class ReportCacheService : IReportCacheService
         {
             // Metadata already exists; update last modification date
             var existingJson = await File.ReadAllTextAsync(metadataFilePath);
-            metadata = JsonSerializer.Deserialize<ReportMetadata>(existingJson) ??
+            metadata = JsonSerializer.Deserialize<ReportMetadata>(existingJson,_jsonOptions) ??
                        new ReportMetadata(reportId);
             metadata.LastModifiedDate = DateTime.Now;
         }
@@ -98,7 +104,7 @@ public class ReportCacheService : IReportCacheService
         // Save the updated metadata file
         await File.WriteAllTextAsync(
             metadataFilePath,
-            JsonSerializer.Serialize(metadata)
+            JsonSerializer.Serialize(metadata,_jsonOptions)
         );
     }
 
@@ -135,7 +141,7 @@ public class ReportCacheService : IReportCacheService
             return null; // Metadata file does not exist
 
         var json = await File.ReadAllTextAsync(filePath); // Read JSON content
-        return JsonSerializer.Deserialize<ReportMetadata>(json);
+        return JsonSerializer.Deserialize<ReportMetadata>(json,_jsonOptions);
     }
 
     /// <inheritdoc />
@@ -147,20 +153,38 @@ public class ReportCacheService : IReportCacheService
     {
         var reports = new List<ReportMetadata>();
 
-        // Iterate through directories corresponding to report IDs
-        foreach (var reportDir in Directory.GetDirectories(_cachePath))
+        try
         {
-            var reportId = Path.GetFileName(reportDir);
+            // Only process directories that exist and have valid report IDs
+            var reportDirs = Directory.GetDirectories(_cachePath)
+                .Select(dir => Path.GetFileName(dir))
+                .Where(reportId => !string.IsNullOrWhiteSpace(reportId));
 
-            // Retrieve metadata for each report
-            var metadata = await GetReportMetadataAsync(reportId);
-            if (metadata != null)
+            foreach (var reportId in reportDirs)
             {
-                reports.Add(metadata);
+                try
+                {
+                    var metadata = await GetReportMetadataAsync(reportId!);
+                    if (metadata != null && !string.IsNullOrWhiteSpace(metadata.ReportId))
+                    {
+                        reports.Add(metadata);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error loading metadata for report {reportId}: {ex.Message}");
+                    // Continue to next report instead of breaking the entire loop
+                    continue;
+                }
             }
-        }
 
-        return reports.OrderByDescending(m => m.LastModifiedDate); // Sort in descending order
+            return reports.OrderByDescending(m => m.LastModifiedDate);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error getting report metadata: {ex.Message}");
+            return Enumerable.Empty<ReportMetadata>();
+        }
     }
 
     /// <inheritdoc />

@@ -33,10 +33,14 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 
         // Assign Report ID If Nonexistent
         if (!FormData.ContainsKey("report_id"))
+        {
             FormData["report_id"] = Guid.NewGuid().ToString();
-
-        // Load Cached Data
-        LoadCachedData();
+        }
+        else
+        {
+            // Load Cached Data
+            LoadCachedData();
+        }
     }
 
     #endregion

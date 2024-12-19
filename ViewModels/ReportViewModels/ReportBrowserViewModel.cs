@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ReportFlow.Interfaces;
@@ -85,18 +86,24 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
     }
 
     private async Task LoadReportsAsync()
+{
+    if (!await _loadingLock.WaitAsync(0))
+        return;
+    
+    try
     {
-        if (!await _loadingLock.WaitAsync(0))
-            return;
-        
-        try
-        {
-            IsLoading = true;
-            var tempReports = new List<ReportItemViewModel>();
+        IsLoading = true;
+        var tempReports = new List<ReportItemViewModel>();
 
-            var allMetadata = await _reportCacheService.GetAllReportMetadataAsync();
-            
-            foreach (var metadata in allMetadata)
+        var allMetadata = await _reportCacheService.GetAllReportMetadataAsync();
+        
+        foreach (var metadata in allMetadata)
+        {
+            // Skip invalid metadata
+            if (metadata == null || string.IsNullOrWhiteSpace(metadata.ReportId))
+                continue;
+
+            try
             {
                 var reportData = await _reportCacheService.LoadReportDataAsync(metadata.ReportId);
                 if (reportData == null) continue;
@@ -110,25 +117,40 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
                     LastModified = metadata.LastModifiedDate
                 });
             }
-
-            // Sort by last modified date descending
-            var sortedReports = tempReports.OrderByDescending(r => r.LastModified).ToList();
-            
-            // Update the observable collection
-            Reports.Clear();
-            foreach (var report in sortedReports)
+            catch (Exception ex)
             {
-                Reports.Add(report);
+                Debug.WriteLine($"Error loading report {metadata.ReportId}: {ex.Message}");
+                // Continue to next report instead of breaking the entire loop
+                continue;
             }
-            
-            HasReports = Reports.Any();
         }
-        finally
+
+        // Sort by last modified date descending
+        var sortedReports = tempReports.OrderByDescending(r => r.LastModified).ToList();
+        
+        // Update the observable collection
+        Reports.Clear();
+        foreach (var report in sortedReports)
         {
-            IsLoading = false;
-            _loadingLock.Release();
+            Reports.Add(report);
         }
+        
+        HasReports = Reports.Any();
     }
+    catch (Exception ex)
+    {
+        Debug.WriteLine($"Error loading reports: {ex.Message}");
+        await Shell.Current.DisplayAlert(
+            "Error",
+            "Unable to load reports. Please try again later.",
+            "OK");
+    }
+    finally
+    {
+        IsLoading = false;
+        _loadingLock.Release();
+    }
+}
 
     private async Task OpenReportAsync(string? reportId)
     {
