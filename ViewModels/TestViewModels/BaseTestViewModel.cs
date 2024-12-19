@@ -373,7 +373,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         await SaveFormDataWithCache(_failedFieldsToSave);
 
         // Create 'RepairViewModel'
-        var repairViewModel = new BaseRepairViewModel(FormData);
+        var repairViewModel = new RepairViewModel(FormData);
 
         // Load 'RepairViewModel' Based On Type
         var type = FormData?.GetValueOrDefault("BFType");
