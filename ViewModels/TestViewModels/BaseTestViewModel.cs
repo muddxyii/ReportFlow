@@ -338,14 +338,14 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
         // Check if previously failed
         var ck1 = FormData?.GetValueOrDefault("InitialCT1");
         var airInlet = FormData?.GetValueOrDefault("InitialAirInlet");
-        var viewModel = new PassFinalViewModel(FormData,
+        var viewModel = new FinalViewModel(FormData,
             false, false, false);
 
         if (!string.IsNullOrEmpty(ck1) || !string.IsNullOrEmpty(airInlet))
-            viewModel = new PassFinalViewModel(FormData,
+            viewModel = new FinalViewModel(FormData,
                 true, true, true);
         else
-            viewModel = new PassFinalViewModel(FormData,
+            viewModel = new FinalViewModel(FormData,
                 false, false, true);
 
         await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>

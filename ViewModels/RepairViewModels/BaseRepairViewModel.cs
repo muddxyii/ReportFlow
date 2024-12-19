@@ -470,8 +470,8 @@ public class BaseRepairViewModel : BaseBackflowViewModel
 
     protected async Task OnSkip()
     {
-        // Load 'PassFinalViewModel'
-        var viewModel = new PassFinalViewModel(FormData,
+        // Load 'FinalViewModel'
+        var viewModel = new FinalViewModel(FormData,
             true, false, false);
         await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
         {

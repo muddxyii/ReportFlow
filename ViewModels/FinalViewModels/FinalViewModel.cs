@@ -3,7 +3,7 @@ using ReportFlow.ViewModels.InfoViewModels;
 
 namespace ReportFlow.ViewModels.FinalViewModels;
 
-public class PassFinalViewModel : BaseBackflowViewModel
+public class FinalViewModel : BaseBackflowViewModel
 {
     private FinalInfo _finalInfo;
     private bool _showInitialFields;
@@ -220,7 +220,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
 
     #region Constructors
 
-    public PassFinalViewModel(Dictionary<string, string>? formData,
+    public FinalViewModel(Dictionary<string, string>? formData,
         bool showInitialFields, bool showRepairedFields, bool showPassedFields) : base(formData)
     {
         _showInitialFields = showInitialFields;
@@ -229,7 +229,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
         _finalInfo = FinalInfo.FromFormFields(FormData);
     }
 
-    public PassFinalViewModel() : base(new Dictionary<string, string>())
+    public FinalViewModel() : base(new Dictionary<string, string>())
     {
         _finalInfo = new FinalInfo();
     }
@@ -237,7 +237,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
     #endregion
 
     #region Navigation Methods
-    
+
     protected override async Task OnNext()
     {
         if (ShowInitialFields && !await ValidateFailedBy()) return;
@@ -261,7 +261,7 @@ public class PassFinalViewModel : BaseBackflowViewModel
     }
 
     #endregion
-    
+
     #region Validation Methods
 
     private async Task<bool> ValidateFailedBy()

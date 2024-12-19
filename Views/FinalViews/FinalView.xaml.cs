@@ -1,13 +1,13 @@
-namespace ReportFlow.Views.FinalViews;
+﻿namespace ReportFlow.Views.FinalViews;
 
 [QueryProperty(nameof(ViewModel), "ViewModel")]
-public partial class PassFinalView
+public partial class FinalView
 {
-    public PassFinalView()
+    public FinalView()
     {
         InitializeComponent();
     }
-    
+
     protected override void OnSectionButtonClicked(object sender, EventArgs e)
     {
         if (sender is Button button)
@@ -22,10 +22,10 @@ public partial class PassFinalView
             {
                 // Toggle visibility
                 content.IsVisible = !content.IsVisible;
-                
+
                 // Update button text
                 button.Text = button.Text.Replace(
-                    content.IsVisible ? "▶" : "▼", 
+                    content.IsVisible ? "▶" : "▼",
                     content.IsVisible ? "▼" : "▶"
                 );
             }
