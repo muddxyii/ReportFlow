@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<views:BaseViewPage
+    Title="Final"
+    x:Class="ReportFlow.Views.FinalViews.FinalView"
+    x:TypeArguments="finalViewModels:FinalViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:finalViewModels="clr-namespace:ReportFlow.ViewModels.FinalViewModels"
+    xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}" />
+    </Shell.BackButtonBehavior>
+
+    <views:BaseViewPage.BindingContext>
+        <finalViewModels:FinalViewModel />
+    </views:BaseViewPage.BindingContext>
+
+    <ScrollView Style="{StaticResource PageLayout}">
+        <VerticalStackLayout Style="{StaticResource ContentStack}">
+
+            <!--  Initial Test Section  -->
+            <Frame IsVisible="{Binding ShowInitialFields}" Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <!--  Header  -->
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Fail Test Details ▼"
+                        x:Name="InitialSectionButton" />
+
+                    <!--  Content  -->
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="InitialSectionContent">
+                        <!--  Initial Test Name and Date  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+
+                            <!--  Labels Row  -->
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Tester Name"
+                                x:Name="InitialTesterLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference InitialTesterPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Date"
+                                x:Name="InitialDateLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference InitialDatePicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!--  Inputs Row  -->
+                            <Picker
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TesterNameOptions}"
+                                SelectedItem="{Binding InitialTester}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="InitialTesterPicker" />
+
+                            <DatePicker
+                                Date="{Binding DateFailed}"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Style="{StaticResource FormDatePicker}"
+                                x:Name="InitialDatePicker" />
+                        </Grid>
+
+                        <!--  Initial Certification Number and Test Kit  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+
+                            <!--  Labels Row  -->
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Certified Tester No."
+                                x:Name="InitialTesterNoLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference InitialTesterNoPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Test Kit Serial"
+                                x:Name="InitialTestKitLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference InitialTestKitPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!--  Inputs Row  -->
+                            <Picker
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TesterNoOptions}"
+                                SelectedItem="{Binding InitialTesterNo}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="InitialTesterNoPicker" />
+                            <Picker
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TestKitSerialOptions}"
+                                SelectedItem="{Binding InitialTestKitSerial}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="InitialTestKitPicker" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--  Repaired Test Section  -->
+            <Frame IsVisible="{Binding ShowRepairedFields}" Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <!--  Header  -->
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Repair Test Details ▼"
+                        x:Name="RepairedSectionButton" />
+
+                    <!--  Content  -->
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="RepairedSectionContent">
+                        <!--  Repaired Test Name and Date  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+
+                            <!--  Labels Row  -->
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Tester Name"
+                                x:Name="RepairedTesterLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference RepairedTesterPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Date"
+                                x:Name="RepairedDateLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference RepairedDatePicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!--  Inputs Row  -->
+                            <Picker
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TesterNameOptions}"
+                                SelectedItem="{Binding RepairedTester}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="RepairedTesterPicker" />
+
+                            <DatePicker
+                                Date="{Binding DateRepaired}"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Style="{StaticResource FormDatePicker}"
+                                x:Name="RepairedDatePicker" />
+                        </Grid>
+
+                        <!--  Repaired Certification Number and Test Kit  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+
+                            <!--  Labels Row  -->
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Certified Tester No."
+                                x:Name="RepairedTesterNoLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference RepairedTesterNoPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Test Kit Serial"
+                                x:Name="RepairedTestKitLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference RepairedTestKitPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!--  Inputs Row  -->
+                            <Picker
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TesterNoOptions}"
+                                SelectedItem="{Binding RepairedTesterNo}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="RepairedTesterNoPicker" />
+                            <Picker
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TestKitSerialOptions}"
+                                SelectedItem="{Binding RepairedTestKitSerial}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="RepairedTestKitPicker" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--  Final Test Section  -->
+            <Frame IsVisible="{Binding ShowPassedFields}" Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <!--  Header  -->
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Pass Test Details ▼"
+                        x:Name="FinalSectionButton" />
+
+                    <!--  Content  -->
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="FinalSectionContent">
+                        <!--  Final Tester Name and Date  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+
+                            <!--  Labels Row  -->
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Tester Name"
+                                x:Name="FinalTesterLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference FinalTesterPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Date"
+                                x:Name="FinalDateLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference FinalDatePicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!--  Inputs Row  -->
+                            <Picker
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TesterNameOptions}"
+                                SelectedItem="{Binding FinalTester}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="FinalTesterPicker" />
+
+                            <DatePicker
+                                Date="{Binding DatePassed}"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Style="{StaticResource FormDatePicker}"
+                                x:Name="FinalDatePicker" />
+                        </Grid>
+
+                        <!--  Final Certification Number and Test Kit  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            Style="{StaticResource FormGrid}">
+
+                            <!--  Labels Row  -->
+                            <Label
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Certified Tester No."
+                                x:Name="FinalTesterNoLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference FinalTesterNoPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Label
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource PickerLabel}"
+                                Text="Test Kit Serial"
+                                x:Name="FinalTestKitLabel">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{x:Reference FinalTestKitPicker}" Tapped="OnLabelTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!--  Inputs Row  -->
+                            <Picker
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TesterNoOptions}"
+                                SelectedItem="{Binding FinalTesterNo}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="FinalTesterNoPicker" />
+                            <Picker
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                ItemsSource="{Binding TestKitSerialOptions}"
+                                SelectedItem="{Binding FinalTestKitSerial}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="FinalTestKitPicker" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--  Comments  -->
+            <Frame Style="{StaticResource CollapsibleSection}">
+                <VerticalStackLayout Spacing="0">
+                    <Button
+                        Clicked="OnSectionButtonClicked"
+                        Style="{StaticResource SectionHeader}"
+                        Text="Comments ▼"
+                        x:Name="CommentsButton" />
+
+                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="CommentsSectionContent">
+                        <Editor
+                            Placeholder="Enter comments here"
+                            Style="{StaticResource FormEditor}"
+                            Text="{Binding Comments}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--  Share Button  -->
+            <Button
+                Command="{Binding NextCommand}"
+                Style="{StaticResource PrimaryButton}"
+                Text="Share Report" />
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BaseViewPage>

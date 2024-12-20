@@ -220,6 +220,73 @@
     </Style>
 
     <!--  ===============================================  -->
+    <!--  REPORT LIST STYLES  -->
+    <!--  ===============================================  -->
+
+    <Style TargetType="CollectionView" x:Key="ReportList">
+        <Setter Property="EmptyView" Value="No reports found" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource CollapsibleSection}"
+        TargetType="Frame"
+        x:Key="ReportCard">
+        <Setter Property="Margin" Value="{StaticResource ButtonMargin}" />
+        <Setter Property="Padding" Value="8" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource SectionContent}"
+        TargetType="VerticalStackLayout"
+        x:Key="ReportCardContent">
+        <Setter Property="Spacing" Value="{StaticResource SpacingXSmall}" />
+        <Setter Property="Padding" Value="8" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource FieldLabel}"
+        TargetType="Label"
+        x:Key="ReportCardTitle">
+        <Setter Property="FontSize" Value="{StaticResource TextSizeTitle}" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource BaseText}"
+        TargetType="Label"
+        x:Key="ReportCardDetail">
+        <Setter Property="FontSize" Value="{StaticResource TextSizeBody}" />
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource BaseText}"
+        TargetType="Label"
+        x:Key="ReportCardMetadata">
+        <Setter Property="FontSize" Value="{StaticResource TextSizeSmall}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="DeleteButton">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Error}, Dark={StaticResource ErrorDark}}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="CornerRadius" Value="{StaticResource CornerRadiusStandard}" />
+        <Setter Property="Padding" Value="16,0" />
+        <Setter Property="Margin" Value="{StaticResource MarginNone}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource Gray300}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!--  ===============================================  -->
     <!--  BUTTON STYLES  -->
     <!--  ===============================================  -->
 

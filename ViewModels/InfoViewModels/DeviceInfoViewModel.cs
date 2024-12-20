@@ -1,4 +1,6 @@
-﻿using ReportFlow.ViewModels.TestViewModels;
+﻿using ReportFlow.Models;
+using ReportFlow.ViewModels.TestViewModels;
+using DeviceInfo = ReportFlow.Models.Info.DeviceInfo;
 
 namespace ReportFlow.ViewModels.InfoViewModels;
 
@@ -6,174 +8,154 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 {
     #region Dropdown Items
 
-    public List<string> InstallationStatusOptions { get; } =
-        ["NEW", "EXISTING", "REPLACEMENT"];
-
-    public List<String> ProtectionTypeOptions { get; } =
-        ["SECONDARY / CONTAINMENT", "PRIMARY / POINT OF USE"];
-
-    public List<String> ServiceTypeOptions { get; } =
-        ["DOMESTIC", "IRRIGATION", "FIRE"];
+    public List<string> InstallationStatusOptions { get; } = ["NEW", "EXISTING", "REPLACEMENT"];
+    public List<string> ProtectionTypeOptions { get; } = ["SECONDARY / CONTAINMENT", "PRIMARY / POINT OF USE"];
+    public List<string> ServiceTypeOptions { get; } = ["DOMESTIC", "IRRIGATION", "FIRE"];
 
     public List<string> ManufacturerOptions { get; } =
-    [
-        "WATTS", "WILKINS", "FEBCO", "AMES", "ARI", "APOLLO",
-        "CONBRACO", "HERSEY", "FLOMATIC", "BACKFLOW DIRECT"
-    ];
+        ["WATTS", "WILKINS", "FEBCO", "AMES", "ARI", "APOLLO", "CONBRACO", "HERSEY", "FLOMATIC", "BACKFLOW DIRECT"];
 
-    public List<string> TypeOptions { get; } =
-        ["RP", "DC", "PVB", "SVB", "SC", "TYPE 2"];
+    public List<string> TypeOptions { get; } = ["RP", "DC", "PVB", "SVB", "SC", "TYPE 2"];
 
     #endregion
 
-    #region Private Properties
-
-    private string? _waterPurveyor;
-    private string? _assemblyAddress;
-    private string? _onSiteLocation;
-    private string? _primaryService;
-    private string? _installationStatus;
-    private string? _protectionType;
-    private string? _serviceType;
-    private string? _waterMeterNo;
-    private string? _serialNo;
-    private string? _modelNo;
-    private string? _size;
-    private string? _manufacturer;
-    private string? _type;
-
-    #endregion
-
-    #region Public Properties
+    #region Location Properties
 
     public string? WaterPurveyor
     {
-        get => _waterPurveyor;
+        get => Report.DeviceInfo.Location.WaterPurveyor;
         set
         {
-            _waterPurveyor = value;
+            Report.DeviceInfo.Location.WaterPurveyor = value;
             OnPropertyChanged(nameof(WaterPurveyor));
         }
     }
 
     public string? AssemblyAddress
     {
-        get => _assemblyAddress;
+        get => Report.DeviceInfo.Location.AssemblyAddress;
         set
         {
-            _assemblyAddress = value;
+            Report.DeviceInfo.Location.AssemblyAddress = value;
             OnPropertyChanged(nameof(AssemblyAddress));
         }
     }
 
     public string? OnSiteLocation
     {
-        get => _onSiteLocation;
+        get => Report.DeviceInfo.Location.OnSiteLocation;
         set
         {
-            _onSiteLocation = value;
+            Report.DeviceInfo.Location.OnSiteLocation = value;
             OnPropertyChanged(nameof(OnSiteLocation));
         }
     }
 
     public string? PrimaryService
     {
-        get => _primaryService;
+        get => Report.DeviceInfo.Location.PrimaryService;
         set
         {
-            _primaryService = value;
+            Report.DeviceInfo.Location.PrimaryService = value;
             OnPropertyChanged(nameof(PrimaryService));
-        }
-    }
-
-    public string? InstallationStatus
-    {
-        get => _installationStatus;
-        set
-        {
-            _installationStatus = value;
-            OnPropertyChanged(nameof(InstallationStatus));
-        }
-    }
-
-    public string? ServiceType
-    {
-        get => _serviceType;
-        set
-        {
-            _serviceType = value;
-            OnPropertyChanged(nameof(ServiceType));
-        }
-    }
-
-    public string? ProtectionType
-    {
-        get => _protectionType;
-        set
-        {
-            _protectionType = value;
-            OnPropertyChanged(nameof(ProtectionType));
         }
     }
 
     public string? WaterMeterNo
     {
-        get => _waterMeterNo;
+        get => Report.DeviceInfo.Location.WaterMeterNo;
         set
         {
-            _waterMeterNo = value;
+            Report.DeviceInfo.Location.WaterMeterNo = value;
             OnPropertyChanged(nameof(WaterMeterNo));
-
-            if (value == "INTERNAL") ProtectionType = "PRIMARY / POINT OF USE";
+            if (value == "INTERNAL") Report.DeviceInfo.Installation.ProtectionType = "PRIMARY / POINT OF USE";
         }
     }
 
-    public string? SerialNo
+    #endregion
+
+    #region Installation Properties
+
+    public string? InstallationStatus
     {
-        get => _serialNo;
+        get => Report.DeviceInfo.Installation.InstallationStatus;
         set
         {
-            _serialNo = value;
+            Report.DeviceInfo.Installation.InstallationStatus = value;
+            OnPropertyChanged(nameof(InstallationStatus));
+        }
+    }
+
+    public string? ProtectionType
+    {
+        get => Report.DeviceInfo.Installation.ProtectionType;
+        set
+        {
+            Report.DeviceInfo.Installation.ProtectionType = value;
+            OnPropertyChanged(nameof(ProtectionType));
+        }
+    }
+
+    public string? ServiceType
+    {
+        get => Report.DeviceInfo.Installation.ServiceType;
+        set
+        {
+            Report.DeviceInfo.Installation.ServiceType = value;
+            OnPropertyChanged(nameof(ServiceType));
+        }
+    }
+
+    #endregion
+
+    #region Device Properties
+
+    public string? SerialNo
+    {
+        get => Report.DeviceInfo.Device.SerialNo;
+        set
+        {
+            Report.DeviceInfo.Device.SerialNo = value;
             OnPropertyChanged(nameof(SerialNo));
         }
     }
 
     public string? ModelNo
     {
-        get => _modelNo;
+        get => Report.DeviceInfo.Device.ModelNo;
         set
         {
-            _modelNo = value;
+            Report.DeviceInfo.Device.ModelNo = value;
             OnPropertyChanged(nameof(ModelNo));
         }
     }
 
     public string? Size
     {
-        get => _size;
+        get => Report.DeviceInfo.Device.Size;
         set
         {
-            _size = value;
+            Report.DeviceInfo.Device.Size = value;
             OnPropertyChanged(nameof(Size));
         }
     }
 
     public string? Manufacturer
     {
-        get => _manufacturer;
+        get => Report.DeviceInfo.Device.Manufacturer;
         set
         {
-            _manufacturer = value;
+            Report.DeviceInfo.Device.Manufacturer = value;
             OnPropertyChanged(nameof(Manufacturer));
         }
     }
 
     public string? Type
     {
-        get => _type;
+        get => Report.DeviceInfo.Device.Type;
         set
         {
-            _type = value;
+            Report.DeviceInfo.Device.Type = value;
             OnPropertyChanged(nameof(Type));
         }
     }
@@ -181,119 +163,66 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     #endregion
 
     #region Constructor
-    
-    public DeviceInfoViewModel(Dictionary<string, string>? formData) : base(formData)
+
+    public DeviceInfoViewModel() : this(new ReportData())
     {
-        InitFormFields();
+        Report.DeviceInfo = new DeviceInfo();
     }
 
-    protected sealed override void InitFormFields()
+    public DeviceInfoViewModel(ReportData reportData) : base(reportData)
     {
-        if (FormData == null) return;
-        
-        WaterPurveyor = FormData.GetValueOrDefault("WaterPurveyor");
-        AssemblyAddress = FormData.GetValueOrDefault("AssemblyAddress");
-        OnSiteLocation = FormData.GetValueOrDefault("On Site Location of Assembly");
-        PrimaryService = FormData.GetValueOrDefault("PrimaryBusinessService");
-        InstallationStatus = FormData.GetValueOrDefault("InstallationIs");
-        ProtectionType = FormData.GetValueOrDefault("ProtectionType");
-        ServiceType = FormData.GetValueOrDefault("ServiceType");
-        WaterMeterNo = FormData.GetValueOrDefault("WaterMeterNo");
-        SerialNo = FormData.GetValueOrDefault("SerialNo");
-        ModelNo = FormData.GetValueOrDefault("ModelNo");
-        Size = FormData.GetValueOrDefault("Size");
-        Manufacturer = FormData.GetValueOrDefault("Manufacturer");
-        Type = FormData.GetValueOrDefault("BFType");
     }
-    
+
     #endregion
-    
-    #region Abstract Methods
+
+    #region Navigation Methods
 
     protected override async Task OnNext()
     {
-        // Check if the necessary fields were filled
         if (!await AreFieldsValid(new (string Value, string Name)[]
             {
                 (Type ?? "", "Backflow Type"),
-                (PrimaryService ?? "", "Primary Service At Location"),
+                (PrimaryService ?? "", "Primary Service At Location")
             })) return;
-        
-        // Save form fields to form data
-        Dictionary<string, string> formFields = new Dictionary<string, string>()
-        {
-            { "WaterPurveyor", WaterPurveyor ?? String.Empty },
-            { "AssemblyAddress", AssemblyAddress ?? String.Empty },
-            { "On Site Location of Assembly", OnSiteLocation ?? String.Empty },
-            { "PrimaryBusinessService", PrimaryService ?? String.Empty },
-            { "InstallationIs", InstallationStatus ?? String.Empty },
-            { "ProtectionType", ProtectionType ?? String.Empty },
-            { "ServiceType", ServiceType ?? String.Empty },
-            { "WaterMeterNo", WaterMeterNo ?? String.Empty },
-            { "SerialNo", SerialNo ?? String.Empty },
-            { "ModelNo", ModelNo ?? String.Empty },
-            { "Size", Size ?? String.Empty },
-            { "Manufacturer", Manufacturer ?? String.Empty },
-            { "BFType", Type ?? String.Empty }
-        };
-        SaveFormData(formFields);
-        
-        // Load next viewmodel
-        switch (Type)
-        {
-            case "RP":
-                var rpViewModel = new RpTestViewModel(FormData);
-                await Shell.Current.GoToAsync("RpTest", new Dictionary<string, object>
-                {
-                    { "ViewModel", rpViewModel }
-                });
-                break;
-            case "DC":
-                var dcViewModel = new DcTestViewModel(FormData);
-                await Shell.Current.GoToAsync("DcTest", new Dictionary<string, object>
-                {
-                    { "ViewModel", dcViewModel }
-                });
-                break;
-            case "SC":
-                var scViewModel = new ScTestViewModel(FormData);
-                await Shell.Current.GoToAsync("ScTest", new Dictionary<string, object>
-                {
-                    { "ViewModel", scViewModel }
-                });
-                break;
-            case "PVB":
-                var pvbViewModel = new PvbTestViewModel(FormData);
-                await Shell.Current.GoToAsync("PvbTest", new Dictionary<string, object>
-                {
-                    { "ViewModel", pvbViewModel }
-                });
-                break;
-            case "SVB":
-                var svbViewModel = new SvbTestViewModel(FormData);
-                await Shell.Current.GoToAsync("SvbTest", new Dictionary<string, object>
-                {
-                    { "ViewModel", svbViewModel }
-                });
-                break;
-            case "TYPE 2":
-                await Application.Current.MainPage.DisplayAlert(
-                    "Not Implemented",
-                    $"The type '{Type}' has not been implemented.",
-                    "OK"
-                );
-                break;
-            default:
-                await Application.Current.MainPage.DisplayAlert(
-                    "Not Implemented",
-                    $"The type '{Type}' has not been implemented.",
-                    "OK"
-                );
-                break;
-        }
+
+        await SaveReport();
+
+        await NavigateToTestPage();
     }
-    
+
+    private async Task NavigateToTestPage()
+    {
+        var type = Report.DeviceInfo.Device.Type;
+        if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
+
+        BaseTestViewModel viewModel = type switch
+        {
+            "RP" => new RpTestViewModel(Report, true),
+            "DC" => new DcTestViewModel(Report, true),
+            "SC" => new ScTestViewModel(Report, true),
+            "PVB" => new PvbTestViewModel(Report, true),
+            "SVB" => new SvbTestViewModel(Report, true),
+            _ => throw new NotImplementedException($"The type '{type}' has not been implemented.")
+        };
+
+        var pageName = viewModel.GetType().Name.Replace("ViewModel", "");
+
+        await Shell.Current.GoToAsync(pageName, new Dictionary<string, object>
+        {
+            { "ViewModel", viewModel }
+        });
+    }
+
+    protected override async Task OnBack()
+    {
+        await SaveReport();
+
+        var viewModel = new CustomerInfoViewModel(Report);
+        await Shell.Current.GoToAsync("///MainPage/CustomerInfo", new Dictionary<string, object>
+        {
+            ["ViewModel"] = viewModel
+        });
+    }
+
     #endregion
-    
-    public DeviceInfoViewModel() : this(new Dictionary<string, string>()) {}
 }

@@ -1,61 +1,63 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using ReportFlow.Interfaces;
+using ReportFlow.Models;
 using ReportFlow.Util;
 
 namespace ReportFlow.ViewModels;
 
 public abstract class BaseBackflowViewModel : INotifyPropertyChanged
 {
-    #region Properties
-    
-    protected Dictionary<string, string>? FormData { get; } = new Dictionary<string, string>();
-    
+    protected readonly IReportCacheService _reportCacheService;
+    protected ReportData Report { get; private set; }
+
     public ICommand NextCommand { get; }
-    
-    #endregion
+    public ICommand BackCommand { get; }
 
     #region Constructor
 
-    protected BaseBackflowViewModel(Dictionary<string, string>? formData)
+    protected BaseBackflowViewModel(ReportData reportData)
     {
-        // SaveFormData
-        SaveFormData(formData ?? new Dictionary<string, string>());
-        
-        // Register Next Command
+        // Get Cache Service
+        _reportCacheService = IPlatformApplication.Current?.Services.GetRequiredService<IReportCacheService>() ??
+                              throw new InvalidOperationException();
+
+        Report = reportData;
+
         NextCommand = new Command(async () => await OnNext());
+        BackCommand = new Command(async () => await OnBack());
     }
-    
+
     #endregion
 
-    #region Data Related Methods (Saving, Validating, etc.)
+    #region Report Handling
 
-    protected void SaveFormData(Dictionary<string, string> formData)
+    protected async Task SaveReport()
     {
-        foreach (var form in formData)
-        {
-            if (FormData != null) FormData[form.Key] = form.Value;
-        }
+        await _reportCacheService.SaveReportAsync(Report);
     }
-    
-    protected async Task SavePdf(string fileName)
+
+    protected async Task ShareReportAsPdf(string fileName)
     {
         // Select Pdf Template
         var pdfTemplate = "ReportFlow.Resources.PdfTemplates.Abf-Fillable-12-24.pdf";
-        
+
         // Load Pdf Stream
         await using var resourceStream = GetType().Assembly.GetManifestResourceStream(pdfTemplate);
         if (resourceStream == null)
             throw new FileNotFoundException("Template not found.");
 
-        // Save PDF with form data
-        await PdfUtils.SavePdfWithFormData(resourceStream, FormData, fileName);
+        // Gen PDF with form data
+        await PdfUtils.GenerateAndSharePdf(resourceStream, Report.ToFormFields(), fileName);
     }
 
-    // Checks if field is valid, if not it creates a pop-up
+    #endregion
+
+    #region Data Related Methods (Saving, Validating, etc.)
+
     protected async Task<bool> AreFieldsValid((string Value, string Name)[] fieldsToCheck)
     {
         foreach (var field in fieldsToCheck)
-        {
             if (string.IsNullOrEmpty(field.Value))
             {
                 await Application.Current.MainPage.DisplayAlert(
@@ -63,33 +65,42 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
                     $"'{field.Name}' must be filled.",
                     "OK"
                 );
-
                 return false;
             }
-        }
 
         return true;
     }
-    
+
     #endregion
-    
+
     #region Abstract methods
 
-    protected virtual void InitFormFields() {}
-    
-    // Template method for navigation logic
+    protected virtual void InitFormFields()
+    {
+    }
+
     protected abstract Task OnNext();
+    protected abstract Task OnBack();
 
     #endregion
-    
+
     #region INotifyPropertyChanged Implementation
 
+    /// <summary>
+    ///     An event that is triggered whenever a property value changes within the implementing object.
+    ///     Typically used to notify UI elements or other components of property changes in support of data binding.
+    ///     Implements the <see cref="INotifyPropertyChanged" /> interface.
+    /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
-    
+
+    /// <summary>
+    ///     Notifies subscribers that a property value has changed.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that changed.</param>
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-    
+
     #endregion
 }

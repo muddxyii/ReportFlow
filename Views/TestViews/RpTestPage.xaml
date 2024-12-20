@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <views:BaseViewPage
     Title="RP Test"
     x:Class="ReportFlow.Views.TestViews.RpTestPage"
@@ -8,6 +9,10 @@
     xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}" />
+    </Shell.BackButtonBehavior>
+
     <ContentPage.BindingContext>
         <testViewModels:RpTestViewModel />
     </ContentPage.BindingContext>
@@ -15,7 +20,7 @@
     <ScrollView Style="{StaticResource PageLayout}">
         <VerticalStackLayout Style="{StaticResource ContentStack}">
             <!--  Line Pressure Section  -->
-            <Frame Style="{StaticResource CollapsibleSection}">
+            <Frame IsVisible="{Binding IsInitialTest}" Style="{StaticResource CollapsibleSection}">
                 <VerticalStackLayout Spacing="0">
                     <Button
                         Clicked="OnSectionButtonClicked"
@@ -41,7 +46,7 @@
             </Frame>
 
             <!--  Shutoff Valve Section  -->
-            <Frame Style="{StaticResource CollapsibleSection}">
+            <Frame IsVisible="{Binding IsInitialTest}" Style="{StaticResource CollapsibleSection}">
                 <VerticalStackLayout Spacing="0">
                     <Button
                         Clicked="OnSectionButtonClicked"

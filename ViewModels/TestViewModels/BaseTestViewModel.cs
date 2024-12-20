@@ -1,427 +1,369 @@
+using ReportFlow.Models;
+using ReportFlow.Models.Repair;
+using ReportFlow.Models.Test;
 using ReportFlow.ViewModels.FinalViewModels;
+using ReportFlow.ViewModels.InfoViewModels;
 using ReportFlow.ViewModels.RepairViewModels;
 
 namespace ReportFlow.ViewModels.TestViewModels;
 
 public abstract class BaseTestViewModel : BaseBackflowViewModel
 {
+    private readonly TestInfo _testInfo;
+    public bool IsInitialTest { get; }
+
     #region Dropdown Items
-    
-    #region ALl BF Dropdowns
-    
+
     public List<string> ShutoffValveOptions { get; } =
     [
         "BOTH OK", "BOTH CLOSED", "BOTH VALVES",
         "#1 VALVE", "#2 VALVE"
     ];
-    
-    #endregion
-    
-    #region PVB Related Properties
-    
+
     public List<string> BackPressureOptions { get; } =
     [
         "NO", "YES"
     ];
-    
-    #endregion
-    
-    #endregion
-    
-    #region Private properties
-
-    #region All BF Properties
-
-    private string? _linePressure;
-    private string? _shutoffValve;
-    private string? _sovComment;
 
     #endregion
-    
-    #region Check Related Properties
-    
-    private string? _checkValve1;
-    private string? _checkValve2;
-    private bool _checkValve1Ct;
-    private bool _checkValve2Ct;
-    
-    #endregion
-    
-    #region RV Related Properties
-    
-    private string? _pressureReliefOpening;
-    private bool _reliefValveDidNotOpen;
-    private bool _reliefValveLeaking;
 
-    #endregion
-    
-    #region PVB Related Properties
-    
-    private string? _backPressure;
-    private string? _airInletOpening;
-    private bool _airInletLeaked;
-    private bool _airInletDidNotOpen;
-    private string? _ckPvb;
-    private bool _ckPvbLeaked;
+    #region Backflow Test Details
 
-    #endregion
-    
-    #region BaseTestViewModel
-    
-    private Dictionary<string, string> _failedFieldsToSave = new Dictionary<string, string>();
-    private Dictionary<string, string> _passedFieldsToSave = new Dictionary<string, string>();
-    
-    #endregion
-    
-    #endregion
-    
-    #region Public Properties
-
-    #region All BF Properties
-    
     public string? LinePressure
     {
-        get => _linePressure;
+        get => _testInfo.BackflowTest.LinePressure;
         set
         {
-            _linePressure = value;
-            _failedFieldsToSave["LinePressure"] = value ?? string.Empty;
-            _passedFieldsToSave["LinePressure"] = value ?? string.Empty;
+            _testInfo.BackflowTest.LinePressure = value;
             OnPropertyChanged(nameof(LinePressure));
         }
     }
-    
+
     public string? ShutoffValve
     {
-        get => _shutoffValve;
+        get => _testInfo.BackflowTest.ShutoffValve;
         set
         {
-            _shutoffValve = value;
-            _failedFieldsToSave["SOVList"] = value ?? string.Empty;
-            _passedFieldsToSave["SOVList"] = value ?? string.Empty;
+            _testInfo.BackflowTest.ShutoffValve = value;
             OnPropertyChanged(nameof(ShutoffValve));
         }
     }
-    
+
     public string? SovComment
     {
-        get => _sovComment;
+        get => _testInfo.BackflowTest.SovComment;
         set
         {
-            _sovComment = value;
-            _failedFieldsToSave["SOVComment"] = value?.ToUpper() ?? string.Empty;
-            _passedFieldsToSave["SOVComment"] = value?.ToUpper() ?? string.Empty;
+            _testInfo.BackflowTest.SovComment = value;
             OnPropertyChanged(nameof(SovComment));
         }
     }
 
     #endregion
-    
-    #region Check Related Properties
+
+    #region Check Valve Details
+
     public string? CheckValve1
     {
-        get => _checkValve1;
+        get => _testInfo.CheckValves.Valve1;
         set
         {
-            _checkValve1 = value;
-            _failedFieldsToSave["InitialCT1"] = decimal.TryParse(CheckValve1, out decimal fcv1) ? fcv1.ToString("F1") : string.Empty;
-            _passedFieldsToSave["FinalCT1"] = decimal.TryParse(CheckValve1, out decimal pcv1) ? pcv1.ToString("F1") : string.Empty;
+            _testInfo.CheckValves.Valve1 = value;
             OnPropertyChanged(nameof(CheckValve1));
         }
     }
 
     public string? CheckValve2
     {
-        get => _checkValve2;
+        get => _testInfo.CheckValves.Valve2;
         set
         {
-            _checkValve2 = value;
-            _failedFieldsToSave["InitialCT2"] = decimal.TryParse(CheckValve2, out decimal fcv2) ? fcv2.ToString("F1") : string.Empty;
-            _passedFieldsToSave["FinalCT2"] = decimal.TryParse(CheckValve2, out decimal pcv2) ? pcv2.ToString("F1") : string.Empty;
+            _testInfo.CheckValves.Valve2 = value;
             OnPropertyChanged(nameof(CheckValve2));
         }
     }
-    
+
     public bool CheckValve1Ct
     {
-        get => _checkValve1Ct;
+        get => _testInfo.CheckValves.Valve1Ct;
         set
         {
-            _checkValve1Ct = value;
-            _failedFieldsToSave["InitialCTBox"] = value ? "On" : "Off";
-            _failedFieldsToSave["InitialCT1Leaked"] = value ? "Off" : "On";
-            _passedFieldsToSave["FinalCT1Box"] = value ? "On" : "Off";
+            _testInfo.CheckValves.Valve1Ct = value;
             OnPropertyChanged(nameof(CheckValve1Ct));
         }
     }
 
     public bool CheckValve2Ct
     {
-        get => _checkValve2Ct;
+        get => _testInfo.CheckValves.Valve2Ct;
         set
         {
-            _checkValve2Ct = value;
-            _failedFieldsToSave["InitialCT2Box"] = value ? "On" : "Off";
-            _failedFieldsToSave["InitialCT2Leaked"] = value ? "Off" : "On";
-            _passedFieldsToSave["FinalCT2Box"] = value ? "On" : "Off";
+            _testInfo.CheckValves.Valve2Ct = value;
             OnPropertyChanged(nameof(CheckValve2Ct));
         }
     }
 
     #endregion
-    
-    #region RV Related Properties
-    
+
+    #region Relief Valve Details
+
     public string? PressureReliefOpening
     {
-        get => _pressureReliefOpening;
+        get => _testInfo.ReliefValve.PressureReliefOpening;
         set
         {
-            _pressureReliefOpening = value;
-            _failedFieldsToSave["InitialPSIRV"] = decimal.TryParse(PressureReliefOpening, out decimal frv) ? frv.ToString("F1") : string.Empty;
-            _passedFieldsToSave["FinalRV"] = decimal.TryParse(PressureReliefOpening, out decimal prv) ? prv.ToString("F1") : string.Empty;
-            OnPropertyChanged(nameof(_pressureReliefOpening));
+            _testInfo.ReliefValve.PressureReliefOpening = value;
+            OnPropertyChanged(nameof(PressureReliefOpening));
         }
     }
-    
+
     public bool ReliefValveDidNotOpen
     {
-        get => _reliefValveDidNotOpen;
+        get => _testInfo.ReliefValve.ReliefValveDidNotOpen;
         set
         {
-            _reliefValveDidNotOpen = value;
-            _failedFieldsToSave["InitialRVDidNotOpen"] = ReliefValveDidNotOpen ? "On" : "Off";
+            _testInfo.ReliefValve.ReliefValveDidNotOpen = value;
             OnPropertyChanged(nameof(ReliefValveDidNotOpen));
         }
     }
-    
+
     public bool ReliefValveLeaking
     {
-        get => _reliefValveLeaking;
+        get => _testInfo.ReliefValve.ReliefValveLeaking;
         set
         {
-            _reliefValveLeaking = value;
+            _testInfo.ReliefValve.ReliefValveLeaking = value;
             OnPropertyChanged(nameof(ReliefValveLeaking));
         }
     }
 
     #endregion
-    
-    #region PVB Related Properties
-    
+
+    #region Pvb Details
+
     public string? BackPressure
     {
-        get => _backPressure;
+        get => _testInfo.Pvb.BackPressure;
         set
         {
-            _backPressure = value;
-            _failedFieldsToSave["BackPressure"] = value ?? string.Empty;
-            _passedFieldsToSave["BackPressure"] = value ?? string.Empty;
+            _testInfo.Pvb.BackPressure = value;
             OnPropertyChanged(nameof(BackPressure));
         }
     }
-    
+
     public string? AirInletOpening
     {
-        get => _airInletOpening;
+        get => _testInfo.Pvb.AirInletOpening;
         set
         {
-            _airInletOpening = value;
-            _failedFieldsToSave["InitialAirInlet"] = decimal.TryParse(AirInletOpening, out decimal fai) ? fai.ToString("F1") : string.Empty;
-            _passedFieldsToSave["FinalAirInlet"] = decimal.TryParse(AirInletOpening, out decimal pai) ? pai.ToString("F1") : string.Empty;
-            OnPropertyChanged(nameof(_airInletOpening));
+            _testInfo.Pvb.AirInletOpening = value;
+            OnPropertyChanged(nameof(AirInletOpening));
         }
     }
-    
+
     public bool AirInletLeaked
     {
-        get => _airInletLeaked;
+        get => _testInfo.Pvb.AirInletLeaked;
         set
         {
-            _airInletLeaked = value;
-            _failedFieldsToSave["InitialAirInletLeaked"] = AirInletLeaked ? "On" : "Off";
+            _testInfo.Pvb.AirInletLeaked = value;
             OnPropertyChanged(nameof(AirInletLeaked));
         }
     }
-    
+
     public bool AirInletDidNotOpen
     {
-        get => _airInletDidNotOpen;
+        get => _testInfo.Pvb.AirInletDidNotOpen;
         set
         {
-            _airInletDidNotOpen = value;
-            _failedFieldsToSave["InitialCkPVBLDidNotOpen"] = AirInletDidNotOpen ? "On" : "Off";
+            _testInfo.Pvb.AirInletDidNotOpen = value;
             OnPropertyChanged(nameof(AirInletDidNotOpen));
         }
     }
-    
+
     public string? CkPvb
     {
-        get => _ckPvb;
+        get => _testInfo.Pvb.CkPvb;
         set
         {
-            _ckPvb = value;
-            _failedFieldsToSave["InitialCk1PVB"] = decimal.TryParse(CkPvb, out decimal fai) ? fai.ToString("F1") : string.Empty;
-            _passedFieldsToSave["Check Valve"] = decimal.TryParse(CkPvb, out decimal pai) ? pai.ToString("F1") : string.Empty;
+            _testInfo.Pvb.CkPvb = value;
             OnPropertyChanged(nameof(CkPvb));
         }
     }
 
-    
     public bool CkPvbLeaked
     {
-        get => _ckPvbLeaked;
+        get => _testInfo.Pvb.CkPvbLeaked;
         set
         {
-            _ckPvbLeaked = value;
-            _failedFieldsToSave["InitialCkPVBLeaked"] = CkPvbLeaked ? "On" : "Off";
+            _testInfo.Pvb.CkPvbLeaked = value;
             OnPropertyChanged(nameof(CkPvbLeaked));
         }
     }
-    
+
     #endregion
-    
-    #endregion
-    
+
     #region Constructor
 
-    public BaseTestViewModel() : base(new Dictionary<string, string>()) {}
-    
-    public BaseTestViewModel(Dictionary<string, string>? formData) : base(formData) {}
-    
+    protected BaseTestViewModel() : this(new ReportData(), true)
+    {
+        _testInfo = new TestInfo();
+    }
+
+    protected BaseTestViewModel(ReportData reportData, bool isInitialTest) : base(reportData)
+    {
+        IsInitialTest = isInitialTest;
+
+        _testInfo = IsInitialTest ? reportData.InitialTest ?? new TestInfo() : reportData.FinalTest ?? new TestInfo();
+    }
+
     #endregion
-    
-    # region Method Implementations
+
+    #region Navigation Methods
 
     protected override async Task OnNext()
     {
         if (!await ValidateFields()) return;
+
         if (IsBackflowPassing())
-        {
             await HandlePassingTest();
+        else
+            await HandleFailingTest();
+    }
+
+    protected override async Task OnBack()
+    {
+        if (IsInitialTest)
+        {
+            Report.InitialTest = _testInfo;
+
+            await SaveReport();
+            var viewModel = new DeviceInfoViewModel(Report);
+            await Shell.Current.GoToAsync("///MainPage/CustomerInfo/DeviceInfo", new Dictionary<string, object>
+            {
+                ["ViewModel"] = viewModel
+            });
         }
         else
         {
-            await HandleFailingTest();
+            Report.FinalTest = _testInfo;
+
+            await SaveReport();
+
+            var repairViewModel = new RepairViewModel(Report);
+            var type = Report.DeviceInfo.Device.Type;
+
+            if (string.IsNullOrEmpty(type))
+                throw new InvalidDataException("Backflow type is required");
+
+            var repairRoute = DetermineRepairRoute(type);
+            var testRoute = DetermineTestRoute(type);
+            var nav = "///MainPage/CustomerInfo/DeviceInfo/" + testRoute + "/" + repairRoute;
+            await Shell.Current.GoToAsync(nav, new Dictionary<string, object>
+            {
+                { "ViewModel", repairViewModel }
+            });
         }
     }
 
     private async Task HandlePassingTest()
     {
-        // Save Form Data
-        SaveFormData(_passedFieldsToSave);
-        
-        // Check if previously failed
-        var ck1 = FormData?.GetValueOrDefault("InitialCT1");
-        var airInlet = FormData?.GetValueOrDefault("InitialAirInlet");
-        var viewModel = new PassFinalViewModel(FormData, 
-            false, false, false);
-        
-        if (!string.IsNullOrEmpty(ck1) || !string.IsNullOrEmpty(airInlet))
+        // Assign TestInfo
+        if (IsInitialTest)
         {
-            viewModel = new PassFinalViewModel(FormData,
-                true, true, true);
+            Report.InitialTest = _testInfo;
+            Report.RepairInfo = new RepairInfo();
         }
         else
         {
-            viewModel = new PassFinalViewModel(FormData,
-                false, false, true);
+            Report.FinalTest = _testInfo;
         }
-        
+
+        await SaveReport();
+
+        var viewModel = new FinalViewModel(Report);
         await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
         {
             { "ViewModel", viewModel }
         });
     }
 
+
     private async Task HandleFailingTest()
     {
-        // Special Case For Leaking RVs
-        if (ReliefValveLeaking)
+        if (!IsInitialTest)
         {
-            if (_failedFieldsToSave.TryGetValue("InitialPSIRV", out string curStr))
+            var overwrite = await Application.Current.MainPage.DisplayAlert(
+                "Overwrite Initial Test",
+                "Do you want to overwrite the initial failed test and erase repair details?",
+                "Overwrite", "Cancel");
+
+            if (overwrite)
             {
-                if (!curStr.StartsWith("LEAKING"))
-                {
-                    _failedFieldsToSave["InitialPSIRV"] = "LEAKING/" + curStr;
-                }
+                Report.InitialTest = _testInfo;
+                Report.FinalTest = new TestInfo();
+                Report.RepairInfo = new RepairInfo();
             }
             else
             {
-                _failedFieldsToSave["InitialPSIRV"] = "LEAKING";
+                return;
             }
         }
-        
-        // Save Form Data
-        SaveFormData(_failedFieldsToSave);
-        
-        // Create 'RepairViewModel'
-        var repairViewModel = new BaseRepairViewModel(FormData);
-        
-        // Load 'RepairViewModel' Based On Type
-        var type = FormData?.GetValueOrDefault("BFType");
-        if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
-        
-        switch (type)
+
+        await SaveReport();
+
+        var repairViewModel = new RepairViewModel(Report);
+        var type = Report.DeviceInfo.Device.Type;
+
+        if (string.IsNullOrEmpty(type))
+            throw new InvalidDataException("Backflow type is required");
+
+        var route = DetermineRepairRoute(type);
+        await Shell.Current.GoToAsync(route, new Dictionary<string, object>
         {
-            case "RP":
-                await Shell.Current.GoToAsync("RpRepair", new Dictionary<string, object>
-                {
-                    { "ViewModel", repairViewModel }
-                });
-                break;
-            case "DC":
-                await Shell.Current.GoToAsync("DcRepair", new Dictionary<string, object>
-                {
-                    { "ViewModel", repairViewModel }
-                });
-                break;
-            case "SC":
-                await Shell.Current.GoToAsync("ScRepair", new Dictionary<string, object>
-                {
-                    { "ViewModel", repairViewModel }
-                });
-                break;
-            case "PVB":
-                await Shell.Current.GoToAsync("PvbRepair", new Dictionary<string, object>
-                {
-                    { "ViewModel", repairViewModel }
-                });
-                break;
-            case "SVB":
-                await Shell.Current.GoToAsync("SvbRepair", new Dictionary<string, object>
-                {
-                    { "ViewModel", repairViewModel }
-                });
-                break;
-            default:
-                await Application.Current.MainPage.DisplayAlert(
-                    "Not Implemented",
-                    $"The type '{type}' has not been implemented.",
-                    "OK"
-                );
-                break;
-        }
+            { "ViewModel", repairViewModel }
+        });
+    }
+
+    private static string DetermineRepairRoute(string type)
+    {
+        return type switch
+        {
+            "RP" => "RpRepair",
+            "DC" => "DcRepair",
+            "SC" => "ScRepair",
+            "PVB" => "PvbRepair",
+            "SVB" => "SvbRepair",
+            _ => throw new InvalidDataException($"The type '{type}' has not been implemented.")
+        };
+    }
+
+    private static string DetermineTestRoute(string type)
+    {
+        return type switch
+        {
+            "RP" => "RpTest",
+            "DC" => "DcTest",
+            "SC" => "ScTest",
+            "PVB" => "PvbTest",
+            "SVB" => "SvbTest",
+            _ => throw new InvalidDataException($"The type '{type}' has not been implemented.")
+        };
     }
 
     #endregion
-    
-    # region Abstract
+
+    #region Abstract Methods
 
     protected virtual async Task<bool> ValidateFields()
     {
-        if (!await AreFieldsValid(new (string Value, string Name)[]
-            {
-                (LinePressure ?? "", "Line Pressure"),
-                (ShutoffValve ?? "", "Shutoff Valve"),
-            })) return false;
-        
-        return true;
+        return await AreFieldsValid([
+            (LinePressure ?? "", "Line Pressure"),
+            (ShutoffValve ?? "", "Shutoff Valve")
+        ]);
     }
 
-    // TODO: Add shut off valve #2 checkstate
     protected abstract bool IsBackflowPassing();
 
     #endregion
-    
 }

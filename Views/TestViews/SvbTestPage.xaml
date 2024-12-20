@@ -9,6 +9,10 @@
     xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}" />
+    </Shell.BackButtonBehavior>
+
     <views:BaseViewPage.BindingContext>
         <testViewModels:SvbTestViewModel />
     </views:BaseViewPage.BindingContext>
@@ -17,7 +21,7 @@
         <VerticalStackLayout Style="{StaticResource ContentStack}">
 
             <!--  Line Pressure Section  -->
-            <Frame Style="{StaticResource CollapsibleSection}">
+            <Frame IsVisible="{Binding IsInitialTest}" Style="{StaticResource CollapsibleSection}">
                 <VerticalStackLayout Spacing="0">
                     <Button
                         Clicked="OnSectionButtonClicked"
@@ -43,7 +47,7 @@
             </Frame>
 
             <!--  Shutoff Valve Section  -->
-            <Frame Style="{StaticResource CollapsibleSection}">
+            <Frame IsVisible="{Binding IsInitialTest}" Style="{StaticResource CollapsibleSection}">
                 <VerticalStackLayout Spacing="0">
                     <Button
                         Clicked="OnSectionButtonClicked"
