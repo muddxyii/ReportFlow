@@ -39,20 +39,10 @@ public class ReportCacheService : IReportCacheService
     /// </summary>
     public ReportCacheService()
     {
-        if (DeviceInfo.Platform == DevicePlatform.Android)
-        {
-            // Use app-specific external storage on Android
-            var fileHelper = IPlatformApplication.Current?.Services.GetService<IFileHelper>();
-            _cachePath = fileHelper?.GetPublicStoragePath(Path.Combine("ReportFlow", "Caches"));
-        }
-        else
-        {
-            // Use the Documents folder for other platforms
-            _cachePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "ReportFlow",
-                "Caches");
-        }
+        _cachePath = Path.Combine(
+            FileSystem.Current.AppDataDirectory,
+            "ReportFlow",
+            "Caches");
 
         Directory.CreateDirectory(_cachePath); // Ensure the directory exists
     }

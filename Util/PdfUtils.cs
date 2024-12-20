@@ -6,7 +6,7 @@ namespace ReportFlow.Util;
 
 public static class PdfUtils
 {
-    // Returns form fields
+    // Keep this method as is since it's for reading/extracting data
     public static Dictionary<string, string> ExtractPdfFormData(Stream pdfStream)
     {
         var formFields = new Dictionary<string, string>();
@@ -17,52 +17,13 @@ public static class PdfUtils
         if (form != null)
         {
             var fields = form.GetAllFormFields();
-            foreach (var field in fields)
-            {
-                formFields[field.Key] = field.Value.GetValueAsString();
-            }
+            foreach (var field in fields) formFields[field.Key] = field.Value.GetValueAsString();
         }
+
         return formFields;
     }
 
-    private static string GetPdfStoragePath(string fileName)
-    {
-        string baseDirectory;
-
-        if (DeviceInfo.Platform == DevicePlatform.Android)
-        {
-            // Use app-specifict external storage on Android
-            var fileHelper = IPlatformApplication.Current?.Services.GetService<IFileHelper>();
-            baseDirectory = fileHelper?.GetPublicStoragePath("ReportFlow");
-        }
-        else
-        {
-            // Use Documents folder on Windows
-            baseDirectory = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "ReportFlow");
-        }
-
-        // Ensure the directory exists
-        Directory.CreateDirectory(baseDirectory);
-
-        // Generate unique filename
-        string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
-        string extension = Path.GetExtension(fileName);
-        string filePath = Path.Combine(baseDirectory, fileName);
-        int counter = 1;
-
-        while (File.Exists(filePath))
-        {
-            filePath = Path.Combine(baseDirectory,
-                $"{fileNameWithoutExt}_{counter}{extension}");
-            counter++;
-        }
-
-        return filePath;
-    }
-
-    public static async Task SavePdfWithFormData(Stream pdfTemplateStream,
+    public static async Task GenerateAndSharePdf(Stream pdfTemplateStream,
         Dictionary<string, string> formData,
         string fileName)
     {
@@ -96,7 +57,6 @@ public static class PdfUtils
                 }
             }
 
-            // The rest remains the same
             form.SetNeedAppearances(true);
             foreach (var field in formData)
             {
@@ -111,43 +71,19 @@ public static class PdfUtils
 
             pdfDoc.Close();
 
-            string filePath = GetPdfStoragePath(fileName);
-            await File.WriteAllBytesAsync(filePath, outputStream.ToArray());
+            // Write to temporary cache file for sharing
+            var tempFile = Path.Combine(FileSystem.Current.CacheDirectory, fileName);
+            await File.WriteAllBytesAsync(tempFile, outputStream.ToArray());
 
-            string displayPath = DeviceInfo.Platform == DevicePlatform.Android
-                ? $"ReportFlow/{Path.GetFileName(filePath)}"
-                : filePath;
-
-            if (DeviceInfo.Platform == DevicePlatform.Android)
+            // Share immediately
+            await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                await MainThread.InvokeOnMainThreadAsync(async () =>
+                await Share.RequestAsync(new ShareFileRequest
                 {
-                    var action = await Application.Current.MainPage.DisplayActionSheet(
-                        $"PDF saved to: {displayPath}",
-                        "Ok",
-                        null,
-                        "Click to Share");
-
-                    if (action == "Click to Share")
-                    {
-                        await Share.RequestAsync(new ShareFileRequest
-                        {
-                            Title = "Share PDF",
-                            File = new ShareFile(filePath)
-                        });
-                    }
+                    Title = "Share PDF",
+                    File = new ShareFile(tempFile)
                 });
-            }
-            else
-            {
-                await MainThread.InvokeOnMainThreadAsync(async () =>
-                {
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Success",
-                        $"PDF saved to: {displayPath}",
-                        "OK");
-                });
-            }
+            });
         }
         catch (Exception ex)
         {
@@ -155,7 +91,7 @@ public static class PdfUtils
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
-                    $"Failed to save PDF: {ex.Message}",
+                    $"Failed to generate PDF: {ex.Message}",
                     "OK");
             });
         }

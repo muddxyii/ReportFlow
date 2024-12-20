@@ -16,13 +16,12 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        
+
         // Add Cache Systems
         builder.Services.AddSingleton<IReportCacheService, ReportCacheService>();
 
 #if ANDROID
-            builder.Services.AddSingleton<IFileHelper, FileHelper>();
-            builder.Services.AddSingleton<IPdfIntentHelper, PdfIntentHelper>();
+        builder.Services.AddSingleton<IPdfIntentHelper, PdfIntentHelper>();
 #endif
 
 #if DEBUG

@@ -142,7 +142,7 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
         if (resourceStream == null)
             throw new FileNotFoundException("Template not found.");
         // Save PDF with form data
-        await PdfUtils.SavePdfWithFormData(resourceStream, FormData, fileName);
+        await PdfUtils.GenerateAndSharePdf(resourceStream, FormData, fileName);
     }
 
     // Checks if field is valid, if not it creates a pop-up
