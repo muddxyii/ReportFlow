@@ -4,14 +4,13 @@ using ReportFlow.Models.Test;
 using ReportFlow.ViewModels.FinalViewModels;
 using ReportFlow.ViewModels.InfoViewModels;
 using ReportFlow.ViewModels.RepairViewModels;
-using CheckValveDetails = ReportFlow.Models.Test.CheckValveDetails;
 
 namespace ReportFlow.ViewModels.TestViewModels;
 
 public abstract class BaseTestViewModel : BaseBackflowViewModel
 {
     private readonly TestInfo _testInfo;
-    private readonly bool _isInitialTest;
+    public bool IsInitialTest { get; }
 
     #region Dropdown Items
 
@@ -213,9 +212,9 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     protected BaseTestViewModel(ReportData reportData, bool isInitialTest) : base(reportData)
     {
-        _isInitialTest = isInitialTest;
+        IsInitialTest = isInitialTest;
 
-        _testInfo = _isInitialTest ? reportData.InitialTest ?? new TestInfo() : reportData.FinalTest ?? new TestInfo();
+        _testInfo = IsInitialTest ? reportData.InitialTest ?? new TestInfo() : reportData.FinalTest ?? new TestInfo();
     }
 
     #endregion
@@ -234,7 +233,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     protected override async Task OnBack()
     {
-        if (_isInitialTest)
+        if (IsInitialTest)
         {
             Report.InitialTest = _testInfo;
 
@@ -270,7 +269,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
     private async Task HandlePassingTest()
     {
         // Assign TestInfo
-        if (_isInitialTest)
+        if (IsInitialTest)
         {
             Report.InitialTest = _testInfo;
             Report.RepairInfo = new RepairInfo();
@@ -292,7 +291,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     private async Task HandleFailingTest()
     {
-        if (!_isInitialTest)
+        if (!IsInitialTest)
         {
             var overwrite = await Application.Current.MainPage.DisplayAlert(
                 "Overwrite Initial Test",

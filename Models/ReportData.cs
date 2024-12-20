@@ -61,9 +61,9 @@ public class ReportData
         // Add Test Info
         if (RepairInfo.WasRepaired) // Failed, Repaired, Passed
         {
-            foreach (var field in InitialTest.ToFailedFormFields())
-                result[field.Key] = field.Value;
             foreach (var field in FinalTest.ToPassedFormFields())
+                result[field.Key] = field.Value;
+            foreach (var field in InitialTest.ToFailedFormFields())
                 result[field.Key] = field.Value;
         }
         else if (RepairInfo.SkippedRepair) // Failed, Skipped Repair
