@@ -28,6 +28,8 @@ public class RepairInfo
     public CheckValveDetails Check2 { get; set; } = new();
     public ValveDetails RV { get; set; } = new();
     public ValveDetails PVB { get; set; } = new();
+    public bool WasRepaired { get; set; }
+    public bool SkippedRepair { get; set; }
 
     public Dictionary<string, string> ToFormFields()
     {

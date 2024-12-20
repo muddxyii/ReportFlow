@@ -1,4 +1,5 @@
 ﻿using ReportFlow.Interfaces;
+using ReportFlow.Models;
 using ReportFlow.Util;
 using ReportFlow.ViewModels.InfoViewModels;
 using ReportFlow.ViewModels.ReportViewModels;
@@ -39,9 +40,10 @@ public partial class MainPage : ContentPage
             // Extract Old Form Data
             var oldFormData = PdfUtils.ExtractPdfFormData(fileStream);
             var infoFormData = GetInfoData(oldFormData);
+            var report = new ReportData(infoFormData);
 
             // Load Next Model
-            var viewModel = new CustomerInfoViewModel(infoFormData);
+            var viewModel = new CustomerInfoViewModel(report);
             await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
             {
                 ["ViewModel"] = viewModel

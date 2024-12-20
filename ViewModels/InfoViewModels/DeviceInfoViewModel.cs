@@ -1,12 +1,11 @@
-﻿using ReportFlow.ViewModels.TestViewModels;
+﻿using ReportFlow.Models;
+using ReportFlow.ViewModels.TestViewModels;
 using DeviceInfo = ReportFlow.Models.Info.DeviceInfo;
 
 namespace ReportFlow.ViewModels.InfoViewModels;
 
 public class DeviceInfoViewModel : BaseBackflowViewModel
 {
-    private DeviceInfo _deviceInfo;
-
     #region Dropdown Items
 
     public List<string> InstallationStatusOptions { get; } = ["NEW", "EXISTING", "REPLACEMENT"];
@@ -24,52 +23,52 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
     public string? WaterPurveyor
     {
-        get => _deviceInfo.Location.WaterPurveyor;
+        get => Report.DeviceInfo.Location.WaterPurveyor;
         set
         {
-            _deviceInfo.Location.WaterPurveyor = value;
+            Report.DeviceInfo.Location.WaterPurveyor = value;
             OnPropertyChanged(nameof(WaterPurveyor));
         }
     }
 
     public string? AssemblyAddress
     {
-        get => _deviceInfo.Location.AssemblyAddress;
+        get => Report.DeviceInfo.Location.AssemblyAddress;
         set
         {
-            _deviceInfo.Location.AssemblyAddress = value;
+            Report.DeviceInfo.Location.AssemblyAddress = value;
             OnPropertyChanged(nameof(AssemblyAddress));
         }
     }
 
     public string? OnSiteLocation
     {
-        get => _deviceInfo.Location.OnSiteLocation;
+        get => Report.DeviceInfo.Location.OnSiteLocation;
         set
         {
-            _deviceInfo.Location.OnSiteLocation = value;
+            Report.DeviceInfo.Location.OnSiteLocation = value;
             OnPropertyChanged(nameof(OnSiteLocation));
         }
     }
 
     public string? PrimaryService
     {
-        get => _deviceInfo.Location.PrimaryService;
+        get => Report.DeviceInfo.Location.PrimaryService;
         set
         {
-            _deviceInfo.Location.PrimaryService = value;
+            Report.DeviceInfo.Location.PrimaryService = value;
             OnPropertyChanged(nameof(PrimaryService));
         }
     }
 
     public string? WaterMeterNo
     {
-        get => _deviceInfo.Location.WaterMeterNo;
+        get => Report.DeviceInfo.Location.WaterMeterNo;
         set
         {
-            _deviceInfo.Location.WaterMeterNo = value;
+            Report.DeviceInfo.Location.WaterMeterNo = value;
             OnPropertyChanged(nameof(WaterMeterNo));
-            if (value == "INTERNAL") _deviceInfo.Installation.ProtectionType = "PRIMARY / POINT OF USE";
+            if (value == "INTERNAL") Report.DeviceInfo.Installation.ProtectionType = "PRIMARY / POINT OF USE";
         }
     }
 
@@ -79,30 +78,30 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
     public string? InstallationStatus
     {
-        get => _deviceInfo.Installation.InstallationStatus;
+        get => Report.DeviceInfo.Installation.InstallationStatus;
         set
         {
-            _deviceInfo.Installation.InstallationStatus = value;
+            Report.DeviceInfo.Installation.InstallationStatus = value;
             OnPropertyChanged(nameof(InstallationStatus));
         }
     }
 
     public string? ProtectionType
     {
-        get => _deviceInfo.Installation.ProtectionType;
+        get => Report.DeviceInfo.Installation.ProtectionType;
         set
         {
-            _deviceInfo.Installation.ProtectionType = value;
+            Report.DeviceInfo.Installation.ProtectionType = value;
             OnPropertyChanged(nameof(ProtectionType));
         }
     }
 
     public string? ServiceType
     {
-        get => _deviceInfo.Installation.ServiceType;
+        get => Report.DeviceInfo.Installation.ServiceType;
         set
         {
-            _deviceInfo.Installation.ServiceType = value;
+            Report.DeviceInfo.Installation.ServiceType = value;
             OnPropertyChanged(nameof(ServiceType));
         }
     }
@@ -113,50 +112,50 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
     public string? SerialNo
     {
-        get => _deviceInfo.Device.SerialNo;
+        get => Report.DeviceInfo.Device.SerialNo;
         set
         {
-            _deviceInfo.Device.SerialNo = value;
+            Report.DeviceInfo.Device.SerialNo = value;
             OnPropertyChanged(nameof(SerialNo));
         }
     }
 
     public string? ModelNo
     {
-        get => _deviceInfo.Device.ModelNo;
+        get => Report.DeviceInfo.Device.ModelNo;
         set
         {
-            _deviceInfo.Device.ModelNo = value;
+            Report.DeviceInfo.Device.ModelNo = value;
             OnPropertyChanged(nameof(ModelNo));
         }
     }
 
     public string? Size
     {
-        get => _deviceInfo.Device.Size;
+        get => Report.DeviceInfo.Device.Size;
         set
         {
-            _deviceInfo.Device.Size = value;
+            Report.DeviceInfo.Device.Size = value;
             OnPropertyChanged(nameof(Size));
         }
     }
 
     public string? Manufacturer
     {
-        get => _deviceInfo.Device.Manufacturer;
+        get => Report.DeviceInfo.Device.Manufacturer;
         set
         {
-            _deviceInfo.Device.Manufacturer = value;
+            Report.DeviceInfo.Device.Manufacturer = value;
             OnPropertyChanged(nameof(Manufacturer));
         }
     }
 
     public string? Type
     {
-        get => _deviceInfo.Device.Type;
+        get => Report.DeviceInfo.Device.Type;
         set
         {
-            _deviceInfo.Device.Type = value;
+            Report.DeviceInfo.Device.Type = value;
             OnPropertyChanged(nameof(Type));
         }
     }
@@ -165,13 +164,13 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
     #region Constructor
 
-    public DeviceInfoViewModel() : this(new Dictionary<string, string>())
+    public DeviceInfoViewModel() : this(new ReportData())
     {
+        Report.DeviceInfo = new DeviceInfo();
     }
 
-    public DeviceInfoViewModel(Dictionary<string, string> formData) : base(formData)
+    public DeviceInfoViewModel(ReportData reportData) : base(reportData)
     {
-        _deviceInfo = DeviceInfo.FromFormFields(formData);
     }
 
     #endregion
@@ -186,46 +185,39 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
                 (PrimaryService ?? "", "Primary Service At Location")
             })) return;
 
-        await SaveFormDataWithCache(_deviceInfo.ToFormFields());
+        await SaveReport();
 
         await NavigateToTestPage();
     }
 
     private async Task NavigateToTestPage()
     {
-        var viewModelType = Type switch
+        var type = Report.DeviceInfo.Device.Type;
+        if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
+
+        BaseTestViewModel viewModel = type switch
         {
-            "RP" => typeof(RpTestViewModel),
-            "DC" => typeof(DcTestViewModel),
-            "SC" => typeof(ScTestViewModel),
-            "PVB" => typeof(PvbTestViewModel),
-            "SVB" => typeof(SvbTestViewModel),
-            _ => null
+            "RP" => new RpTestViewModel(Report, true),
+            "DC" => new DcTestViewModel(Report, true),
+            "SC" => new ScTestViewModel(Report, true),
+            "PVB" => new PvbTestViewModel(Report, true),
+            "SVB" => new SvbTestViewModel(Report, true),
+            _ => throw new NotImplementedException($"The type '{type}' has not been implemented.")
         };
 
-        if (viewModelType == null)
-        {
-            await Application.Current.MainPage.DisplayAlert(
-                "Not Implemented",
-                $"The type '{Type}' has not been implemented.",
-                "OK");
-            return;
-        }
-
-        var viewModel = Activator.CreateInstance(viewModelType, FormData);
-        var pageName = viewModelType.Name.Replace("ViewModel", "");
+        var pageName = viewModel.GetType().Name.Replace("ViewModel", "");
 
         await Shell.Current.GoToAsync(pageName, new Dictionary<string, object>
         {
-            ["ViewModel"] = viewModel
+            { "ViewModel", viewModel }
         });
     }
 
     protected override async Task OnBack()
     {
-        await SaveFormDataWithCache(_deviceInfo.ToFormFields());
+        await SaveReport();
 
-        var viewModel = new CustomerInfoViewModel(FormData);
+        var viewModel = new CustomerInfoViewModel(Report);
         await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
         {
             ["ViewModel"] = viewModel

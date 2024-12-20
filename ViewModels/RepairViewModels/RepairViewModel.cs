@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using ReportFlow.Models;
 using ReportFlow.Models.Repair;
 using ReportFlow.ViewModels.FinalViewModels;
 using ReportFlow.ViewModels.InfoViewModels;
@@ -8,76 +9,74 @@ namespace ReportFlow.ViewModels.RepairViewModels;
 
 public class RepairViewModel : BaseBackflowViewModel
 {
-    private RepairInfo _repairInfo;
-
     #region Check1 Properties
 
     public bool Ck1Cleaned
     {
-        get => _repairInfo.Check1.Cleaned;
+        get => Report.RepairInfo.Check1.Cleaned;
         set
         {
-            _repairInfo.Check1.Cleaned = value;
+            Report.RepairInfo.Check1.Cleaned = value;
             OnPropertyChanged(nameof(Ck1Cleaned));
         }
     }
 
     public bool Ck1CheckDisc
     {
-        get => _repairInfo.Check1.CheckDisc;
+        get => Report.RepairInfo.Check1.CheckDisc;
         set
         {
-            _repairInfo.Check1.CheckDisc = value;
+            Report.RepairInfo.Check1.CheckDisc = value;
             OnPropertyChanged(nameof(Ck1CheckDisc));
         }
     }
 
     public bool Ck1DiscHolder
     {
-        get => _repairInfo.Check1.DiscHolder;
+        get => Report.RepairInfo.Check1.DiscHolder;
         set
         {
-            _repairInfo.Check1.DiscHolder = value;
+            Report.RepairInfo.Check1.DiscHolder = value;
             OnPropertyChanged(nameof(Ck1DiscHolder));
         }
     }
 
     public bool Ck1Spring
     {
-        get => _repairInfo.Check1.Spring;
+        get => Report.RepairInfo.Check1.Spring;
         set
         {
-            _repairInfo.Check1.Spring = value;
+            Report.RepairInfo.Check1.Spring = value;
             OnPropertyChanged(nameof(Ck1Spring));
         }
     }
 
     public bool Ck1Guide
     {
-        get => _repairInfo.Check1.Guide;
+        get => Report.RepairInfo.Check1.Guide;
         set
         {
-            _repairInfo.Check1.Guide = value;
+            Report.RepairInfo.Check1.Guide = value;
             OnPropertyChanged(nameof(Ck1Guide));
         }
     }
 
     public bool Ck1Seat
     {
-        get => _repairInfo.Check1.Seat;
+        get => Report.RepairInfo.Check1.Seat;
         set
         {
-            _repairInfo.Check1.Seat = value;
+            Report.RepairInfo.Check1.Seat = value;
             OnPropertyChanged(nameof(Ck1Seat));
         }
     }
 
     public bool Ck1Other
     {
-        get => _repairInfo.Check1.Other;
+        get => Report.RepairInfo.Check1.Other;
         set
         {
-            _repairInfo.Check1.Other = value;
+            Report.RepairInfo.Check1.Other = value;
             OnPropertyChanged(nameof(Ck1Other));
         }
     }
@@ -88,70 +87,70 @@ public class RepairViewModel : BaseBackflowViewModel
 
     public bool Ck2Cleaned
     {
-        get => _repairInfo.Check2.Cleaned;
+        get => Report.RepairInfo.Check2.Cleaned;
         set
         {
-            _repairInfo.Check2.Cleaned = value;
+            Report.RepairInfo.Check2.Cleaned = value;
             OnPropertyChanged(nameof(Ck2Cleaned));
         }
     }
 
     public bool Ck2CheckDisc
     {
-        get => _repairInfo.Check2.CheckDisc;
+        get => Report.RepairInfo.Check2.CheckDisc;
         set
         {
-            _repairInfo.Check2.CheckDisc = value;
+            Report.RepairInfo.Check2.CheckDisc = value;
             OnPropertyChanged(nameof(Ck2CheckDisc));
         }
     }
 
     public bool Ck2DiscHolder
     {
-        get => _repairInfo.Check2.DiscHolder;
+        get => Report.RepairInfo.Check2.DiscHolder;
         set
         {
-            _repairInfo.Check2.DiscHolder = value;
+            Report.RepairInfo.Check2.DiscHolder = value;
             OnPropertyChanged(nameof(Ck2DiscHolder));
         }
     }
 
     public bool Ck2Spring
     {
-        get => _repairInfo.Check2.Spring;
+        get => Report.RepairInfo.Check2.Spring;
         set
         {
-            _repairInfo.Check2.Spring = value;
+            Report.RepairInfo.Check2.Spring = value;
             OnPropertyChanged(nameof(Ck2Spring));
         }
     }
 
     public bool Ck2Guide
     {
-        get => _repairInfo.Check2.Guide;
+        get => Report.RepairInfo.Check2.Guide;
         set
         {
-            _repairInfo.Check2.Guide = value;
+            Report.RepairInfo.Check2.Guide = value;
             OnPropertyChanged(nameof(Ck2Guide));
         }
     }
 
     public bool Ck2Seat
     {
-        get => _repairInfo.Check2.Seat;
+        get => Report.RepairInfo.Check2.Seat;
         set
         {
-            _repairInfo.Check2.Seat = value;
+            Report.RepairInfo.Check2.Seat = value;
             OnPropertyChanged(nameof(Ck2Seat));
         }
     }
 
     public bool Ck2Other
     {
-        get => _repairInfo.Check2.Other;
+        get => Report.RepairInfo.Check2.Other;
         set
         {
-            _repairInfo.Check2.Other = value;
+            Report.RepairInfo.Check2.Other = value;
             OnPropertyChanged(nameof(Ck2Other));
         }
     }
@@ -162,70 +161,70 @@ public class RepairViewModel : BaseBackflowViewModel
 
     public bool RvCleaned
     {
-        get => _repairInfo.RV.Cleaned;
+        get => Report.RepairInfo.RV.Cleaned;
         set
         {
-            _repairInfo.RV.Cleaned = value;
+            Report.RepairInfo.RV.Cleaned = value;
             OnPropertyChanged(nameof(RvCleaned));
         }
     }
 
     public bool RvRubberKit
     {
-        get => _repairInfo.RV.RubberKit;
+        get => Report.RepairInfo.RV.RubberKit;
         set
         {
-            _repairInfo.RV.RubberKit = value;
+            Report.RepairInfo.RV.RubberKit = value;
             OnPropertyChanged(nameof(RvRubberKit));
         }
     }
 
     public bool RvDiscHolder
     {
-        get => _repairInfo.RV.DiscHolder;
+        get => Report.RepairInfo.RV.DiscHolder;
         set
         {
-            _repairInfo.RV.DiscHolder = value;
+            Report.RepairInfo.RV.DiscHolder = value;
             OnPropertyChanged(nameof(RvDiscHolder));
         }
     }
 
     public bool RvSpring
     {
-        get => _repairInfo.RV.Spring;
+        get => Report.RepairInfo.RV.Spring;
         set
         {
-            _repairInfo.RV.Spring = value;
+            Report.RepairInfo.RV.Spring = value;
             OnPropertyChanged(nameof(RvSpring));
         }
     }
 
     public bool RvGuide
     {
-        get => _repairInfo.RV.Guide;
+        get => Report.RepairInfo.RV.Guide;
         set
         {
-            _repairInfo.RV.Guide = value;
+            Report.RepairInfo.RV.Guide = value;
             OnPropertyChanged(nameof(RvGuide));
         }
     }
 
     public bool RvSeat
     {
-        get => _repairInfo.RV.Seat;
+        get => Report.RepairInfo.RV.Seat;
         set
         {
-            _repairInfo.RV.Seat = value;
+            Report.RepairInfo.RV.Seat = value;
             OnPropertyChanged(nameof(RvSeat));
         }
     }
 
     public bool RvOther
     {
-        get => _repairInfo.RV.Other;
+        get => Report.RepairInfo.RV.Other;
         set
         {
-            _repairInfo.RV.Other = value;
+            Report.RepairInfo.RV.Other = value;
             OnPropertyChanged(nameof(RvOther));
         }
     }
@@ -236,70 +235,70 @@ public class RepairViewModel : BaseBackflowViewModel
 
     public bool PvbCleaned
     {
-        get => _repairInfo.PVB.Cleaned;
+        get => Report.RepairInfo.PVB.Cleaned;
         set
         {
-            _repairInfo.PVB.Cleaned = value;
+            Report.RepairInfo.PVB.Cleaned = value;
             OnPropertyChanged(nameof(PvbCleaned));
         }
     }
 
     public bool PvbRubberKit
     {
-        get => _repairInfo.PVB.RubberKit;
+        get => Report.RepairInfo.PVB.RubberKit;
         set
         {
-            _repairInfo.PVB.RubberKit = value;
+            Report.RepairInfo.PVB.RubberKit = value;
             OnPropertyChanged(nameof(PvbRubberKit));
         }
     }
 
     public bool PvbDiscHolder
     {
-        get => _repairInfo.PVB.DiscHolder;
+        get => Report.RepairInfo.PVB.DiscHolder;
         set
         {
-            _repairInfo.PVB.DiscHolder = value;
+            Report.RepairInfo.PVB.DiscHolder = value;
             OnPropertyChanged(nameof(PvbDiscHolder));
         }
     }
 
     public bool PvbSpring
     {
-        get => _repairInfo.PVB.Spring;
+        get => Report.RepairInfo.PVB.Spring;
         set
         {
-            _repairInfo.PVB.Spring = value;
+            Report.RepairInfo.PVB.Spring = value;
             OnPropertyChanged(nameof(PvbSpring));
         }
     }
 
     public bool PvbGuide
     {
-        get => _repairInfo.PVB.Guide;
+        get => Report.RepairInfo.PVB.Guide;
         set
         {
-            _repairInfo.PVB.Guide = value;
+            Report.RepairInfo.PVB.Guide = value;
             OnPropertyChanged(nameof(PvbGuide));
         }
     }
 
     public bool PvbSeat
     {
-        get => _repairInfo.PVB.Seat;
+        get => Report.RepairInfo.PVB.Seat;
         set
         {
-            _repairInfo.PVB.Seat = value;
+            Report.RepairInfo.PVB.Seat = value;
             OnPropertyChanged(nameof(PvbSeat));
         }
     }
 
     public bool PvbOther
     {
-        get => _repairInfo.PVB.Other;
+        get => Report.RepairInfo.PVB.Other;
         set
         {
-            _repairInfo.PVB.Other = value;
+            Report.RepairInfo.PVB.Other = value;
             OnPropertyChanged(nameof(PvbOther));
         }
     }
@@ -314,13 +313,13 @@ public class RepairViewModel : BaseBackflowViewModel
 
     #region Constructors
 
-    public RepairViewModel() : this(new Dictionary<string, string>())
+    public RepairViewModel() : this(new ReportData())
     {
+        Report.RepairInfo = new RepairInfo();
     }
 
-    public RepairViewModel(Dictionary<string, string> formData) : base(formData)
+    public RepairViewModel(ReportData reportData) : base(reportData)
     {
-        _repairInfo = RepairInfo.FromFormFields(formData);
         SkipCommand = new Command(async () => await OnSkip());
     }
 
@@ -330,18 +329,20 @@ public class RepairViewModel : BaseBackflowViewModel
 
     protected override async Task OnNext()
     {
-        await SaveFormDataWithCache(_repairInfo.ToFormFields());
+        Report.RepairInfo.WasRepaired = true;
 
-        var type = FormData.GetValueOrDefault("BFType")?.ToString();
+        await SaveReport();
+
+        var type = Report.DeviceInfo.Device.Type;
         if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
 
         BaseTestViewModel viewModel = type switch
         {
-            "RP" => new RpTestViewModel(FormData),
-            "DC" => new DcTestViewModel(FormData),
-            "SC" => new ScTestViewModel(FormData),
-            "PVB" => new PvbTestViewModel(FormData),
-            "SVB" => new SvbTestViewModel(FormData),
+            "RP" => new RpTestViewModel(Report, false),
+            "DC" => new DcTestViewModel(Report, false),
+            "SC" => new ScTestViewModel(Report, false),
+            "PVB" => new PvbTestViewModel(Report, false),
+            "SVB" => new SvbTestViewModel(Report, false),
             _ => throw new NotImplementedException($"The type '{type}' has not been implemented.")
         };
 
@@ -355,8 +356,8 @@ public class RepairViewModel : BaseBackflowViewModel
 
     protected override async Task OnBack()
     {
-        await SaveFormDataWithCache(_repairInfo.ToFormFields());
-        var viewModel = new DeviceInfoViewModel(FormData);
+        await SaveReport();
+        var viewModel = new DeviceInfoViewModel(Report);
         await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
         {
             ["ViewModel"] = viewModel
@@ -365,7 +366,9 @@ public class RepairViewModel : BaseBackflowViewModel
 
     protected async Task OnSkip()
     {
-        var viewModel = new FinalViewModel(FormData, true, false, false);
+        Report.RepairInfo.SkippedRepair = true;
+
+        var viewModel = new FinalViewModel(Report);
         await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
         {
             { "ViewModel", viewModel }

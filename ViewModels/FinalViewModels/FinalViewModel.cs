@@ -1,11 +1,12 @@
+using ReportFlow.Models;
 using ReportFlow.Models.Final;
+using ReportFlow.Models.Repair;
 using ReportFlow.ViewModels.InfoViewModels;
 
 namespace ReportFlow.ViewModels.FinalViewModels;
 
 public class FinalViewModel : BaseBackflowViewModel
 {
-    private FinalInfo _finalInfo;
     private bool _showInitialFields;
     private bool _showRepairedFields;
     private bool _showPassedFields;
@@ -64,44 +65,44 @@ public class FinalViewModel : BaseBackflowViewModel
 
     public string? InitialTester
     {
-        get => _finalInfo.InitialTest?.Name;
+        get => Report.FinalInfo.InitialTest?.Name;
         set
         {
-            _finalInfo.InitialTest ??= new TesterInfo();
-            _finalInfo.InitialTest.Name = value;
+            Report.FinalInfo.InitialTest ??= new TesterInfo();
+            Report.FinalInfo.InitialTest.Name = value;
             OnPropertyChanged(nameof(InitialTester));
         }
     }
 
     public string? InitialTesterNo
     {
-        get => _finalInfo.InitialTest?.CertificationNo;
+        get => Report.FinalInfo.InitialTest?.CertificationNo;
         set
         {
-            _finalInfo.InitialTest ??= new TesterInfo();
-            _finalInfo.InitialTest.CertificationNo = value;
+            Report.FinalInfo.InitialTest ??= new TesterInfo();
+            Report.FinalInfo.InitialTest.CertificationNo = value;
             OnPropertyChanged(nameof(InitialTesterNo));
         }
     }
 
     public string? InitialTestKitSerial
     {
-        get => _finalInfo.InitialTest?.TestKitSerial;
+        get => Report.FinalInfo.InitialTest?.TestKitSerial;
         set
         {
-            _finalInfo.InitialTest ??= new TesterInfo();
-            _finalInfo.InitialTest.TestKitSerial = value;
+            Report.FinalInfo.InitialTest ??= new TesterInfo();
+            Report.FinalInfo.InitialTest.TestKitSerial = value;
             OnPropertyChanged(nameof(InitialTestKitSerial));
         }
     }
 
     public DateTime DateFailed
     {
-        get => _finalInfo.InitialTest?.Date ?? DateTime.Today;
+        get => Report.FinalInfo.InitialTest?.Date ?? DateTime.Today;
         set
         {
-            _finalInfo.InitialTest ??= new TesterInfo();
-            _finalInfo.InitialTest.Date = value;
+            Report.FinalInfo.InitialTest ??= new TesterInfo();
+            Report.FinalInfo.InitialTest.Date = value;
             OnPropertyChanged(nameof(DateFailed));
         }
     }
@@ -112,44 +113,44 @@ public class FinalViewModel : BaseBackflowViewModel
 
     public string? RepairedTester
     {
-        get => _finalInfo.RepairedTest?.Name;
+        get => Report.FinalInfo.RepairedTest?.Name;
         set
         {
-            _finalInfo.RepairedTest ??= new TesterInfo();
-            _finalInfo.RepairedTest.Name = value;
+            Report.FinalInfo.RepairedTest ??= new TesterInfo();
+            Report.FinalInfo.RepairedTest.Name = value;
             OnPropertyChanged(nameof(RepairedTester));
         }
     }
 
     public string? RepairedTesterNo
     {
-        get => _finalInfo.RepairedTest?.CertificationNo;
+        get => Report.FinalInfo.RepairedTest?.CertificationNo;
         set
         {
-            _finalInfo.RepairedTest ??= new TesterInfo();
-            _finalInfo.RepairedTest.CertificationNo = value;
+            Report.FinalInfo.RepairedTest ??= new TesterInfo();
+            Report.FinalInfo.RepairedTest.CertificationNo = value;
             OnPropertyChanged(nameof(RepairedTesterNo));
         }
     }
 
     public string? RepairedTestKitSerial
     {
-        get => _finalInfo.RepairedTest?.TestKitSerial;
+        get => Report.FinalInfo.RepairedTest?.TestKitSerial;
         set
         {
-            _finalInfo.RepairedTest ??= new TesterInfo();
-            _finalInfo.RepairedTest.TestKitSerial = value;
+            Report.FinalInfo.RepairedTest ??= new TesterInfo();
+            Report.FinalInfo.RepairedTest.TestKitSerial = value;
             OnPropertyChanged(nameof(RepairedTestKitSerial));
         }
     }
 
     public DateTime DateRepaired
     {
-        get => _finalInfo.RepairedTest?.Date ?? DateTime.Today;
+        get => Report.FinalInfo.RepairedTest?.Date ?? DateTime.Today;
         set
         {
-            _finalInfo.RepairedTest ??= new TesterInfo();
-            _finalInfo.RepairedTest.Date = value;
+            Report.FinalInfo.RepairedTest ??= new TesterInfo();
+            Report.FinalInfo.RepairedTest.Date = value;
             OnPropertyChanged(nameof(DateRepaired));
         }
     }
@@ -160,44 +161,44 @@ public class FinalViewModel : BaseBackflowViewModel
 
     public string? FinalTester
     {
-        get => _finalInfo.FinalTest?.Name;
+        get => Report.FinalInfo.FinalTest?.Name;
         set
         {
-            _finalInfo.FinalTest ??= new TesterInfo();
-            _finalInfo.FinalTest.Name = value;
+            Report.FinalInfo.FinalTest ??= new TesterInfo();
+            Report.FinalInfo.FinalTest.Name = value;
             OnPropertyChanged(nameof(FinalTester));
         }
     }
 
     public string? FinalTesterNo
     {
-        get => _finalInfo.FinalTest?.CertificationNo;
+        get => Report.FinalInfo.FinalTest?.CertificationNo;
         set
         {
-            _finalInfo.FinalTest ??= new TesterInfo();
-            _finalInfo.FinalTest.CertificationNo = value;
+            Report.FinalInfo.FinalTest ??= new TesterInfo();
+            Report.FinalInfo.FinalTest.CertificationNo = value;
             OnPropertyChanged(nameof(FinalTesterNo));
         }
     }
 
     public string? FinalTestKitSerial
     {
-        get => _finalInfo.FinalTest?.TestKitSerial;
+        get => Report.FinalInfo.FinalTest?.TestKitSerial;
         set
         {
-            _finalInfo.FinalTest ??= new TesterInfo();
-            _finalInfo.FinalTest.TestKitSerial = value;
+            Report.FinalInfo.FinalTest ??= new TesterInfo();
+            Report.FinalInfo.FinalTest.TestKitSerial = value;
             OnPropertyChanged(nameof(FinalTestKitSerial));
         }
     }
 
     public DateTime DatePassed
     {
-        get => _finalInfo.FinalTest?.Date ?? DateTime.Today;
+        get => Report.FinalInfo.FinalTest?.Date ?? DateTime.Today;
         set
         {
-            _finalInfo.FinalTest ??= new TesterInfo();
-            _finalInfo.FinalTest.Date = value;
+            Report.FinalInfo.FinalTest ??= new TesterInfo();
+            Report.FinalInfo.FinalTest.Date = value;
             OnPropertyChanged(nameof(DatePassed));
         }
     }
@@ -208,10 +209,10 @@ public class FinalViewModel : BaseBackflowViewModel
 
     public string? Comments
     {
-        get => _finalInfo.Comments;
+        get => Report.FinalInfo.Comments;
         set
         {
-            _finalInfo.Comments = value;
+            Report.FinalInfo.Comments = value;
             OnPropertyChanged(nameof(Comments));
         }
     }
@@ -220,18 +221,28 @@ public class FinalViewModel : BaseBackflowViewModel
 
     #region Constructors
 
-    public FinalViewModel(Dictionary<string, string>? formData,
-        bool showInitialFields, bool showRepairedFields, bool showPassedFields) : base(formData)
+    public FinalViewModel(ReportData reportData) : base(reportData)
     {
-        _showInitialFields = showInitialFields;
-        _showRepairedFields = showRepairedFields;
-        _showPassedFields = showPassedFields;
-        _finalInfo = FinalInfo.FromFormFields(FormData);
+        if (Report.RepairInfo?.WasRepaired ?? false) // Failed, Repaired, Passed
+        {
+            _showInitialFields = true;
+            _showRepairedFields = true;
+            _showPassedFields = true;
+        }
+        else if (Report.RepairInfo?.SkippedRepair ?? false) // Failed, Skipped Repair
+        {
+            _showInitialFields = true;
+        }
+        else // Passed
+        {
+            _showPassedFields = true;
+        }
     }
 
-    public FinalViewModel() : base(new Dictionary<string, string>())
+    public FinalViewModel() : this(new ReportData())
     {
-        _finalInfo = new FinalInfo();
+        Report.RepairInfo = new RepairInfo();
+        Report.FinalInfo = new FinalInfo();
     }
 
     #endregion
@@ -244,16 +255,17 @@ public class FinalViewModel : BaseBackflowViewModel
         if (ShowRepairedFields && !await ValidateRepairedBy()) return;
         if (ShowPassedFields && !await ValidatePassedBy()) return;
 
-        await SaveFormDataWithCache(_finalInfo.ToFormFields());
+        await SaveReport();
 
-        var serialNo = FormData.GetValueOrDefault("SerialNo");
+        var serialNo = Report.DeviceInfo.Device.SerialNo;
         var fileName = $"{serialNo ?? "Unknown"}_{DateTime.Now:yyyy-M-d}.pdf";
-        await SavePdf(fileName);
+        await ShareReportAsPdf(fileName);
     }
 
     protected override async Task OnBack()
     {
-        var viewModel = new DeviceInfoViewModel(FormData);
+        // TODO: Update logic for going back a test page
+        var viewModel = new DeviceInfoViewModel(Report);
         await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
         {
             ["ViewModel"] = viewModel

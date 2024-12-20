@@ -16,8 +16,6 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
     private readonly SemaphoreSlim _loadingLock = new(1, 1);
     private bool _hasReports;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public ObservableCollection<ReportItemViewModel> Reports
     {
         get => _reports;
@@ -71,7 +69,6 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
         OpenReportCommand = new Command<string>(async (reportId) => await OpenReportAsync(reportId));
         DeleteReportCommand = new Command<string>(async (reportId) => await DeleteReportAsync(reportId));
 
-        // Initialize reports
         InitializeReports();
     }
 
@@ -80,67 +77,37 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
         await LoadReportsAsync();
     }
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
     private async Task LoadReportsAsync()
     {
-        if (!await _loadingLock.WaitAsync(0))
-            return;
+        if (!await _loadingLock.WaitAsync(0)) return;
 
         try
         {
             IsLoading = true;
             var tempReports = new List<ReportItemViewModel>();
+            var allReports = await _reportCacheService.GetAllReportsAsync();
 
-            var allMetadata = await _reportCacheService.GetAllReportMetadataAsync();
-
-            foreach (var metadata in allMetadata)
-            {
-                // Skip invalid metadata
-                if (metadata == null || string.IsNullOrWhiteSpace(metadata.ReportId))
-                    continue;
-
-                try
+            foreach (var report in allReports)
+                tempReports.Add(new ReportItemViewModel
                 {
-                    var reportData = await _reportCacheService.LoadReportDataAsync(metadata.ReportId);
-                    if (reportData == null) continue;
+                    ReportId = report.Metadata.ReportId,
+                    CustomerName = report.CustomerInfo.OwnerDetails?.Name ?? "Unknown",
+                    Address = report.DeviceInfo.Location?.AssemblyAddress ?? "Unknown",
+                    DateCreated = report.Metadata.CreatedDate,
+                    LastModified = report.Metadata.LastModifiedDate
+                });
 
-                    tempReports.Add(new ReportItemViewModel
-                    {
-                        ReportId = metadata.ReportId,
-                        CustomerName = reportData.GetValueOrDefault("FacilityOwner", "Unknown"),
-                        Address = reportData.GetValueOrDefault("AssemblyAddress", "Unknown"),
-                        DateCreated = metadata.CreatedDate,
-                        LastModified = metadata.LastModifiedDate
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Error loading report {metadata.ReportId}: {ex.Message}");
-                    // Continue to next report instead of breaking the entire loop
-                    continue;
-                }
-            }
-
-            // Sort by last modified date descending
-            var sortedReports = tempReports.OrderByDescending(r => r.LastModified).ToList();
 
             // Update the observable collection
             Reports.Clear();
-            foreach (var report in sortedReports) Reports.Add(report);
+            foreach (var report in tempReports.OrderByDescending(r => r.LastModified)) Reports.Add(report);
 
             HasReports = Reports.Any();
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error loading reports: {ex.Message}");
-            await Shell.Current.DisplayAlert(
-                "Error",
-                "Unable to load reports. Please try again later.",
-                "OK");
+            await Shell.Current.DisplayAlert("Error", "Unable to load reports. Please try again later.", "OK");
         }
         finally
         {
@@ -153,12 +120,10 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
     {
         if (string.IsNullOrEmpty(reportId)) return;
 
-        var reportData = await _reportCacheService.LoadReportDataAsync(reportId);
-        if (reportData == null) return;
+        var report = await _reportCacheService.LoadReportAsync(reportId);
+        if (report == null) return;
 
-        reportData["report_id"] = reportId;
-
-        var viewModel = new CustomerInfoViewModel(reportData);
+        var viewModel = new CustomerInfoViewModel(report);
         await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
         {
             ["ViewModel"] = viewModel
@@ -167,15 +132,21 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
 
     private async Task DeleteReportAsync(string reportId)
     {
-        var shouldDelete = await Shell.Current.DisplayAlert(
-            "Delete Report",
-            "Are you sure you want to delete this report?",
-            "Delete",
-            "Cancel");
+        if (!await Shell.Current.DisplayAlert(
+                "Delete Report",
+                "Are you sure you want to delete this report?",
+                "Delete",
+                "Cancel"))
+            return;
 
-        if (!shouldDelete) return;
-
-        await _reportCacheService.DeleteReportDataAsync(reportId);
+        await _reportCacheService.DeleteReportAsync(reportId);
         await LoadReportsAsync();
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

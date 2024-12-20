@@ -1,19 +1,18 @@
-﻿using ReportFlow.Models.Info;
+﻿using ReportFlow.Models;
+using ReportFlow.Models.Info;
 
 namespace ReportFlow.ViewModels.InfoViewModels;
 
 public class CustomerInfoViewModel : BaseBackflowViewModel
 {
-    private CustomerInfo _customerInfo;
-
     #region Permit Number
 
     public string? PermitNumber
     {
-        get => _customerInfo.PermitNumber;
+        get => Report.CustomerInfo.PermitNumber;
         set
         {
-            _customerInfo.PermitNumber = value;
+            Report.CustomerInfo.PermitNumber = value;
             OnPropertyChanged(nameof(PermitNumber));
         }
     }
@@ -24,11 +23,11 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
 
     public string? OwnerName
     {
-        get => _customerInfo.OwnerDetails?.Name;
+        get => Report.CustomerInfo.OwnerDetails?.Name;
         set
         {
-            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
-            _customerInfo.OwnerDetails.Name = value;
+            Report.CustomerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            Report.CustomerInfo.OwnerDetails.Name = value;
 
             OnPropertyChanged(nameof(OwnerName));
         }
@@ -36,44 +35,44 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
 
     public string? OwnerAddress
     {
-        get => _customerInfo.OwnerDetails?.Address;
+        get => Report.CustomerInfo.OwnerDetails?.Address;
         set
         {
-            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
-            _customerInfo.OwnerDetails.Address = value;
+            Report.CustomerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            Report.CustomerInfo.OwnerDetails.Address = value;
             OnPropertyChanged(nameof(OwnerAddress));
         }
     }
 
     public string? OwnerContact
     {
-        get => _customerInfo.OwnerDetails?.Contact;
+        get => Report.CustomerInfo.OwnerDetails?.Contact;
         set
         {
-            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
-            _customerInfo.OwnerDetails.Contact = value;
+            Report.CustomerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            Report.CustomerInfo.OwnerDetails.Contact = value;
             OnPropertyChanged(nameof(OwnerContact));
         }
     }
 
     public string? OwnerPhone
     {
-        get => _customerInfo.OwnerDetails?.Phone;
+        get => Report.CustomerInfo.OwnerDetails?.Phone;
         set
         {
-            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
-            _customerInfo.OwnerDetails.Phone = value;
+            Report.CustomerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            Report.CustomerInfo.OwnerDetails.Phone = value;
             OnPropertyChanged(nameof(OwnerPhone));
         }
     }
 
     public string? Email
     {
-        get => _customerInfo.OwnerDetails?.Email;
+        get => Report.CustomerInfo.OwnerDetails?.Email;
         set
         {
-            _customerInfo.OwnerDetails ??= new FacilityOwnerDetails();
-            _customerInfo.OwnerDetails.Email = value;
+            Report.CustomerInfo.OwnerDetails ??= new FacilityOwnerDetails();
+            Report.CustomerInfo.OwnerDetails.Email = value;
             OnPropertyChanged(nameof(Email));
         }
     }
@@ -84,44 +83,44 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
 
     public string? RepName
     {
-        get => _customerInfo.RepDetails?.Name;
+        get => Report.CustomerInfo.RepDetails?.Name;
         set
         {
-            _customerInfo.RepDetails ??= new RepresentativeDetails();
-            _customerInfo.RepDetails.Name = value;
+            Report.CustomerInfo.RepDetails ??= new RepresentativeDetails();
+            Report.CustomerInfo.RepDetails.Name = value;
             OnPropertyChanged(nameof(RepName));
         }
     }
 
     public string? RepAddress
     {
-        get => _customerInfo.RepDetails?.Address;
+        get => Report.CustomerInfo.RepDetails?.Address;
         set
         {
-            _customerInfo.RepDetails ??= new RepresentativeDetails();
-            _customerInfo.RepDetails.Address = value;
+            Report.CustomerInfo.RepDetails ??= new RepresentativeDetails();
+            Report.CustomerInfo.RepDetails.Address = value;
             OnPropertyChanged(nameof(RepAddress));
         }
     }
 
     public string? RepContact
     {
-        get => _customerInfo.RepDetails?.Contact;
+        get => Report.CustomerInfo.RepDetails?.Contact;
         set
         {
-            _customerInfo.RepDetails ??= new RepresentativeDetails();
-            _customerInfo.RepDetails.Contact = value;
+            Report.CustomerInfo.RepDetails ??= new RepresentativeDetails();
+            Report.CustomerInfo.RepDetails.Contact = value;
             OnPropertyChanged(nameof(RepContact));
         }
     }
 
     public string? RepPhone
     {
-        get => _customerInfo.RepDetails?.Phone;
+        get => Report.CustomerInfo.RepDetails?.Phone;
         set
         {
-            _customerInfo.RepDetails ??= new RepresentativeDetails();
-            _customerInfo.RepDetails.Phone = value;
+            Report.CustomerInfo.RepDetails ??= new RepresentativeDetails();
+            Report.CustomerInfo.RepDetails.Phone = value;
             OnPropertyChanged(nameof(RepPhone));
         }
     }
@@ -130,14 +129,13 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
 
     #region Constructors
 
-    public CustomerInfoViewModel() : base(new Dictionary<string, string>())
+    public CustomerInfoViewModel() : base(new ReportData())
     {
-        _customerInfo = new CustomerInfo();
+        Report.CustomerInfo = new CustomerInfo();
     }
 
-    public CustomerInfoViewModel(Dictionary<string, string> formData) : base(formData)
+    public CustomerInfoViewModel(ReportData reportData) : base(reportData)
     {
-        _customerInfo = CustomerInfo.FromFormFields(formData);
     }
 
     #endregion
@@ -146,11 +144,10 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
 
     protected override async Task OnNext()
     {
-        // Save form fields to form data
-        await SaveFormDataWithCache(_customerInfo.ToFormFields());
+        await SaveReport();
 
         // Create next view model with FormData
-        var viewModel = new DeviceInfoViewModel(FormData);
+        var viewModel = new DeviceInfoViewModel(Report);
         await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
         {
             ["ViewModel"] = viewModel
@@ -159,8 +156,7 @@ public class CustomerInfoViewModel : BaseBackflowViewModel
 
     protected override async Task OnBack()
     {
-        // Save form fields to form data
-        await SaveFormDataWithCache(_customerInfo.ToFormFields());
+        await SaveReport();
 
         await Shell.Current.GoToAsync("///MainPage");
     }

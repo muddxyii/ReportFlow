@@ -1,13 +1,17 @@
+using ReportFlow.Models;
+using ReportFlow.Models.Repair;
 using ReportFlow.Models.Test;
 using ReportFlow.ViewModels.FinalViewModels;
 using ReportFlow.ViewModels.InfoViewModels;
 using ReportFlow.ViewModels.RepairViewModels;
+using CheckValveDetails = ReportFlow.Models.Test.CheckValveDetails;
 
 namespace ReportFlow.ViewModels.TestViewModels;
 
 public abstract class BaseTestViewModel : BaseBackflowViewModel
 {
-    protected readonly TestInfo TestInfo;
+    private readonly TestInfo _testInfo;
+    private readonly bool _isInitialTest;
 
     #region Dropdown Items
 
@@ -28,30 +32,30 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? LinePressure
     {
-        get => TestInfo.BackflowTest.LinePressure;
+        get => _testInfo.BackflowTest.LinePressure;
         set
         {
-            TestInfo.BackflowTest.LinePressure = value;
+            _testInfo.BackflowTest.LinePressure = value;
             OnPropertyChanged(nameof(LinePressure));
         }
     }
 
     public string? ShutoffValve
     {
-        get => TestInfo.BackflowTest.ShutoffValve;
+        get => _testInfo.BackflowTest.ShutoffValve;
         set
         {
-            TestInfo.BackflowTest.ShutoffValve = value;
+            _testInfo.BackflowTest.ShutoffValve = value;
             OnPropertyChanged(nameof(ShutoffValve));
         }
     }
 
     public string? SovComment
     {
-        get => TestInfo.BackflowTest.SovComment;
+        get => _testInfo.BackflowTest.SovComment;
         set
         {
-            TestInfo.BackflowTest.SovComment = value;
+            _testInfo.BackflowTest.SovComment = value;
             OnPropertyChanged(nameof(SovComment));
         }
     }
@@ -62,40 +66,40 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? CheckValve1
     {
-        get => TestInfo.CheckValves.Valve1;
+        get => _testInfo.CheckValves.Valve1;
         set
         {
-            TestInfo.CheckValves.Valve1 = value;
+            _testInfo.CheckValves.Valve1 = value;
             OnPropertyChanged(nameof(CheckValve1));
         }
     }
 
     public string? CheckValve2
     {
-        get => TestInfo.CheckValves.Valve2;
+        get => _testInfo.CheckValves.Valve2;
         set
         {
-            TestInfo.CheckValves.Valve2 = value;
+            _testInfo.CheckValves.Valve2 = value;
             OnPropertyChanged(nameof(CheckValve2));
         }
     }
 
     public bool CheckValve1Ct
     {
-        get => TestInfo.CheckValves.Valve1Ct;
+        get => _testInfo.CheckValves.Valve1Ct;
         set
         {
-            TestInfo.CheckValves.Valve1Ct = value;
+            _testInfo.CheckValves.Valve1Ct = value;
             OnPropertyChanged(nameof(CheckValve1Ct));
         }
     }
 
     public bool CheckValve2Ct
     {
-        get => TestInfo.CheckValves.Valve2Ct;
+        get => _testInfo.CheckValves.Valve2Ct;
         set
         {
-            TestInfo.CheckValves.Valve2Ct = value;
+            _testInfo.CheckValves.Valve2Ct = value;
             OnPropertyChanged(nameof(CheckValve2Ct));
         }
     }
@@ -106,30 +110,30 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? PressureReliefOpening
     {
-        get => TestInfo.ReliefValve.PressureReliefOpening;
+        get => _testInfo.ReliefValve.PressureReliefOpening;
         set
         {
-            TestInfo.ReliefValve.PressureReliefOpening = value;
+            _testInfo.ReliefValve.PressureReliefOpening = value;
             OnPropertyChanged(nameof(PressureReliefOpening));
         }
     }
 
     public bool ReliefValveDidNotOpen
     {
-        get => TestInfo.ReliefValve.ReliefValveDidNotOpen;
+        get => _testInfo.ReliefValve.ReliefValveDidNotOpen;
         set
         {
-            TestInfo.ReliefValve.ReliefValveDidNotOpen = value;
+            _testInfo.ReliefValve.ReliefValveDidNotOpen = value;
             OnPropertyChanged(nameof(ReliefValveDidNotOpen));
         }
     }
 
     public bool ReliefValveLeaking
     {
-        get => TestInfo.ReliefValve.ReliefValveLeaking;
+        get => _testInfo.ReliefValve.ReliefValveLeaking;
         set
         {
-            TestInfo.ReliefValve.ReliefValveLeaking = value;
+            _testInfo.ReliefValve.ReliefValveLeaking = value;
             OnPropertyChanged(nameof(ReliefValveLeaking));
         }
     }
@@ -140,60 +144,60 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? BackPressure
     {
-        get => TestInfo.Pvb.BackPressure;
+        get => _testInfo.Pvb.BackPressure;
         set
         {
-            TestInfo.Pvb.BackPressure = value;
+            _testInfo.Pvb.BackPressure = value;
             OnPropertyChanged(nameof(BackPressure));
         }
     }
 
     public string? AirInletOpening
     {
-        get => TestInfo.Pvb.AirInletOpening;
+        get => _testInfo.Pvb.AirInletOpening;
         set
         {
-            TestInfo.Pvb.AirInletOpening = value;
+            _testInfo.Pvb.AirInletOpening = value;
             OnPropertyChanged(nameof(AirInletOpening));
         }
     }
 
     public bool AirInletLeaked
     {
-        get => TestInfo.Pvb.AirInletLeaked;
+        get => _testInfo.Pvb.AirInletLeaked;
         set
         {
-            TestInfo.Pvb.AirInletLeaked = value;
+            _testInfo.Pvb.AirInletLeaked = value;
             OnPropertyChanged(nameof(AirInletLeaked));
         }
     }
 
     public bool AirInletDidNotOpen
     {
-        get => TestInfo.Pvb.AirInletDidNotOpen;
+        get => _testInfo.Pvb.AirInletDidNotOpen;
         set
         {
-            TestInfo.Pvb.AirInletDidNotOpen = value;
+            _testInfo.Pvb.AirInletDidNotOpen = value;
             OnPropertyChanged(nameof(AirInletDidNotOpen));
         }
     }
 
     public string? CkPvb
     {
-        get => TestInfo.Pvb.CkPvb;
+        get => _testInfo.Pvb.CkPvb;
         set
         {
-            TestInfo.Pvb.CkPvb = value;
+            _testInfo.Pvb.CkPvb = value;
             OnPropertyChanged(nameof(CkPvb));
         }
     }
 
     public bool CkPvbLeaked
     {
-        get => TestInfo.Pvb.CkPvbLeaked;
+        get => _testInfo.Pvb.CkPvbLeaked;
         set
         {
-            TestInfo.Pvb.CkPvbLeaked = value;
+            _testInfo.Pvb.CkPvbLeaked = value;
             OnPropertyChanged(nameof(CkPvbLeaked));
         }
     }
@@ -202,13 +206,16 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     #region Constructor
 
-    protected BaseTestViewModel() : this(new Dictionary<string, string>())
+    protected BaseTestViewModel() : this(new ReportData(), true)
     {
+        _testInfo = new TestInfo();
     }
 
-    protected BaseTestViewModel(Dictionary<string, string> formData) : base(formData)
+    protected BaseTestViewModel(ReportData reportData, bool isInitialTest) : base(reportData)
     {
-        TestInfo = TestInfo.FromFormFields(formData);
+        _isInitialTest = isInitialTest;
+
+        _testInfo = _isInitialTest ? reportData.InitialTest ?? new TestInfo() : reportData.FinalTest ?? new TestInfo();
     }
 
     #endregion
@@ -227,7 +234,15 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     protected override async Task OnBack()
     {
-        var viewModel = new DeviceInfoViewModel(FormData);
+        // Assign TestInfo
+        if (_isInitialTest)
+            Report.InitialTest = _testInfo;
+        else
+            Report.FinalTest = _testInfo;
+
+        await SaveReport();
+
+        var viewModel = new DeviceInfoViewModel(Report);
         await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
         {
             ["ViewModel"] = viewModel
@@ -236,41 +251,41 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     private async Task HandlePassingTest()
     {
-        await SaveFormDataWithCache(TestInfo.ToPassedFormFields());
+        // Assign TestInfo
+        if (_isInitialTest)
+        {
+            Report.InitialTest = _testInfo;
+            Report.RepairInfo = new RepairInfo();
+        }
+        else
+        {
+            Report.FinalTest = _testInfo;
+        }
 
-        var viewModel = DeterminePassingViewModel();
+        await SaveReport();
+
+        var viewModel = new FinalViewModel(Report);
         await Shell.Current.GoToAsync("PassFinal", new Dictionary<string, object>
         {
             { "ViewModel", viewModel }
         });
     }
 
-    private FinalViewModel DeterminePassingViewModel()
-    {
-        var hadPreviousFailure = !string.IsNullOrEmpty(FormData?.GetValueOrDefault("InitialCT1")) ||
-                                 !string.IsNullOrEmpty(FormData?.GetValueOrDefault("InitialAirInlet"));
-
-        return hadPreviousFailure
-            ? new FinalViewModel(FormData, true, true, true)
-            : new FinalViewModel(FormData, false, false, true);
-    }
 
     private async Task HandleFailingTest()
     {
-        var hadPreviousFailure = !string.IsNullOrEmpty(FormData?.GetValueOrDefault("InitialCT1")) ||
-                                 !string.IsNullOrEmpty(FormData?.GetValueOrDefault("InitialAirInlet"));
-
-        if (hadPreviousFailure)
+        if (!_isInitialTest)
         {
             var overwrite = await Application.Current.MainPage.DisplayAlert(
-                "Overwrite Initial Test?",
+                "Overwrite Initial Test",
                 "Do you want to overwrite the initial failed test and erase repair details?",
-                "Yes", "No");
+                "Overwrite", "Cancel");
 
             if (overwrite)
             {
-                // TODO: Add logic to erase initial test and repair details
-                // RepairData.RepairInfo = new();
+                Report.InitialTest = _testInfo;
+                Report.FinalTest = new TestInfo();
+                Report.RepairInfo = new RepairInfo();
             }
             else
             {
@@ -278,10 +293,10 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             }
         }
 
-        await SaveFormDataWithCache(TestInfo.ToFailedFormFields());
+        await SaveReport();
 
-        var repairViewModel = new RepairViewModel(FormData);
-        var type = FormData?.GetValueOrDefault("BFType");
+        var repairViewModel = new RepairViewModel(Report);
+        var type = Report.DeviceInfo.Device.Type;
 
         if (string.IsNullOrEmpty(type))
             throw new InvalidDataException("Backflow type is required");
