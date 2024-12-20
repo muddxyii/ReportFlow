@@ -357,10 +357,25 @@ public class RepairViewModel : BaseBackflowViewModel
     protected override async Task OnBack()
     {
         await SaveReport();
-        var viewModel = new DeviceInfoViewModel(Report);
-        await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
+
+        var type = Report.DeviceInfo.Device.Type;
+        if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
+
+        BaseTestViewModel viewModel = type switch
         {
-            ["ViewModel"] = viewModel
+            "RP" => new RpTestViewModel(Report, true),
+            "DC" => new DcTestViewModel(Report, true),
+            "SC" => new ScTestViewModel(Report, true),
+            "PVB" => new PvbTestViewModel(Report, true),
+            "SVB" => new SvbTestViewModel(Report, true),
+            _ => throw new NotImplementedException($"The type '{type}' has not been implemented.")
+        };
+
+        var pageName = viewModel.GetType().Name.Replace("ViewModel", "");
+
+        await Shell.Current.GoToAsync(pageName, new Dictionary<string, object>
+        {
+            { "ViewModel", viewModel }
         });
     }
 

@@ -234,19 +234,35 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     protected override async Task OnBack()
     {
-        // Assign TestInfo
         if (_isInitialTest)
+        {
             Report.InitialTest = _testInfo;
+
+            await SaveReport();
+            var viewModel = new DeviceInfoViewModel(Report);
+            await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
+            {
+                ["ViewModel"] = viewModel
+            });
+        }
         else
+        {
             Report.FinalTest = _testInfo;
 
-        await SaveReport();
+            await SaveReport();
 
-        var viewModel = new DeviceInfoViewModel(Report);
-        await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
-        {
-            ["ViewModel"] = viewModel
-        });
+            var repairViewModel = new RepairViewModel(Report);
+            var type = Report.DeviceInfo.Device.Type;
+
+            if (string.IsNullOrEmpty(type))
+                throw new InvalidDataException("Backflow type is required");
+
+            var route = DetermineRepairRoute(type);
+            await Shell.Current.GoToAsync(route, new Dictionary<string, object>
+            {
+                { "ViewModel", repairViewModel }
+            });
+        }
     }
 
     private async Task HandlePassingTest()

@@ -2,6 +2,7 @@ using ReportFlow.Models;
 using ReportFlow.Models.Final;
 using ReportFlow.Models.Repair;
 using ReportFlow.ViewModels.InfoViewModels;
+using ReportFlow.ViewModels.TestViewModels;
 
 namespace ReportFlow.ViewModels.FinalViewModels;
 
@@ -264,11 +265,26 @@ public class FinalViewModel : BaseBackflowViewModel
 
     protected override async Task OnBack()
     {
-        // TODO: Update logic for going back a test page
-        var viewModel = new DeviceInfoViewModel(Report);
-        await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
+        await SaveReport();
+
+        var type = Report.DeviceInfo.Device.Type;
+        if (string.IsNullOrEmpty(type)) throw new InvalidDataException();
+
+        BaseTestViewModel viewModel = type switch
         {
-            ["ViewModel"] = viewModel
+            "RP" => new RpTestViewModel(Report, !Report.RepairInfo?.WasRepaired ?? true),
+            "DC" => new DcTestViewModel(Report, !Report.RepairInfo?.WasRepaired ?? true),
+            "SC" => new ScTestViewModel(Report, !Report.RepairInfo?.WasRepaired ?? true),
+            "PVB" => new PvbTestViewModel(Report, !Report.RepairInfo?.WasRepaired ?? true),
+            "SVB" => new SvbTestViewModel(Report, !Report.RepairInfo?.WasRepaired ?? true),
+            _ => throw new NotImplementedException($"The type '{type}' has not been implemented.")
+        };
+
+        var pageName = viewModel.GetType().Name.Replace("ViewModel", "");
+
+        await Shell.Current.GoToAsync(pageName, new Dictionary<string, object>
+        {
+            { "ViewModel", viewModel }
         });
     }
 
