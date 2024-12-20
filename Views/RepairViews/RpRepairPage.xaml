@@ -338,6 +338,7 @@
                     Text="Next" />
                 <Button
                     Command="{Binding SkipCommand}"
+                    IsVisible="{Binding NotRepaired}"
                     Style="{StaticResource PrimaryButton}"
                     Text="Skip Repair" />
             </VerticalStackLayout>

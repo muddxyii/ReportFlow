@@ -2,13 +2,18 @@ using System.Windows.Input;
 using ReportFlow.Models;
 using ReportFlow.Models.Repair;
 using ReportFlow.ViewModels.FinalViewModels;
-using ReportFlow.ViewModels.InfoViewModels;
 using ReportFlow.ViewModels.TestViewModels;
 
 namespace ReportFlow.ViewModels.RepairViewModels;
 
 public class RepairViewModel : BaseBackflowViewModel
 {
+    #region Booleans
+
+    public bool NotRepaired => !Report.RepairInfo.WasRepaired;
+
+    #endregion
+
     #region Check1 Properties
 
     public bool Ck1Cleaned
