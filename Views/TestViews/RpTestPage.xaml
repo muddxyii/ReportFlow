@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <views:BaseViewPage
     Title="RP Test"
     x:Class="ReportFlow.Views.TestViews.RpTestPage"
@@ -7,6 +8,10 @@
     xmlns:testViewModels="clr-namespace:ReportFlow.ViewModels.TestViewModels"
     xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}" />
+    </Shell.BackButtonBehavior>
 
     <ContentPage.BindingContext>
         <testViewModels:RpTestViewModel />

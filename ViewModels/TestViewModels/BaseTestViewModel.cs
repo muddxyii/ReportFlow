@@ -240,7 +240,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
             await SaveReport();
             var viewModel = new DeviceInfoViewModel(Report);
-            await Shell.Current.GoToAsync("DeviceInfo", new Dictionary<string, object>
+            await Shell.Current.GoToAsync("///MainPage/CustomerInfo/DeviceInfo", new Dictionary<string, object>
             {
                 ["ViewModel"] = viewModel
             });
@@ -257,8 +257,10 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             if (string.IsNullOrEmpty(type))
                 throw new InvalidDataException("Backflow type is required");
 
-            var route = DetermineRepairRoute(type);
-            await Shell.Current.GoToAsync(route, new Dictionary<string, object>
+            var repairRoute = DetermineRepairRoute(type);
+            var testRoute = DetermineTestRoute(type);
+            var nav = "///MainPage/CustomerInfo/DeviceInfo/" + testRoute + "/" + repairRoute;
+            await Shell.Current.GoToAsync(nav, new Dictionary<string, object>
             {
                 { "ViewModel", repairViewModel }
             });
@@ -333,6 +335,19 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             "SC" => "ScRepair",
             "PVB" => "PvbRepair",
             "SVB" => "SvbRepair",
+            _ => throw new InvalidDataException($"The type '{type}' has not been implemented.")
+        };
+    }
+
+    private static string DetermineTestRoute(string type)
+    {
+        return type switch
+        {
+            "RP" => "RpTest",
+            "DC" => "DcTest",
+            "SC" => "ScTest",
+            "PVB" => "PvbTest",
+            "SVB" => "SvbTest",
             _ => throw new InvalidDataException($"The type '{type}' has not been implemented.")
         };
     }

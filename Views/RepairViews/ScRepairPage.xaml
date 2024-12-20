@@ -9,6 +9,10 @@
     xmlns:views="clr-namespace:ReportFlow.Views;assembly=ReportFlow"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}" />
+    </Shell.BackButtonBehavior>
+
     <ContentPage.BindingContext>
         <repairViewModels:RepairViewModel />
     </ContentPage.BindingContext>

@@ -372,8 +372,9 @@ public class RepairViewModel : BaseBackflowViewModel
         };
 
         var pageName = viewModel.GetType().Name.Replace("ViewModel", "");
+        var nav = "///MainPage/CustomerInfo/DeviceInfo/" + pageName;
 
-        await Shell.Current.GoToAsync(pageName, new Dictionary<string, object>
+        await Shell.Current.GoToAsync(nav, new Dictionary<string, object>
         {
             { "ViewModel", viewModel }
         });

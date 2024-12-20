@@ -1,10 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+
 <ContentPage
     Title="Browse Reports"
     x:Class="ReportFlow.Views.ReportViews.ReportBrowserPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:reportViewModels="using:ReportFlow.ViewModels.ReportViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}" />
+    </Shell.BackButtonBehavior>
 
     <RefreshView
         Command="{Binding RefreshCommand}"

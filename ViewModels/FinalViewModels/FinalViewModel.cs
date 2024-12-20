@@ -281,11 +281,28 @@ public class FinalViewModel : BaseBackflowViewModel
         };
 
         var pageName = viewModel.GetType().Name.Replace("ViewModel", "");
+        var nav = "///MainPage/CustomerInfo/DeviceInfo/" + pageName;
 
-        await Shell.Current.GoToAsync(pageName, new Dictionary<string, object>
+        if (Report.RepairInfo?.WasRepaired ?? false)
+            nav += "/" + DetermineRepairRoute(type) + "/" + pageName;
+
+        await Shell.Current.GoToAsync(nav, new Dictionary<string, object>
         {
             { "ViewModel", viewModel }
         });
+    }
+
+    private static string DetermineRepairRoute(string type)
+    {
+        return type switch
+        {
+            "RP" => "RpRepair",
+            "DC" => "DcRepair",
+            "SC" => "ScRepair",
+            "PVB" => "PvbRepair",
+            "SVB" => "SvbRepair",
+            _ => throw new InvalidDataException($"The type '{type}' has not been implemented.")
+        };
     }
 
     #endregion

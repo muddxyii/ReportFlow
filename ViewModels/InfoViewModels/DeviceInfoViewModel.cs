@@ -218,7 +218,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         await SaveReport();
 
         var viewModel = new CustomerInfoViewModel(Report);
-        await Shell.Current.GoToAsync("CustomerInfo", new Dictionary<string, object>
+        await Shell.Current.GoToAsync("///MainPage/CustomerInfo", new Dictionary<string, object>
         {
             ["ViewModel"] = viewModel
         });
