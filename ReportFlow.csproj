@@ -18,15 +18,15 @@
         <ApplicationId>com.anybackflow.reportflow</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.5.0</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>1.7.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
-        
+
         <!-- Build Time Optimization -->
         <WindowsPackageType>None</WindowsPackageType>
         <PublishSingleFile Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' AND '$(WindowsPackageType)' != 'None'">true</PublishSingleFile>
         <SelfContained Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' AND '$(WindowsPackageType)' != 'None'">true</SelfContained>
         <IncludeNativeLibrariesForSelfExtract Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' AND '$(WindowsPackageType)' != 'None'">true</IncludeNativeLibrariesForSelfExtract>
-        
+
         <EnableIncrementalBuild>true</EnableIncrementalBuild>
         <IncrementalBuild>true</IncrementalBuild>
 
@@ -55,78 +55,78 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="itext7" Version="9.0.0" />
-        <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.0.0" />
+        <PackageReference Include="itext7" Version="9.0.0"/>
+        <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.0.0"/>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Views\InfoViews\CustomerInfoPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="Views\InfoViews\DeviceInfoPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="Views\RepairViews\DcRepairPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="Views\RepairViews\PvbRepairPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="Views\TestViews\SvbTestPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="Views\RepairViews\SvbRepairPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="Views\TestViews\ScTestPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="Views\RepairViews\ScRepairPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
+        <MauiXaml Update="Views\InfoViews\CustomerInfoPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\InfoViews\DeviceInfoPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\RepairViews\DcRepairPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\RepairViews\PvbRepairPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\TestViews\SvbTestPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\RepairViews\SvbRepairPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\TestViews\ScTestPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Views\RepairViews\ScRepairPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\InfoViews\CustomerInfoPage.xaml.cs">
-        <DependentUpon>CustomerInfoPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\InfoViews\DeviceInfoPage.xaml.cs">
-        <DependentUpon>DeviceInfoPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\RepairViews\DcRepairPage.xaml.cs">
-        <DependentUpon>DcRepairPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\RepairViews\PvbRepairPage.xaml.cs">
-        <DependentUpon>PvbRepairPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\TestViews\SvbTestPage.xaml.cs">
-        <DependentUpon>SvbTestPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\RepairViews\SvbRepairPage.xaml.cs">
-        <DependentUpon>SvbRepairPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\TestViews\ScTestPage.xaml.cs">
-        <DependentUpon>ScTestPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\RepairViews\ScRepairPage.xaml.cs">
-        <DependentUpon>ScRepairPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="Views\InfoViews\CustomerInfoPage.xaml.cs">
+            <DependentUpon>CustomerInfoPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\InfoViews\DeviceInfoPage.xaml.cs">
+            <DependentUpon>DeviceInfoPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\RepairViews\DcRepairPage.xaml.cs">
+            <DependentUpon>DcRepairPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\RepairViews\PvbRepairPage.xaml.cs">
+            <DependentUpon>PvbRepairPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\TestViews\SvbTestPage.xaml.cs">
+            <DependentUpon>SvbTestPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\RepairViews\SvbRepairPage.xaml.cs">
+            <DependentUpon>SvbRepairPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\TestViews\ScTestPage.xaml.cs">
+            <DependentUpon>ScTestPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\RepairViews\ScRepairPage.xaml.cs">
+            <DependentUpon>ScRepairPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\PdfTemplates\Abf-Fillable-12-24.pdf" />
-      <EmbeddedResource Include="Resources\PdfTemplates\Abf-Fillable-12-24.pdf" />
+        <None Remove="Resources\PdfTemplates\Abf-Fillable-12-24.pdf"/>
+        <EmbeddedResource Include="Resources\PdfTemplates\Abf-Fillable-12-24.pdf"/>
     </ItemGroup>
 
 </Project>
