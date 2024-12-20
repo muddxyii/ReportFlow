@@ -48,6 +48,7 @@ public class ReportMetadata
     public ReportMetadata(string reportId)
     {
         ReportId = reportId;
+        ReportType = "ReportFlow";
         CreatedDate = DateTime.UtcNow;
         LastModifiedDate = CreatedDate;
     }
