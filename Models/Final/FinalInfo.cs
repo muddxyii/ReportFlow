@@ -15,11 +15,11 @@ public class FinalInfo
     public TesterInfo? FinalTest { get; set; }
     public string? Comments { get; set; } = string.Empty;
 
-    public Dictionary<string, string> ToFormFields()
+    public Dictionary<string, string> ToFormFields(bool failed, bool repaired, bool passed)
     {
         var fields = new Dictionary<string, string>();
 
-        if (InitialTest != null)
+        if (InitialTest != null && failed)
         {
             fields.Add("InitialTester", InitialTest.Name ?? string.Empty);
             fields.Add("InitialTesterNo", InitialTest.CertNo ?? string.Empty);
@@ -28,7 +28,7 @@ public class FinalInfo
                 fields.Add("DateFailed", InitialTest.Date.ToString("M/d/yyyy"));
         }
 
-        if (RepairedTest != null)
+        if (RepairedTest != null && repaired)
         {
             fields.Add("RepairedTester", RepairedTest.Name ?? string.Empty);
             fields.Add("RepairedTesterNo", RepairedTest.CertNo ?? string.Empty);
@@ -37,7 +37,7 @@ public class FinalInfo
                 fields.Add("DateRepaired", RepairedTest.Date.ToString("M/d/yyyy"));
         }
 
-        if (FinalTest != null)
+        if (FinalTest != null && passed)
         {
             fields.Add("FinalTester", FinalTest.Name ?? string.Empty);
             fields.Add("FinalTesterNo", FinalTest.CertNo ?? string.Empty);

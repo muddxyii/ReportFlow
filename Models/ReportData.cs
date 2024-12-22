@@ -58,32 +58,44 @@ public class ReportData
         foreach (var field in DeviceInfo.ToFormFields())
             result[field.Key] = field.Value;
 
-        // Add Test Info
+        // Add Final & Repair & Test Info
         if (RepairInfo.WasRepaired) // Failed, Repaired, Passed
         {
+            // Tests
             foreach (var field in FinalTest.ToPassedFormFields())
                 result[field.Key] = field.Value;
             foreach (var field in InitialTest.ToFailedFormFields())
                 result[field.Key] = field.Value;
+
+            // Repair
+            foreach (var field in RepairInfo.ToFormFields())
+                result[field.Key] = field.Value;
+
+            // Final
+            foreach (var field in FinalInfo.ToFormFields(true, true, true))
+                result[field.Key] = field.Value;
         }
         else if (RepairInfo.SkippedRepair) // Failed, Skipped Repair
         {
+            // Test
             foreach (var field in InitialTest.ToFailedFormFields())
+                result[field.Key] = field.Value;
+
+            // Final
+            foreach (var field in FinalInfo.ToFormFields(true, false, false))
                 result[field.Key] = field.Value;
         }
         else // Passed
         {
+            // Test
             foreach (var field in InitialTest.ToPassedFormFields())
+                result[field.Key] = field.Value;
+
+            // Final
+            foreach (var field in FinalInfo.ToFormFields(false, false, true))
                 result[field.Key] = field.Value;
         }
 
-        // Add Repair Info
-        foreach (var field in RepairInfo.ToFormFields())
-            result[field.Key] = field.Value;
-
-        // Add Final Info
-        foreach (var field in FinalInfo.ToFormFields())
-            result[field.Key] = field.Value;
 
         return result;
     }
