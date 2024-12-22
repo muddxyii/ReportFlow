@@ -11,77 +11,95 @@
         <settingsViewModels:SettingsViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView Style="{StaticResource PageLayout}">
-        <VerticalStackLayout Style="{StaticResource ContentStack}">
-            <Frame Style="{StaticResource CollapsibleSection}">
-                <VerticalStackLayout Spacing="0">
-                    <Button
-                        Clicked="OnSectionButtonClicked"
-                        Style="{StaticResource SectionHeader}"
-                        Text="Tester Information ▼"
-                        x:Name="TestInfoButton" />
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" Style="{StaticResource PageLayout}">
+            <VerticalStackLayout Style="{StaticResource ContentStack}">
+                <Frame Style="{StaticResource CollapsibleSection}">
+                    <VerticalStackLayout Spacing="0">
+                        <Button
+                            Clicked="OnSectionButtonClicked"
+                            Style="{StaticResource SectionHeader}"
+                            Text="Tester Information ▼"
+                            x:Name="TestInfoButton" />
 
-                    <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="TesterInfoContent">
-                        <Grid
-                            ColumnDefinitions="*,*"
-                            RowDefinitions="Auto,Auto,Auto,Auto"
-                            Style="{StaticResource FormGrid}">
-                            <Label
-                                Grid.Column="0"
-                                Grid.Row="0"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Tester Name" />
-                            <Label
-                                Grid.Column="1"
-                                Grid.Row="0"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Test Kit Serial" />
+                        <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="TesterInfoContent">
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                RowDefinitions="Auto,Auto,Auto,Auto"
+                                Style="{StaticResource FormGrid}">
+                                <Label
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Style="{StaticResource FieldLabel}"
+                                    Text="Tester Name" />
+                                <Label
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Style="{StaticResource FieldLabel}"
+                                    Text="Test Kit Serial" />
 
-                            <Entry
-                                Grid.Column="0"
-                                Grid.Row="1"
-                                Placeholder="Tester Name"
-                                Style="{StaticResource FormEntry}"
-                                Text="{Binding TesterName}" />
-                            <Entry
-                                Grid.Column="1"
-                                Grid.Row="1"
-                                Placeholder="Test Kit Serial"
-                                Style="{StaticResource FormEntry}"
-                                Text="{Binding TestKitSerial}" />
+                                <Entry
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    Placeholder="Tester Name"
+                                    Style="{StaticResource FormEntry}"
+                                    Text="{Binding TesterName}" />
+                                <Entry
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Placeholder="Test Kit Serial"
+                                    Style="{StaticResource FormEntry}"
+                                    Text="{Binding TestKitSerial}" />
 
-                            <Label
-                                Grid.Column="0"
-                                Grid.Row="2"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Test Cert No." />
-                            <Label
-                                Grid.Column="1"
-                                Grid.Row="2"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Repair Cert No." />
+                                <Label
+                                    Grid.Column="0"
+                                    Grid.Row="2"
+                                    Style="{StaticResource FieldLabel}"
+                                    Text="Test Cert No." />
+                                <Label
+                                    Grid.Column="1"
+                                    Grid.Row="2"
+                                    Style="{StaticResource FieldLabel}"
+                                    Text="Repair Cert No." />
 
-                            <Entry
-                                Grid.Column="0"
-                                Grid.Row="3"
-                                Placeholder="Test Cert No."
-                                Style="{StaticResource FormEntry}"
-                                Text="{Binding TestCertNo}" />
-                            <Entry
-                                Grid.Column="1"
-                                Grid.Row="3"
-                                Placeholder="Repair Cert No."
-                                Style="{StaticResource FormEntry}"
-                                Text="{Binding RepairCertNo}" />
-                        </Grid>
+                                <Entry
+                                    Grid.Column="0"
+                                    Grid.Row="3"
+                                    Placeholder="Test Cert No."
+                                    Style="{StaticResource FormEntry}"
+                                    Text="{Binding TestCertNo}" />
+                                <Entry
+                                    Grid.Column="1"
+                                    Grid.Row="3"
+                                    Placeholder="Repair Cert No."
+                                    Style="{StaticResource FormEntry}"
+                                    Text="{Binding RepairCertNo}" />
+                            </Grid>
+                        </VerticalStackLayout>
                     </VerticalStackLayout>
-                </VerticalStackLayout>
-            </Frame>
+                </Frame>
 
-            <Button
-                Command="{Binding SaveCommand}"
-                Style="{StaticResource PrimaryButton}"
-                Text="Save" />
+                <Button
+                    Command="{Binding SaveCommand}"
+                    Style="{StaticResource PrimaryButton}"
+                    Text="Save" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <VerticalStackLayout
+            Grid.Row="1"
+            Margin="0,0,0,10"
+            Spacing="2">
+            <Label
+                FontSize="Small"
+                HorizontalOptions="Center"
+                Text="{Binding AppNameWithVersion}"
+                TextColor="Gray" />
+            <Label
+                FontSize="Small"
+                HorizontalOptions="Center"
+                Text="{Binding CompanyCopyright}"
+                TextColor="Gray" />
         </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 </ContentPage>
