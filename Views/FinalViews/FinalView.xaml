@@ -42,13 +42,9 @@
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Tester Name"
-                                x:Name="InitialTesterLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference InitialTesterPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="InitialTesterLabel" />
 
                             <Label
                                 Grid.Column="1"
@@ -62,13 +58,12 @@
                             </Label>
 
                             <!--  Inputs Row  -->
-                            <Picker
+                            <Entry
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TesterNameOptions}"
-                                SelectedItem="{Binding InitialTester}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="InitialTesterPicker" />
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding InitialTester}"
+                                x:Name="InitialTester" />
 
                             <DatePicker
                                 Date="{Binding DateFailed}"
@@ -88,40 +83,30 @@
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Certified Tester No."
-                                x:Name="InitialTesterNoLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference InitialTesterNoPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="InitialTesterNoLabel" />
 
                             <Label
                                 Grid.Column="1"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Test Kit Serial"
-                                x:Name="InitialTestKitLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference InitialTestKitPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="InitialTestKitLabel" />
 
                             <!--  Inputs Row  -->
-                            <Picker
+                            <Entry
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TesterNoOptions}"
-                                SelectedItem="{Binding InitialTesterNo}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="InitialTesterNoPicker" />
-                            <Picker
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding InitialTesterNo}"
+                                x:Name="InitialTesterNo" />
+                            <Entry
                                 Grid.Column="1"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TestKitSerialOptions}"
-                                SelectedItem="{Binding InitialTestKitSerial}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="InitialTestKitPicker" />
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding InitialTestKitSerial}"
+                                x:Name="InitialTestKit" />
                         </Grid>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
@@ -149,13 +134,9 @@
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Tester Name"
-                                x:Name="RepairedTesterLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference RepairedTesterPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="RepairedTesterLabel" />
 
                             <Label
                                 Grid.Column="1"
@@ -169,13 +150,12 @@
                             </Label>
 
                             <!--  Inputs Row  -->
-                            <Picker
+                            <Entry
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TesterNameOptions}"
-                                SelectedItem="{Binding RepairedTester}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="RepairedTesterPicker" />
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding RepairedTester}"
+                                x:Name="RepairedTester" />
 
                             <DatePicker
                                 Date="{Binding DateRepaired}"
@@ -195,40 +175,30 @@
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Certified Tester No."
-                                x:Name="RepairedTesterNoLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference RepairedTesterNoPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="RepairedTesterNoLabel" />
 
                             <Label
                                 Grid.Column="1"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Test Kit Serial"
-                                x:Name="RepairedTestKitLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference RepairedTestKitPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="RepairedTestKitLabel" />
 
                             <!--  Inputs Row  -->
-                            <Picker
+                            <Entry
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TesterNoOptions}"
-                                SelectedItem="{Binding RepairedTesterNo}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="RepairedTesterNoPicker" />
-                            <Picker
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding RepairedTesterNo}"
+                                x:Name="RepairedTesterNo" />
+                            <Entry
                                 Grid.Column="1"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TestKitSerialOptions}"
-                                SelectedItem="{Binding RepairedTestKitSerial}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="RepairedTestKitPicker" />
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding RepairedTestKitSerial}"
+                                x:Name="RepairedTestKit" />
                         </Grid>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
@@ -256,13 +226,9 @@
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Tester Name"
-                                x:Name="FinalTesterLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference FinalTesterPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="FinalTesterLabel" />
 
                             <Label
                                 Grid.Column="1"
@@ -276,13 +242,12 @@
                             </Label>
 
                             <!--  Inputs Row  -->
-                            <Picker
+                            <Entry
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TesterNameOptions}"
-                                SelectedItem="{Binding FinalTester}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="FinalTesterPicker" />
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding FinalTester}"
+                                x:Name="FinalTester" />
 
                             <DatePicker
                                 Date="{Binding DatePassed}"
@@ -302,40 +267,30 @@
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Certified Tester No."
-                                x:Name="FinalTesterNoLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference FinalTesterNoPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="FinalTesterNoLabel" />
 
                             <Label
                                 Grid.Column="1"
                                 Grid.Row="0"
-                                Style="{StaticResource PickerLabel}"
+                                Style="{StaticResource FieldLabel}"
                                 Text="Test Kit Serial"
-                                x:Name="FinalTestKitLabel">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{x:Reference FinalTestKitPicker}" Tapped="OnLabelTapped" />
-                                </Label.GestureRecognizers>
-                            </Label>
+                                x:Name="FinalTestKitLabel" />
 
                             <!--  Inputs Row  -->
-                            <Picker
+                            <Entry
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TesterNoOptions}"
-                                SelectedItem="{Binding FinalTesterNo}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="FinalTesterNoPicker" />
-                            <Picker
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding FinalTesterNo}"
+                                x:Name="FinalTesterNo" />
+                            <Entry
                                 Grid.Column="1"
                                 Grid.Row="1"
-                                ItemsSource="{Binding TestKitSerialOptions}"
-                                SelectedItem="{Binding FinalTestKitSerial}"
-                                Style="{StaticResource FormPicker}"
-                                x:Name="FinalTestKitPicker" />
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding FinalTestKitSerial}"
+                                x:Name="FinalTestKit" />
                         </Grid>
                     </VerticalStackLayout>
                 </VerticalStackLayout>

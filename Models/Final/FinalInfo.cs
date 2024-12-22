@@ -3,7 +3,7 @@
 public class TesterInfo
 {
     public string? Name { get; set; } = string.Empty;
-    public string? CertificationNo { get; set; } = string.Empty;
+    public string? CertNo { get; set; } = string.Empty;
     public string? TestKitSerial { get; set; } = string.Empty;
     public DateTime Date { get; set; } = DateTime.Today;
 }
@@ -22,7 +22,7 @@ public class FinalInfo
         if (InitialTest != null)
         {
             fields.Add("InitialTester", InitialTest.Name ?? string.Empty);
-            fields.Add("InitialTesterNo", InitialTest.CertificationNo ?? string.Empty);
+            fields.Add("InitialTesterNo", InitialTest.CertNo ?? string.Empty);
             fields.Add("InitialTestKitSerial", InitialTest.TestKitSerial ?? string.Empty);
             if (!string.IsNullOrEmpty(InitialTest.Name))
                 fields.Add("DateFailed", InitialTest.Date.ToString("M/d/yyyy"));
@@ -31,7 +31,7 @@ public class FinalInfo
         if (RepairedTest != null)
         {
             fields.Add("RepairedTester", RepairedTest.Name ?? string.Empty);
-            fields.Add("RepairedTesterNo", RepairedTest.CertificationNo ?? string.Empty);
+            fields.Add("RepairedTesterNo", RepairedTest.CertNo ?? string.Empty);
             fields.Add("RepairedTestKitSerial", RepairedTest.TestKitSerial ?? string.Empty);
             if (!string.IsNullOrEmpty(RepairedTest.Name))
                 fields.Add("DateRepaired", RepairedTest.Date.ToString("M/d/yyyy"));
@@ -40,7 +40,7 @@ public class FinalInfo
         if (FinalTest != null)
         {
             fields.Add("FinalTester", FinalTest.Name ?? string.Empty);
-            fields.Add("FinalTesterNo", FinalTest.CertificationNo ?? string.Empty);
+            fields.Add("FinalTesterNo", FinalTest.CertNo ?? string.Empty);
             fields.Add("FinalTestKitSerial", FinalTest.TestKitSerial ?? string.Empty);
             if (!string.IsNullOrEmpty(FinalTest.Name))
                 fields.Add("DatePassed", FinalTest.Date.ToString("M/d/yyyy"));
@@ -52,27 +52,35 @@ public class FinalInfo
 
     public static FinalInfo FromFormFields(Dictionary<string, string> formData)
     {
+        var defaults = new
+        {
+            TesterName = Preferences.Default.Get("TesterName", string.Empty),
+            TestKitSerial = Preferences.Default.Get("TestKitSerial", string.Empty),
+            TestCertNo = Preferences.Default.Get("CertNo", string.Empty),
+            RepairCertNo = Preferences.Default.Get("RepairCertNo", string.Empty)
+        };
+
         return new FinalInfo
         {
             InitialTest = new TesterInfo
             {
-                Name = formData.GetValueOrDefault("InitialTester"),
-                CertificationNo = formData.GetValueOrDefault("InitialTesterNo"),
-                TestKitSerial = formData.GetValueOrDefault("InitialTestKitSerial"),
+                Name = formData.GetValueOrDefault("InitialTester", defaults.TesterName),
+                CertNo = formData.GetValueOrDefault("InitialTesterNo", defaults.TestCertNo),
+                TestKitSerial = formData.GetValueOrDefault("InitialTestKitSerial", defaults.TestKitSerial),
                 Date = DateTime.Parse(formData.GetValueOrDefault("DateFailed") ?? DateTime.Today.ToString("M/d/yyyy"))
             },
             RepairedTest = new TesterInfo
             {
-                Name = formData.GetValueOrDefault("RepairedTester"),
-                CertificationNo = formData.GetValueOrDefault("RepairedTesterNo"),
-                TestKitSerial = formData.GetValueOrDefault("RepairedTestKitSerial"),
+                Name = formData.GetValueOrDefault("RepairedTester", defaults.TesterName),
+                CertNo = formData.GetValueOrDefault("RepairedTesterNo", defaults.RepairCertNo),
+                TestKitSerial = formData.GetValueOrDefault("RepairedTestKitSerial", defaults.TestKitSerial),
                 Date = DateTime.Parse(formData.GetValueOrDefault("DateRepaired") ?? DateTime.Today.ToString("M/d/yyyy"))
             },
             FinalTest = new TesterInfo
             {
-                Name = formData.GetValueOrDefault("FinalTester"),
-                CertificationNo = formData.GetValueOrDefault("FinalTesterNo"),
-                TestKitSerial = formData.GetValueOrDefault("FinalTestKitSerial"),
+                Name = formData.GetValueOrDefault("FinalTester", defaults.TesterName),
+                CertNo = formData.GetValueOrDefault("FinalTesterNo", defaults.TestCertNo),
+                TestKitSerial = formData.GetValueOrDefault("FinalTestKitSerial", defaults.TestKitSerial),
                 Date = DateTime.Parse(formData.GetValueOrDefault("DatePassed") ?? DateTime.Today.ToString("M/d/yyyy"))
             },
             Comments = formData.GetValueOrDefault("ReportComments")
