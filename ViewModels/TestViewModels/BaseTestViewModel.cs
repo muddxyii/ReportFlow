@@ -357,6 +357,8 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     protected virtual async Task<bool> ValidateFields()
     {
+        // Only validate on initial test
+        if (!IsInitialTest) return true;
         return await AreFieldsValid([
             (LinePressure ?? "", "Line Pressure"),
             (ShutoffValve ?? "", "Shutoff Valve")

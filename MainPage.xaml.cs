@@ -8,6 +8,8 @@ namespace ReportFlow;
 
 public partial class MainPage : ContentPage
 {
+    private bool _isNavigating;
+
     public MainPage()
     {
         InitializeComponent();
@@ -141,6 +143,9 @@ public partial class MainPage : ContentPage
 
     private async void OnBrowseReportsClicked(object? sender, EventArgs e)
     {
+        if (_isNavigating) return;
+        _isNavigating = true;
+
         try
         {
             var reportCacheService = IPlatformApplication.Current?.Services.GetService<IReportCacheService>();
@@ -159,6 +164,29 @@ public partial class MainPage : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Error", ex.Message, "OK");
+        }
+        finally
+        {
+            _isNavigating = false;
+        }
+    }
+
+    #endregion
+
+    #region Settings Button
+
+    private async void OnSettingsClicked(object? sender, EventArgs e)
+    {
+        if (_isNavigating) return;
+        _isNavigating = true;
+
+        try
+        {
+            await Shell.Current.GoToAsync("SettingsPage");
+        }
+        finally
+        {
+            _isNavigating = false;
         }
     }
 
@@ -187,9 +215,4 @@ public partial class MainPage : ContentPage
         }
     }
 #endif
-
-    private async void OnSettingsClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("SettingsPage");
-    }
 }
