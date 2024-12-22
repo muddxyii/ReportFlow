@@ -190,10 +190,6 @@ public partial class MainPage : ContentPage
 
     private async void OnSettingsClicked(object? sender, EventArgs e)
     {
-        await Application.Current.MainPage.DisplayAlert(
-            "Not Implemented",
-            $"The settings page is not implemented yet.",
-            "OK"
-        );
+        await Shell.Current.GoToAsync("SettingsPage");
     }
 }
