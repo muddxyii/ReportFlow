@@ -164,6 +164,15 @@ public partial class MainPage : ContentPage
 
     #endregion
 
+    #region Settings Button
+
+    private async void OnSettingsClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("SettingsPage");
+    }
+
+    #endregion
+
 #if ANDROID
     public async void HandlePdfIntent(Uri pdfUri)
     {
@@ -187,9 +196,4 @@ public partial class MainPage : ContentPage
         }
     }
 #endif
-
-    private async void OnSettingsClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("SettingsPage");
-    }
 }
