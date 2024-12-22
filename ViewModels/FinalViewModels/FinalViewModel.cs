@@ -46,22 +46,6 @@ public class FinalViewModel : BaseBackflowViewModel
 
     #endregion
 
-    #region Dropdown Items
-
-    public List<string> TesterNameOptions { get; } =
-        ["MIGUEL CARRILLO", "JAYSON PADILLA", "JACOB S. PADILLA"];
-
-    public List<string> TesterNoOptions { get; } =
-    [
-        "03-2105139", "03-2106135", "03-2105140",
-        "40604", "42332", "40609", "60291"
-    ];
-
-    public List<string> TestKitSerialOptions { get; } =
-        ["02130411", "06122624", "03100226", "10171937", "07172355"];
-
-    #endregion
-
     #region Initial Test Properties
 
     public string? InitialTester
@@ -77,11 +61,11 @@ public class FinalViewModel : BaseBackflowViewModel
 
     public string? InitialTesterNo
     {
-        get => Report.FinalInfo.InitialTest?.CertificationNo;
+        get => Report.FinalInfo.InitialTest?.CertNo;
         set
         {
             Report.FinalInfo.InitialTest ??= new TesterInfo();
-            Report.FinalInfo.InitialTest.CertificationNo = value;
+            Report.FinalInfo.InitialTest.CertNo = value;
             OnPropertyChanged(nameof(InitialTesterNo));
         }
     }
@@ -125,11 +109,11 @@ public class FinalViewModel : BaseBackflowViewModel
 
     public string? RepairedTesterNo
     {
-        get => Report.FinalInfo.RepairedTest?.CertificationNo;
+        get => Report.FinalInfo.RepairedTest?.CertNo;
         set
         {
             Report.FinalInfo.RepairedTest ??= new TesterInfo();
-            Report.FinalInfo.RepairedTest.CertificationNo = value;
+            Report.FinalInfo.RepairedTest.CertNo = value;
             OnPropertyChanged(nameof(RepairedTesterNo));
         }
     }
@@ -173,11 +157,11 @@ public class FinalViewModel : BaseBackflowViewModel
 
     public string? FinalTesterNo
     {
-        get => Report.FinalInfo.FinalTest?.CertificationNo;
+        get => Report.FinalInfo.FinalTest?.CertNo;
         set
         {
             Report.FinalInfo.FinalTest ??= new TesterInfo();
-            Report.FinalInfo.FinalTest.CertificationNo = value;
+            Report.FinalInfo.FinalTest.CertNo = value;
             OnPropertyChanged(nameof(FinalTesterNo));
         }
     }
