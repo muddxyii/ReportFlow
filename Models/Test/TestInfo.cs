@@ -39,7 +39,7 @@ public class TestInfo
     public ReliefValveDetails ReliefValve { get; set; } = new();
     public PvbDetails Pvb { get; set; } = new();
 
-    public Dictionary<string, string> ToFailedFormFields()
+    public Dictionary<string, string> ToFailedFormFields(string deviceType)
     {
         var fields = new Dictionary<string, string>
         {
@@ -50,9 +50,9 @@ public class TestInfo
             { "InitialCT1", TryParseDecimal(CheckValves.Valve1) },
             { "InitialCT2", TryParseDecimal(CheckValves.Valve2) },
             { "InitialCTBox", CheckValves.Valve1Ct ? "On" : "Off" },
-            { "InitialCT1Leaked", CheckValves.Valve1Ct ? "Off" : "On" },
+            { "InitialCT1Leaked", deviceType is "RP" or "DC" or "SC" && !CheckValves.Valve1Ct ? "On" : "Off" },
             { "InitialCT2Box", CheckValves.Valve2Ct ? "On" : "Off" },
-            { "InitialCT2Leaked", CheckValves.Valve2Ct ? "Off" : "On" },
+            { "InitialCT2Leaked", deviceType is "RP" or "DC" && !CheckValves.Valve2Ct ? "On" : "Off" },
 
             { "InitialPSIRV", FormatReliefValveReading() },
             { "InitialRVDidNotOpen", ReliefValve.ReliefValveDidNotOpen ? "On" : "Off" },

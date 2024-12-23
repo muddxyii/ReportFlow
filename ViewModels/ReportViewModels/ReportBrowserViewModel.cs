@@ -92,7 +92,7 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
                 {
                     ReportId = report.Metadata.ReportId,
                     CustomerName = report.CustomerInfo.OwnerDetails?.Name ?? "Unknown",
-                    Address = report.DeviceInfo.Location?.AssemblyAddress ?? "Unknown",
+                    Location = report.DeviceInfo.Location?.OnSiteLocation ?? "Unknown",
                     DateCreated = report.Metadata.CreatedDate,
                     LastModified = report.Metadata.LastModifiedDate
                 });
