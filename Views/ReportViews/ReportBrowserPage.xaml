@@ -45,7 +45,7 @@
                             <VerticalStackLayout Grid.Column="0" Style="{StaticResource ReportCardContent}">
                                 <Label Style="{StaticResource ReportCardTitle}" Text="{Binding CustomerName}" />
 
-                                <Label Style="{StaticResource ReportCardDetail}" Text="{Binding Address}" />
+                                <Label Style="{StaticResource ReportCardDetail}" Text="{Binding Location}" />
 
                                 <Grid
                                     ColumnDefinitions="Auto,Auto"

@@ -23,15 +23,7 @@ public class ReportItemViewModel : INotifyPropertyChanged
     /// </remarks>
     private string _customerName = string.Empty;
 
-    /// <summary>
-    /// Stores the address associated with the report item.
-    /// </summary>
-    /// <remarks>
-    /// This field represents the address information and is used internally within the
-    /// <see cref="ReportItemViewModel"/> class. The value is automatically updated
-    /// whenever the corresponding public property, <see cref="Address"/>, is modified.
-    /// </remarks>
-    private string _address = string.Empty;
+    private string _location = string.Empty;
 
     /// <summary>
     /// Represents the date and time when the report was created.
@@ -45,19 +37,8 @@ public class ReportItemViewModel : INotifyPropertyChanged
     /// </summary>
     private DateTime _lastModified;
 
-    /// Event that is raised whenever a property value changes in this ViewModel.
-    /// This implements the PropertyChanged event from the INotifyPropertyChanged interface
-    /// to facilitate data binding and notify UI elements about property updates.
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    /// <summary>
-    /// Gets or sets the identifier for the report.
-    /// </summary>
-    /// <remarks>
-    /// The <c>ReportId</c> property uniquely identifies a report and is used in various operations
-    /// such as loading, opening, or deleting reports. Changes to this property trigger a property
-    /// change notification through the <c>INotifyPropertyChanged</c> mechanism.
-    /// </remarks>
     public string ReportId
     {
         get => _reportId;
@@ -71,10 +52,6 @@ public class ReportItemViewModel : INotifyPropertyChanged
         }
     }
 
-    /// Gets or sets the name of the customer associated with the report.
-    /// This property is used to display and manage customer-related information
-    /// for a specific report within the application. The value is subject to change
-    /// and triggers a property change notification when modified.
     public string CustomerName
     {
         get => _customerName;
@@ -88,32 +65,19 @@ public class ReportItemViewModel : INotifyPropertyChanged
         }
     }
 
-    /// <summary>
-    /// Gets or sets the address associated with the report.
-    /// </summary>
-    /// <remarks>
-    /// This property represents the assembly address related to the report.
-    /// It raises a property changed event when its value is updated, notifying any bound UI components.
-    /// </remarks>
-    public string Address
+    public string Location
     {
-        get => _address;
+        get => _location;
         set
         {
-            if (_address != value)
+            if (_location != value)
             {
-                _address = value;
-                OnPropertyChanged(nameof(Address));
+                _location = value;
+                OnPropertyChanged(nameof(Location));
             }
         }
     }
 
-    /// Represents the date and time when the report was created.
-    /// This property ensures the stored date is always in UTC format by converting any
-    /// unspecified kinds of `DateTime`. When accessed, the stored UTC value is converted
-    /// to local time for display purposes.
-    /// Changing the value of this property will trigger the `PropertyChanged` event
-    /// for data binding updates.
     public DateTime DateCreated
     {
         get => _dateCreated.ToLocalTime();
@@ -121,7 +85,7 @@ public class ReportItemViewModel : INotifyPropertyChanged
         {
             if (_dateCreated != value)
             {
-                _dateCreated = value.Kind == DateTimeKind.Unspecified 
+                _dateCreated = value.Kind == DateTimeKind.Unspecified
                     ? DateTime.SpecifyKind(value, DateTimeKind.Utc)
                     : value;
                 OnPropertyChanged(nameof(DateCreated));
@@ -144,7 +108,7 @@ public class ReportItemViewModel : INotifyPropertyChanged
         {
             if (_lastModified != value)
             {
-                _lastModified = value.Kind == DateTimeKind.Unspecified 
+                _lastModified = value.Kind == DateTimeKind.Unspecified
                     ? DateTime.SpecifyKind(value, DateTimeKind.Utc)
                     : value;
                 OnPropertyChanged();
