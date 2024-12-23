@@ -58,13 +58,13 @@ public class ReportData
         foreach (var field in DeviceInfo.ToFormFields())
             result[field.Key] = field.Value;
 
-        // Add Final & Repair & Test Info
         if (RepairInfo.WasRepaired) // Failed, Repaired, Passed
         {
             // Tests
             foreach (var field in FinalTest.ToPassedFormFields())
                 result[field.Key] = field.Value;
-            foreach (var field in InitialTest.ToFailedFormFields())
+            foreach (var field in InitialTest.ToFailedFormFields(DeviceInfo.Device.Type ??
+                                                                 throw new InvalidOperationException()))
                 result[field.Key] = field.Value;
 
             // Repair
@@ -78,7 +78,8 @@ public class ReportData
         else if (RepairInfo.SkippedRepair) // Failed, Skipped Repair
         {
             // Test
-            foreach (var field in InitialTest.ToFailedFormFields())
+            foreach (var field in InitialTest.ToFailedFormFields(DeviceInfo.Device.Type ??
+                                                                 throw new InvalidOperationException()))
                 result[field.Key] = field.Value;
 
             // Final
@@ -95,6 +96,8 @@ public class ReportData
             foreach (var field in FinalInfo.ToFormFields(false, false, true))
                 result[field.Key] = field.Value;
         }
+
+        // Add Final & Repair & Test Info
 
 
         return result;
