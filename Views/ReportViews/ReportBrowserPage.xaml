@@ -42,24 +42,33 @@
                             Padding="{StaticResource SpacingSmall}">
 
                             <!--  Content Section  -->
-                            <VerticalStackLayout Grid.Column="0" Style="{StaticResource ReportCardContent}">
-                                <Label Style="{StaticResource ReportCardTitle}" Text="{Binding CustomerName}" />
+                            <VerticalStackLayout
+                                Grid.Column="0"
+                                Spacing="{StaticResource SpacingSmall}"
+                                Style="{StaticResource ReportCardContent}">
+                                <Label
+                                    Margin="0,0,0,2"
+                                    Style="{StaticResource ReportCardTitle}"
+                                    Text="{Binding CustomerName}" />
 
-                                <Label Style="{StaticResource ReportCardDetail}" Text="{Binding Location}" />
+                                <Label Margin="0,0,0,2" Style="{StaticResource ReportCardDetail}">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0}{1}">
+                                            <Binding Path="SerialNumber" />
+                                            <Binding Path="Size" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
 
-                                <Grid
-                                    ColumnDefinitions="Auto,Auto"
-                                    ColumnSpacing="{StaticResource SpacingMedium}"
-                                    Margin="0,4,0,0">
-                                    <Label
-                                        Grid.Column="0"
-                                        Style="{StaticResource ReportCardMetadata}"
-                                        Text="{Binding DateCreated, StringFormat='Created: {0:MMM d, yyyy}'}" />
-                                    <Label
-                                        Grid.Column="1"
-                                        Style="{StaticResource ReportCardMetadata}"
-                                        Text="{Binding LastModified, StringFormat='Modified: {0:MMM d, yyyy}'}" />
-                                </Grid>
+                                <Label
+                                    Margin="0,0,0,4"
+                                    Style="{StaticResource ReportCardDetail}"
+                                    Text="{Binding Location}" />
+
+                                <StackLayout Spacing="{StaticResource SpacingSmall}">
+                                    <Label Style="{StaticResource ReportCardMetadata}" Text="{Binding DateCreated, StringFormat='Created: {0:MMM d, yyyy}'}" />
+                                    <Label Style="{StaticResource ReportCardMetadata}" Text="{Binding LastModified, StringFormat='Modified: {0:MMM d, yyyy}'}" />
+                                </StackLayout>
                             </VerticalStackLayout>
 
                             <!--  Actions Section  -->

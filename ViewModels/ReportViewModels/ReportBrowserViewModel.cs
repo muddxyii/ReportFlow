@@ -91,8 +91,20 @@ public class ReportBrowserViewModel : INotifyPropertyChanged
                 tempReports.Add(new ReportItemViewModel
                 {
                     ReportId = report.Metadata.ReportId,
-                    CustomerName = report.CustomerInfo.OwnerDetails?.Name ?? "Unknown",
-                    Location = report.DeviceInfo.Location?.OnSiteLocation ?? "Unknown",
+                    CustomerName = report.CustomerInfo.OwnerDetails?.Name ?? "Unknown Customer",
+
+                    SerialNumber = string.IsNullOrWhiteSpace(report.DeviceInfo?.Device.SerialNo)
+                        ? "Unknown Serial"
+                        : report.DeviceInfo.Device.SerialNo,
+
+                    Size = string.IsNullOrWhiteSpace(report.DeviceInfo?.Device.Size)
+                        ? ""
+                        : $" - {report.DeviceInfo.Device.Size}\"",
+
+                    Location = string.IsNullOrWhiteSpace(report.DeviceInfo?.Location.OnSiteLocation)
+                        ? "Unknown Location"
+                        : report.DeviceInfo.Location.OnSiteLocation,
+
                     DateCreated = report.Metadata.CreatedDate,
                     LastModified = report.Metadata.LastModifiedDate
                 });
