@@ -50,6 +50,7 @@ public class ReportData
         }
         else
         {
+            RepairInfo = RepairInfo.FromFormFields(new Dictionary<string, string>());
             FinalInfo = FinalInfo.FromFormFields(new Dictionary<string, string>());
         }
     }

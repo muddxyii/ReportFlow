@@ -315,6 +315,10 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
                 return;
             }
         }
+        else
+        {
+            Report.InitialTest = _testInfo;
+        }
 
         await SaveReport();
 
