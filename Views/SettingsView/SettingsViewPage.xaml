@@ -14,6 +14,8 @@
     <Grid RowDefinitions="*,Auto">
         <ScrollView Grid.Row="0" Style="{StaticResource PageLayout}">
             <VerticalStackLayout Style="{StaticResource ContentStack}">
+
+                <!--  Profile Section  -->
                 <Frame Style="{StaticResource CollapsibleSection}">
                     <VerticalStackLayout Spacing="0">
                         <Button
@@ -86,20 +88,19 @@
             </VerticalStackLayout>
         </ScrollView>
 
+        <!--  App Info Footer  -->
         <VerticalStackLayout
             Grid.Row="1"
-            Margin="0,0,0,10"
-            Spacing="2">
+            Margin="0,24,0,10"
+            Spacing="{StaticResource SpacingXxSmall}">
             <Label
-                FontSize="Small"
                 HorizontalOptions="Center"
-                Text="{Binding AppNameWithVersion}"
-                TextColor="Gray" />
+                Style="{StaticResource ReportCardMetadata}"
+                Text="{Binding AppNameWithVersion}" />
             <Label
-                FontSize="Small"
                 HorizontalOptions="Center"
-                Text="{Binding CompanyCopyright}"
-                TextColor="Gray" />
+                Style="{StaticResource ReportCardMetadata}"
+                Text="{Binding CompanyCopyright}" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

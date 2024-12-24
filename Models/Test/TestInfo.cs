@@ -34,12 +34,22 @@ public class PvbDetails
 
 public class TestInfo
 {
-    public BackflowTestDetails BackflowTest { get; set; } = new();
-    public CheckValveDetails CheckValves { get; set; } = new();
-    public ReliefValveDetails ReliefValve { get; set; } = new();
-    public PvbDetails Pvb { get; set; } = new();
+    public string BackflowType;
+    public BackflowTestDetails BackflowTest { get; set; }
+    public CheckValveDetails CheckValves { get; set; }
+    public ReliefValveDetails ReliefValve { get; set; }
+    public PvbDetails Pvb { get; set; }
 
-    public Dictionary<string, string> ToFailedFormFields(string deviceType)
+    public TestInfo(string deviceType)
+    {
+        BackflowType = deviceType;
+        BackflowTest = new BackflowTestDetails();
+        CheckValves = new CheckValveDetails();
+        ReliefValve = new ReliefValveDetails();
+        Pvb = new PvbDetails();
+    }
+
+    public Dictionary<string, string> ToFailedFormFields()
     {
         var fields = new Dictionary<string, string>
         {
@@ -50,9 +60,9 @@ public class TestInfo
             { "InitialCT1", TryParseDecimal(CheckValves.Valve1) },
             { "InitialCT2", TryParseDecimal(CheckValves.Valve2) },
             { "InitialCTBox", CheckValves.Valve1Ct ? "On" : "Off" },
-            { "InitialCT1Leaked", deviceType is "RP" or "DC" or "SC" && !CheckValves.Valve1Ct ? "On" : "Off" },
+            { "InitialCT1Leaked", BackflowType is "RP" or "DC" or "SC" && !CheckValves.Valve1Ct ? "On" : "Off" },
             { "InitialCT2Box", CheckValves.Valve2Ct ? "On" : "Off" },
-            { "InitialCT2Leaked", deviceType is "RP" or "DC" && !CheckValves.Valve2Ct ? "On" : "Off" },
+            { "InitialCT2Leaked", BackflowType is "RP" or "DC" && !CheckValves.Valve2Ct ? "On" : "Off" },
 
             { "InitialPSIRV", FormatReliefValveReading() },
             { "InitialRVDidNotOpen", ReliefValve.ReliefValveDidNotOpen ? "On" : "Off" },
@@ -105,7 +115,7 @@ public class TestInfo
 
     public static TestInfo FromFormFields(Dictionary<string, string> formData)
     {
-        return new TestInfo
+        return new TestInfo(formData.GetValueOrDefault("BFType", string.Empty))
         {
             BackflowTest = new BackflowTestDetails
             {

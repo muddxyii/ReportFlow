@@ -31,7 +31,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? LinePressure
     {
-        get => _testInfo.BackflowTest.LinePressure;
+        get => _testInfo?.BackflowTest.LinePressure;
         set
         {
             _testInfo.BackflowTest.LinePressure = value;
@@ -41,7 +41,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? ShutoffValve
     {
-        get => _testInfo.BackflowTest.ShutoffValve;
+        get => _testInfo?.BackflowTest.ShutoffValve;
         set
         {
             _testInfo.BackflowTest.ShutoffValve = value;
@@ -51,7 +51,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? SovComment
     {
-        get => _testInfo.BackflowTest.SovComment;
+        get => _testInfo?.BackflowTest.SovComment;
         set
         {
             _testInfo.BackflowTest.SovComment = value;
@@ -65,7 +65,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? CheckValve1
     {
-        get => _testInfo.CheckValves.Valve1;
+        get => _testInfo?.CheckValves.Valve1;
         set
         {
             _testInfo.CheckValves.Valve1 = value;
@@ -75,7 +75,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? CheckValve2
     {
-        get => _testInfo.CheckValves.Valve2;
+        get => _testInfo?.CheckValves.Valve2;
         set
         {
             _testInfo.CheckValves.Valve2 = value;
@@ -85,7 +85,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public bool CheckValve1Ct
     {
-        get => _testInfo.CheckValves.Valve1Ct;
+        get => _testInfo?.CheckValves.Valve1Ct ?? false;
         set
         {
             _testInfo.CheckValves.Valve1Ct = value;
@@ -95,7 +95,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public bool CheckValve2Ct
     {
-        get => _testInfo.CheckValves.Valve2Ct;
+        get => _testInfo?.CheckValves.Valve2Ct ?? false;
         set
         {
             _testInfo.CheckValves.Valve2Ct = value;
@@ -109,7 +109,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? PressureReliefOpening
     {
-        get => _testInfo.ReliefValve.PressureReliefOpening;
+        get => _testInfo?.ReliefValve.PressureReliefOpening;
         set
         {
             _testInfo.ReliefValve.PressureReliefOpening = value;
@@ -119,7 +119,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public bool ReliefValveDidNotOpen
     {
-        get => _testInfo.ReliefValve.ReliefValveDidNotOpen;
+        get => _testInfo?.ReliefValve.ReliefValveDidNotOpen ?? false;
         set
         {
             _testInfo.ReliefValve.ReliefValveDidNotOpen = value;
@@ -129,7 +129,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public bool ReliefValveLeaking
     {
-        get => _testInfo.ReliefValve.ReliefValveLeaking;
+        get => _testInfo?.ReliefValve.ReliefValveLeaking ?? false;
         set
         {
             _testInfo.ReliefValve.ReliefValveLeaking = value;
@@ -143,7 +143,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? BackPressure
     {
-        get => _testInfo.Pvb.BackPressure;
+        get => _testInfo?.Pvb.BackPressure;
         set
         {
             _testInfo.Pvb.BackPressure = value;
@@ -153,7 +153,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? AirInletOpening
     {
-        get => _testInfo.Pvb.AirInletOpening;
+        get => _testInfo?.Pvb.AirInletOpening;
         set
         {
             _testInfo.Pvb.AirInletOpening = value;
@@ -163,7 +163,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public bool AirInletLeaked
     {
-        get => _testInfo.Pvb.AirInletLeaked;
+        get => _testInfo?.Pvb.AirInletLeaked ?? false;
         set
         {
             _testInfo.Pvb.AirInletLeaked = value;
@@ -173,7 +173,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public bool AirInletDidNotOpen
     {
-        get => _testInfo.Pvb.AirInletDidNotOpen;
+        get => _testInfo?.Pvb.AirInletDidNotOpen ?? false;
         set
         {
             _testInfo.Pvb.AirInletDidNotOpen = value;
@@ -183,7 +183,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public string? CkPvb
     {
-        get => _testInfo.Pvb.CkPvb;
+        get => _testInfo?.Pvb.CkPvb;
         set
         {
             _testInfo.Pvb.CkPvb = value;
@@ -193,7 +193,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     public bool CkPvbLeaked
     {
-        get => _testInfo.Pvb.CkPvbLeaked;
+        get => _testInfo?.Pvb.CkPvbLeaked ?? false;
         set
         {
             _testInfo.Pvb.CkPvbLeaked = value;
@@ -207,14 +207,20 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
 
     protected BaseTestViewModel() : this(new ReportData(), true)
     {
-        _testInfo = new TestInfo();
+        _testInfo = new TestInfo("");
     }
 
     protected BaseTestViewModel(ReportData reportData, bool isInitialTest) : base(reportData)
     {
         IsInitialTest = isInitialTest;
 
-        _testInfo = IsInitialTest ? reportData.InitialTest ?? new TestInfo() : reportData.FinalTest ?? new TestInfo();
+        if (reportData.DeviceInfo != null)
+        {
+            var type = reportData.DeviceInfo.Device.Type;
+            _testInfo = IsInitialTest
+                ? reportData.InitialTest ?? new TestInfo(type)
+                : reportData.FinalTest ?? new TestInfo(type);
+        }
     }
 
     #endregion
@@ -301,7 +307,7 @@ public abstract class BaseTestViewModel : BaseBackflowViewModel
             if (overwrite)
             {
                 Report.InitialTest = _testInfo;
-                Report.FinalTest = new TestInfo();
+                Report.FinalTest = new TestInfo(_testInfo.BackflowType);
                 Report.RepairInfo = new RepairInfo();
             }
             else

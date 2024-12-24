@@ -11,6 +11,15 @@ namespace ReportFlow;
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+        var configuration = Resources.Configuration;
+        configuration.FontScale = 1.0f;
+        var metrics = Resources.DisplayMetrics;
+        Resources.UpdateConfiguration(configuration, metrics);
+    }
+
     protected override void OnNewIntent(Intent? intent)
     {
         base.OnNewIntent(intent);
@@ -19,16 +28,14 @@ public class MainActivity : MauiAppCompatActivity
         if (intent?.Data != null)
         {
             System.Diagnostics.Debug.WriteLine("[MainActivity] Intent Data is valid");
-            
+
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await Shell.Current.GoToAsync("///MainPage");
-            
+
                 if (Shell.Current?.CurrentPage is MainPage mainPage)
-                {
-                    mainPage.HandlePdfIntent(new Uri(intent.Data.ToString() ?? 
+                    mainPage.HandlePdfIntent(new Uri(intent.Data.ToString() ??
                                                      throw new InvalidOperationException()));
-                }
             });
         }
     }
