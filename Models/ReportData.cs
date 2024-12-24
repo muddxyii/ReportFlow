@@ -48,6 +48,10 @@ public class ReportData
 
             FinalInfo = FinalInfo.FromFormFields(oldPdfData);
         }
+        else
+        {
+            FinalInfo = new FinalInfo();
+        }
     }
 
     public Dictionary<string, string> ToFormFields()
