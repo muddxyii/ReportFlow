@@ -8,7 +8,7 @@ namespace ReportFlow.ViewModels.InfoViewModels;
 
 public class DeviceInfoViewModel : BaseBackflowViewModel
 {
-    private bool _typeChanged;
+    private string _ogType;
 
     #region Dropdown Items
 
@@ -159,8 +159,6 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
         get => Report.DeviceInfo.Device.Type;
         set
         {
-            if (Report.DeviceInfo.Device.Type != value)
-                _typeChanged = true;
             Report.DeviceInfo.Device.Type = value;
             OnPropertyChanged(nameof(Type));
         }
@@ -177,6 +175,8 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
     public DeviceInfoViewModel(ReportData reportData) : base(reportData)
     {
+        if (reportData.DeviceInfo != null)
+            _ogType = Report.DeviceInfo.Device.Type;
     }
 
     #endregion
@@ -198,7 +198,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
     private async Task NavigateToTestPage()
     {
-        if (_typeChanged)
+        if (Report.InitialTest != null && Report.InitialTest.BackflowType != Type)
         {
             var overwrite = await Application.Current.MainPage.DisplayAlert(
                 "Reset Tests & Repairs",
@@ -207,8 +207,8 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
             if (overwrite)
             {
-                Report.InitialTest = new TestInfo();
-                Report.FinalTest = new TestInfo();
+                Report.InitialTest = new TestInfo(Type);
+                Report.FinalTest = new TestInfo(Type);
                 Report.RepairInfo = new RepairInfo();
             }
             else

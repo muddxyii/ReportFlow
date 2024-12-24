@@ -29,7 +29,7 @@ public class ReportData
     {
     }
 
-    public ReportData(Dictionary<string, string> oldPdfData)
+    public ReportData(Dictionary<string, string> oldPdfData, bool infoOnly)
     {
         // Generate Report Id
         Metadata = new ReportMetadata(Guid.NewGuid().ToString());
@@ -38,12 +38,15 @@ public class ReportData
         CustomerInfo = CustomerInfo.FromFormFields(oldPdfData);
         DeviceInfo = DeviceInfo.FromFormFields(oldPdfData);
 
-        InitialTest = TestInfo.FromFormFields(oldPdfData);
-        FinalTest = TestInfo.FromFormFields(oldPdfData);
+        if (!infoOnly)
+        {
+            InitialTest = TestInfo.FromFormFields(oldPdfData);
+            FinalTest = TestInfo.FromFormFields(oldPdfData);
 
-        RepairInfo = RepairInfo.FromFormFields(oldPdfData);
+            RepairInfo = RepairInfo.FromFormFields(oldPdfData);
 
-        FinalInfo = FinalInfo.FromFormFields(oldPdfData);
+            FinalInfo = FinalInfo.FromFormFields(oldPdfData);
+        }
     }
 
     public Dictionary<string, string> ToFormFields()
@@ -63,8 +66,7 @@ public class ReportData
             // Tests
             foreach (var field in FinalTest.ToPassedFormFields())
                 result[field.Key] = field.Value;
-            foreach (var field in InitialTest.ToFailedFormFields(DeviceInfo.Device.Type ??
-                                                                 throw new InvalidOperationException()))
+            foreach (var field in InitialTest.ToFailedFormFields())
                 result[field.Key] = field.Value;
 
             // Repair
@@ -78,8 +80,7 @@ public class ReportData
         else if (RepairInfo.SkippedRepair) // Failed, Skipped Repair
         {
             // Test
-            foreach (var field in InitialTest.ToFailedFormFields(DeviceInfo.Device.Type ??
-                                                                 throw new InvalidOperationException()))
+            foreach (var field in InitialTest.ToFailedFormFields())
                 result[field.Key] = field.Value;
 
             // Final
