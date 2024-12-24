@@ -33,6 +33,7 @@ public class ReportData
     {
         // Generate Report Id
         Metadata = new ReportMetadata(Guid.NewGuid().ToString());
+        Metadata.CreatedDate = DateTime.UtcNow;
 
         // Load Models
         CustomerInfo = CustomerInfo.FromFormFields(oldPdfData);

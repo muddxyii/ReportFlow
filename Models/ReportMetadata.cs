@@ -10,7 +10,7 @@ public class ReportMetadata
     /// This property is initialized to the current UTC time when a new instance
     /// of the ReportMetadata class is constructed. It is immutable and cannot
     /// be modified after initialization.
-    public DateTime CreatedDate { get; private set; }
+    public DateTime CreatedDate { get; set; }
 
     /// Represents the date and time when the report metadata was last modified.
     /// The property is updated whenever changes are made to the report data or metadata.
@@ -49,8 +49,7 @@ public class ReportMetadata
     {
         ReportId = reportId;
         ReportType = "ReportFlow";
-        CreatedDate = DateTime.UtcNow;
-        LastModifiedDate = CreatedDate;
+        LastModifiedDate = DateTime.UtcNow;
     }
 
     /// <summary>
