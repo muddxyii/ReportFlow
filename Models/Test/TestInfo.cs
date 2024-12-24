@@ -34,7 +34,7 @@ public class PvbDetails
 
 public class TestInfo
 {
-    public string BackflowType;
+    public string BackflowType { get; set; }
     public BackflowTestDetails BackflowTest { get; set; }
     public CheckValveDetails CheckValves { get; set; }
     public ReliefValveDetails ReliefValve { get; set; }
@@ -43,6 +43,15 @@ public class TestInfo
     public TestInfo(string deviceType)
     {
         BackflowType = deviceType;
+        BackflowTest = new BackflowTestDetails();
+        CheckValves = new CheckValveDetails();
+        ReliefValve = new ReliefValveDetails();
+        Pvb = new PvbDetails();
+    }
+
+    public TestInfo()
+    {
+        BackflowType = string.Empty;
         BackflowTest = new BackflowTestDetails();
         CheckValves = new CheckValveDetails();
         ReliefValve = new ReliefValveDetails();

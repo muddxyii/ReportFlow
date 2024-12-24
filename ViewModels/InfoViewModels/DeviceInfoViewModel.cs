@@ -187,8 +187,12 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     {
         if (!await AreFieldsValid(new (string Value, string Name)[]
             {
+                (PrimaryService ?? "", "Primary Service At Location"),
                 (Type ?? "", "Backflow Type"),
-                (PrimaryService ?? "", "Primary Service At Location")
+                (Manufacturer ?? "", "Manufacturer"),
+                (Size ?? "", "Size"),
+                (ModelNo ?? "", "Model No"),
+                (SerialNo ?? "", "Serial No"),
             })) return;
 
         await SaveReport();

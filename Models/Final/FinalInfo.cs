@@ -56,7 +56,7 @@ public class FinalInfo
         {
             TesterName = Preferences.Default.Get("TesterName", string.Empty),
             TestKitSerial = Preferences.Default.Get("TestKitSerial", string.Empty),
-            TestCertNo = Preferences.Default.Get("CertNo", string.Empty),
+            TestCertNo = Preferences.Default.Get("TestCertNo", string.Empty),
             RepairCertNo = Preferences.Default.Get("RepairCertNo", string.Empty)
         };
 

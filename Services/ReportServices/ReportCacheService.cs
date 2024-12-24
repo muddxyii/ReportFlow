@@ -17,6 +17,8 @@ public class ReportCacheService : IReportCacheService
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
+    private static readonly SemaphoreSlim _saveLock = new(1, 1);
+
     private readonly string _cachePath;
 
     public ReportCacheService()
@@ -32,45 +34,76 @@ public class ReportCacheService : IReportCacheService
 
     public async Task SaveReportAsync(ReportData report)
     {
-        var filePath = GetReportPath(report.Metadata.ReportId);
-        var json = JsonSerializer.Serialize(report, JsonOptions);
-        await File.WriteAllTextAsync(filePath, json);
+        await _saveLock.WaitAsync();
+        try
+        {
+            var filePath = GetReportPath(report.Metadata.ReportId);
+            var json = JsonSerializer.Serialize(report, JsonOptions);
+            await File.WriteAllTextAsync(filePath, json);
+        }
+        finally
+        {
+            _saveLock.Release();
+        }
     }
 
     public async Task<ReportData?> LoadReportAsync(string reportId)
     {
-        var filePath = GetReportPath(reportId);
-        if (!File.Exists(filePath)) return null;
+        await _saveLock.WaitAsync();
+        try
+        {
+            var filePath = GetReportPath(reportId);
+            if (!File.Exists(filePath)) return null;
 
-        var json = await File.ReadAllTextAsync(filePath);
-        return JsonSerializer.Deserialize<ReportData>(json, JsonOptions);
+            var json = await File.ReadAllTextAsync(filePath);
+            return JsonSerializer.Deserialize<ReportData>(json, JsonOptions);
+        }
+        finally
+        {
+            _saveLock.Release();
+        }
     }
 
     public async Task<IEnumerable<ReportData>> GetAllReportsAsync()
     {
-        var reports = new List<ReportData>();
-        var files = Directory.GetFiles(_cachePath, "*.json");
+        await _saveLock.WaitAsync();
+        try
+        {
+            var reports = new List<ReportData>();
+            var files = Directory.GetFiles(_cachePath, "*.json");
 
-        foreach (var file in files)
-            try
-            {
-                var json = await File.ReadAllTextAsync(file);
-                var report = JsonSerializer.Deserialize<ReportData>(json, JsonOptions);
-                if (report != null) reports.Add(report);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error loading report: {ex.Message}");
-            }
+            foreach (var file in files)
+                try
+                {
+                    var json = await File.ReadAllTextAsync(file);
+                    var report = JsonSerializer.Deserialize<ReportData>(json, JsonOptions);
+                    if (report != null) reports.Add(report);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error loading report: {ex.Message}");
+                }
 
-        return reports.OrderByDescending(r => r.Metadata.LastModifiedDate);
+            return reports.OrderByDescending(r => r.Metadata.LastModifiedDate);
+        }
+        finally
+        {
+            _saveLock.Release();
+        }
     }
 
-    public Task DeleteReportAsync(string reportId)
+    public async Task DeleteReportAsync(string reportId)
     {
-        var filePath = GetReportPath(reportId);
-        if (File.Exists(filePath)) File.Delete(filePath);
-        return Task.CompletedTask;
+        await _saveLock.WaitAsync();
+        try
+        {
+            var filePath = GetReportPath(reportId);
+            if (File.Exists(filePath)) File.Delete(filePath);
+        }
+        finally
+        {
+            _saveLock.Release();
+        }
     }
 
     private string GetReportPath(string reportId)

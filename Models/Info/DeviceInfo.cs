@@ -76,8 +76,8 @@ public class DeviceInfo
                 SerialNo = formData.GetValueOrDefault("SerialNo"),
                 ModelNo = formData.GetValueOrDefault("ModelNo"),
                 Size = formData.GetValueOrDefault("Size"),
-                Manufacturer = formData.GetValueOrDefault("Manufacturer"),
-                Type = formData.GetValueOrDefault("BFType")
+                Manufacturer = formData.GetValueOrDefault("Manufacturer")?.Trim(),
+                Type = formData.GetValueOrDefault("BFType")?.Trim()
             }
         };
     }

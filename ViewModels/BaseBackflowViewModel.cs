@@ -58,7 +58,7 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
     protected async Task<bool> AreFieldsValid((string Value, string Name)[] fieldsToCheck)
     {
         foreach (var field in fieldsToCheck)
-            if (string.IsNullOrEmpty(field.Value))
+            if (string.IsNullOrWhiteSpace(field.Value))
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Invalid Field",
