@@ -89,7 +89,7 @@ public class SettingsViewModel : INotifyPropertyChanged
         {
             Preferences.Default.Set("TesterName", TesterName);
             Preferences.Default.Set("TestKitSerial", TestKitSerial);
-            Preferences.Default.Set("CertNo", TestCertNo);
+            Preferences.Default.Set("TestCertNo", TestCertNo);
             Preferences.Default.Set("RepairCertNo", RepairCertNo);
 
             await Shell.Current.DisplayAlert("Success", "Settings saved successfully", "OK");
