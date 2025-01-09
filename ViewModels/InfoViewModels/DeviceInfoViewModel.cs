@@ -1,4 +1,5 @@
 ﻿using ReportFlow.Models;
+using ReportFlow.Models.Info;
 using ReportFlow.Models.Repair;
 using ReportFlow.Models.Test;
 using ReportFlow.ViewModels.TestViewModels;
@@ -12,6 +13,8 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
 
     #region Dropdown Items
 
+    public List<string> WaterPurveyorOptions => LocationDetails.WaterPurveyorList;
+
     public List<string> InstallationStatusOptions { get; } = ["NEW", "EXISTING", "REPLACEMENT"];
     public List<string> ProtectionTypeOptions { get; } = ["SECONDARY / CONTAINMENT", "PRIMARY / POINT OF USE"];
     public List<string> ServiceTypeOptions { get; } = ["DOMESTIC", "IRRIGATION", "FIRE"];
@@ -24,6 +27,16 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
     #endregion
 
     #region Location Properties
+
+    public string? CustomWaterPurveyor
+    {
+        get => Report.DeviceInfo.Location.CustomWaterPurveyor;
+        set
+        {
+            Report.DeviceInfo.Location.CustomWaterPurveyor = value;
+            OnPropertyChanged(nameof(CustomWaterPurveyor));
+        }
+    }
 
     public string? WaterPurveyor
     {
@@ -192,7 +205,7 @@ public class DeviceInfoViewModel : BaseBackflowViewModel
                 (Manufacturer ?? "", "Manufacturer"),
                 (Size ?? "", "Size"),
                 (ModelNo ?? "", "Model No"),
-                (SerialNo ?? "", "Serial No"),
+                (SerialNo ?? "", "Serial No")
             })) return;
 
         await SaveReport();

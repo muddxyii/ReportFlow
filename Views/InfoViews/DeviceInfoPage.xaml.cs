@@ -7,7 +7,7 @@ public partial class DeviceInfoPage
     {
         InitializeComponent();
     }
-    
+
     protected override void OnSectionButtonClicked(object sender, EventArgs e)
     {
         if (sender is Button button)
@@ -21,13 +21,19 @@ public partial class DeviceInfoPage
             {
                 // Toggle visibility
                 content.IsVisible = !content.IsVisible;
-                
+
                 // Update button text
                 button.Text = button.Text.Replace(
-                    content.IsVisible ? "▶" : "▼", 
+                    content.IsVisible ? "▶" : "▼",
                     content.IsVisible ? "▼" : "▶"
                 );
             }
         }
+    }
+
+    private void OnWaterPurveyorSelected(object? sender, EventArgs e)
+    {
+        if (sender is not Picker picker) return;
+        CustomWaterPurveyor.IsVisible = picker.SelectedItem?.ToString() == "Custom...";
     }
 }
