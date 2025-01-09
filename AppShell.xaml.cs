@@ -43,4 +43,9 @@ public partial class AppShell : Shell
         // Register FinalViews
         Routing.RegisterRoute("PassFinal", typeof(FinalView));
     }
+
+    private async void OnHomeClicked(object? sender, EventArgs e)
+    {
+        await Current.GoToAsync("///MainPage");
+    }
 }
