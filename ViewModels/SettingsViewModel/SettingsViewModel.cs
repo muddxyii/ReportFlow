@@ -18,7 +18,9 @@ public class SettingsViewModel : INotifyPropertyChanged
     #region Public Properties
 
     public string AppNameWithVersion => $"ReportFlow v{AppInfo.Current.VersionString}";
-    public string CompanyCopyright => $"{DateTime.UtcNow.Year} \u00a9 AnyBackflow.com Inc. - All Rights Reserved.";
+
+    public string CompanyCopyright =>
+        $"2024 - {DateTime.UtcNow.Year} \u00a9 AnyBackflow.com Inc. - All Rights Reserved.";
 
     public string TesterName
     {
