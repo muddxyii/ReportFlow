@@ -40,7 +40,7 @@ public abstract class BaseBackflowViewModel : INotifyPropertyChanged
     protected async Task ShareReportAsPdf(string fileName)
     {
         // Select Pdf Template
-        var pdfTemplate = "ReportFlow.Resources.PdfTemplates.Abf-Fillable-12-24.pdf";
+        var pdfTemplate = "ReportFlow.Resources.PdfTemplates.Abf-Fillable-01-25.pdf";
 
         // Load Pdf Stream
         await using var resourceStream = GetType().Assembly.GetManifestResourceStream(pdfTemplate);
