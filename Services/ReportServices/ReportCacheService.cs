@@ -37,6 +37,8 @@ public class ReportCacheService : IReportCacheService
         await _saveLock.WaitAsync();
         try
         {
+            report.Metadata.LastModifiedDate = DateTime.UtcNow;
+            
             var filePath = GetReportPath(report.Metadata.ReportId);
             var json = JsonSerializer.Serialize(report, JsonOptions);
             await File.WriteAllTextAsync(filePath, json);

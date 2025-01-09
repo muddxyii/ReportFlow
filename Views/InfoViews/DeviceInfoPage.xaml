@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+
 <views:BaseViewPage
     Title="Device Information"
     x:Class="ReportFlow.Views.InfoViews.DeviceInfoPage"
@@ -29,11 +30,31 @@
                         x:Name="LocationSectionButton" />
 
                     <VerticalStackLayout Style="{StaticResource SectionContent}" x:Name="LocationSectionContent">
-                        <Label Style="{StaticResource FieldLabel}" Text="Water Purveyor" />
-                        <Entry
-                            Placeholder="Water Purveyor"
-                            Style="{StaticResource FormEntry}"
-                            Text="{Binding WaterPurveyor}" />
+                        <Label
+                            Style="{StaticResource PickerLabel}"
+                            Text="Water Purveyor"
+                            x:Name="WaterPurveyorLabel">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{x:Reference WaterPurveyorPicker}" Tapped="OnLabelTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Grid RowDefinitions="Auto,Auto">
+                            <Picker
+                                Grid.Row="0"
+                                ItemsSource="{Binding WaterPurveyorOptions}"
+                                SelectedIndexChanged="OnWaterPurveyorSelected"
+                                SelectedItem="{Binding WaterPurveyor}"
+                                Style="{StaticResource FormPicker}"
+                                x:Name="WaterPurveyorPicker" />
+
+                            <Entry
+                                Grid.Row="1"
+                                Placeholder="Enter Custom Water Purveyor"
+                                Style="{StaticResource FormEntry}"
+                                Text="{Binding CustomWaterPurveyor}"
+                                x:Name="CustomWaterPurveyor" />
+                        </Grid>
 
                         <Label Style="{StaticResource FieldLabel}" Text="Water Meter No." />
                         <Entry
