@@ -41,6 +41,10 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
     _serialController = TextEditingController(text: profile.testKitSerial);
     _testCertController = TextEditingController(text: profile.testCertNo);
     _repairCertController = TextEditingController(text: profile.repairCertNo);
+
+    if (widget.profile == null) {
+      _profileNameFocus.requestFocus();
+    }
   }
 
   @override
