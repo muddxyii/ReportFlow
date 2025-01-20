@@ -1,8 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:report_flow/core/models/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'profile.dart';
 
 class SettingsViewModel extends ChangeNotifier {
   static const _keyProfiles = 'profiles';
@@ -15,6 +16,7 @@ class SettingsViewModel extends ChangeNotifier {
 
   // Getters
   String get appNameWithVersion => _appNameWithVersion;
+
   String get companyCopyright => '© 2024-${DateTime.now().year} AnyBackflow';
 
   get profiles => _profiles;

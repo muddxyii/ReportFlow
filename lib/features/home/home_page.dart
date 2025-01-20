@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../settings/settings_page.dart';
+import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
