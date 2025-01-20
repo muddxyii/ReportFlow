@@ -26,5 +26,14 @@ class AppTheme {
         foregroundColor: Colors.white,
       ),
     ),
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: AppColors.primary,
+      behavior: SnackBarBehavior.floating,
+      showCloseIcon: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      contentTextStyle: TextStyle(color: Colors.white),
+    )
   );
 }

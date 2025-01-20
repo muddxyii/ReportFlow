@@ -1,15 +1,23 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsViewModel extends ChangeNotifier {
+  static const _keyTesterName = 'testerName';
+  static const _keyTestKitSerial = 'testKitSerial';
+  static const _keyTestCertNo = 'testCertNo';
+  static const _keyRepairCertNo = 'repairCertNo';
+
   String _testerName = '';
   String _testKitSerial = '';
   String _testCertNo = '';
   String _repairCertNo = '';
+
   String _appNameWithVersion = 'ReportFlow';
 
   SettingsViewModel() {
     _initializeAppNameWithVersion();
+    load();
   }
 
   // Getters
@@ -48,6 +56,19 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   Future<void> save() async {
-    // Implement save logic
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyTesterName, _testerName);
+    await prefs.setString(_keyTestKitSerial, _testKitSerial);
+    await prefs.setString(_keyTestCertNo, _testCertNo);
+    await prefs.setString(_keyRepairCertNo, _repairCertNo);
+  }
+
+  Future<void> load() async {
+    final prefs = await SharedPreferences.getInstance();
+    _testerName = prefs.getString(_keyTesterName) ?? '';
+    _testKitSerial = prefs.getString(_keyTestKitSerial) ?? '';
+    _testCertNo = prefs.getString(_keyTestCertNo) ?? '';
+    _repairCertNo = prefs.getString(_keyRepairCertNo) ?? '';
+    notifyListeners();
   }
 }
