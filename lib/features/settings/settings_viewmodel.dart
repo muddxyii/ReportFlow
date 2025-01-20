@@ -1,53 +1,23 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'profile.dart';
 
 class SettingsViewModel extends ChangeNotifier {
-  static const _keyTesterName = 'testerName';
-  static const _keyTestKitSerial = 'testKitSerial';
-  static const _keyTestCertNo = 'testCertNo';
-  static const _keyRepairCertNo = 'repairCertNo';
-
-  String _testerName = '';
-  String _testKitSerial = '';
-  String _testCertNo = '';
-  String _repairCertNo = '';
-
+  static const _keyProfiles = 'profiles';
+  List<Profile> _profiles = [];
   String _appNameWithVersion = 'ReportFlow';
 
   SettingsViewModel() {
-    _initializeAppNameWithVersion();
     load();
   }
 
   // Getters
-  String get testerName => _testerName;
-  String get testKitSerial => _testKitSerial;
-  String get testCertNo => _testCertNo;
-  String get repairCertNo => _repairCertNo;
   String get appNameWithVersion => _appNameWithVersion;
   String get companyCopyright => '© 2024-${DateTime.now().year} AnyBackflow';
 
-  // Setters with notification
-  set testerName(String value) {
-    _testerName = value;
-    notifyListeners();
-  }
-
-  set testKitSerial(String value) {
-    _testKitSerial = value;
-    notifyListeners();
-  }
-
-  set testCertNo(String value) {
-    _testCertNo = value;
-    notifyListeners();
-  }
-
-  set repairCertNo(String value) {
-    _repairCertNo = value;
-    notifyListeners();
-  }
+  get profiles => _profiles;
 
   Future<void> _initializeAppNameWithVersion() async {
     final packageInfo = await PackageInfo.fromPlatform();
@@ -55,20 +25,41 @@ class SettingsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> save() async {
+  Future<void> addProfile(Profile profile) async {
+    _profiles.add(profile);
+    await _saveProfiles();
+    notifyListeners();
+  }
+
+  Future<void> updateProfile(Profile profile) async {
+    final index = _profiles.indexWhere((p) => p.id == profile.id);
+    if (index != -1) {
+      _profiles[index] = profile;
+      await _saveProfiles();
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteProfile(String id) async {
+    _profiles.removeWhere((p) => p.id == id);
+    await _saveProfiles();
+    notifyListeners();
+  }
+
+  Future<void> _saveProfiles() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyTesterName, _testerName);
-    await prefs.setString(_keyTestKitSerial, _testKitSerial);
-    await prefs.setString(_keyTestCertNo, _testCertNo);
-    await prefs.setString(_keyRepairCertNo, _repairCertNo);
+    final profilesJson = _profiles.map((p) => p.toJson()).toList();
+    await prefs.setString(_keyProfiles, jsonEncode(profilesJson));
   }
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
-    _testerName = prefs.getString(_keyTesterName) ?? '';
-    _testKitSerial = prefs.getString(_keyTestKitSerial) ?? '';
-    _testCertNo = prefs.getString(_keyTestCertNo) ?? '';
-    _repairCertNo = prefs.getString(_keyRepairCertNo) ?? '';
-    notifyListeners();
+    final profilesJson = prefs.getString(_keyProfiles);
+    if (profilesJson != null) {
+      final List<dynamic> decoded = jsonDecode(profilesJson);
+      _profiles = decoded.map((json) => Profile.fromJson(json)).toList();
+      notifyListeners();
+    }
+    await _initializeAppNameWithVersion();
   }
 }

@@ -17,7 +17,7 @@ class SettingsPage extends StatelessWidget {
             const Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(16),
-                child: TesterProfile(),
+                child: TesterProfiles(),
               ),
             ),
             Consumer<SettingsViewModel>(
