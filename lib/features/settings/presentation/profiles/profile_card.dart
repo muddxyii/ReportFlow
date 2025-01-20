@@ -59,7 +59,8 @@ class ProfileCard extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete Profile'),
-        content: Text('Are you sure you want to delete ${profile.testerName}?'),
+        content:
+            Text('Are you sure you want to delete ${profile.profileName}?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
