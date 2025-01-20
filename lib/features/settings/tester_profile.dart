@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'profile.dart';
 import 'settings_viewmodel.dart';
 
@@ -72,8 +73,11 @@ class ProfileCard extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        title: Text(profile.profileName.isEmpty ? 'Unnamed Profile' : profile.profileName),
-        subtitle: Text(profile.testerName.isEmpty ? 'No Tester Name' : profile.testerName),
+        title: Text(profile.profileName.isEmpty
+            ? 'Unnamed Profile'
+            : profile.profileName),
+        subtitle: Text(
+            profile.testerName.isEmpty ? 'No Tester Name' : profile.testerName),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -153,6 +157,15 @@ class ProfileEditDialog extends StatefulWidget {
 
 class _ProfileEditDialogState extends State<ProfileEditDialog> {
   final _formKey = GlobalKey<FormState>();
+
+  // Focus Nodes
+  final _profileNameFocus = FocusNode();
+  final _testerNameFocus = FocusNode();
+  final _serialFocus = FocusNode();
+  final _testCertFocus = FocusNode();
+  final _repairCertFocus = FocusNode();
+
+  // Text Controllers
   late final TextEditingController _profileNameController;
   late final TextEditingController _testerNameController;
   late final TextEditingController _serialController;
@@ -172,6 +185,12 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
 
   @override
   void dispose() {
+    _profileNameFocus.dispose();
+    _testerNameFocus.dispose();
+    _serialFocus.dispose();
+    _testCertFocus.dispose();
+    _repairCertFocus.dispose();
+
     _profileNameController.dispose();
     _testerNameController.dispose();
     _serialController.dispose();
@@ -181,20 +200,34 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
   }
 
   Future<void> _handleSave() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      final profile = Profile(
-        id: widget.profile?.id,
-        profileName: _profileNameController.text,
-        testerName: _testerNameController.text,
-        testKitSerial: _serialController.text,
-        testCertNo: _testCertController.text,
-        repairCertNo: _repairCertController.text,
-      );
-
-      await widget.onSave(profile);
-      if (mounted) {
-        Navigator.pop(context);
+    if (!(_formKey.currentState?.validate() ?? false)) {
+      for (var field in [
+        (_profileNameController.text, _profileNameFocus),
+        (_testerNameController.text, _testerNameFocus),
+        (_serialController.text, _serialFocus),
+        (_testCertController.text, _testCertFocus),
+        (_repairCertController.text, _repairCertFocus),
+      ]) {
+        if (field.$1.isEmpty) {
+          field.$2.requestFocus();
+          break;
+        }
       }
+      return;
+    }
+
+    final profile = Profile(
+      id: widget.profile?.id,
+      profileName: _profileNameController.text,
+      testerName: _testerNameController.text,
+      testKitSerial: _serialController.text,
+      testCertNo: _testCertController.text,
+      repairCertNo: _repairCertController.text,
+    );
+
+    await widget.onSave(profile);
+    if (mounted) {
+      Navigator.pop(context);
     }
   }
 
@@ -210,33 +243,38 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
             children: [
               TextFormField(
                 controller: _profileNameController,
+                focusNode: _profileNameFocus,
                 decoration: const InputDecoration(labelText: 'Profile Name'),
                 validator: (value) =>
-                value?.isEmpty ?? true ? 'Please enter profile name' : null,
+                    value?.isEmpty ?? true ? 'Please enter profile name' : null,
               ),
               TextFormField(
                 controller: _testerNameController,
+                focusNode: _testerNameFocus,
                 decoration: const InputDecoration(labelText: 'Tester Name'),
                 validator: (value) =>
-                value?.isEmpty ?? true ? 'Please enter tester name' : null,
+                    value?.isEmpty ?? true ? 'Please enter tester name' : null,
               ),
               TextFormField(
                 controller: _serialController,
+                focusNode: _serialFocus,
                 decoration: const InputDecoration(labelText: 'Test Kit Serial'),
                 validator: (value) =>
-                value?.isEmpty ?? true ? 'Please enter serial' : null,
+                    value?.isEmpty ?? true ? 'Please enter serial' : null,
               ),
               TextFormField(
                 controller: _testCertController,
+                focusNode: _testCertFocus,
                 decoration: const InputDecoration(labelText: 'Test Cert No.'),
                 validator: (value) =>
-                value?.isEmpty ?? true ? 'Please enter test cert' : null,
+                    value?.isEmpty ?? true ? 'Please enter test cert' : null,
               ),
               TextFormField(
                 controller: _repairCertController,
+                focusNode: _repairCertFocus,
                 decoration: const InputDecoration(labelText: 'Repair Cert No.'),
                 validator: (value) =>
-                value?.isEmpty ?? true ? 'Please enter repair cert' : null,
+                    value?.isEmpty ?? true ? 'Please enter repair cert' : null,
               ),
             ],
           ),
