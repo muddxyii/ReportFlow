@@ -1,6 +1,6 @@
-// profile.dart
 class Profile {
   String id;
+  String profileName;
   String testerName;
   String testKitSerial;
   String testCertNo;
@@ -8,6 +8,7 @@ class Profile {
 
   Profile({
     String? id,
+    this.profileName = '',
     this.testerName = '',
     this.testKitSerial = '',
     this.testCertNo = '',
@@ -16,6 +17,7 @@ class Profile {
 
   Map<String, dynamic> toJson() => {
     'id': id,
+    'profileName': profileName,
     'testerName': testerName,
     'testKitSerial': testKitSerial,
     'testCertNo': testCertNo,
@@ -24,6 +26,7 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
     id: json['id'],
+    profileName: json['profileName'] ?? '',
     testerName: json['testerName'],
     testKitSerial: json['testKitSerial'],
     testCertNo: json['testCertNo'],

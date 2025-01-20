@@ -72,8 +72,8 @@ class ProfileCard extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        title: Text(profile.testerName.isEmpty ? 'Unnamed Profile' : profile.testerName),
-        subtitle: Text('Kit: ${profile.testKitSerial}'),
+        title: Text(profile.profileName.isEmpty ? 'Unnamed Profile' : profile.profileName),
+        subtitle: Text(profile.testerName.isEmpty ? 'No Tester Name' : profile.testerName),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -153,7 +153,8 @@ class ProfileEditDialog extends StatefulWidget {
 
 class _ProfileEditDialogState extends State<ProfileEditDialog> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _nameController;
+  late final TextEditingController _profileNameController;
+  late final TextEditingController _testerNameController;
   late final TextEditingController _serialController;
   late final TextEditingController _testCertController;
   late final TextEditingController _repairCertController;
@@ -162,7 +163,8 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
   void initState() {
     super.initState();
     final profile = widget.profile ?? Profile();
-    _nameController = TextEditingController(text: profile.testerName);
+    _profileNameController = TextEditingController(text: profile.profileName);
+    _testerNameController = TextEditingController(text: profile.testerName);
     _serialController = TextEditingController(text: profile.testKitSerial);
     _testCertController = TextEditingController(text: profile.testCertNo);
     _repairCertController = TextEditingController(text: profile.repairCertNo);
@@ -170,7 +172,8 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _profileNameController.dispose();
+    _testerNameController.dispose();
     _serialController.dispose();
     _testCertController.dispose();
     _repairCertController.dispose();
@@ -181,7 +184,8 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
     if (_formKey.currentState?.validate() ?? false) {
       final profile = Profile(
         id: widget.profile?.id,
-        testerName: _nameController.text,
+        profileName: _profileNameController.text,
+        testerName: _testerNameController.text,
         testKitSerial: _serialController.text,
         testCertNo: _testCertController.text,
         repairCertNo: _repairCertController.text,
@@ -205,10 +209,16 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
-                controller: _nameController,
+                controller: _profileNameController,
+                decoration: const InputDecoration(labelText: 'Profile Name'),
+                validator: (value) =>
+                value?.isEmpty ?? true ? 'Please enter profile name' : null,
+              ),
+              TextFormField(
+                controller: _testerNameController,
                 decoration: const InputDecoration(labelText: 'Tester Name'),
                 validator: (value) =>
-                value?.isEmpty ?? true ? 'Please enter name' : null,
+                value?.isEmpty ?? true ? 'Please enter tester name' : null,
               ),
               TextFormField(
                 controller: _serialController,
