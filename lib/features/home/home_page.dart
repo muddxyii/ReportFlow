@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:report_flow/features/job/job_page.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,7 +27,10 @@ class _HomePageState extends State<HomePage> {
         if (mounted) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const SettingsPage()),
+            MaterialPageRoute(
+                builder: (context) => JobPage(
+                      filePath: path,
+                    )),
           );
         }
       }
@@ -43,7 +47,10 @@ class _HomePageState extends State<HomePage> {
           if (mounted) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SettingsPage()),
+              MaterialPageRoute(
+                  builder: (context) => JobPage(
+                        filePath: newPath,
+                      )),
             );
           }
         }
