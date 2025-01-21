@@ -39,11 +39,13 @@ class _HomePageState extends State<HomePage> {
     platform.setMethodCallHandler((call) async {
       if (call.method == 'onNewFilePath') {
         final String? newPath = call.arguments as String?;
-        if (mounted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SettingsPage()),
-          );
+        if (newPath != null) {
+          if (mounted) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingsPage()),
+            );
+          }
         }
       }
     });
