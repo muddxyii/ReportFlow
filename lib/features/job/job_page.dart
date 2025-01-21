@@ -25,7 +25,15 @@ class _JobPageState extends State<JobPage> {
 
   Future<void> _loadJobData() async {
     try {
+      if (widget.filePath.isEmpty) {
+        throw Exception("File path is null or empty.");
+      }
+
       final file = File(widget.filePath);
+      if (!await file.exists()) {
+        throw Exception("File does not exist at ${widget.filePath}");
+      }
+
       final jsonString = await file.readAsString();
       final json = jsonDecode(jsonString);
 
