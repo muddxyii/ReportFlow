@@ -10,14 +10,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const platform = MethodChannel('app_channel');
+
   @override
   void initState() {
     super.initState();
     _handleIncomingJson();
+    _listenForNewJson();
   }
 
   Future<void> _handleIncomingJson() async {
-    const platform = MethodChannel('app_channel');
     try {
       final String? path = await platform.invokeMethod('getInitialFilePath');
       if (path != null) {
@@ -31,6 +33,20 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       debugPrint('Error handling JSON: $e');
     }
+  }
+
+  void _listenForNewJson() {
+    platform.setMethodCallHandler((call) async {
+      if (call.method == 'onNewFilePath') {
+        final String? newPath = call.arguments as String?;
+        if (mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SettingsPage()),
+          );
+        }
+      }
+    });
   }
 
   @override

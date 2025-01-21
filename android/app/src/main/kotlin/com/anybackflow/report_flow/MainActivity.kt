@@ -16,4 +16,16 @@ class MainActivity : FlutterActivity() {
             }
         }
     }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+
+        flutterEngine?.let { engine ->
+            MethodChannel(engine.dartExecutor.binaryMessenger, "app_channel").invokeMethod(
+                "onNewFilePath",
+                intent.data?.path
+            )
+        }
+    }
 }
