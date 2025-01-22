@@ -83,7 +83,7 @@ class _JobPageState extends State<JobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_jobData?.metadata.jobName ?? 'Job Details'),
+        title: Text('Job Details'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
