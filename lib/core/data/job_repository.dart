@@ -25,6 +25,21 @@ class JobRepository {
     return jobData;
   }
 
+  Future<void> saveJob(JobData jobData) async {
+    if (jobData.metadata.jobId.isEmpty) {
+      throw Exception("Job ID is null or empty.");
+    }
+
+    final jobCacheDir = await _getJobCacheDir();
+    await jobCacheDir.create(recursive: true);
+
+    final cacheFile =
+        File('${jobCacheDir.path}/${jobData.metadata.jobId}.rfjson');
+    final jsonString = jsonEncode(jobData.toJson());
+
+    await cacheFile.writeAsString(jsonString);
+  }
+
   Future<bool> jobExists(String jobId) async {
     final jobCacheDir = await _getJobCacheDir();
     final existingFile = File('${jobCacheDir.path}/$jobId.rfjson');
