@@ -9,31 +9,35 @@ class AppColors {
 
 class AppTheme {
   static ThemeData get theme => ThemeData(
-    useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.primary,
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      tertiary: AppColors.tertiary,
-    ),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.primary,
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
+        tertiary: AppColors.tertiary,
+      ),
+      appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
       ),
-    ),
-    snackBarTheme: const SnackBarThemeData(
-      backgroundColor: AppColors.primary,
-      behavior: SnackBarBehavior.floating,
-      showCloseIcon: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
+        ),
       ),
-      contentTextStyle: TextStyle(color: Colors.white),
-    )
-  );
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: AppColors.primary,
+        behavior: SnackBarBehavior.floating,
+        showCloseIcon: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        contentTextStyle: TextStyle(color: Colors.white),
+      ),
+      expansionTileTheme: const ExpansionTileThemeData(
+        expandedAlignment: Alignment.centerLeft,
+        shape: RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: RoundedRectangleBorder(side: BorderSide.none),
+      ));
 }
