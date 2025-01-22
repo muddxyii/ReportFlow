@@ -79,6 +79,22 @@ class FacilityOwnerInfo {
         'contact': contact,
         'phone': phone,
       };
+
+  FacilityOwnerInfo copyWith({
+    String? owner,
+    String? address,
+    String? email,
+    String? contact,
+    String? phone,
+  }) {
+    return FacilityOwnerInfo(
+      owner: owner ?? this.owner,
+      address: address ?? this.address,
+      email: email ?? this.email,
+      contact: contact ?? this.contact,
+      phone: phone ?? this.phone,
+    );
+  }
 }
 
 class RepresentativeInfo {
@@ -108,6 +124,20 @@ class RepresentativeInfo {
         'contact': contact,
         'phone': phone,
       };
+
+  RepresentativeInfo copyWith({
+    String? owner,
+    String? address,
+    String? contact,
+    String? phone,
+  }) {
+    return RepresentativeInfo(
+      owner: owner ?? this.owner,
+      address: address ?? this.address,
+      contact: contact ?? this.contact,
+      phone: phone ?? this.phone,
+    );
+  }
 }
 
 class CustomerInformation {
@@ -676,6 +706,18 @@ class JobData {
         'customerInformation': customerInformation.toJson(),
         'backflowList': backflowList.toJson(),
       };
+
+  JobData copyWith({
+    Metadata? metadata,
+    CustomerInformation? customerInformation,
+    BackflowList? backflowList,
+  }) {
+    return JobData(
+      metadata: metadata ?? this.metadata,
+      customerInformation: customerInformation ?? this.customerInformation,
+      backflowList: backflowList ?? this.backflowList,
+    );
+  }
 }
 
 //endregion

@@ -1,33 +1,275 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 
-class CustomerInfoCard extends StatelessWidget {
+class CustomerInfoCard extends StatefulWidget {
   final CustomerInformation info;
 
-  const CustomerInfoCard({super.key, required this.info});
+  final Function(CustomerInformation) onInfoUpdate;
+
+  const CustomerInfoCard({
+    super.key,
+    required this.info,
+    required this.onInfoUpdate,
+  });
+
+  @override
+  State<CustomerInfoCard> createState() => _CustomerInfoCardState();
+}
+
+class _CustomerInfoCardState extends State<CustomerInfoCard> {
+  bool _isEditingOwner = false;
+  bool _isEditingRepresentative = false;
+  final _ownerFormKey = GlobalKey<FormState>();
+  final _representativeFormKey = GlobalKey<FormState>();
+
+  late FacilityOwnerInfo _editedOwnerInfo;
+  late RepresentativeInfo _editedRepresentativeInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _editedOwnerInfo = widget.info.facilityOwnerInfo;
+    _editedRepresentativeInfo = widget.info.representativeInfo;
+  }
+
+  @override
+  void didUpdateWidget(CustomerInfoCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.info != widget.info) {
+      _editedOwnerInfo = widget.info.facilityOwnerInfo;
+      _editedRepresentativeInfo = widget.info.representativeInfo;
+    }
+  }
+
+  void _toggleOwnerEdit() {
+    setState(() {
+      _isEditingOwner = !_isEditingOwner;
+      if (!_isEditingOwner) {
+        _editedOwnerInfo = widget.info.facilityOwnerInfo;
+      }
+    });
+  }
+
+  void _toggleRepresentativeEdit() {
+    setState(() {
+      _isEditingRepresentative = !_isEditingRepresentative;
+      if (!_isEditingRepresentative) {
+        _editedRepresentativeInfo = widget.info.representativeInfo;
+      }
+    });
+  }
+
+  void _saveOwnerInfo() {
+    if (_ownerFormKey.currentState?.validate() ?? false) {
+      _ownerFormKey.currentState?.save();
+      final updatedInfo = CustomerInformation(
+        facilityOwnerInfo: _editedOwnerInfo,
+        representativeInfo: widget.info.representativeInfo,
+      );
+      widget.onInfoUpdate(updatedInfo);
+      _toggleOwnerEdit();
+    }
+  }
+
+  void _saveRepresentativeInfo() {
+    if (_representativeFormKey.currentState?.validate() ?? false) {
+      _representativeFormKey.currentState?.save();
+      final updatedInfo = CustomerInformation(
+        facilityOwnerInfo: widget.info.facilityOwnerInfo,
+        representativeInfo: _editedRepresentativeInfo,
+      );
+      widget.onInfoUpdate(updatedInfo);
+      _toggleRepresentativeEdit();
+    }
+  }
+
+  Widget _buildOwnerTile(BuildContext context) {
+    return Card(
+      child: ExpansionTile(
+        title: Text(
+          'Facility Owner',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child:
+                _isEditingOwner ? _buildOwnerForm() : _buildOwnerInfo(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOwnerForm() {
+    return Form(
+      key: _ownerFormKey,
+      child: Column(
+        children: [
+          TextFormField(
+            initialValue: _editedOwnerInfo.owner,
+            decoration: const InputDecoration(labelText: 'Name'),
+            onSaved: (value) => _editedOwnerInfo =
+                _editedOwnerInfo.copyWith(owner: value ?? ''),
+          ),
+          TextFormField(
+            initialValue: _editedOwnerInfo.address,
+            decoration: const InputDecoration(labelText: 'Address'),
+            onSaved: (value) => _editedOwnerInfo =
+                _editedOwnerInfo.copyWith(address: value ?? ''),
+          ),
+          TextFormField(
+            initialValue: _editedOwnerInfo.email,
+            decoration: const InputDecoration(labelText: 'Email'),
+            onSaved: (value) => _editedOwnerInfo =
+                _editedOwnerInfo.copyWith(email: value ?? ''),
+          ),
+          TextFormField(
+            initialValue: _editedOwnerInfo.contact,
+            decoration: const InputDecoration(labelText: 'Contact'),
+            onSaved: (value) => _editedOwnerInfo =
+                _editedOwnerInfo.copyWith(contact: value ?? ''),
+          ),
+          TextFormField(
+            initialValue: _editedOwnerInfo.phone,
+            decoration: const InputDecoration(labelText: 'Phone'),
+            onSaved: (value) => _editedOwnerInfo =
+                _editedOwnerInfo.copyWith(phone: value ?? ''),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: _toggleOwnerEdit,
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: _saveOwnerInfo,
+                child: const Text('Save'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOwnerInfo(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+            'Name: ${widget.info.facilityOwnerInfo.owner.isEmpty ? '...' : widget.info.facilityOwnerInfo.owner}'),
+        Text('Address: ${widget.info.facilityOwnerInfo.address}'),
+        Text('Email: ${widget.info.facilityOwnerInfo.email}'),
+        Text('Contact: ${widget.info.facilityOwnerInfo.contact}'),
+        Text('Phone: ${widget.info.facilityOwnerInfo.phone}'),
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: _toggleOwnerEdit,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRepresentativeTile(BuildContext context) {
+    return Card(
+      child: ExpansionTile(
+        title: Text(
+          'Representative',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: _isEditingRepresentative
+                ? _buildRepresentativeForm()
+                : _buildRepresentativeInfo(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRepresentativeForm() {
+    return Form(
+      key: _representativeFormKey,
+      child: Column(
+        children: [
+          TextFormField(
+            initialValue: _editedRepresentativeInfo.owner,
+            decoration: const InputDecoration(labelText: 'Name'),
+            onSaved: (value) => _editedRepresentativeInfo =
+                _editedRepresentativeInfo.copyWith(owner: value ?? ''),
+          ),
+          TextFormField(
+            initialValue: _editedRepresentativeInfo.address,
+            decoration: const InputDecoration(labelText: 'Address'),
+            onSaved: (value) => _editedRepresentativeInfo =
+                _editedRepresentativeInfo.copyWith(address: value ?? ''),
+          ),
+          TextFormField(
+            initialValue: _editedRepresentativeInfo.contact,
+            decoration: const InputDecoration(labelText: 'Contact'),
+            onSaved: (value) => _editedRepresentativeInfo =
+                _editedRepresentativeInfo.copyWith(contact: value ?? ''),
+          ),
+          TextFormField(
+            initialValue: _editedRepresentativeInfo.phone,
+            decoration: const InputDecoration(labelText: 'Phone'),
+            onSaved: (value) => _editedRepresentativeInfo =
+                _editedRepresentativeInfo.copyWith(phone: value ?? ''),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: _toggleRepresentativeEdit,
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: _saveRepresentativeInfo,
+                child: const Text('Save'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRepresentativeInfo(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+            'Name: ${widget.info.representativeInfo.owner.isEmpty ? '...' : widget.info.representativeInfo.owner}'),
+        Text('Address: ${widget.info.representativeInfo.address}'),
+        Text('Contact: ${widget.info.representativeInfo.contact}'),
+        Text('Phone: ${widget.info.representativeInfo.phone}'),
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: _toggleRepresentativeEdit,
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Facility Owner',
-                style: Theme.of(context).textTheme.titleMedium),
-            Text('Name: ${info.facilityOwnerInfo.owner}'),
-            Text('Contact: ${info.facilityOwnerInfo.contact}'),
-            Text('Phone: ${info.facilityOwnerInfo.phone}'),
-            const SizedBox(height: 16),
-            Text('Representative',
-                style: Theme.of(context).textTheme.titleMedium),
-            Text('Name: ${info.representativeInfo.owner}'),
-            Text('Contact: ${info.representativeInfo.contact}'),
-            Text('Phone: ${info.representativeInfo.phone}'),
-          ],
-        ),
-      ),
+    return Column(
+      children: [
+        _buildOwnerTile(context),
+        _buildRepresentativeTile(context),
+      ],
     );
   }
 }

@@ -43,6 +43,22 @@ class _JobPageState extends State<JobPage> {
     }
   }
 
+  Future<void> _saveJobData(JobData updatedJobData) async {
+    try {
+      await _jobRepository.saveJob(updatedJobData);
+      setState(() => _jobData = updatedJobData);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Failed to save job data'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
+  }
+
   Future<String?> _handleDuplicateJob(JobData jobData) async {
     if (await _jobRepository.jobExists(jobData.metadata.jobId)) {
       return showDialog<String>(
@@ -106,7 +122,14 @@ class _JobPageState extends State<JobPage> {
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 16),
-                  CustomerInfoCard(info: _jobData!.customerInformation),
+                  CustomerInfoCard(
+                    info: _jobData!.customerInformation,
+                    onInfoUpdate: (updatedInfo) {
+                      final updatedJobData =
+                          _jobData!.copyWith(customerInformation: updatedInfo);
+                      _saveJobData(updatedJobData);
+                    },
+                  ),
                   const SizedBox(height: 16),
                   BackflowListCard(list: _jobData!.backflowList),
                 ],
