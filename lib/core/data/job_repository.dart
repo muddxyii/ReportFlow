@@ -6,6 +6,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 
 class JobRepository {
+  final jsonEncoder = JsonEncoder.withIndent('  ');
+
   Future<JobData> loadJob(String filePath) async {
     if (filePath.isEmpty) {
       throw Exception("File path is null or empty.");
@@ -35,7 +37,7 @@ class JobRepository {
 
     final cacheFile =
         File('${jobCacheDir.path}/${jobData.metadata.jobId}.rfjson');
-    final jsonString = jsonEncode(jobData.toJson());
+    final jsonString = jsonEncoder.convert(jobData.toJson());
 
     await cacheFile.writeAsString(jsonString);
   }
