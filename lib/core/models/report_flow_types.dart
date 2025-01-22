@@ -1,45 +1,49 @@
 class Metadata {
   final String jobId;
+  final String formatVersion;
   final String creationDate;
+  final String jobName;
   final String jobType;
 
   Metadata({
     required this.jobId,
+    required this.formatVersion,
     required this.creationDate,
+    required this.jobName,
     required this.jobType,
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) => Metadata(
         jobId: json['jobId'] as String,
+        formatVersion: json['formatVersion'] as String,
         creationDate: json['creationDate'] as String,
+        jobName: json['jobName'] as String,
         jobType: json['jobType'] as String,
       );
 
   Map<String, dynamic> toJson() => {
         'jobId': jobId,
+        'formatVersion': formatVersion,
         'creationDate': creationDate,
         'jobType': jobType,
+        'jobName': jobName,
       };
 }
 
 //region Customer Information
 
 class JobDetails {
-  final String permitNo;
   final String waterPurveyor;
 
   JobDetails({
-    required this.permitNo,
     required this.waterPurveyor,
   });
 
   factory JobDetails.fromJson(Map<String, dynamic> json) => JobDetails(
-        permitNo: json['permitNo'] as String,
         waterPurveyor: json['waterPurveyor'] as String,
       );
 
   Map<String, dynamic> toJson() => {
-        'permitNo': permitNo,
         'waterPurveyor': waterPurveyor,
       };
 }
@@ -203,6 +207,7 @@ class ShutoffValves {
 }
 
 class DeviceInfo {
+  final String permitNo;
   final String meterNo;
   final String serialNo;
   final String type;
@@ -212,6 +217,7 @@ class DeviceInfo {
   final ShutoffValves shutoffValves;
 
   DeviceInfo({
+    required this.permitNo,
     required this.meterNo,
     required this.serialNo,
     required this.type,
@@ -222,6 +228,7 @@ class DeviceInfo {
   });
 
   factory DeviceInfo.fromJson(Map<String, dynamic> json) => DeviceInfo(
+        permitNo: json['permitNo'] as String,
         meterNo: json['meterNo'] as String,
         serialNo: json['serialNo'] as String,
         type: json['type'] as String,
@@ -232,6 +239,7 @@ class DeviceInfo {
       );
 
   Map<String, dynamic> toJson() => {
+        'permitNo': permitNo,
         'meterNo': meterNo,
         'serialNo': serialNo,
         'type': type,
