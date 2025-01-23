@@ -24,8 +24,14 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
 
   final _ownerNameFocus = FocusNode();
   final _ownerAddressFocus = FocusNode();
+  final _ownerEmailFocus = FocusNode();
+  final _ownerContactFocus = FocusNode();
+  final _ownerPhoneFocus = FocusNode();
+
   final _representativeNameFocus = FocusNode();
   final _representativeAddressFocus = FocusNode();
+  final _representativeContactFocus = FocusNode();
+  final _representativePhoneFocus = FocusNode();
 
   late FacilityOwnerInfo _editedOwnerInfo;
   late RepresentativeInfo _editedRepresentativeInfo;
@@ -50,8 +56,15 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
   void dispose() {
     _ownerNameFocus.dispose();
     _ownerAddressFocus.dispose();
+    _ownerEmailFocus.dispose();
+    _ownerContactFocus.dispose();
+    _ownerPhoneFocus.dispose();
+
     _representativeNameFocus.dispose();
     _representativeAddressFocus.dispose();
+    _representativeContactFocus.dispose();
+    _representativePhoneFocus.dispose();
+
     super.dispose();
   }
 
@@ -156,24 +169,34 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
                 value?.isEmpty ?? true ? 'Address is required' : null,
             onSaved: (value) => _editedOwnerInfo =
                 _editedOwnerInfo.copyWith(address: value ?? ''),
+            onFieldSubmitted: (value) =>
+                FocusScope.of(context).requestFocus(_ownerEmailFocus),
           ),
           TextFormField(
+            focusNode: _ownerEmailFocus,
             initialValue: _editedOwnerInfo.email,
             decoration: const InputDecoration(labelText: 'Email'),
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 email: value?.isEmpty ?? true ? 'UNKNOWN' : value),
+            onFieldSubmitted: (value) =>
+                FocusScope.of(context).requestFocus(_ownerContactFocus),
           ),
           TextFormField(
+            focusNode: _ownerContactFocus,
             initialValue: _editedOwnerInfo.contact,
             decoration: const InputDecoration(labelText: 'Contact'),
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 contact: value?.isEmpty ?? true ? 'MANAGER' : value),
+            onFieldSubmitted: (value) =>
+                FocusScope.of(context).requestFocus(_ownerPhoneFocus),
           ),
           TextFormField(
+            focusNode: _ownerPhoneFocus,
             initialValue: _editedOwnerInfo.phone,
             decoration: const InputDecoration(labelText: 'Phone'),
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 phone: value?.isEmpty ?? true ? 'UNKNOWN' : value),
+            onFieldSubmitted: (value) => _saveOwnerInfo(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -258,20 +281,27 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
                 value?.isEmpty ?? true ? 'Address is required' : null,
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(address: value ?? ''),
+            onFieldSubmitted: (_) => FocusScope.of(context)
+                .requestFocus(_representativeContactFocus),
           ),
           TextFormField(
+            focusNode: _representativeContactFocus,
             initialValue: _editedRepresentativeInfo.contact,
             decoration: const InputDecoration(labelText: 'Contact'),
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(
                     contact: value?.isEmpty ?? true ? 'MANAGER' : value),
+            onFieldSubmitted: (_) =>
+                FocusScope.of(context).requestFocus(_representativePhoneFocus),
           ),
           TextFormField(
+            focusNode: _representativePhoneFocus,
             initialValue: _editedRepresentativeInfo.phone,
             decoration: const InputDecoration(labelText: 'Phone'),
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(
                     phone: value?.isEmpty ?? true ? 'UNKNOWN' : value),
+            onFieldSubmitted: (_) => _saveRepresentativeInfo(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -316,6 +346,7 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
     return Column(
       children: [
         _buildOwnerTile(context),
+        const SizedBox(height: 8),
         _buildRepresentativeTile(context),
       ],
     );
