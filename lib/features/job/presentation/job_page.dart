@@ -165,7 +165,7 @@ class _JobPageState extends State<JobPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _jobData!.metadata.jobName,
+                _jobData!.details.jobName,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 8),

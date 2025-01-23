@@ -2,51 +2,55 @@ class Metadata {
   final String jobId;
   final String formatVersion;
   final String creationDate;
-  final String jobName;
-  final String jobType;
+  final String lastModifiedDate;
 
   Metadata({
     required this.jobId,
     required this.formatVersion,
     required this.creationDate,
-    required this.jobName,
-    required this.jobType,
+    required this.lastModifiedDate,
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) => Metadata(
         jobId: json['jobId']?.toString() ?? '',
         formatVersion: json['formatVersion']?.toString() ?? '',
         creationDate: json['creationDate']?.toString() ?? '',
-        jobName: json['jobName']?.toString() ?? '',
-        jobType: json['jobType']?.toString() ?? '',
+        lastModifiedDate: json['lastModifiedDate']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
         'jobId': jobId,
         'formatVersion': formatVersion,
         'creationDate': creationDate,
-        'jobType': jobType,
-        'jobName': jobName,
+        'lastModifiedDate': lastModifiedDate,
       };
 }
 
-//region Customer Information
-
 class JobDetails {
+  final String jobName;
+  final String jobType;
   final String waterPurveyor;
 
   JobDetails({
+    required this.jobName,
+    required this.jobType,
     required this.waterPurveyor,
   });
 
   factory JobDetails.fromJson(Map<String, dynamic> json) => JobDetails(
+        jobName: json['jobName']?.toString() ?? '',
+        jobType: json['jobType']?.toString() ?? '',
         waterPurveyor: json['waterPurveyor']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
+        'jobType': jobType,
+        'jobName': jobName,
         'waterPurveyor': waterPurveyor,
       };
 }
+
+//region Customer Information
 
 class FacilityOwnerInfo {
   final String owner;
@@ -685,17 +689,20 @@ class BackflowList {
 
 class JobData {
   final Metadata metadata;
+  final JobDetails details;
   final CustomerInformation customerInformation;
   final BackflowList backflowList;
 
   JobData({
     required this.metadata,
+    required this.details,
     required this.customerInformation,
     required this.backflowList,
   });
 
   factory JobData.fromJson(Map<String, dynamic> json) => JobData(
         metadata: Metadata.fromJson(json['metadata']),
+        details: JobDetails.fromJson(json['details']),
         customerInformation:
             CustomerInformation.fromJson(json['customerInformation']),
         backflowList: BackflowList.fromJson(json['backflowList']),
@@ -703,17 +710,20 @@ class JobData {
 
   Map<String, dynamic> toJson() => {
         'metadata': metadata.toJson(),
+        'details': details.toJson(),
         'customerInformation': customerInformation.toJson(),
         'backflowList': backflowList.toJson(),
       };
 
   JobData copyWith({
     Metadata? metadata,
+    JobDetails? details,
     CustomerInformation? customerInformation,
     BackflowList? backflowList,
   }) {
     return JobData(
       metadata: metadata ?? this.metadata,
+      details: details ?? this.details,
       customerInformation: customerInformation ?? this.customerInformation,
       backflowList: backflowList ?? this.backflowList,
     );
