@@ -25,10 +25,20 @@ class JobRepository {
 
   Future<void> saveJob(JobData jobData) async {
     _validateJobId(jobData.metadata.jobId);
-    final file = await _getJobFile(jobData.metadata.jobId);
+
+    final updatedMetadata = Metadata(
+      jobId: jobData.metadata.jobId,
+      formatVersion: jobData.metadata.formatVersion,
+      creationDate: jobData.metadata.creationDate,
+      lastModifiedDate: DateTime.now().toIso8601String(),
+    );
+    final updatedJobData = jobData.copyWith(metadata: updatedMetadata);
+
+    final file = await _getJobFile(updatedJobData.metadata.jobId);
     final jobCacheDir = await _getJobCacheDir();
+
     await jobCacheDir.create(recursive: true);
-    await file.writeAsString(_jsonEncoder.convert(jobData.toJson()));
+    await file.writeAsString(_jsonEncoder.convert(updatedJobData.toJson()));
   }
 
   Future<bool> jobExists(String jobId) async {
