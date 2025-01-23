@@ -61,7 +61,8 @@ class _JobPageState extends State<JobPage> {
     final initialJobData =
         await _jobRepository.loadJobFromPath(widget.filePath);
 
-    if (await _jobRepository.jobExists(initialJobData.metadata.jobId)) {
+    if (await _jobRepository.jobExists(initialJobData.metadata.jobId) &&
+        widget.fromIntent) {
       final action = await _handleDuplicateJob();
       if (action == 'cancel') throw Exception('Job loading cancelled');
 
