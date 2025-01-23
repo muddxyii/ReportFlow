@@ -14,11 +14,11 @@ class Metadata {
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) => Metadata(
-        jobId: json['jobId'] as String,
-        formatVersion: json['formatVersion'] as String,
-        creationDate: json['creationDate'] as String,
-        jobName: json['jobName'] as String,
-        jobType: json['jobType'] as String,
+        jobId: json['jobId']?.toString() ?? '',
+        formatVersion: json['formatVersion']?.toString() ?? '',
+        creationDate: json['creationDate']?.toString() ?? '',
+        jobName: json['jobName']?.toString() ?? '',
+        jobType: json['jobType']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,7 +40,7 @@ class JobDetails {
   });
 
   factory JobDetails.fromJson(Map<String, dynamic> json) => JobDetails(
-        waterPurveyor: json['waterPurveyor'] as String,
+        waterPurveyor: json['waterPurveyor']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,11 +65,11 @@ class FacilityOwnerInfo {
 
   factory FacilityOwnerInfo.fromJson(Map<String, dynamic> json) =>
       FacilityOwnerInfo(
-        owner: json['owner'] as String,
-        address: json['address'] as String,
-        email: json['email'] as String,
-        contact: json['contact'] as String,
-        phone: json['phone'] as String,
+        owner: json['owner']?.toString() ?? '',
+        address: json['address']?.toString() ?? '',
+        email: json['email']?.toString() ?? '',
+        contact: json['contact']?.toString() ?? '',
+        phone: json['phone']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -112,10 +112,10 @@ class RepresentativeInfo {
 
   factory RepresentativeInfo.fromJson(Map<String, dynamic> json) =>
       RepresentativeInfo(
-        owner: json['owner'] as String,
-        address: json['address'] as String,
-        contact: json['contact'] as String,
-        phone: json['phone'] as String,
+        owner: json['owner']?.toString() ?? '',
+        address: json['address']?.toString() ?? '',
+        contact: json['contact']?.toString() ?? '',
+        phone: json['phone']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -179,9 +179,9 @@ class LocationInfo {
   });
 
   factory LocationInfo.fromJson(Map<String, dynamic> json) => LocationInfo(
-        assemblyAddress: json['assemblyAddress'] as String,
-        onSiteLocation: json['onSiteLocation'] as String,
-        primaryService: json['primaryService'] as String,
+        assemblyAddress: json['assemblyAddress']?.toString() ?? '',
+        onSiteLocation: json['onSiteLocation']?.toString() ?? '',
+        primaryService: json['primaryService']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -204,9 +204,9 @@ class InstallationInfo {
 
   factory InstallationInfo.fromJson(Map<String, dynamic> json) =>
       InstallationInfo(
-        status: json['status'] as String,
-        protectionType: json['protectionType'] as String,
-        serviceType: json['serviceType'] as String,
+        status: json['status']?.toString() ?? '',
+        protectionType: json['protectionType']?.toString() ?? '',
+        serviceType: json['serviceType']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -226,8 +226,8 @@ class ShutoffValves {
   });
 
   factory ShutoffValves.fromJson(Map<String, dynamic> json) => ShutoffValves(
-        status: json['status'] as String,
-        comment: json['comment'] as String,
+        status: json['status']?.toString() ?? '',
+        comment: json['comment']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -258,13 +258,13 @@ class DeviceInfo {
   });
 
   factory DeviceInfo.fromJson(Map<String, dynamic> json) => DeviceInfo(
-        permitNo: json['permitNo'] as String,
-        meterNo: json['meterNo'] as String,
-        serialNo: json['serialNo'] as String,
-        type: json['type'] as String,
-        manufacturer: json['manufacturer'] as String,
-        size: json['size'] as String,
-        modelNo: json['modelNo'] as String,
+        permitNo: json['permitNo']?.toString() ?? '',
+        meterNo: json['meterNo']?.toString() ?? '',
+        serialNo: json['serialNo']?.toString() ?? '',
+        type: json['type']?.toString() ?? '',
+        manufacturer: json['manufacturer']?.toString() ?? '',
+        size: json['size']?.toString() ?? '',
+        modelNo: json['modelNo']?.toString() ?? '',
         shutoffValves: ShutoffValves.fromJson(json['shutoffValves']),
       );
 
@@ -294,8 +294,8 @@ class CheckValve {
   });
 
   factory CheckValve.fromJson(Map<String, dynamic> json) => CheckValve(
-        value: json['value'] as String,
-        closedTight: json['closedTight'] as bool,
+        value: json['value']?.toString() ?? '',
+        closedTight: json['closedTight'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -314,8 +314,8 @@ class ReliefValve {
   });
 
   factory ReliefValve.fromJson(Map<String, dynamic> json) => ReliefValve(
-        value: json['value'] as String,
-        opened: json['opened'] as bool,
+        value: json['value']?.toString() ?? '',
+        opened: json['opened'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -336,9 +336,9 @@ class AirInlet {
   });
 
   factory AirInlet.fromJson(Map<String, dynamic> json) => AirInlet(
-        value: json['value'] as String,
-        leaked: json['leaked'] as bool,
-        opened: json['opened'] as bool,
+        value: json['value']?.toString() ?? '',
+        leaked: json['leaked'] as bool? ?? false,
+        opened: json['opened'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -358,8 +358,8 @@ class Check {
   });
 
   factory Check.fromJson(Map<String, dynamic> json) => Check(
-        value: json['value'] as String,
-        leaked: json['leaked'] as bool,
+        value: json['value']?.toString() ?? '',
+        leaked: json['leaked'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -380,7 +380,7 @@ class VacuumBreaker {
   });
 
   factory VacuumBreaker.fromJson(Map<String, dynamic> json) => VacuumBreaker(
-        backPressure: json['backPressure'] as bool,
+        backPressure: json['backPressure'] as bool? ?? false,
         airInlet: AirInlet.fromJson(json['airInlet']),
         check: Check.fromJson(json['check']),
       );
@@ -408,10 +408,10 @@ class TesterProfile {
   });
 
   factory TesterProfile.fromJson(Map<String, dynamic> json) => TesterProfile(
-        name: json['name'] as String,
-        certNo: json['certNo'] as String,
-        gaugeKit: json['gaugeKit'] as String,
-        date: json['date'] as String,
+        name: json['name']?.toString() ?? '',
+        certNo: json['certNo']?.toString() ?? '',
+        gaugeKit: json['gaugeKit']?.toString() ?? '',
+        date: json['date']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -440,7 +440,7 @@ class Test {
   });
 
   factory Test.fromJson(Map<String, dynamic> json) => Test(
-        linePressure: json['linePressure'] as String,
+        linePressure: json['linePressure']?.toString() ?? '',
         checkValve1: CheckValve.fromJson(json['checkValve1']),
         checkValve2: CheckValve.fromJson(json['checkValve2']),
         reliefValve: ReliefValve.fromJson(json['reliefValve']),
@@ -481,13 +481,13 @@ class CheckValveRepairs {
 
   factory CheckValveRepairs.fromJson(Map<String, dynamic> json) =>
       CheckValveRepairs(
-        cleaned: json['cleaned'] as bool,
-        checkDisc: json['checkDisc'] as bool,
-        discHolder: json['discHolder'] as bool,
-        spring: json['spring'] as bool,
-        guide: json['guide'] as bool,
-        seat: json['seat'] as bool,
-        other: json['other'] as bool,
+        cleaned: json['cleaned'] as bool? ?? false,
+        checkDisc: json['checkDisc'] as bool? ?? false,
+        discHolder: json['discHolder'] as bool? ?? false,
+        spring: json['spring'] as bool? ?? false,
+        guide: json['guide'] as bool? ?? false,
+        seat: json['seat'] as bool? ?? false,
+        other: json['other'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -522,13 +522,13 @@ class ReliefValveRepairs {
 
   factory ReliefValveRepairs.fromJson(Map<String, dynamic> json) =>
       ReliefValveRepairs(
-        cleaned: json['cleaned'] as bool,
-        rubberKit: json['rubberKit'] as bool,
-        discHolder: json['discHolder'] as bool,
-        spring: json['spring'] as bool,
-        guide: json['guide'] as bool,
-        seat: json['seat'] as bool,
-        other: json['other'] as bool,
+        cleaned: json['cleaned'] as bool? ?? false,
+        rubberKit: json['rubberKit'] as bool? ?? false,
+        discHolder: json['discHolder'] as bool? ?? false,
+        spring: json['spring'] as bool? ?? false,
+        guide: json['guide'] as bool? ?? false,
+        seat: json['seat'] as bool? ?? false,
+        other: json['other'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -563,13 +563,13 @@ class VacuumBreakerRepairs {
 
   factory VacuumBreakerRepairs.fromJson(Map<String, dynamic> json) =>
       VacuumBreakerRepairs(
-        cleaned: json['cleaned'] as bool,
-        rubberKit: json['rubberKit'] as bool,
-        discHolder: json['discHolder'] as bool,
-        spring: json['spring'] as bool,
-        guide: json['guide'] as bool,
-        seat: json['seat'] as bool,
-        other: json['other'] as bool,
+        cleaned: json['cleaned'] as bool? ?? false,
+        rubberKit: json['rubberKit'] as bool? ?? false,
+        discHolder: json['discHolder'] as bool? ?? false,
+        spring: json['spring'] as bool? ?? false,
+        guide: json['guide'] as bool? ?? false,
+        seat: json['seat'] as bool? ?? false,
+        other: json['other'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {
