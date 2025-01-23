@@ -30,7 +30,7 @@ class JobRepository {
       jobId: jobData.metadata.jobId,
       formatVersion: jobData.metadata.formatVersion,
       creationDate: jobData.metadata.creationDate,
-      lastModifiedDate: DateTime.now().toIso8601String(),
+      lastModifiedDate: DateTime.now().toUtc().toIso8601String(),
     );
     final updatedJobData = jobData.copyWith(metadata: updatedMetadata);
 
