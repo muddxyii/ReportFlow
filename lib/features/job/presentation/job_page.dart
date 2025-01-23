@@ -121,7 +121,7 @@ class _JobPageState extends State<JobPage> {
                     _jobData!.metadata.jobName,
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   CustomerInfoCard(
                     info: _jobData!.customerInformation,
                     onInfoUpdate: (updatedInfo) {
@@ -130,7 +130,7 @@ class _JobPageState extends State<JobPage> {
                       _saveJobData(updatedJobData);
                     },
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   BackflowListCard(list: _jobData!.backflowList),
                 ],
               ),
