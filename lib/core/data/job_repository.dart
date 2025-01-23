@@ -66,6 +66,12 @@ class JobRepository {
     await file.writeAsString(_jsonEncoder.convert(updatedJobData.toJson()));
   }
 
+  Future<void> deleteJob(String jobId) async {
+    _validateJobId(jobId);
+    final file = await _getJobFile(jobId);
+    await _deleteFile(file);
+  }
+
   Future<bool> jobExists(String jobId) async {
     final file = await _getJobFile(jobId);
     return file.exists();
