@@ -6,69 +6,90 @@ import 'package:path_provider/path_provider.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 
 class JobRepository {
-  final jsonEncoder = JsonEncoder.withIndent('  ');
+  final _jsonEncoder = JsonEncoder.withIndent('  ');
+  static const _fileExtension = '.rfjson';
 
-  Future<JobData> loadJob(String filePath) async {
-    if (filePath.isEmpty) {
-      throw Exception("File path is null or empty.");
-    }
-
+  //region File Operations
+  Future<JobData> loadJobFromPath(String filePath) async {
+    _validatePath(filePath);
     final file = File(filePath);
-    if (!await file.exists()) {
-      throw Exception("File does not exist at $filePath");
-    }
+    await _validateFileExists(file);
+    return _parseJobData(await file.readAsString());
+  }
 
-    final jsonString = await file.readAsString();
-    final json = jsonDecode(jsonString);
-    final jobData = JobData.fromJson(json);
-
-    await _cacheJob(file, jobData, jsonString);
-
-    return jobData;
+  Future<JobData> getExistingJob(String jobId) async {
+    final file = await _getJobFile(jobId);
+    await _validateFileExists(file);
+    return _parseJobData(await file.readAsString());
   }
 
   Future<void> saveJob(JobData jobData) async {
-    if (jobData.metadata.jobId.isEmpty) {
-      throw Exception("Job ID is null or empty.");
-    }
-
+    _validateJobId(jobData.metadata.jobId);
+    final file = await _getJobFile(jobData.metadata.jobId);
     final jobCacheDir = await _getJobCacheDir();
     await jobCacheDir.create(recursive: true);
-
-    final cacheFile =
-        File('${jobCacheDir.path}/${jobData.metadata.jobId}.rfjson');
-    final jsonString = jsonEncoder.convert(jobData.toJson());
-
-    await cacheFile.writeAsString(jsonString);
+    await file.writeAsString(_jsonEncoder.convert(jobData.toJson()));
   }
 
   Future<bool> jobExists(String jobId) async {
-    final jobCacheDir = await _getJobCacheDir();
-    final existingFile = File('${jobCacheDir.path}/$jobId.rfjson');
-    return await existingFile.exists();
+    final file = await _getJobFile(jobId);
+    return file.exists();
   }
 
-  Future<void> _cacheJob(File file, JobData jobData, String jsonString) async {
-    final jobCacheDir = await _getJobCacheDir();
-    await jobCacheDir.create(recursive: true);
+  /// **Purpose:**
+  /// This function is used to save job data and delete the associated file.
+  ///
+  /// **Usage:**
+  /// Call this method only when caching a job for the first time.
+  ///
+  /// **Parameters:**
+  /// - `file` (File): The file to be deleted after caching the job.
+  /// - `jobData` (JobData): The job data to be saved.
+  Future<void> cacheJob(File file, JobData jobData) async {
+    await saveJob(jobData);
+    await _deleteFile(file);
+  }
 
-    final cacheFile =
-        File('${jobCacheDir.path}/${jobData.metadata.jobId}.rfjson');
-    await cacheFile.writeAsString(jsonString);
+  //endregion
 
-    try {
-      if (await file.exists()) {
-        await file.delete();
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Failed to delete original file: $e');
-      }
-    }
+  //region Private Helpers
+
+  Future<File> _getJobFile(String jobId) async {
+    final dir = await _getJobCacheDir();
+    return File('${dir.path}/$jobId$_fileExtension');
   }
 
   Future<Directory> _getJobCacheDir() async {
     final appCacheDir = await getTemporaryDirectory();
     return Directory('${appCacheDir.path}/jobs');
   }
+
+  JobData _parseJobData(String jsonString) {
+    final json = jsonDecode(jsonString);
+    return JobData.fromJson(json);
+  }
+
+  void _validatePath(String path) {
+    if (path.isEmpty) throw Exception('File path is empty');
+  }
+
+  void _validateJobId(String jobId) {
+    if (jobId.isEmpty) throw Exception('Job ID is empty');
+  }
+
+  Future<void> _validateFileExists(File file) async {
+    if (!await file.exists()) {
+      throw Exception('File does not exist: ${file.path}');
+    }
+  }
+
+  Future<void> _deleteFile(File file) async {
+    try {
+      if (await file.exists()) await file.delete();
+    } catch (e) {
+      if (kDebugMode) print('Failed to delete file: $e');
+    }
+  }
+
+//endregion
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/data/job_repository.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
@@ -5,91 +7,123 @@ import 'package:report_flow/features/job/presentation/widgets/backflow_list_card
 import 'package:report_flow/features/job/presentation/widgets/customer_info_card.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
+enum JobLoadingState { initial, loading, loaded, error }
+
 class JobPage extends StatefulWidget {
   final String filePath;
+  final bool fromIntent;
 
-  const JobPage({super.key, required this.filePath});
+  const JobPage({super.key, required this.filePath, required this.fromIntent});
 
   @override
   State<JobPage> createState() => _JobPageState();
 }
 
 class _JobPageState extends State<JobPage> {
-  JobData? _jobData;
   final _jobRepository = JobRepository();
+  JobLoadingState _loadingState = JobLoadingState.initial;
+  JobData? _jobData;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    _loadJobData();
+    _initializeJob();
   }
 
-  Future<void> _loadJobData() async {
+  Future<void> _initializeJob() async {
+    setState(() => _loadingState = JobLoadingState.loading);
+
     try {
-      final jobData = await _jobRepository.loadJob(widget.filePath);
-
-      if (!mounted) return;
-
-      final choice = await _handleDuplicateJob(jobData);
-      if (choice == null || choice == 'edit') {
-        Navigator.of(context).pop();
-        return;
+      final jobData = await _loadAndProcessJob();
+      if (widget.fromIntent) {
+        await _jobRepository.cacheJob(File(widget.filePath), jobData);
       }
 
-      setState(() => _jobData = jobData);
+      if (!mounted) return;
+
+      setState(() {
+        _jobData = jobData;
+        _loadingState = JobLoadingState.loaded;
+      });
     } catch (e) {
       if (!mounted) return;
-      _showErrorAndNavigateBack();
+
+      setState(() {
+        _errorMessage = e.toString();
+        _loadingState = JobLoadingState.error;
+      });
+      _showErrorSnackBar();
     }
   }
 
-  Future<void> _saveJobData(JobData updatedJobData) async {
+  Future<JobData> _loadAndProcessJob() async {
+    final initialJobData =
+        await _jobRepository.loadJobFromPath(widget.filePath);
+
+    if (await _jobRepository.jobExists(initialJobData.metadata.jobId)) {
+      final action = await _handleDuplicateJob();
+      if (action == 'cancel') throw Exception('Job loading cancelled');
+
+      if (action == 'edit') {
+        return await _jobRepository
+            .getExistingJob(initialJobData.metadata.jobId);
+      }
+    }
+
+    return initialJobData;
+  }
+
+  Future<String> _handleDuplicateJob() async {
+    final result = await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('Duplicate Job Found'),
+        content: const Text(
+            'A job with this ID already exists. What would you like to do?'),
+        actions: [
+          TextButton(
+            child: const Text('Edit Existing'),
+            onPressed: () => Navigator.of(context).pop('edit'),
+          ),
+          TextButton(
+            child: const Text('Overwrite'),
+            onPressed: () => Navigator.of(context).pop('overwrite'),
+          ),
+        ],
+      ),
+    );
+    return result ?? 'cancel';
+  }
+
+  Future<void> _updateJob(JobData Function(JobData) update) async {
+    if (_jobData == null) return;
+
     try {
-      await _jobRepository.saveJob(updatedJobData);
-      setState(() => _jobData = updatedJobData);
+      final updatedJob = update(_jobData!);
+      await _jobRepository.saveJob(updatedJob);
+
+      setState(() => _jobData = updatedJob);
     } catch (e) {
-      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           backgroundColor: Colors.red,
-          content: Text('Failed to save job data'),
-          duration: Duration(seconds: 3),
+          content: Text('Failed to save job: ${e.toString()}'),
+          duration: const Duration(seconds: 3),
         ),
       );
     }
   }
 
-  Future<String?> _handleDuplicateJob(JobData jobData) async {
-    if (await _jobRepository.jobExists(jobData.metadata.jobId)) {
-      return showDialog<String>(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: const Text('Duplicate Job Found'),
-          content: const Text(
-              'A job with this ID already exists. What would you like to do?'),
-          actions: [
-            TextButton(
-              child: const Text('Edit Existing'),
-              onPressed: () => Navigator.of(context).pop('edit'),
-            ),
-            TextButton(
-              child: const Text('Overwrite'),
-              onPressed: () => Navigator.of(context).pop('overwrite'),
-            ),
-          ],
-        ),
-      );
-    }
-    return 'overwrite';
-  }
+  void _showErrorSnackBar() {
+    if (!mounted) return;
 
-  void _showErrorAndNavigateBack() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         backgroundColor: Colors.red,
-        content: Text('Invalid ReportFlow File - Unable to parse job data'),
-        duration: Duration(seconds: 5),
+        content: Text(_errorMessage ?? 'An error occurred'),
+        duration: const Duration(seconds: 5),
       ),
     );
     Navigator.of(context).pop();
@@ -99,7 +133,7 @@ class _JobPageState extends State<JobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Job Details'),
+        title: const Text('Job Details'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -110,31 +144,42 @@ class _JobPageState extends State<JobPage> {
           ),
         ],
       ),
-      body: _jobData == null
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _jobData!.metadata.jobName,
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  CustomerInfoCard(
-                    info: _jobData!.customerInformation,
-                    onInfoUpdate: (updatedInfo) {
-                      final updatedJobData =
-                          _jobData!.copyWith(customerInformation: updatedInfo);
-                      _saveJobData(updatedJobData);
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  BackflowListCard(list: _jobData!.backflowList),
-                ],
-              ),
-            ),
+      body: _buildBody(),
     );
+  }
+
+  Widget _buildBody() {
+    switch (_loadingState) {
+      case JobLoadingState.initial:
+      case JobLoadingState.loading:
+        return const Center(child: CircularProgressIndicator());
+
+      case JobLoadingState.error:
+        return Center(child: Text(_errorMessage ?? 'An error occurred'));
+
+      case JobLoadingState.loaded:
+        if (_jobData == null) return const SizedBox.shrink();
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _jobData!.metadata.jobName,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 8),
+              CustomerInfoCard(
+                info: _jobData!.customerInformation,
+                onInfoUpdate: (updatedInfo) => _updateJob(
+                  (job) => job.copyWith(customerInformation: updatedInfo),
+                ),
+              ),
+              const SizedBox(height: 8),
+              BackflowListCard(list: _jobData!.backflowList),
+            ],
+          ),
+        );
+    }
   }
 }

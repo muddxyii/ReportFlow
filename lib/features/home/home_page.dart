@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
             context,
             MaterialPageRoute(
                 builder: (context) => JobPage(
+                      fromIntent: true,
                       filePath: path,
                     )),
           );
@@ -50,6 +51,7 @@ class _HomePageState extends State<HomePage> {
               MaterialPageRoute(
                   builder: (context) => JobPage(
                         filePath: newPath,
+                        fromIntent: true,
                       )),
             );
           }
