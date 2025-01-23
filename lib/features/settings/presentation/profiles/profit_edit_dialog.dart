@@ -111,6 +111,8 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
                 decoration: const InputDecoration(labelText: 'Profile Name'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter profile name' : null,
+                onFieldSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_testerNameFocus),
               ),
               TextFormField(
                 controller: _testerNameController,
@@ -118,6 +120,8 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
                 decoration: const InputDecoration(labelText: 'Tester Name'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter tester name' : null,
+                onFieldSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_serialFocus),
               ),
               TextFormField(
                 controller: _serialController,
@@ -125,6 +129,8 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
                 decoration: const InputDecoration(labelText: 'Test Kit Serial'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter serial' : null,
+                onFieldSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_testCertFocus),
               ),
               TextFormField(
                 controller: _testCertController,
@@ -132,6 +138,8 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
                 decoration: const InputDecoration(labelText: 'Test Cert No.'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter test cert' : null,
+                onFieldSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_repairCertFocus),
               ),
               TextFormField(
                 controller: _repairCertController,
@@ -139,6 +147,7 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
                 decoration: const InputDecoration(labelText: 'Repair Cert No.'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter repair cert' : null,
+                onFieldSubmitted: (_) => _handleSave(),
               ),
             ],
           ),
