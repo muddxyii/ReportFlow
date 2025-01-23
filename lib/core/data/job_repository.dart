@@ -23,6 +23,31 @@ class JobRepository {
     return _parseJobData(await file.readAsString());
   }
 
+  Future<List<JobData>> getAllJobs() async {
+    final dir = await _getJobCacheDir();
+    if (!await dir.exists()) return [];
+
+    final jobs = <JobData>[];
+    await for (final file in dir.list(followLinks: false)) {
+      if (file is File && file.path.endsWith(_fileExtension)) {
+        try {
+          final jobData = _parseJobData(await file.readAsString());
+          jobs.add(jobData);
+        } catch (e) {
+          if (kDebugMode) print('Failed to parse job file: $e');
+        }
+      }
+    }
+
+    return jobs;
+  }
+
+  Future<String> getJobFilePath(String jobId) async {
+    _validateJobId(jobId);
+    File file = await _getJobFile(jobId);
+    return file.path;
+  }
+
   Future<void> saveJob(JobData jobData) async {
     _validateJobId(jobData.metadata.jobId);
 

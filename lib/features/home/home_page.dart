@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:report_flow/features/job/presentation/job_page.dart';
+import 'package:report_flow/features/job_browser/job_browser_page.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -75,9 +76,21 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Welcome to ReportFlow'),
-      ),
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Welcome to ReportFlow'),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const JobBrowserPage()),
+            ),
+            child: const Text('Browse Jobs'),
+          ),
+        ],
+      )),
     );
   }
 }
