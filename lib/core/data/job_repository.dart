@@ -8,6 +8,7 @@ import 'package:report_flow/core/models/report_flow_types.dart';
 class JobRepository {
   final _jsonEncoder = JsonEncoder.withIndent('  ');
   static const _fileExtension = '.rfjson';
+  static const _jobExpirationDays = 7;
 
   //region File Operations
   Future<JobData> loadJobFromPath(String filePath) async {
@@ -89,6 +90,19 @@ class JobRepository {
   Future<void> cacheJob(File file, JobData jobData) async {
     await saveJob(jobData);
     await _deleteFile(file);
+  }
+
+  Future<void> cleanupOldJobs() async {
+    final jobs = await getAllJobs();
+    final now = DateTime.now().toUtc();
+
+    for (final job in jobs) {
+      final lastModified = DateTime.parse(job.metadata.lastModifiedDate);
+      final difference = now.difference(lastModified);
+      if (difference.inDays > _jobExpirationDays) {
+        await deleteJob(job.metadata.jobId);
+      }
+    }
   }
 
   //endregion

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:report_flow/core/data/job_repository.dart';
 import 'package:report_flow/core/data/profile_repository.dart';
 import 'package:report_flow/features/job/presentation/job_page.dart';
 import 'package:report_flow/features/job_browser/job_browser_page.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('app_channel');
   final _profileRepository = ProfileRepository();
+  final _jobRepository = JobRepository();
   bool _checkedProfiles = false;
 
   @override
@@ -23,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     _handleIncomingJson();
     _listenForNewJson();
     _checkProfiles();
+    _cleanupOldJobs();
   }
 
   Future<void> _handleIncomingJson() async {
@@ -96,6 +99,21 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  Future<void> _cleanupOldJobs() async {
+    try {
+      await _jobRepository.cleanupOldJobs();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error cleaning up old jobs: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
