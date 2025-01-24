@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:report_flow/core/data/profile_repository.dart';
 import 'package:report_flow/core/models/profile.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsViewModel extends ChangeNotifier {
-  static const _keyProfiles = 'profiles';
+  final _profileRepository = ProfileRepository();
   List<Profile> _profiles = [];
   String _appNameWithVersion = 'ReportFlow';
 
@@ -28,40 +26,27 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   Future<void> addProfile(Profile profile) async {
-    _profiles.add(profile);
-    await _saveProfiles();
-    notifyListeners();
+    await _profileRepository.saveProfile(profile);
+    await _loadProfiles();
   }
 
   Future<void> updateProfile(Profile profile) async {
-    final index = _profiles.indexWhere((p) => p.id == profile.id);
-    if (index != -1) {
-      _profiles[index] = profile;
-      await _saveProfiles();
-      notifyListeners();
-    }
+    await _profileRepository.updateProfile(profile);
+    await _loadProfiles();
   }
 
   Future<void> deleteProfile(String id) async {
-    _profiles.removeWhere((p) => p.id == id);
-    await _saveProfiles();
+    await _profileRepository.deleteProfile(id);
+    await _loadProfiles();
+  }
+
+  Future<void> _loadProfiles() async {
+    _profiles = await _profileRepository.getProfiles();
     notifyListeners();
   }
 
-  Future<void> _saveProfiles() async {
-    final prefs = await SharedPreferences.getInstance();
-    final profilesJson = _profiles.map((p) => p.toJson()).toList();
-    await prefs.setString(_keyProfiles, jsonEncode(profilesJson));
-  }
-
   Future<void> load() async {
-    final prefs = await SharedPreferences.getInstance();
-    final profilesJson = prefs.getString(_keyProfiles);
-    if (profilesJson != null) {
-      final List<dynamic> decoded = jsonDecode(profilesJson);
-      _profiles = decoded.map((json) => Profile.fromJson(json)).toList();
-      notifyListeners();
-    }
+    await _loadProfiles();
     await _initializeAppNameWithVersion();
   }
 }
