@@ -193,6 +193,17 @@ class LocationInfo {
         'onSiteLocation': onSiteLocation,
         'primaryService': primaryService,
       };
+
+  LocationInfo copyWith(
+      {String? assemblyAddress,
+      String? onSiteLocation,
+      String? primaryService}) {
+    return LocationInfo(
+      assemblyAddress: assemblyAddress ?? this.assemblyAddress,
+      onSiteLocation: onSiteLocation ?? this.onSiteLocation,
+      primaryService: primaryService ?? this.primaryService,
+    );
+  }
 }
 
 class InstallationInfo {
@@ -218,6 +229,15 @@ class InstallationInfo {
         'protectionType': protectionType,
         'serviceType': serviceType,
       };
+
+  InstallationInfo copyWith(
+      {String? status, String? protectionType, String? serviceType}) {
+    return InstallationInfo(
+      status: status ?? this.status,
+      protectionType: protectionType ?? this.protectionType,
+      serviceType: serviceType ?? this.serviceType,
+    );
+  }
 }
 
 class ShutoffValves {
@@ -238,6 +258,13 @@ class ShutoffValves {
         'status': status,
         'comment': comment,
       };
+
+  ShutoffValves copyWith({String? status, String? comment}) {
+    return ShutoffValves(
+      status: status ?? this.status,
+      comment: comment ?? this.comment,
+    );
+  }
 }
 
 class DeviceInfo {
@@ -282,6 +309,26 @@ class DeviceInfo {
         'modelNo': modelNo,
         'shutoffValves': shutoffValves.toJson(),
       };
+
+  DeviceInfo copyWith(
+      {String? permitNo,
+      String? meterNo,
+      String? serialNo,
+      String? type,
+      String? manufacturer,
+      String? size,
+      String? modelNo,
+      ShutoffValves? shutoffValves}) {
+    return DeviceInfo(
+        permitNo: permitNo ?? this.permitNo,
+        meterNo: meterNo ?? this.meterNo,
+        serialNo: serialNo ?? this.serialNo,
+        type: type ?? this.type,
+        manufacturer: manufacturer ?? this.manufacturer,
+        size: size ?? this.size,
+        modelNo: modelNo ?? this.modelNo,
+        shutoffValves: shutoffValves ?? this.shutoffValves);
+  }
 }
 
 //endregion
@@ -661,6 +708,24 @@ class Backflow {
         'repairs': repairs.toJson(),
         'finalTest': finalTest.toJson(),
       };
+
+  Backflow copyWith({
+    LocationInfo? locationInfo,
+    InstallationInfo? installationInfo,
+    DeviceInfo? deviceInfo,
+    Test? initialTest,
+    Repairs? repairs,
+    Test? finalTest,
+  }) {
+    return Backflow(
+      locationInfo: locationInfo ?? this.locationInfo,
+      installationInfo: installationInfo ?? this.installationInfo,
+      deviceInfo: deviceInfo ?? this.deviceInfo,
+      initialTest: initialTest ?? this.initialTest,
+      repairs: repairs ?? this.repairs,
+      finalTest: finalTest ?? this.finalTest,
+    );
+  }
 }
 
 class BackflowList {
@@ -684,6 +749,14 @@ class BackflowList {
       result[key] = value.toJson();
     });
     return result;
+  }
+
+  BackflowList copyWith({
+    Map<String, Backflow>? backflows,
+  }) {
+    return BackflowList(
+      backflows: backflows ?? this.backflows,
+    );
   }
 }
 
