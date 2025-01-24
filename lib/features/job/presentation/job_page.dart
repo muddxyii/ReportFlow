@@ -170,6 +170,11 @@ class _JobPageState extends State<JobPage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 8),
+              Text(
+                'Task: ${_jobData!.details.jobType}',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 8),
               CustomerInfoCard(
                 info: _jobData!.customerInformation,
                 onInfoUpdate: (updatedInfo) => _updateJob(
