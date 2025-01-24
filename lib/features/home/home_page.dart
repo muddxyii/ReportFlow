@@ -49,17 +49,12 @@ class _HomePageState extends State<HomePage> {
     platform.setMethodCallHandler((call) async {
       if (call.method == 'onNewFilePath') {
         final String? newPath = call.arguments as String?;
-        if (newPath != null) {
-          if (mounted) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => JobPage(
-                        filePath: newPath,
-                        fromIntent: true,
-                      )),
-            );
-          }
+        if (newPath != null && mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+            (route) => false,
+          );
         }
       }
     });
