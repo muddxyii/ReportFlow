@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:report_flow/core/data/profile_repository.dart';
 import 'package:report_flow/features/job/presentation/job_page.dart';
 import 'package:report_flow/features/job_browser/job_browser_page.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
@@ -13,12 +14,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('app_channel');
+  final _profileRepository = ProfileRepository();
+  bool _checkedProfiles = false;
 
   @override
   void initState() {
     super.initState();
     _handleIncomingJson();
     _listenForNewJson();
+    _checkProfiles();
   }
 
   Future<void> _handleIncomingJson() async {
@@ -59,6 +63,44 @@ class _HomePageState extends State<HomePage> {
         }
       }
     });
+  }
+
+  Future<void> _checkProfiles() async {
+    if (_checkedProfiles) return;
+
+    final profiles = await _profileRepository.getProfiles();
+    if (profiles.isEmpty && mounted) {
+      _checkedProfiles = true;
+      _showCreateProfileDialog();
+    }
+  }
+
+  void _showCreateProfileDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('No Profile Found'),
+        content:
+            const Text('Would you like to create a profile to get started?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Not Now'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
+              );
+            },
+            child: const Text('Create Profile'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
