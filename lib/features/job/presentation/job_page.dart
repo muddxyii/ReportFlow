@@ -182,7 +182,11 @@ class _JobPageState extends State<JobPage> {
                 ),
               ),
               const SizedBox(height: 8),
-              BackflowListCard(list: _jobData!.backflowList),
+              BackflowListCard(
+                list: _jobData!.backflowList,
+                onInfoUpdate: (updatedList) => _updateJob(
+                    (job) => job.copyWith(backflowList: updatedList)),
+              ),
             ],
           ),
         );
