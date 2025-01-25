@@ -36,6 +36,8 @@ class FormInputField extends StatelessWidget {
       textCapitalization: TextCapitalization.characters,
       keyboardType: textInputType ?? TextInputType.text,
       textInputAction: textInputAction ?? TextInputAction.next,
+      minLines: 1,
+      maxLines: 4,
       decoration: InputDecoration(labelText: label),
       validator: (value) {
         if (validateValue && (value == null || value.isEmpty)) {
