@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/info_field.dart';
 import 'package:report_flow/features/backflow/backflow_page.dart';
 
 class BackflowListCard extends StatefulWidget {
@@ -82,7 +83,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
             const SizedBox(height: 16),
             TextField(
               controller: _searchController,
-              textCapitalization: TextCapitalization.characters,
+              textCapitalization: TextCapitalization.words,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
@@ -114,26 +115,43 @@ class _BackflowListCardState extends State<BackflowListCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            device.deviceInfo.serialNo.isNotEmpty
-                                ? device.deviceInfo.serialNo
-                                : "Unknown Serial",
-                            style: Theme.of(context).textTheme.titleMedium,
+                              device.deviceInfo.serialNo.isNotEmpty
+                                  ? device.deviceInfo.serialNo
+                                  : "Unknown Serial",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: InfoField(
+                                  label: 'Model',
+                                  value: device.deviceInfo.modelNo.isNotEmpty
+                                      ? device.deviceInfo.modelNo
+                                      : "Unknown",
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: InfoField(
+                                  label: 'Size',
+                                  value: device.deviceInfo.size.isNotEmpty
+                                      ? device.deviceInfo.size
+                                      : "Unk..",
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Model: ${device.deviceInfo.modelNo.isNotEmpty ? device.deviceInfo.modelNo : "Unknown"}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Size: ${device.deviceInfo.size.isNotEmpty ? device.deviceInfo.size : "Unknown"}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Location: ${device.locationInfo.onSiteLocation.isNotEmpty ? device.locationInfo.onSiteLocation : "Unknown"}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
+                          InfoField(
+                              label: 'Location',
+                              value:
+                                  device.locationInfo.onSiteLocation.isNotEmpty
+                                      ? device.locationInfo.onSiteLocation
+                                      : "Unknown"),
                           const SizedBox(height: 16),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
