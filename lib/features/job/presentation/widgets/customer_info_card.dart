@@ -153,6 +153,9 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           TextFormField(
             focusNode: _ownerNameFocus,
             initialValue: _editedOwnerInfo.owner,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Name'),
             validator: (value) =>
                 value?.isEmpty ?? true ? 'Name is required' : null,
@@ -164,6 +167,9 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           TextFormField(
             focusNode: _ownerAddressFocus,
             initialValue: _editedOwnerInfo.address,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Address'),
             validator: (value) =>
                 value?.isEmpty ?? true ? 'Address is required' : null,
@@ -174,7 +180,12 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           ),
           TextFormField(
             focusNode: _ownerEmailFocus,
-            initialValue: _editedOwnerInfo.email,
+            initialValue: _editedOwnerInfo.email == 'UNKNOWN'
+                ? ''
+                : _editedOwnerInfo.email,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Email'),
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 email: value?.isEmpty ?? true ? 'UNKNOWN' : value),
@@ -183,7 +194,12 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           ),
           TextFormField(
             focusNode: _ownerContactFocus,
-            initialValue: _editedOwnerInfo.contact,
+            initialValue: _editedOwnerInfo.contact == 'MANAGER'
+                ? ''
+                : _editedOwnerInfo.contact,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Contact'),
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 contact: value?.isEmpty ?? true ? 'MANAGER' : value),
@@ -192,7 +208,12 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           ),
           TextFormField(
             focusNode: _ownerPhoneFocus,
-            initialValue: _editedOwnerInfo.phone,
+            initialValue: _editedOwnerInfo.phone == 'UNKNOWN'
+                ? ''
+                : _editedOwnerInfo.phone,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.phone,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Phone'),
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 phone: value?.isEmpty ?? true ? 'UNKNOWN' : value),
@@ -265,6 +286,9 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           TextFormField(
             focusNode: _representativeNameFocus,
             initialValue: _editedRepresentativeInfo.owner,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Name'),
             validator: (value) =>
                 value?.isEmpty ?? true ? 'Name is required' : null,
@@ -276,6 +300,9 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           TextFormField(
             focusNode: _representativeAddressFocus,
             initialValue: _editedRepresentativeInfo.address,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Address'),
             validator: (value) =>
                 value?.isEmpty ?? true ? 'Address is required' : null,
@@ -286,7 +313,12 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           ),
           TextFormField(
             focusNode: _representativeContactFocus,
-            initialValue: _editedRepresentativeInfo.contact,
+            initialValue: _editedRepresentativeInfo.contact == 'MANAGER'
+                ? ''
+                : _editedRepresentativeInfo.contact,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Contact'),
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(
@@ -296,7 +328,12 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           ),
           TextFormField(
             focusNode: _representativePhoneFocus,
-            initialValue: _editedRepresentativeInfo.phone,
+            initialValue: _editedRepresentativeInfo.phone == 'UNKNOWN'
+                ? ''
+                : _editedRepresentativeInfo.phone,
+            textCapitalization: TextCapitalization.characters,
+            keyboardType: TextInputType.phone,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(labelText: 'Phone'),
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(
