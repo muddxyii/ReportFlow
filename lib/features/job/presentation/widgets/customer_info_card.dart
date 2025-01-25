@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/form_input_field.dart';
+import 'package:report_flow/core/widgets/info_field.dart';
 
 class CustomerInfoCard extends StatefulWidget {
   final CustomerInformation info;
@@ -162,74 +164,61 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
       key: _ownerFormKey,
       child: Column(
         children: [
-          TextFormField(
-            focusNode: _ownerNameFocus,
+          FormInputField(
+            label: 'Name',
             initialValue: _editedOwnerInfo.owner,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Name'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Name is required' : null,
+            validateValue: true,
+            focusNode: _ownerNameFocus,
             onSaved: (value) => _editedOwnerInfo =
                 _editedOwnerInfo.copyWith(owner: value ?? ''),
-            onFieldSubmitted: (value) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_ownerAddressFocus),
           ),
-          TextFormField(
-            focusNode: _ownerAddressFocus,
+          FormInputField(
+            label: 'Address',
+            textInputType: TextInputType.streetAddress,
             initialValue: _editedOwnerInfo.address,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Address'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Address is required' : null,
+            validateValue: true,
+            focusNode: _ownerAddressFocus,
             onSaved: (value) => _editedOwnerInfo =
                 _editedOwnerInfo.copyWith(address: value ?? ''),
-            onFieldSubmitted: (value) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_ownerEmailFocus),
           ),
-          TextFormField(
-            focusNode: _ownerEmailFocus,
+          FormInputField(
+            label: 'Email',
+            textInputType: TextInputType.emailAddress,
             initialValue: _editedOwnerInfo.email == 'UNKNOWN'
                 ? ''
                 : _editedOwnerInfo.email,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Email'),
+            focusNode: _ownerEmailFocus,
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 email: value?.isEmpty ?? true ? 'UNKNOWN' : value),
-            onFieldSubmitted: (value) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_ownerContactFocus),
           ),
-          TextFormField(
-            focusNode: _ownerContactFocus,
+          FormInputField(
+            label: 'Contact',
             initialValue: _editedOwnerInfo.contact == 'MANAGER'
                 ? ''
                 : _editedOwnerInfo.contact,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Contact'),
+            focusNode: _ownerContactFocus,
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 contact: value?.isEmpty ?? true ? 'MANAGER' : value),
-            onFieldSubmitted: (value) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_ownerPhoneFocus),
           ),
-          TextFormField(
-            focusNode: _ownerPhoneFocus,
+          FormInputField(
+            label: 'Phone',
+            textInputType: TextInputType.phone,
+            textInputAction: TextInputAction.done,
             initialValue: _editedOwnerInfo.phone == 'UNKNOWN'
                 ? ''
                 : _editedOwnerInfo.phone,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Phone'),
+            focusNode: _ownerPhoneFocus,
             onSaved: (value) => _editedOwnerInfo = _editedOwnerInfo.copyWith(
                 phone: value?.isEmpty ?? true ? 'UNKNOWN' : value),
-            onFieldSubmitted: (value) => _saveOwnerInfo(),
+            onSubmitted: () => _saveOwnerInfo(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -250,15 +239,15 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
   }
 
   Widget _buildOwnerInfo(BuildContext context) {
+    final info = widget.info.facilityOwnerInfo;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            'Name: ${widget.info.facilityOwnerInfo.owner.isEmpty ? '...' : widget.info.facilityOwnerInfo.owner}'),
-        Text('Address: ${widget.info.facilityOwnerInfo.address}'),
-        Text('Email: ${widget.info.facilityOwnerInfo.email}'),
-        Text('Contact: ${widget.info.facilityOwnerInfo.contact}'),
-        Text('Phone: ${widget.info.facilityOwnerInfo.phone}'),
+        InfoField(label: 'Name', value: info.owner),
+        InfoField(label: 'Address', value: info.address),
+        InfoField(label: 'Email', value: info.email),
+        InfoField(label: 'Contact', value: info.contact),
+        InfoField(label: 'Phone', value: info.phone),
         Align(
           alignment: Alignment.centerRight,
           child: IconButton(
@@ -304,62 +293,51 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
       key: _representativeFormKey,
       child: Column(
         children: [
-          TextFormField(
-            focusNode: _representativeNameFocus,
+          FormInputField(
+            label: 'Name',
             initialValue: _editedRepresentativeInfo.owner,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Name'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Name is required' : null,
+            validateValue: true,
+            focusNode: _representativeNameFocus,
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(owner: value ?? ''),
-            onFieldSubmitted: (_) => FocusScope.of(context)
+            onSubmitted: () => FocusScope.of(context)
                 .requestFocus(_representativeAddressFocus),
           ),
-          TextFormField(
-            focusNode: _representativeAddressFocus,
+          FormInputField(
+            label: 'Address',
+            textInputType: TextInputType.streetAddress,
             initialValue: _editedRepresentativeInfo.address,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Address'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Address is required' : null,
+            validateValue: true,
+            focusNode: _representativeAddressFocus,
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(address: value ?? ''),
-            onFieldSubmitted: (_) => FocusScope.of(context)
+            onSubmitted: () => FocusScope.of(context)
                 .requestFocus(_representativeContactFocus),
           ),
-          TextFormField(
-            focusNode: _representativeContactFocus,
+          FormInputField(
+            label: 'Contact',
             initialValue: _editedRepresentativeInfo.contact == 'MANAGER'
                 ? ''
                 : _editedRepresentativeInfo.contact,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Contact'),
+            focusNode: _representativeContactFocus,
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(
                     contact: value?.isEmpty ?? true ? 'MANAGER' : value),
-            onFieldSubmitted: (_) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_representativePhoneFocus),
           ),
-          TextFormField(
-            focusNode: _representativePhoneFocus,
+          FormInputField(
+            label: 'Phone',
+            textInputType: TextInputType.phone,
+            textInputAction: TextInputAction.done,
             initialValue: _editedRepresentativeInfo.phone == 'UNKNOWN'
                 ? ''
-                : _editedRepresentativeInfo.phone,
-            textCapitalization: TextCapitalization.characters,
-            keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Phone'),
+                : _editedOwnerInfo.phone,
+            focusNode: _representativePhoneFocus,
             onSaved: (value) => _editedRepresentativeInfo =
                 _editedRepresentativeInfo.copyWith(
                     phone: value?.isEmpty ?? true ? 'UNKNOWN' : value),
-            onFieldSubmitted: (_) => _saveRepresentativeInfo(),
+            onSubmitted: () => _saveRepresentativeInfo(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -380,14 +358,14 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
   }
 
   Widget _buildRepresentativeInfo(BuildContext context) {
+    final info = widget.info.representativeInfo;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            'Name: ${widget.info.representativeInfo.owner.isEmpty ? '...' : widget.info.representativeInfo.owner}'),
-        Text('Address: ${widget.info.representativeInfo.address}'),
-        Text('Contact: ${widget.info.representativeInfo.contact}'),
-        Text('Phone: ${widget.info.representativeInfo.phone}'),
+        InfoField(label: 'Name', value: info.owner),
+        InfoField(label: 'Address', value: info.address),
+        InfoField(label: 'Contact', value: info.contact),
+        InfoField(label: 'Phone', value: info.phone),
         Align(
           alignment: Alignment.centerRight,
           child: IconButton(
