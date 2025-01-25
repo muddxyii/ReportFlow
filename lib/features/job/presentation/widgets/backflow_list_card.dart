@@ -23,7 +23,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
   @override
   void initState() {
     super.initState();
-    _filteredBackflows = widget.list.backflows.entries.toList();
+    _filterBackflows('');
   }
 
   @override
@@ -47,7 +47,12 @@ class _BackflowListCardState extends State<BackflowListCard> {
           .where((entry) => entry.value.deviceInfo.serialNo
               .toLowerCase()
               .contains(query.toLowerCase()))
-          .toList();
+          .toList()
+        ..sort((a, b) => a.value.isComplete == b.value.isComplete
+            ? 0
+            : a.value.isComplete
+                ? 1
+                : -1);
     });
   }
 
@@ -99,6 +104,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Card(
+                    color: device.isComplete ? const Color(0xFFE7F5E7) : null,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
