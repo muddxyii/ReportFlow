@@ -681,6 +681,7 @@ class Backflow {
   final Test initialTest;
   final Repairs repairs;
   final Test finalTest;
+  final bool isComplete;
 
   Backflow({
     required this.locationInfo,
@@ -689,6 +690,7 @@ class Backflow {
     required this.initialTest,
     required this.repairs,
     required this.finalTest,
+    required this.isComplete,
   });
 
   factory Backflow.fromJson(Map<String, dynamic> json) => Backflow(
@@ -698,6 +700,7 @@ class Backflow {
         initialTest: Test.fromJson(json['initialTest']),
         repairs: Repairs.fromJson(json['repairs']),
         finalTest: Test.fromJson(json['finalTest']),
+        isComplete: json['isComplete'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -707,6 +710,7 @@ class Backflow {
         'initialTest': initialTest.toJson(),
         'repairs': repairs.toJson(),
         'finalTest': finalTest.toJson(),
+        'isComplete': isComplete,
       };
 
   Backflow copyWith({
@@ -716,6 +720,7 @@ class Backflow {
     Test? initialTest,
     Repairs? repairs,
     Test? finalTest,
+    bool? isComplete,
   }) {
     return Backflow(
       locationInfo: locationInfo ?? this.locationInfo,
@@ -724,6 +729,7 @@ class Backflow {
       initialTest: initialTest ?? this.initialTest,
       repairs: repairs ?? this.repairs,
       finalTest: finalTest ?? this.finalTest,
+      isComplete: isComplete ?? this.isComplete,
     );
   }
 }
