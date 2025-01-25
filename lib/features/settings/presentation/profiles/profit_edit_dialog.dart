@@ -108,6 +108,9 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
               TextFormField(
                 controller: _profileNameController,
                 focusNode: _profileNameFocus,
+                textCapitalization: TextCapitalization.words,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(labelText: 'Profile Name'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter profile name' : null,
@@ -117,6 +120,9 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
               TextFormField(
                 controller: _testerNameController,
                 focusNode: _testerNameFocus,
+                textCapitalization: TextCapitalization.words,
+                keyboardType: TextInputType.name,
+                textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(labelText: 'Tester Name'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter tester name' : null,
@@ -126,6 +132,9 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
               TextFormField(
                 controller: _serialController,
                 focusNode: _serialFocus,
+                textCapitalization: TextCapitalization.words,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(labelText: 'Test Kit Serial'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter serial' : null,
@@ -135,6 +144,9 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
               TextFormField(
                 controller: _testCertController,
                 focusNode: _testCertFocus,
+                textCapitalization: TextCapitalization.words,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(labelText: 'Test Cert No.'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter test cert' : null,
@@ -144,6 +156,9 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
               TextFormField(
                 controller: _repairCertController,
                 focusNode: _repairCertFocus,
+                textCapitalization: TextCapitalization.words,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(labelText: 'Repair Cert No.'),
                 validator: (value) =>
                     value?.isEmpty ?? true ? 'Please enter repair cert' : null,
