@@ -17,6 +17,8 @@ class DeviceInfoCard extends StatefulWidget {
 
 class _DeviceInfoCardState extends State<DeviceInfoCard> {
   bool _isEditing = false;
+  bool _isExpanded = false;
+
   final _formKey = GlobalKey<FormState>();
 
   final _permitFocus = FocusNode();
@@ -229,6 +231,15 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
           'Device Information',
           style: Theme.of(context).textTheme.titleMedium,
         ),
+        onExpansionChanged: (expanded) {
+          setState(() {
+            _isExpanded = expanded;
+            if (!expanded && _isEditing) {
+              _isEditing = false;
+              _editedInfo = widget.info;
+            }
+          });
+        },
         children: [
           Padding(
             padding:

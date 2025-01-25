@@ -19,6 +19,9 @@ class CustomerInfoCard extends StatefulWidget {
 class _CustomerInfoCardState extends State<CustomerInfoCard> {
   bool _isEditingOwner = false;
   bool _isEditingRepresentative = false;
+  bool _isOwnerExpanded = false;
+  bool _isRepresentativeExpanded = false;
+
   final _ownerFormKey = GlobalKey<FormState>();
   final _representativeFormKey = GlobalKey<FormState>();
 
@@ -133,6 +136,15 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           'Facility Owner',
           style: Theme.of(context).textTheme.titleMedium,
         ),
+        onExpansionChanged: (expanded) {
+          setState(() {
+            _isOwnerExpanded = expanded;
+            if (!expanded && _isEditingOwner) {
+              _isEditingOwner = false;
+              _editedOwnerInfo = widget.info.facilityOwnerInfo;
+            }
+          });
+        },
         children: [
           Padding(
             padding:
@@ -265,6 +277,15 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
           'Representative',
           style: Theme.of(context).textTheme.titleMedium,
         ),
+        onExpansionChanged: (expanded) {
+          setState(() {
+            _isRepresentativeExpanded = expanded;
+            if (!expanded && _isEditingRepresentative) {
+              _isEditingRepresentative = false;
+              _editedRepresentativeInfo = widget.info.representativeInfo;
+            }
+          });
+        },
         children: [
           Padding(
             padding:

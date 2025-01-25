@@ -18,6 +18,8 @@ class LocationInfoCard extends StatefulWidget {
 
 class _LocationInfoCardState extends State<LocationInfoCard> {
   bool _isEditing = false;
+  bool _isExpanded = false;
+
   final _formKey = GlobalKey<FormState>();
 
   final _assemblyAddressFocus = FocusNode();
@@ -157,6 +159,15 @@ class _LocationInfoCardState extends State<LocationInfoCard> {
           'Location Information',
           style: Theme.of(context).textTheme.titleMedium,
         ),
+        onExpansionChanged: (expanded) {
+          setState(() {
+            _isExpanded = expanded;
+            if (!expanded && _isEditing) {
+              _isEditing = false;
+              _editedInfo = widget.info;
+            }
+          });
+        },
         children: [
           Padding(
             padding:

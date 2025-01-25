@@ -17,6 +17,8 @@ class InstallationInfoCard extends StatefulWidget {
 
 class _InstallationInfoCardState extends State<InstallationInfoCard> {
   bool _isEditing = false;
+  bool _isExpanded = false;
+
   final _formKey = GlobalKey<FormState>();
 
   final _statusFocus = FocusNode();
@@ -156,6 +158,15 @@ class _InstallationInfoCardState extends State<InstallationInfoCard> {
           'Installation Information',
           style: Theme.of(context).textTheme.titleMedium,
         ),
+        onExpansionChanged: (expanded) {
+          setState(() {
+            _isExpanded = expanded;
+            if (!expanded && _isEditing) {
+              _isEditing = false;
+              _editedInfo = widget.info;
+            }
+          });
+        },
         children: [
           Padding(
             padding:
