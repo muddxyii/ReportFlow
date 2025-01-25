@@ -109,6 +109,9 @@ class _JobBrowserPageState extends State<JobBrowserPage> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
+              textCapitalization: TextCapitalization.sentences,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                 hintText: 'Search jobs...',
                 prefixIcon: const Icon(Icons.search),
