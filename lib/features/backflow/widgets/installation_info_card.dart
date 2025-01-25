@@ -16,44 +16,69 @@ class InstallationInfoCard extends StatefulWidget {
 }
 
 class _InstallationInfoCardState extends State<InstallationInfoCard> {
+  static const List<String> _protectionTypes = ['Secondary', 'Primary'];
+  static const List<String> _serviceTypes = ['Domestic', 'Irrigation', 'Fire'];
+  static const List<String> _statusTypes = [
+    'Existing',
+    'New',
+    'Replacement',
+    'Missing'
+  ];
+
   bool _isEditing = false;
   bool _isExpanded = false;
-
   final _formKey = GlobalKey<FormState>();
-
-  final _statusFocus = FocusNode();
-  final _protectionTypeFocus = FocusNode();
-  final _serviceTypeFocus = FocusNode();
-
   late InstallationInfo _editedInfo;
 
   @override
   void initState() {
     super.initState();
-    _editedInfo = widget.info;
+    _editedInfo = _validateInitialInfo(widget.info);
   }
 
   @override
   void didUpdateWidget(InstallationInfoCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.info != widget.info) {
-      _editedInfo = widget.info;
+      _editedInfo = _validateInitialInfo(widget.info);
     }
   }
 
-  @override
-  void dispose() {
-    _statusFocus.dispose();
-    _protectionTypeFocus.dispose();
-    _serviceTypeFocus.dispose();
-    super.dispose();
+  InstallationInfo _validateInitialInfo(InstallationInfo info) {
+    return InstallationInfo(
+      status: _validateStatus(info.status),
+      protectionType: _validateProtectionType(info.protectionType),
+      serviceType: _validateServiceType(info.serviceType),
+    );
+  }
+
+  String _validateStatus(String status) {
+    return _statusTypes.firstWhere(
+      (type) => type.toLowerCase() == status.toLowerCase(),
+      orElse: () => '',
+    );
+  }
+
+  String _validateProtectionType(String type) {
+    final firstWord = type.split(' ')[0].toUpperCase();
+    return _protectionTypes.firstWhere(
+      (t) => t.toUpperCase() == firstWord,
+      orElse: () => '',
+    );
+  }
+
+  String _validateServiceType(String type) {
+    return _serviceTypes.firstWhere(
+      (t) => t.toLowerCase() == type.toLowerCase(),
+      orElse: () => '',
+    );
   }
 
   void _toggleEdit() {
     setState(() {
       _isEditing = !_isEditing;
       if (!_isEditing) {
-        _editedInfo = widget.info;
+        _editedInfo = _validateInitialInfo(widget.info);
       }
     });
   }
@@ -63,14 +88,6 @@ class _InstallationInfoCardState extends State<InstallationInfoCard> {
       _formKey.currentState?.save();
       widget.onInfoUpdate(_editedInfo);
       _toggleEdit();
-    } else {
-      if (_editedInfo.status.isEmpty) {
-        _statusFocus.requestFocus();
-      } else if (_editedInfo.protectionType.isEmpty) {
-        _protectionTypeFocus.requestFocus();
-      } else {
-        _serviceTypeFocus.requestFocus();
-      }
     }
   }
 
@@ -79,40 +96,109 @@ class _InstallationInfoCardState extends State<InstallationInfoCard> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
-            focusNode: _statusFocus,
-            initialValue: _editedInfo.status,
-            decoration: const InputDecoration(labelText: 'Status'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Status is required' : null,
-            onSaved: (value) => _editedInfo = _editedInfo.copyWith(
-              status: value ?? '',
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: DropdownButtonFormField<String>(
+              isExpanded: true,
+              value: _editedInfo.status.isEmpty ? null : _editedInfo.status,
+              decoration: InputDecoration(
+                labelText: 'Status',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              ),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black87,
+                fontWeight: FontWeight.normal,
+              ),
+              items: _statusTypes.map((status) {
+                return DropdownMenuItem(
+                  value: status,
+                  child: Text(status),
+                );
+              }).toList(),
+              validator: (value) =>
+                  value == null || value.isEmpty ? 'Status is required' : null,
+              onChanged: (value) {
+                setState(() {
+                  _editedInfo = _editedInfo.copyWith(status: value ?? '');
+                });
+              },
             ),
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_protectionTypeFocus),
           ),
-          TextFormField(
-            focusNode: _protectionTypeFocus,
-            initialValue: _editedInfo.protectionType,
-            decoration: const InputDecoration(labelText: 'Protection Type'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Protection type is required' : null,
-            onSaved: (value) => _editedInfo = _editedInfo.copyWith(
-              protectionType: value ?? '',
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: DropdownButtonFormField<String>(
+              value: _editedInfo.protectionType.isEmpty
+                  ? null
+                  : _editedInfo.protectionType,
+              decoration: InputDecoration(
+                labelText: 'Protection Type',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              ),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black87,
+                fontWeight: FontWeight.normal,
+              ),
+              items: _protectionTypes.map((type) {
+                return DropdownMenuItem(
+                  value: type,
+                  child: Text(type),
+                );
+              }).toList(),
+              validator: (value) => value == null || value.isEmpty
+                  ? 'Protection type is required'
+                  : null,
+              onChanged: (value) {
+                setState(() {
+                  _editedInfo =
+                      _editedInfo.copyWith(protectionType: value ?? '');
+                });
+              },
             ),
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_serviceTypeFocus),
           ),
-          TextFormField(
-            focusNode: _serviceTypeFocus,
-            initialValue: _editedInfo.serviceType,
-            decoration: const InputDecoration(labelText: 'Service Type'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Service type is required' : null,
-            onSaved: (value) => _editedInfo = _editedInfo.copyWith(
-              serviceType: value ?? '',
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: DropdownButtonFormField<String>(
+              value: _editedInfo.serviceType.isEmpty
+                  ? null
+                  : _editedInfo.serviceType,
+              decoration: InputDecoration(
+                labelText: 'Service Type',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              ),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black87,
+                fontWeight: FontWeight.normal,
+              ),
+              items: _serviceTypes.map((type) {
+                return DropdownMenuItem(
+                  value: type,
+                  child: Text(type),
+                );
+              }).toList(),
+              validator: (value) => value == null || value.isEmpty
+                  ? 'Service type is required'
+                  : null,
+              onChanged: (value) {
+                setState(() {
+                  _editedInfo = _editedInfo.copyWith(serviceType: value ?? '');
+                });
+              },
             ),
-            onFieldSubmitted: (_) => _saveInfo(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -163,7 +249,7 @@ class _InstallationInfoCardState extends State<InstallationInfoCard> {
             _isExpanded = expanded;
             if (!expanded && _isEditing) {
               _isEditing = false;
-              _editedInfo = widget.info;
+              _editedInfo = _validateInitialInfo(widget.info);
             }
           });
         },
