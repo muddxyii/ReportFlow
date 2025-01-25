@@ -82,6 +82,9 @@ class _BackflowListCardState extends State<BackflowListCard> {
             const SizedBox(height: 16),
             TextField(
               controller: _searchController,
+              textCapitalization: TextCapitalization.characters,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                 hintText: 'Search...',
                 prefixIcon: const Icon(Icons.search),
