@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/info_field.dart';
 
 class InstallationInfoCard extends StatefulWidget {
   final InstallationInfo info;
@@ -222,9 +223,9 @@ class _InstallationInfoCardState extends State<InstallationInfoCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Status: ${widget.info.status}'),
-        Text('Protection Type: ${widget.info.protectionType}'),
-        Text('Service Type: ${widget.info.serviceType}'),
+        InfoField(label: 'Status', value: widget.info.status),
+        InfoField(label: 'Protection Type', value: widget.info.protectionType),
+        InfoField(label: 'Service Type', value: widget.info.serviceType),
         Align(
           alignment: Alignment.centerRight,
           child: IconButton(
@@ -241,7 +242,7 @@ class _InstallationInfoCardState extends State<InstallationInfoCard> {
     return Card(
       child: ExpansionTile(
         title: Text(
-          'Installation Information',
+          'Installation',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onExpansionChanged: (expanded) {

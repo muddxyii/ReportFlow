@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/info_field.dart';
 
 class DeviceInfoCard extends StatefulWidget {
   final DeviceInfo info;
@@ -200,18 +201,26 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Permit Number: ${widget.info.permitNo}'),
-        Text('Meter Number: ${widget.info.meterNo}'),
-        Text('Serial Number: ${widget.info.serialNo}'),
-        Text('Type: ${widget.info.type}'),
-        Text('Manufacturer: ${widget.info.manufacturer}'),
-        Text('Size: ${widget.info.size}'),
-        Text('Model Number: ${widget.info.modelNo}'),
+        InfoField(
+            label: 'Permit Number',
+            value: widget.info.permitNo.isEmpty
+                ? 'Unknown'
+                : widget.info.permitNo),
+        InfoField(label: 'Meter Number', value: widget.info.meterNo),
+        InfoField(label: 'Serial Number', value: widget.info.serialNo),
+        InfoField(label: 'Type', value: widget.info.type),
+        InfoField(label: 'Manufacturer', value: widget.info.manufacturer),
+        InfoField(label: 'Size', value: widget.info.size),
+        InfoField(label: 'Model Number', value: widget.info.modelNo),
         const SizedBox(height: 16),
         const Text('Shutoff Valves:',
             style: TextStyle(fontWeight: FontWeight.bold)),
-        Text('Status: ${widget.info.shutoffValves.status}'),
-        Text('Comment: ${widget.info.shutoffValves.comment}'),
+        InfoField(label: 'Status', value: widget.info.shutoffValves.status),
+        InfoField(
+            label: 'Comment',
+            value: widget.info.shutoffValves.comment.isEmpty
+                ? '...'
+                : widget.info.shutoffValves.comment),
         Align(
           alignment: Alignment.centerRight,
           child: IconButton(
@@ -228,7 +237,7 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
     return Card(
       child: ExpansionTile(
         title: Text(
-          'Device Information',
+          'Device',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onExpansionChanged: (expanded) {

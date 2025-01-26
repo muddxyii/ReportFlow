@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/info_field.dart';
 
 class LocationInfoCard extends StatefulWidget {
   final LocationInfo info;
@@ -137,9 +138,10 @@ class _LocationInfoCardState extends State<LocationInfoCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Assembly Address: ${widget.info.assemblyAddress}'),
-        Text('On-site Location: ${widget.info.onSiteLocation}'),
-        Text('Primary Service: ${widget.info.primaryService}'),
+        InfoField(
+            label: 'Assembly Address', value: widget.info.assemblyAddress),
+        InfoField(label: 'On-site Location', value: widget.info.onSiteLocation),
+        InfoField(label: 'Primary Service', value: widget.info.primaryService),
         Align(
           alignment: Alignment.centerRight,
           child: IconButton(
@@ -156,7 +158,7 @@ class _LocationInfoCardState extends State<LocationInfoCard> {
     return Card(
       child: ExpansionTile(
         title: Text(
-          'Location Information',
+          'Location',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         onExpansionChanged: (expanded) {
