@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/form_input_field.dart';
 import 'package:report_flow/core/widgets/info_field.dart';
 
 class LocationInfoCard extends StatefulWidget {
@@ -81,40 +82,39 @@ class _LocationInfoCardState extends State<LocationInfoCard> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
-            focusNode: _assemblyAddressFocus,
+          FormInputField(
+            label: 'Assembly Address',
+            textInputType: TextInputType.streetAddress,
             initialValue: _editedInfo.assemblyAddress,
-            decoration: const InputDecoration(labelText: 'Assembly Address'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Assembly address is required' : null,
+            validateValue: true,
+            focusNode: _assemblyAddressFocus,
             onSaved: (value) => _editedInfo = _editedInfo.copyWith(
               assemblyAddress: value ?? '',
             ),
-            onFieldSubmitted: (_) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_onSiteLocationFocus),
           ),
-          TextFormField(
-            focusNode: _onSiteLocationFocus,
+          FormInputField(
+            label: 'On-site Location',
             initialValue: _editedInfo.onSiteLocation,
-            decoration: const InputDecoration(labelText: 'On-site Location'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'On-site location is required' : null,
+            validateValue: true,
+            focusNode: _onSiteLocationFocus,
             onSaved: (value) => _editedInfo = _editedInfo.copyWith(
               onSiteLocation: value ?? '',
             ),
-            onFieldSubmitted: (_) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_primaryServiceFocus),
           ),
-          TextFormField(
-            focusNode: _primaryServiceFocus,
+          FormInputField(
+            label: 'Primary Service',
+            textInputAction: TextInputAction.done,
             initialValue: _editedInfo.primaryService,
-            decoration: const InputDecoration(labelText: 'Primary Service'),
-            validator: (value) =>
-                value?.isEmpty ?? true ? 'Primary service is required' : null,
+            validateValue: true,
+            focusNode: _primaryServiceFocus,
             onSaved: (value) => _editedInfo = _editedInfo.copyWith(
               primaryService: value ?? '',
             ),
-            onFieldSubmitted: (_) => _saveInfo(),
+            onSubmitted: () => _saveInfo(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

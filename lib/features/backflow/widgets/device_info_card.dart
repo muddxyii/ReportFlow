@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/form_input_field.dart';
 import 'package:report_flow/core/widgets/info_field.dart';
 
 class DeviceInfoCard extends StatefulWidget {
@@ -85,73 +86,69 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextFormField(
-            focusNode: _permitFocus,
+          FormInputField(
+            label: 'Permit Number',
             initialValue: _editedInfo.permitNo,
-            decoration: const InputDecoration(labelText: 'Permit Number'),
+            focusNode: _permitFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(permitNo: value ?? ''),
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_meterFocus),
+            onSubmitted: () => FocusScope.of(context).requestFocus(_meterFocus),
           ),
-          TextFormField(
-            focusNode: _meterFocus,
+          FormInputField(
+            label: 'Meter Number',
             initialValue: _editedInfo.meterNo,
-            decoration: const InputDecoration(labelText: 'Meter Number'),
-            validator: (value) => value?.isEmpty ?? true ? 'Required' : null,
+            validateValue: true,
+            focusNode: _meterFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(meterNo: value ?? ''),
-            onFieldSubmitted: (_) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_serialFocus),
           ),
-          TextFormField(
-            focusNode: _serialFocus,
+          FormInputField(
+            label: 'Serial Number',
             initialValue: _editedInfo.serialNo,
-            decoration: const InputDecoration(labelText: 'Serial Number'),
-            validator: (value) => value?.isEmpty ?? true ? 'Required' : null,
+            validateValue: true,
+            focusNode: _serialFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(serialNo: value ?? ''),
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_typeFocus),
+            onSubmitted: () => FocusScope.of(context).requestFocus(_typeFocus),
           ),
-          TextFormField(
-            focusNode: _typeFocus,
+          FormInputField(
+            label: 'Type',
             initialValue: _editedInfo.type,
-            decoration: const InputDecoration(labelText: 'Type'),
-            validator: (value) => value?.isEmpty ?? true ? 'Required' : null,
+            validateValue: true,
+            focusNode: _typeFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(type: value ?? ''),
-            onFieldSubmitted: (_) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_manufacturerFocus),
           ),
-          TextFormField(
-            focusNode: _manufacturerFocus,
+          FormInputField(
+            label: 'Manufacturer',
             initialValue: _editedInfo.manufacturer,
-            decoration: const InputDecoration(labelText: 'Manufacturer'),
-            validator: (value) => value?.isEmpty ?? true ? 'Required' : null,
+            validateValue: true,
+            focusNode: _manufacturerFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(manufacturer: value ?? ''),
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_sizeFocus),
+            onSubmitted: () => FocusScope.of(context).requestFocus(_sizeFocus),
           ),
-          TextFormField(
-            focusNode: _sizeFocus,
+          FormInputField(
+            label: 'Size',
             initialValue: _editedInfo.size,
-            decoration: const InputDecoration(labelText: 'Size'),
-            validator: (value) => value?.isEmpty ?? true ? 'Required' : null,
+            validateValue: true,
+            focusNode: _sizeFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(size: value ?? ''),
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_modelFocus),
+            onSubmitted: () => FocusScope.of(context).requestFocus(_modelFocus),
           ),
-          TextFormField(
-            focusNode: _modelFocus,
+          FormInputField(
+            label: 'Model Number',
             initialValue: _editedInfo.modelNo,
-            decoration: const InputDecoration(labelText: 'Model Number'),
-            validator: (value) => value?.isEmpty ?? true ? 'Required' : null,
+            validateValue: true,
+            focusNode: _modelFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(modelNo: value ?? ''),
-            onFieldSubmitted: (_) =>
+            onSubmitted: () =>
                 FocusScope.of(context).requestFocus(_valveStatusFocus),
           ),
           const SizedBox(height: 16),
@@ -169,15 +166,15 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
             onFieldSubmitted: (_) =>
                 FocusScope.of(context).requestFocus(_valveCommentFocus),
           ),
-          TextFormField(
-            focusNode: _valveCommentFocus,
+          FormInputField(
+            label: 'Comment',
             initialValue: _editedInfo.shutoffValves.comment,
-            decoration: const InputDecoration(labelText: 'Comment'),
+            focusNode: _valveCommentFocus,
             onSaved: (value) => _editedInfo = _editedInfo.copyWith(
               shutoffValves:
                   _editedInfo.shutoffValves.copyWith(comment: value ?? ''),
             ),
-            onFieldSubmitted: (_) => _saveInfo(),
+            onSubmitted: () => _saveInfo(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
