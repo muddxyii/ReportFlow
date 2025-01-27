@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/form_dropdown_field.dart';
 import 'package:report_flow/core/widgets/form_input_field.dart';
 import 'package:report_flow/core/widgets/info_field.dart';
 
@@ -18,6 +19,34 @@ class DeviceInfoCard extends StatefulWidget {
 }
 
 class _DeviceInfoCardState extends State<DeviceInfoCard> {
+  static const List<String> _typeOptions = [
+    'DC',
+    'RP',
+    'PVB',
+    'SVB',
+    'SC',
+    'TYPE 2',
+  ];
+  static const List<String> _manuOptions = [
+    'WATTS',
+    'WILKINS',
+    'FEBCO',
+    'AMES',
+    'ARI',
+    'APOLLO',
+    'CONBRACO',
+    'HERSEY',
+    'FLOMATIC',
+    'BACKFLOW DIRECT'
+  ];
+  static const List<String> _sovOptions = [
+    'BOTH OK',
+    'BOTH CLOSED',
+    'BOTH VALVES',
+    '#1 VALVE',
+    '#2 VALVE'
+  ];
+
   bool _isEditing = false;
   bool _isExpanded = false;
 
@@ -26,11 +55,8 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
   final _permitFocus = FocusNode();
   final _meterFocus = FocusNode();
   final _serialFocus = FocusNode();
-  final _typeFocus = FocusNode();
-  final _manufacturerFocus = FocusNode();
   final _sizeFocus = FocusNode();
   final _modelFocus = FocusNode();
-  final _valveStatusFocus = FocusNode();
   final _valveCommentFocus = FocusNode();
 
   late DeviceInfo _editedInfo;
@@ -54,11 +80,8 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
     _permitFocus.dispose();
     _meterFocus.dispose();
     _serialFocus.dispose();
-    _typeFocus.dispose();
-    _manufacturerFocus.dispose();
     _sizeFocus.dispose();
     _modelFocus.dispose();
-    _valveStatusFocus.dispose();
     _valveCommentFocus.dispose();
     super.dispose();
   }
@@ -111,27 +134,28 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
             focusNode: _serialFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(serialNo: value ?? ''),
-            onSubmitted: () => FocusScope.of(context).requestFocus(_typeFocus),
           ),
-          FormInputField(
-            label: 'Type',
-            initialValue: _editedInfo.type,
-            validateValue: true,
-            focusNode: _typeFocus,
-            onSaved: (value) =>
-                _editedInfo = _editedInfo.copyWith(type: value ?? ''),
-            onSubmitted: () =>
-                FocusScope.of(context).requestFocus(_manufacturerFocus),
-          ),
-          FormInputField(
-            label: 'Manufacturer',
-            initialValue: _editedInfo.manufacturer,
-            validateValue: true,
-            focusNode: _manufacturerFocus,
-            onSaved: (value) =>
-                _editedInfo = _editedInfo.copyWith(manufacturer: value ?? ''),
-            onSubmitted: () => FocusScope.of(context).requestFocus(_sizeFocus),
-          ),
+          SizedBox(height: 36),
+          FormDropdownField(
+              label: 'Type',
+              value: _editedInfo.type.isEmpty ? null : _editedInfo.type,
+              items: _typeOptions,
+              onChanged: (value) {
+                setState(() {
+                  _editedInfo = _editedInfo.copyWith(type: value ?? '');
+                });
+              }),
+          FormDropdownField(
+              label: 'Manufacturer',
+              value: _editedInfo.manufacturer.isEmpty
+                  ? null
+                  : _editedInfo.manufacturer,
+              items: _manuOptions,
+              onChanged: (value) {
+                setState(() {
+                  _editedInfo = _editedInfo.copyWith(manufacturer: value ?? '');
+                });
+              }),
           FormInputField(
             label: 'Size',
             initialValue: _editedInfo.size,
@@ -148,23 +172,24 @@ class _DeviceInfoCardState extends State<DeviceInfoCard> {
             focusNode: _modelFocus,
             onSaved: (value) =>
                 _editedInfo = _editedInfo.copyWith(modelNo: value ?? ''),
-            onSubmitted: () =>
-                FocusScope.of(context).requestFocus(_valveStatusFocus),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           const Text('Shutoff Valves:',
               style: TextStyle(fontWeight: FontWeight.bold)),
-          TextFormField(
-            focusNode: _valveStatusFocus,
-            initialValue: _editedInfo.shutoffValves.status,
-            decoration: const InputDecoration(labelText: 'Status'),
-            validator: (value) => value?.isEmpty ?? true ? 'Required' : null,
-            onSaved: (value) => _editedInfo = _editedInfo.copyWith(
-              shutoffValves:
-                  _editedInfo.shutoffValves.copyWith(status: value ?? ''),
-            ),
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_valveCommentFocus),
+          const SizedBox(height: 16),
+          FormDropdownField(
+            label: 'Status',
+            value: _editedInfo.shutoffValves.status.isEmpty
+                ? null
+                : _editedInfo.shutoffValves.status,
+            items: _sovOptions,
+            onChanged: (value) {
+              setState(() {
+                _editedInfo = _editedInfo.copyWith(
+                    shutoffValves: _editedInfo.shutoffValves
+                        .copyWith(status: value ?? ''));
+              });
+            },
           ),
           FormInputField(
             label: 'Comment',
