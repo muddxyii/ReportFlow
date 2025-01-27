@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/form_dropdown_field.dart';
 import 'package:report_flow/core/widgets/info_field.dart';
 
 class InstallationInfoCard extends StatefulWidget {
@@ -97,109 +98,39 @@ class _InstallationInfoCardState extends State<InstallationInfoCard> {
       key: _formKey,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: DropdownButtonFormField<String>(
-              isExpanded: true,
-              value: _editedInfo.status.isEmpty ? null : _editedInfo.status,
-              decoration: InputDecoration(
-                labelText: 'Status',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              ),
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black87,
-                fontWeight: FontWeight.normal,
-              ),
-              items: _statusTypes.map((status) {
-                return DropdownMenuItem(
-                  value: status,
-                  child: Text(status),
-                );
-              }).toList(),
-              validator: (value) =>
-                  value == null || value.isEmpty ? 'Status is required' : null,
-              onChanged: (value) {
-                setState(() {
-                  _editedInfo = _editedInfo.copyWith(status: value ?? '');
-                });
-              },
-            ),
+          FormDropdownField(
+            label: 'Status',
+            value: _editedInfo.status.isEmpty ? null : _editedInfo.status,
+            items: _statusTypes,
+            onChanged: (value) {
+              setState(() {
+                _editedInfo = _editedInfo.copyWith(status: value ?? '');
+              });
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: DropdownButtonFormField<String>(
-              value: _editedInfo.protectionType.isEmpty
-                  ? null
-                  : _editedInfo.protectionType,
-              decoration: InputDecoration(
-                labelText: 'Protection Type',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              ),
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black87,
-                fontWeight: FontWeight.normal,
-              ),
-              items: _protectionTypes.map((type) {
-                return DropdownMenuItem(
-                  value: type,
-                  child: Text(type),
-                );
-              }).toList(),
-              validator: (value) => value == null || value.isEmpty
-                  ? 'Protection type is required'
-                  : null,
-              onChanged: (value) {
-                setState(() {
-                  _editedInfo =
-                      _editedInfo.copyWith(protectionType: value ?? '');
-                });
-              },
-            ),
+          FormDropdownField(
+            label: 'Protection Type',
+            value: _editedInfo.protectionType.isEmpty
+                ? null
+                : _editedInfo.protectionType,
+            items: _protectionTypes,
+            onChanged: (value) {
+              setState(() {
+                _editedInfo = _editedInfo.copyWith(protectionType: value ?? '');
+              });
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: DropdownButtonFormField<String>(
-              value: _editedInfo.serviceType.isEmpty
-                  ? null
-                  : _editedInfo.serviceType,
-              decoration: InputDecoration(
-                labelText: 'Service Type',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              ),
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black87,
-                fontWeight: FontWeight.normal,
-              ),
-              items: _serviceTypes.map((type) {
-                return DropdownMenuItem(
-                  value: type,
-                  child: Text(type),
-                );
-              }).toList(),
-              validator: (value) => value == null || value.isEmpty
-                  ? 'Service type is required'
-                  : null,
-              onChanged: (value) {
-                setState(() {
-                  _editedInfo = _editedInfo.copyWith(serviceType: value ?? '');
-                });
-              },
-            ),
+          FormDropdownField(
+            label: 'Service Type',
+            value: _editedInfo.serviceType.isEmpty
+                ? null
+                : _editedInfo.serviceType,
+            items: _serviceTypes,
+            onChanged: (value) {
+              setState(() {
+                _editedInfo = _editedInfo.copyWith(serviceType: value ?? '');
+              });
+            },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
