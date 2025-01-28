@@ -3,7 +3,7 @@ import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/features/backflow/widgets/device_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/installation_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/location_info_card.dart';
-import 'package:report_flow/features/backflow/widgets/test/test_info_card.dart';
+import 'package:report_flow/features/backflow/widgets/test_info_card.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
 class BackflowPage extends StatefulWidget {
