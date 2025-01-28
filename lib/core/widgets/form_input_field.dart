@@ -18,7 +18,7 @@ class FormInputField extends StatelessWidget {
   /// - Form submission handling
   const FormInputField({
     required this.label,
-    required this.initialValue,
+    this.initialValue = '',
     this.validateValue = false,
     this.onSaved,
     this.focusNode,
