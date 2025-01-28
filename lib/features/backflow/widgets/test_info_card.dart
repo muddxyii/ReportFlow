@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/features/test_input/test_input_page.dart';
 
 class TestInfoCard extends StatefulWidget {
   final Backflow backflow;
@@ -32,6 +33,33 @@ class _TestInfoCardState extends State<TestInfoCard> {
   }
 
   @override
+  void didUpdateWidget(TestInfoCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.backflow != widget.backflow) {
+      _editedBackflow = widget.backflow;
+    }
+  }
+
+  void _navigateToTestInput() async {
+    final test = await Navigator.push<Test>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TestInputPage(
+          onSave: (test) => widget.onInitialTestUpdate(test),
+        ),
+      ),
+    );
+
+    if (test != null) {
+      setState(() {
+        _editedBackflow = _editedBackflow.copyWith(
+          initialTest: test,
+        );
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
@@ -47,9 +75,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement test functionality
-                },
+                onPressed: _navigateToTestInput,
                 child: const Text('Perform Initial Test'),
               ),
             ),
