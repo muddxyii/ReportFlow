@@ -507,6 +507,24 @@ class Test {
         'vacuumBreaker': vacuumBreaker.toJson(),
         'testerProfile': testerProfile.toJson(),
       };
+
+  Test copyWith({
+    String? linePressure,
+    CheckValve? checkValve1,
+    CheckValve? checkValve2,
+    ReliefValve? reliefValve,
+    VacuumBreaker? vacuumBreaker,
+    TesterProfile? testerProfile,
+  }) {
+    return Test(
+      linePressure: linePressure ?? this.linePressure,
+      checkValve1: checkValve1 ?? this.checkValve1,
+      checkValve2: checkValve2 ?? this.checkValve2,
+      reliefValve: reliefValve ?? this.reliefValve,
+      vacuumBreaker: vacuumBreaker ?? this.vacuumBreaker,
+      testerProfile: testerProfile ?? this.testerProfile,
+    );
+  }
 }
 
 //region Repair Info
