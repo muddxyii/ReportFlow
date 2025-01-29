@@ -353,6 +353,16 @@ class CheckValve {
         'value': value,
         'closedTight': closedTight,
       };
+
+  CheckValve copyWith({
+    String? value,
+    bool? closedTight,
+  }) {
+    return CheckValve(
+      value: value ?? this.value,
+      closedTight: closedTight ?? this.closedTight,
+    );
+  }
 }
 
 class ReliefValve {
