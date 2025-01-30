@@ -46,6 +46,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
       MaterialPageRoute(
         builder: (context) => TestInputPage(
           onSave: (test) => widget.onInitialTestUpdate(test),
+          deviceType: _editedBackflow.deviceInfo.type,
         ),
       ),
     );
