@@ -612,7 +612,7 @@ class ReliefValveRepairs {
 
   Map<String, dynamic> toJson() => {
         'cleaned': cleaned,
-        'checkDisc': rubberKit,
+        'rubberKit': rubberKit,
         'discHolder': discHolder,
         'spring': spring,
         'guide': guide,
@@ -653,7 +653,7 @@ class VacuumBreakerRepairs {
 
   Map<String, dynamic> toJson() => {
         'cleaned': cleaned,
-        'checkDisc': rubberKit,
+        'rubberKit': rubberKit,
         'discHolder': discHolder,
         'spring': spring,
         'guide': guide,
