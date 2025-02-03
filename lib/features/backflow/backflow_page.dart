@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
-import 'package:report_flow/features/backflow/widgets/device_info_card.dart';
+import 'package:report_flow/features/backflow/widgets/device/device_info_card.dart';
+import 'package:report_flow/features/backflow/widgets/device/permit_info_card.dart';
+import 'package:report_flow/features/backflow/widgets/device/sov_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/installation_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/location_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/test_info_card.dart';
@@ -125,10 +127,16 @@ class _BackflowPageState extends State<BackflowPage> {
             onInfoUpdate: _updateInstallationInfo,
           ),
           const SizedBox(height: 8),
+          PermitInfoCard(
+              info: backflow.deviceInfo, onInfoUpdate: _updateDeviceInfo),
+          const SizedBox(height: 8),
           DeviceInfoCard(
             info: backflow.deviceInfo,
             onInfoUpdate: _updateDeviceInfo,
           ),
+          const SizedBox(height: 8),
+          SovInfoCard(
+              info: backflow.deviceInfo, onInfoUpdate: _updateDeviceInfo),
           const SizedBox(height: 8),
           TestInfoCard(
             backflow: backflow,
