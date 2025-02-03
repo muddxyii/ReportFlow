@@ -42,7 +42,7 @@ class BackflowTestEvaluator {
   /// **Purpose:** Evaluates if checks closed tight;
   /// **Behaviour:** Updates statusMessage and returns false if checks did not close tight.
   bool _didChecksCt(bool cv1Ct, bool cv2Ct) {
-    if (!cv1Ct && cv2Ct) {
+    if (!cv1Ct && !cv2Ct) {
       statusMessage = 'Both checks didn\'t close tight';
       return false;
     } else if (!cv1Ct) {
