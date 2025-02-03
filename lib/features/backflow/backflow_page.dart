@@ -5,7 +5,7 @@ import 'package:report_flow/features/backflow/widgets/device/permit_info_card.da
 import 'package:report_flow/features/backflow/widgets/device/sov_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/installation_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/location_info_card.dart';
-import 'package:report_flow/features/backflow/widgets/test_info_card.dart';
+import 'package:report_flow/features/backflow/widgets/test/test_info_card.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
 class BackflowPage extends StatefulWidget {
