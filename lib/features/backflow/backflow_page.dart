@@ -82,6 +82,17 @@ class _BackflowPageState extends State<BackflowPage> {
     widget.onInfoUpdate(backflow);
   }
 
+  void _resetTestData() {
+    setState(() {
+      backflow = backflow.copyWith(
+          initialTest: Test.empty(),
+          repairs: Repairs.empty(),
+          finalTest: Test.empty(),
+          isComplete: false);
+    });
+    widget.onInfoUpdate(backflow);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,6 +147,7 @@ class _BackflowPageState extends State<BackflowPage> {
             onInitialTestUpdate: _updateInitialTest,
             onRepairsUpdate: _updateRepairs,
             onFinalTestUpdate: _updateFinalTest,
+            onResetTestData: _resetTestData,
           ),
         ],
       ),

@@ -10,6 +10,7 @@ class TestInfoCard extends StatefulWidget {
   final Function(Test) onInitialTestUpdate;
   final Function(Repairs) onRepairsUpdate;
   final Function(Test) onFinalTestUpdate;
+  final Function() onResetTestData;
 
   const TestInfoCard({
     super.key,
@@ -17,6 +18,7 @@ class TestInfoCard extends StatefulWidget {
     required this.onInitialTestUpdate,
     required this.onRepairsUpdate,
     required this.onFinalTestUpdate,
+    required this.onResetTestData,
   });
 
   @override
@@ -120,6 +122,29 @@ class _TestInfoCardState extends State<TestInfoCard> {
     widget.onRepairsUpdate(repairs);
   }
 
+  void _resetTestData() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Reset Test Data"),
+        content: const Text("Are you sure you want to reset all test data?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              widget.onResetTestData();
+              Navigator.pop(context);
+            },
+            child: const Text("Reset"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final hasInitialTest = _editedBackflow.initialTest.linePressure.isNotEmpty;
@@ -144,9 +169,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
                     Icons.manage_history,
                     size: 28,
                   ),
-                  onPressed: () {
-                    // TODO: Implement reset logic
-                  },
+                  onPressed: _resetTestData,
                 ),
               ],
             ),
