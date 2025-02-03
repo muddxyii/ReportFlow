@@ -35,6 +35,8 @@ class BackflowTestEvaluator {
     }
   }
 
+  bool isPassing(String icon) => icon == passIcon;
+
   String getStatusMessage() => statusMessage;
 
   /// **Purpose:** Evaluates if checks closed tight;
