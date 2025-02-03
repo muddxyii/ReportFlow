@@ -50,6 +50,14 @@ class _DeviceInfoCardState extends BaseDeviceCardState<DeviceInfoCard> {
   }
 
   @override
+  void didUpdateWidget(DeviceInfoCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.info != widget.info) {
+      editedInfo = widget.info;
+    }
+  }
+
+  @override
   Widget buildForm() {
     return Form(
       key: formKey,
