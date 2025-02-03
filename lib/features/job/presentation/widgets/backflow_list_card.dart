@@ -31,7 +31,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
   void didUpdateWidget(BackflowListCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.list != widget.list) {
-      _filteredBackflows = widget.list.backflows.entries.toList();
+      _filterBackflows('');
       _searchController.text = '';
     }
   }
