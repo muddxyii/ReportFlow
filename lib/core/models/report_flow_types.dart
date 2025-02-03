@@ -349,6 +349,8 @@ class CheckValve {
         closedTight: json['closedTight'] as bool? ?? false,
       );
 
+  factory CheckValve.empty() => CheckValve(value: '', closedTight: false);
+
   Map<String, dynamic> toJson() => {
         'value': value,
         'closedTight': closedTight,
@@ -379,6 +381,11 @@ class ReliefValve {
         opened: json['opened'] as bool? ?? false,
       );
 
+  factory ReliefValve.empty() => ReliefValve(
+        value: '',
+        opened: false,
+      );
+
   Map<String, dynamic> toJson() => {
         'value': value,
         'opened': opened,
@@ -402,6 +409,12 @@ class AirInlet {
         opened: json['opened'] as bool? ?? false,
       );
 
+  factory AirInlet.empty() => AirInlet(
+        value: '',
+        leaked: false,
+        opened: false,
+      );
+
   Map<String, dynamic> toJson() => {
         'value': value,
         'leaked': leaked,
@@ -421,6 +434,11 @@ class Check {
   factory Check.fromJson(Map<String, dynamic> json) => Check(
         value: json['value']?.toString() ?? '',
         leaked: json['leaked'] as bool? ?? false,
+      );
+
+  factory Check.empty() => Check(
+        value: '',
+        leaked: false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -444,6 +462,12 @@ class VacuumBreaker {
         backPressure: json['backPressure'] as bool? ?? false,
         airInlet: AirInlet.fromJson(json['airInlet']),
         check: Check.fromJson(json['check']),
+      );
+
+  factory VacuumBreaker.empty() => VacuumBreaker(
+        backPressure: false,
+        airInlet: AirInlet.empty(),
+        check: Check.empty(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -473,6 +497,13 @@ class TesterProfile {
         certNo: json['certNo']?.toString() ?? '',
         gaugeKit: json['gaugeKit']?.toString() ?? '',
         date: json['date']?.toString() ?? '',
+      );
+
+  factory TesterProfile.empty() => TesterProfile(
+        name: '',
+        certNo: '',
+        gaugeKit: '',
+        date: '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -507,6 +538,15 @@ class Test {
         reliefValve: ReliefValve.fromJson(json['reliefValve']),
         vacuumBreaker: VacuumBreaker.fromJson(json['vacuumBreaker']),
         testerProfile: TesterProfile.fromJson(json['testerProfile']),
+      );
+
+  factory Test.empty() => Test(
+        linePressure: '',
+        checkValve1: CheckValve.empty(),
+        checkValve2: CheckValve.empty(),
+        reliefValve: ReliefValve.empty(),
+        vacuumBreaker: VacuumBreaker.empty(),
+        testerProfile: TesterProfile.empty(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -569,6 +609,16 @@ class CheckValveRepairs {
         other: json['other'] as bool? ?? false,
       );
 
+  factory CheckValveRepairs.empty() => CheckValveRepairs(
+        cleaned: false,
+        checkDisc: false,
+        discHolder: false,
+        spring: false,
+        guide: false,
+        seat: false,
+        other: false,
+      );
+
   Map<String, dynamic> toJson() => {
         'cleaned': cleaned,
         'checkDisc': checkDisc,
@@ -608,6 +658,16 @@ class ReliefValveRepairs {
         guide: json['guide'] as bool? ?? false,
         seat: json['seat'] as bool? ?? false,
         other: json['other'] as bool? ?? false,
+      );
+
+  factory ReliefValveRepairs.empty() => ReliefValveRepairs(
+        cleaned: false,
+        rubberKit: false,
+        discHolder: false,
+        spring: false,
+        guide: false,
+        seat: false,
+        other: false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -651,6 +711,16 @@ class VacuumBreakerRepairs {
         other: json['other'] as bool? ?? false,
       );
 
+  factory VacuumBreakerRepairs.empty() => VacuumBreakerRepairs(
+        cleaned: false,
+        rubberKit: false,
+        discHolder: false,
+        spring: false,
+        guide: false,
+        seat: false,
+        other: false,
+      );
+
   Map<String, dynamic> toJson() => {
         'cleaned': cleaned,
         'rubberKit': rubberKit,
@@ -687,6 +757,14 @@ class Repairs {
         vacuumBreakerRepairs:
             VacuumBreakerRepairs.fromJson(json['vacuumBreakerRepairs']),
         testerProfile: TesterProfile.fromJson(json['testerProfile']),
+      );
+
+  factory Repairs.empty() => Repairs(
+        checkValve1Repairs: CheckValveRepairs.empty(),
+        checkValve2Repairs: CheckValveRepairs.empty(),
+        reliefValveRepairs: ReliefValveRepairs.empty(),
+        vacuumBreakerRepairs: VacuumBreakerRepairs.empty(),
+        testerProfile: TesterProfile.empty(),
       );
 
   Map<String, dynamic> toJson() => {
