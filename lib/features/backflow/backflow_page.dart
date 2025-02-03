@@ -93,6 +93,10 @@ class _BackflowPageState extends State<BackflowPage> {
     widget.onInfoUpdate(backflow);
   }
 
+  String _getPageTitle() {
+    return '${backflow.deviceInfo.serialNo} Details';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +107,7 @@ class _BackflowPageState extends State<BackflowPage> {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('Backflow Details'),
+      title: Text(_getPageTitle()),
       actions: [
         IconButton(
           icon: const Icon(Icons.settings),
