@@ -65,6 +65,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
             }
           },
           deviceType: _editedBackflow.deviceInfo.type,
+          isFinalTest: isFinalTest,
         ),
       ),
     );

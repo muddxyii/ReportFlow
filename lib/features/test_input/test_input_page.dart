@@ -9,9 +9,13 @@ import 'package:report_flow/features/settings/presentation/settings_page.dart';
 class TestInputPage extends StatefulWidget {
   final Function(Test) onSave;
   final String deviceType;
+  final bool isFinalTest;
 
   const TestInputPage(
-      {super.key, required this.onSave, required this.deviceType});
+      {super.key,
+      required this.onSave,
+      required this.deviceType,
+      this.isFinalTest = false});
 
   @override
   State<TestInputPage> createState() => _TestInputPageState();
@@ -91,6 +95,9 @@ class _TestInputPageState extends State<TestInputPage> {
   }
 
   String _getPageTitle() {
+    if (widget.isFinalTest) {
+      return 'Final ${widget.deviceType} Test';
+    }
     return 'Initial ${widget.deviceType} Test';
   }
 
