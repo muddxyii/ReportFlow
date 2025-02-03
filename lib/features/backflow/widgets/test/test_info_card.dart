@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:report_flow/core/logic/backflow_test_evaluator.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/features/backflow/widgets/test/test_info.dart';
 import 'package:report_flow/features/backflow/widgets/test/test_status_card.dart';
@@ -9,7 +10,6 @@ class TestInfoCard extends StatefulWidget {
   final Function(Test) onInitialTestUpdate;
   final Function(Repairs) onRepairsUpdate;
   final Function(Test) onFinalTestUpdate;
-  final Function(bool) onCompletionStatusUpdate;
 
   const TestInfoCard({
     super.key,
@@ -17,7 +17,6 @@ class TestInfoCard extends StatefulWidget {
     required this.onInitialTestUpdate,
     required this.onRepairsUpdate,
     required this.onFinalTestUpdate,
-    required this.onCompletionStatusUpdate,
   });
 
   @override
@@ -26,6 +25,7 @@ class TestInfoCard extends StatefulWidget {
 
 class _TestInfoCardState extends State<TestInfoCard> {
   late Backflow _editedBackflow;
+  final _testEvaluator = BackflowTestEvaluator();
 
   @override
   void initState() {
@@ -46,22 +46,28 @@ class _TestInfoCardState extends State<TestInfoCard> {
       context,
       MaterialPageRoute(
         builder: (context) => TestInputPage(
-          onSave: (test) => isFinalTest
-              ? widget.onFinalTestUpdate(test)
-              : widget.onInitialTestUpdate(test),
+          onSave: (test) async {
+            bool isInitialTest = !isFinalTest;
+            if (isInitialTest) {
+              String statusIcon = _testEvaluator.getStatusIcon(
+                test,
+                _editedBackflow.deviceInfo.type,
+              );
+
+              if (_testEvaluator.isPassing(statusIcon)) {
+                // If initial test passes, use it as final test
+                await widget.onFinalTestUpdate(test);
+              } else {
+                await widget.onInitialTestUpdate(test);
+              }
+            } else {
+              await widget.onFinalTestUpdate(test);
+            }
+          },
           deviceType: _editedBackflow.deviceInfo.type,
         ),
       ),
     );
-
-    if (test != null) {
-      setState(() {
-        _editedBackflow = _editedBackflow.copyWith(
-          initialTest: isFinalTest ? _editedBackflow.initialTest : test,
-          finalTest: isFinalTest ? test : _editedBackflow.finalTest,
-        );
-      });
-    }
   }
 
   void _navigateToRepairs() async {
@@ -115,6 +121,10 @@ class _TestInfoCardState extends State<TestInfoCard> {
 
   @override
   Widget build(BuildContext context) {
+    final hasInitialTest = _editedBackflow.initialTest.linePressure.isNotEmpty;
+    final hasRepairInfo = _editedBackflow.repairs.testerProfile.name.isNotEmpty;
+    final hasFinalTest = _editedBackflow.finalTest.linePressure.isNotEmpty;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -140,84 +150,108 @@ class _TestInfoCardState extends State<TestInfoCard> {
               ],
             ),
             const SizedBox(height: 16),
-            if (_editedBackflow.finalTest.linePressure.isNotEmpty) ...[
-              TestStatusCard(
-                icon: Icons.check_circle,
-                iconColor: Colors.green,
-                title: 'Final Test Completed',
-                content: [TestInfo(test: _editedBackflow.finalTest)],
-              ),
-            ] else ...[
-              if (_editedBackflow.initialTest.linePressure.isEmpty)
-                TestStatusCard(
-                  icon: Icons.pending,
-                  iconColor: Colors.grey,
-                  title: 'Initial Test Required',
-                  content: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => _navigateToTestInput(),
-                        child: const Text('Perform Initial Test'),
-                      ),
-                    ),
-                  ],
-                )
+            // No test data - prompt for initial test
+            if (!hasFinalTest && !hasInitialTest)
+              _getInitialTestPrompt()
+            // Only final test exists - show final card
+            else if (hasFinalTest && !hasInitialTest)
+              _getFinalTestCard()
+            // Has initial test - show repair flow
+            else if (hasInitialTest) ...[
+              _getInitialTestCard(),
+              //No repairs - prompt for repairs
+              if (!hasRepairInfo)
+                _getRepairPrompt()
+              // Has repairs - show repair card and final test prompt/card
               else ...[
-                TestStatusCard(
-                  icon: Icons.cancel,
-                  iconColor: Colors.red,
-                  title: 'Initial Test',
-                  content: [TestInfo(test: _editedBackflow.initialTest)],
-                ),
-                if (_editedBackflow.repairs.testerProfile.name.isEmpty)
-                  TestStatusCard(
-                    icon: Icons.build,
-                    iconColor: Colors.orange,
-                    title: 'Repairs Required',
-                    content: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _navigateToRepairs,
-                          child: const Text('Record Repairs'),
-                        ),
-                      ),
-                    ],
-                  )
-                else ...[
-                  TestStatusCard(
-                    icon: Icons.build,
-                    iconColor: Colors.orange,
-                    title: 'Repairs Completed',
-                    content: [
-                      Text(
-                          'Tester: ${_editedBackflow.repairs.testerProfile.name}'),
-                      Text(
-                          'Date: ${_editedBackflow.repairs.testerProfile.date}'),
-                    ],
-                  ),
-                  TestStatusCard(
-                    icon: Icons.pending,
-                    iconColor: Colors.grey,
-                    title: 'Final Test Required',
-                    content: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () =>
-                              _navigateToTestInput(isFinalTest: true),
-                          child: const Text('Perform Final Test'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                _getRepairCard(),
+                hasFinalTest ? _getFinalTestCard() : _getFinalTestPrompt()
               ],
             ],
           ],
         ),
       ),
+    );
+  }
+
+  Widget _getInitialTestPrompt() {
+    return TestStatusCard(
+      icon: Icons.pending,
+      iconColor: Colors.grey,
+      title: 'Initial Test Required',
+      content: [
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () => _navigateToTestInput(),
+            child: const Text('Perform Initial Test'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getInitialTestCard() {
+    return TestStatusCard(
+      icon: Icons.cancel,
+      iconColor: Colors.red,
+      title: 'Initial Test Failed',
+      content: [TestInfo(test: _editedBackflow.initialTest)],
+    );
+  }
+
+  Widget _getRepairPrompt() {
+    return TestStatusCard(
+      icon: Icons.build,
+      iconColor: Colors.orange,
+      title: 'Repairs Required',
+      content: [
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: _navigateToRepairs,
+            child: const Text('Record Repairs'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getRepairCard() {
+    return TestStatusCard(
+      icon: Icons.build,
+      iconColor: Colors.orange,
+      title: 'Repairs Completed',
+      content: [
+        Text('Tester: ${_editedBackflow.repairs.testerProfile.name}'),
+        Text('Date: ${_editedBackflow.repairs.testerProfile.date}'),
+      ],
+    );
+  }
+
+  Widget _getFinalTestPrompt() {
+    return TestStatusCard(
+      icon: Icons.pending,
+      iconColor: Colors.grey,
+      title: 'Final Test Required',
+      content: [
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () => _navigateToTestInput(isFinalTest: true),
+            child: const Text('Perform Final Test'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getFinalTestCard() {
+    return TestStatusCard(
+      icon: Icons.check_circle,
+      iconColor: Colors.green,
+      title: 'Final Test Completed',
+      content: [TestInfo(test: _editedBackflow.finalTest)],
     );
   }
 }
