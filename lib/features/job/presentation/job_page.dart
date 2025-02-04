@@ -5,6 +5,7 @@ import 'package:report_flow/core/data/job_repository.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/features/job/presentation/widgets/backflow_list_card.dart';
 import 'package:report_flow/features/job/presentation/widgets/customer_info_card.dart';
+import 'package:report_flow/features/job/presentation/widgets/job_header_card.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
 enum JobLoadingState { initial, loading, loaded, error }
@@ -165,16 +166,10 @@ class _JobPageState extends State<JobPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                _jobData!.details.jobName,
-                style: Theme.of(context).textTheme.headlineMedium,
+              JobHeaderCard(
+                jobName: _jobData!.details.jobName,
+                jobType: _jobData!.details.jobType,
               ),
-              const SizedBox(height: 8),
-              Text(
-                'Task: ${_jobData!.details.jobType}',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 8),
               CustomerInfoCard(
                 info: _jobData!.customerInformation,
                 onInfoUpdate: (updatedInfo) => _updateJob(
