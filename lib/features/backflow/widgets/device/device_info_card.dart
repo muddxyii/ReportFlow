@@ -42,6 +42,12 @@ class _DeviceInfoCardState extends BaseDeviceCardState<DeviceInfoCard> {
   final _modelFocus = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    addFocusNodes([_serialFocus, _sizeFocus, _modelFocus]);
+  }
+
+  @override
   void dispose() {
     _serialFocus.dispose();
     _sizeFocus.dispose();

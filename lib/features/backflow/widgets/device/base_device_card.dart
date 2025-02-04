@@ -17,12 +17,29 @@ abstract class BaseDeviceCard extends StatefulWidget {
 abstract class BaseDeviceCardState<T extends BaseDeviceCard> extends State<T> {
   bool _isEditing = false;
   final _formKey = GlobalKey<FormState>();
+  final List<FocusNode> _focusNodes = [];
   late DeviceInfo _editedInfo;
 
   @override
   void initState() {
     super.initState();
     _editedInfo = widget.info;
+  }
+
+  void addFocusNodes(List<FocusNode> nodes) {
+    for (final node in nodes) {
+      _focusNodes.add(node);
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_focusNodes.isNotEmpty) {
+      for (final node in _focusNodes) {
+        node.dispose();
+      }
+    }
+    super.dispose();
   }
 
   void _toggleEdit() {
@@ -34,12 +51,24 @@ abstract class BaseDeviceCardState<T extends BaseDeviceCard> extends State<T> {
     });
   }
 
+  void _focusFirstInvalid() {
+    for (final node in _focusNodes.reversed) {
+      final nodeField =
+          node.context?.findAncestorWidgetOfExactType<TextFormField>();
+      if (nodeField?.controller?.text.isEmpty ?? true) {
+        node.requestFocus();
+      }
+    }
+  }
+
   void saveInfo() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       widget.onInfoUpdate(_editedInfo);
       _toggleEdit();
     }
+
+    _focusFirstInvalid();
   }
 
   Widget buildForm();

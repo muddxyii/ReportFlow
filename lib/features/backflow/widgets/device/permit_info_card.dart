@@ -19,6 +19,12 @@ class _PermitInfoCardState extends BaseDeviceCardState<PermitInfoCard> {
   final _meterFocus = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    addFocusNodes([_meterFocus]);
+  }
+
+  @override
   void dispose() {
     _permitFocus.dispose();
     _meterFocus.dispose();
