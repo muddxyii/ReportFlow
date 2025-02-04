@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:report_flow/core/data/job_repository.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/core/widgets/info_field.dart';
 import 'package:report_flow/features/job/presentation/job_page.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
@@ -143,31 +144,34 @@ class _JobBrowserPageState extends State<JobBrowserPage> {
                                 children: [
                                   Text(
                                     job.details.jobName,
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  InfoField(
+                                    label: job.details.jobType,
+                                    value:
+                                        '${job.backflowList.backflows.length} Backflow${job.backflowList.backflows.length == 1 ? '' : 's'}',
+                                  ),
+                                  InfoField(
+                                    label: 'Last Modified',
+                                    value: DateFormat('MM/dd/yy hh:mm a')
+                                        .format(DateTime.parse(
+                                                job.metadata.lastModifiedDate)
+                                            .toLocal()),
                                   ),
                                   const SizedBox(height: 8),
-                                  Text(
-                                    'Task: ${job.details.jobType}',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'Backflows: ${job.backflowList.backflows.length}',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'Last modified: ${DateFormat('MM/dd/yy hh:mm a').format(DateTime.parse(job.metadata.lastModifiedDate).toLocal())}',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  const SizedBox(height: 16),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        onPressed: () =>
+                                            _confirmDelete(context, job),
+                                      ),
+                                      const SizedBox(width: 8),
                                       IconButton(
                                         icon: const Icon(Icons.edit),
                                         onPressed: () async {
@@ -185,12 +189,6 @@ class _JobBrowserPageState extends State<JobBrowserPage> {
                                             ),
                                           );
                                         },
-                                      ),
-                                      const SizedBox(width: 8),
-                                      IconButton(
-                                        icon: const Icon(Icons.delete),
-                                        onPressed: () =>
-                                            _confirmDelete(context, job),
                                       ),
                                     ],
                                   ),
