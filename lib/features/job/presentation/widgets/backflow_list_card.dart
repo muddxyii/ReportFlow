@@ -114,16 +114,30 @@ class _BackflowListCardState extends State<BackflowListCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                              device.deviceInfo.serialNo.isNotEmpty
-                                  ? device.deviceInfo.serialNo
-                                  : "Unknown Serial",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  )),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  device.deviceInfo.serialNo.isNotEmpty
+                                      ? device.deviceInfo.serialNo
+                                      : "Unknown Serial",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                  // TODO: Implement more_vert bar settings
+                                  // Stuff like 'Mark As Complete'
+                                  onPressed: null,
+                                  icon: const Icon(Icons.more_vert))
+                            ],
+                          ),
                           Row(
                             children: [
                               Expanded(
@@ -152,12 +166,17 @@ class _BackflowListCardState extends State<BackflowListCard> {
                                   device.locationInfo.onSiteLocation.isNotEmpty
                                       ? device.locationInfo.onSiteLocation
                                       : "Unknown"),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              if (device.isComplete)
+                                IconButton(
+                                    // TODO: Implement pdf gen / sharing
+                                    onPressed: null,
+                                    icon: const Icon(Icons.ios_share)),
                               IconButton(
-                                icon: const Icon(Icons.arrow_right_alt),
+                                icon: const Icon(Icons.assignment),
                                 onPressed: () async {
                                   if (!mounted) return;
                                   await Navigator.push(
