@@ -220,7 +220,11 @@ class _TestInfoCardState extends State<TestInfoCard> {
       icon: Icons.cancel,
       iconColor: Colors.red,
       title: 'Initial Test Failed',
-      content: [TestInfo(test: _editedBackflow.initialTest)],
+      content: [
+        TestInfo(
+            test: _editedBackflow.initialTest,
+            deviceType: _editedBackflow.deviceInfo.type)
+      ],
     );
   }
 
@@ -275,7 +279,11 @@ class _TestInfoCardState extends State<TestInfoCard> {
       icon: Icons.check_circle,
       iconColor: Colors.green,
       title: 'Final Test Completed',
-      content: [TestInfo(test: _editedBackflow.finalTest)],
+      content: [
+        TestInfo(
+            test: _editedBackflow.finalTest,
+            deviceType: _editedBackflow.deviceInfo.type)
+      ],
     );
   }
 }
