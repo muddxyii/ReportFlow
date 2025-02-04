@@ -3,7 +3,7 @@ import 'package:report_flow/core/logic/backflow_test_evaluator.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/features/backflow/widgets/test/test_info.dart';
 import 'package:report_flow/features/backflow/widgets/test/test_status_card.dart';
-import 'package:report_flow/features/test_input/test_input_page.dart';
+import 'package:report_flow/features/test_input/presentation/test_input_page.dart';
 
 class TestInfoCard extends StatefulWidget {
   final Backflow backflow;

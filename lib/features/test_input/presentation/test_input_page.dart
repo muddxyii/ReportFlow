@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/logic/backflow_test_evaluator.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
-import 'package:report_flow/core/widgets/form_checkbox_field.dart';
 import 'package:report_flow/core/widgets/form_input_field.dart';
 import 'package:report_flow/core/widgets/info_field.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
+import 'package:report_flow/features/test_input/presentation/widgets/dc_test_card.dart';
 
 class TestInputPage extends StatefulWidget {
   final Function(Test) onSave;
@@ -32,24 +32,8 @@ class _TestInputPageState extends State<TestInputPage> {
   @override
   void initState() {
     super.initState();
-    _initializeFocusNodes();
-    _editedTest = Test(
-      linePressure: '',
-      checkValve1: CheckValve(value: '', closedTight: false),
-      checkValve2: CheckValve(value: '', closedTight: false),
-      reliefValve: ReliefValve(value: '', opened: false),
-      vacuumBreaker: VacuumBreaker(
-        backPressure: false,
-        airInlet: AirInlet(value: '', leaked: false, opened: false),
-        check: Check(value: '', leaked: false),
-      ),
-      testerProfile: TesterProfile(
-        name: '',
-        certNo: '',
-        gaugeKit: '',
-        date: '',
-      ),
-    );
+    _addFocusNode('linePressure');
+    _editedTest = Test.empty();
   }
 
   @override
@@ -58,21 +42,6 @@ class _TestInputPageState extends State<TestInputPage> {
       node.dispose();
     }
     super.dispose();
-  }
-
-  void _initializeFocusNodes() {
-    // Base fields
-    _addFocusNode('linePressure');
-
-    // DC specific fields
-    switch (widget.deviceType) {
-      case 'DC':
-        _addFocusNode('cv1Value');
-        _addFocusNode('cv2Value');
-        break;
-      default:
-        break;
-    }
   }
 
   void _addFocusNode(String key) {
@@ -104,7 +73,10 @@ class _TestInputPageState extends State<TestInputPage> {
   Widget _getDeviceSection() {
     switch (widget.deviceType) {
       case 'DC':
-        return _buildDcSection();
+        return DcTestCard(
+          test: _editedTest,
+          onTestUpdated: (test) => setState(() => _editedTest = test),
+        );
       default:
         return Text('Could not discern Device Type: ${widget.deviceType}');
     }
@@ -178,75 +150,6 @@ class _TestInputPageState extends State<TestInputPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildDcSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Cv1
-        Text('Check Valve #1', style: Theme.of(context).textTheme.titleMedium),
-        FormInputField(
-          label: 'Pressure Reading',
-          focusNode: _focusNodes['cv1Value'],
-          textInputType: TextInputType.number,
-          validateValue: true,
-          formatDecimal: true,
-          onChanged: (value) {
-            setState(() {
-              _editedTest = _editedTest.copyWith(
-                  checkValve1:
-                      _editedTest.checkValve1.copyWith(value: value ?? ''));
-            });
-          },
-          onSubmitted: () => _handleFieldSubmitted('cv1Value'),
-        ),
-        const SizedBox(height: 8),
-        FormCheckboxField(
-          label: 'Closed Tight',
-          value: _editedTest.checkValve1.closedTight,
-          onChanged: (value) {
-            setState(() {
-              _editedTest = _editedTest.copyWith(
-                  checkValve1: _editedTest.checkValve1
-                      .copyWith(closedTight: value ?? false));
-            });
-          },
-        ),
-        const SizedBox(height: 16),
-
-        // Cv2
-        Text('Check Valve #2', style: Theme.of(context).textTheme.titleMedium),
-        FormInputField(
-          label: 'Pressure Reading',
-          focusNode: _focusNodes['cv2Value'],
-          textInputType: TextInputType.number,
-          validateValue: true,
-          formatDecimal: true,
-          onChanged: (value) {
-            setState(() {
-              _editedTest = _editedTest.copyWith(
-                  checkValve2:
-                      _editedTest.checkValve2.copyWith(value: value ?? ''));
-            });
-          },
-          onSubmitted: () => _handleFieldSubmitted('cv2Value'),
-        ),
-        const SizedBox(height: 8),
-        FormCheckboxField(
-          label: 'Closed Tight',
-          value: _editedTest.checkValve2.closedTight,
-          onChanged: (value) {
-            setState(() {
-              _editedTest = _editedTest.copyWith(
-                  checkValve2: _editedTest.checkValve2
-                      .copyWith(closedTight: value ?? false));
-            });
-          },
-        ),
-        const SizedBox(height: 16),
-      ],
     );
   }
 }
