@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:report_flow/core/logic/backflow_test_evaluator.dart';
+import 'package:report_flow/core/models/profile.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/core/widgets/form_input_field.dart';
 import 'package:report_flow/core/widgets/info_field.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 import 'package:report_flow/features/test_input/presentation/widgets/dc_test_card.dart';
+import 'package:report_flow/features/test_input/presentation/widgets/profile_selection_dialog.dart';
 
 class TestInputPage extends StatefulWidget {
   final Function(Test) onSave;
@@ -44,6 +47,13 @@ class _TestInputPageState extends State<TestInputPage> {
     super.dispose();
   }
 
+  String _getPageTitle() {
+    if (widget.isFinalTest) {
+      return 'Final ${widget.deviceType} Test';
+    }
+    return 'Initial ${widget.deviceType} Test';
+  }
+
   void _addFocusNode(String key) {
     _focusNodes[key] = FocusNode();
     _focusOrder.add(key);
@@ -61,29 +71,6 @@ class _TestInputPageState extends State<TestInputPage> {
     }
   }
 
-  void _handleSave() {
-    if (_formKey.currentState!.validate()) {
-      widget.onSave(_editedTest);
-      Navigator.pop(context);
-    } else {
-      for (final key in _focusOrder.reversed) {
-        final node = _focusNodes[key];
-        final nodeField =
-            node?.context?.findAncestorWidgetOfExactType<TextFormField>();
-        if (nodeField?.controller?.text.isEmpty ?? true) {
-          node?.requestFocus();
-        }
-      }
-    }
-  }
-
-  String _getPageTitle() {
-    if (widget.isFinalTest) {
-      return 'Final ${widget.deviceType} Test';
-    }
-    return 'Initial ${widget.deviceType} Test';
-  }
-
   Widget _getDeviceSection() {
     switch (widget.deviceType) {
       case 'DC':
@@ -96,6 +83,41 @@ class _TestInputPageState extends State<TestInputPage> {
         );
       default:
         return Text('Could not discern Device Type: ${widget.deviceType}');
+    }
+  }
+
+  void _focusFirstEmptyField() {
+    for (final key in _focusOrder.reversed) {
+      final node = _focusNodes[key];
+      final nodeField =
+          node?.context?.findAncestorWidgetOfExactType<TextFormField>();
+      if (nodeField?.controller?.text.isEmpty ?? true) {
+        node?.requestFocus();
+      }
+    }
+  }
+
+  void _handleSave() async {
+    if (_formKey.currentState!.validate()) {
+      final selectedProfile = await showDialog<Profile>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => const ProfileSelectionDialog(),
+      );
+
+      if (selectedProfile != null && mounted) {
+        final TesterProfile profile = TesterProfile(
+            name: selectedProfile.testerName,
+            certNo: selectedProfile.testCertNo,
+            gaugeKit: selectedProfile.testKitSerial,
+            date: DateFormat('MM/dd/yyyy').format(DateTime.now()));
+
+        _editedTest = _editedTest.copyWith(testerProfile: profile);
+        widget.onSave(_editedTest);
+        Navigator.pop(context);
+      }
+    } else {
+      _focusFirstEmptyField();
     }
   }
 
@@ -140,7 +162,6 @@ class _TestInputPageState extends State<TestInputPage> {
                 label: 'Line Pressure',
                 focusNode: _focusNodes['linePressure'],
                 textInputType: TextInputType.number,
-                autoFocusField: true,
                 validateValue: true,
                 onChanged: (value) {
                   setState(() {
