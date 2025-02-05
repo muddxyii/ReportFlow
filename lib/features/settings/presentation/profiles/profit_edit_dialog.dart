@@ -3,10 +3,12 @@ import 'package:report_flow/core/models/profile.dart';
 
 class ProfileEditDialog extends StatefulWidget {
   final Profile? profile;
+  final String profileCount;
   final Future<void> Function(Profile) onSave;
 
   const ProfileEditDialog({
     this.profile,
+    this.profileCount = '',
     required this.onSave,
     super.key,
   });
@@ -36,7 +38,10 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
   void initState() {
     super.initState();
     final profile = widget.profile ?? Profile();
-    _profileNameController = TextEditingController(text: profile.profileName);
+    _profileNameController = TextEditingController(
+        text: profile.profileName.isEmpty
+            ? 'Profile ${widget.profileCount}'
+            : profile.profileName);
     _testerNameController = TextEditingController(text: profile.testerName);
     _serialController = TextEditingController(text: profile.testKitSerial);
     _testCertController = TextEditingController(text: profile.testCertNo);

@@ -19,6 +19,8 @@ class SettingsViewModel extends ChangeNotifier {
 
   get profiles => _profiles;
 
+  get profileCount => _profiles.length + 1;
+
   Future<void> _initializeAppNameWithVersion() async {
     final packageInfo = await PackageInfo.fromPlatform();
     _appNameWithVersion = 'ReportFlow v${packageInfo.version}';

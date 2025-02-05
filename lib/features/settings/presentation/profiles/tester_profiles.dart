@@ -49,6 +49,7 @@ class TesterProfiles extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => ProfileEditDialog(
+        profileCount: viewModel.profileCount.toString(),
         onSave: (profile) async {
           await viewModel.addProfile(profile);
           if (context.mounted) {
