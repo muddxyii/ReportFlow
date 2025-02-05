@@ -64,6 +64,7 @@ class _PermitInfoCardState extends BaseDeviceCardState<PermitInfoCard> {
                 editedInfo = editedInfo.copyWith(meterNo: value ?? ''),
             onSubmitted: () => super.saveInfo(),
           ),
+          const SizedBox(height: 16),
           buildActionButtons(),
         ],
       ),

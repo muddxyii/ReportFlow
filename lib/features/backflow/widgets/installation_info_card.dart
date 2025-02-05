@@ -132,6 +132,7 @@ class _InstallationInfoCardState extends State<InstallationInfoCard> {
               });
             },
           ),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

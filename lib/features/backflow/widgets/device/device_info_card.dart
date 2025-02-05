@@ -116,6 +116,7 @@ class _DeviceInfoCardState extends BaseDeviceCardState<DeviceInfoCard> {
             onSaved: (value) =>
                 editedInfo = editedInfo.copyWith(modelNo: value ?? ''),
           ),
+          const SizedBox(height: 16),
           buildActionButtons(),
         ],
       ),

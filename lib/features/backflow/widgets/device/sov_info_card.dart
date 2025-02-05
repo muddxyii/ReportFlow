@@ -70,6 +70,7 @@ class _SovInfoCardState extends BaseDeviceCardState<SovInfoCard> {
                   editedInfo.shutoffValves.copyWith(comment: value ?? ''),
             ),
           ),
+          const SizedBox(height: 16),
           buildActionButtons(),
         ],
       ),

@@ -220,6 +220,7 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
                 phone: value?.isEmpty ?? true ? 'UNKNOWN' : value),
             onSubmitted: () => _saveOwnerInfo(),
           ),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -339,6 +340,7 @@ class _CustomerInfoCardState extends State<CustomerInfoCard> {
                     phone: value?.isEmpty ?? true ? 'UNKNOWN' : value),
             onSubmitted: () => _saveRepresentativeInfo(),
           ),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

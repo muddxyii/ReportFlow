@@ -116,6 +116,7 @@ class _LocationInfoCardState extends State<LocationInfoCard> {
             ),
             onSubmitted: () => _saveInfo(),
           ),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
