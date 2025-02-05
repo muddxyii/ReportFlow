@@ -49,6 +49,11 @@ class _TestInputPageState extends State<TestInputPage> {
     _focusOrder.add(key);
   }
 
+  void addFocusNode(String key, FocusNode? node) {
+    _focusNodes[key] = node ?? FocusNode();
+    _focusOrder.add(key);
+  }
+
   void _handleFieldSubmitted(String currentKey) {
     final currentIndex = _focusOrder.indexOf(currentKey);
     if (currentIndex < _focusOrder.length - 1) {
@@ -60,6 +65,15 @@ class _TestInputPageState extends State<TestInputPage> {
     if (_formKey.currentState!.validate()) {
       widget.onSave(_editedTest);
       Navigator.pop(context);
+    } else {
+      for (final key in _focusOrder.reversed) {
+        final node = _focusNodes[key];
+        final nodeField =
+            node?.context?.findAncestorWidgetOfExactType<TextFormField>();
+        if (nodeField?.controller?.text.isEmpty ?? true) {
+          node?.requestFocus();
+        }
+      }
     }
   }
 
@@ -76,6 +90,9 @@ class _TestInputPageState extends State<TestInputPage> {
         return DcTestCard(
           test: _editedTest,
           onTestUpdated: (test) => setState(() => _editedTest = test),
+          addFocusNode: (keyStr, focusNode) {
+            addFocusNode(keyStr, focusNode);
+          },
         );
       default:
         return Text('Could not discern Device Type: ${widget.deviceType}');

@@ -6,11 +6,13 @@ import 'package:report_flow/core/widgets/form_input_field.dart';
 class DcTestCard extends StatefulWidget {
   final Test test;
   final Function(Test) onTestUpdated;
+  final Function(String, FocusNode) addFocusNode;
 
   const DcTestCard({
     super.key,
     required this.test,
     required this.onTestUpdated,
+    required this.addFocusNode,
   });
 
   @override
@@ -26,6 +28,7 @@ class _DcTestCardState extends State<DcTestCard> {
     super.initState();
     for (var key in _focusOrder) {
       _focusNodes[key] = FocusNode();
+      widget.addFocusNode(key, _focusNodes[key]!);
     }
   }
 
