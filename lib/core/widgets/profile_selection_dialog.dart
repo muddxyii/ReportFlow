@@ -4,7 +4,9 @@ import 'package:report_flow/core/models/profile.dart';
 import 'package:report_flow/core/widgets/info_field.dart';
 
 class ProfileSelectionDialog extends StatefulWidget {
-  const ProfileSelectionDialog({super.key});
+  final bool isRepair;
+
+  const ProfileSelectionDialog({super.key, this.isRepair = false});
 
   @override
   State<ProfileSelectionDialog> createState() => _ProfileSelectionDialogState();
@@ -67,8 +69,10 @@ class _ProfileSelectionDialogState extends State<ProfileSelectionDialog> {
             value: selectedProfile!.testerName,
           ),
           InfoField(
-            label: 'Test Cert No.',
-            value: selectedProfile!.testCertNo,
+            label: widget.isRepair ? 'Repair Cert No.' : 'Test Cert No.',
+            value: widget.isRepair
+                ? selectedProfile!.repairCertNo
+                : selectedProfile!.testCertNo,
           ),
           InfoField(
             label: 'Gauge Kit No.',
