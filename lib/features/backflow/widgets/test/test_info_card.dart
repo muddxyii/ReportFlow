@@ -3,6 +3,7 @@ import 'package:report_flow/core/logic/backflow_test_evaluator.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/features/backflow/widgets/test/test_info.dart';
 import 'package:report_flow/features/backflow/widgets/test/test_status_card.dart';
+import 'package:report_flow/features/repair_input/presentation/repair_input_page.dart';
 import 'package:report_flow/features/test_input/presentation/test_input_page.dart';
 
 class TestInfoCard extends StatefulWidget {
@@ -74,52 +75,20 @@ class _TestInfoCardState extends State<TestInfoCard> {
   }
 
   void _navigateToRepairs() async {
-    // TODO: Implement repairs navigation
-    final repairs = Repairs(
-      checkValve1Repairs: CheckValveRepairs(
-        cleaned: true,
-        checkDisc: false,
-        discHolder: false,
-        spring: false,
-        guide: false,
-        seat: false,
-        other: false,
-      ),
-      checkValve2Repairs: CheckValveRepairs(
-        cleaned: true,
-        checkDisc: false,
-        discHolder: false,
-        spring: false,
-        guide: false,
-        seat: false,
-        other: false,
-      ),
-      reliefValveRepairs: ReliefValveRepairs(
-        cleaned: true,
-        rubberKit: false,
-        discHolder: false,
-        spring: false,
-        guide: false,
-        seat: false,
-        other: false,
-      ),
-      vacuumBreakerRepairs: VacuumBreakerRepairs(
-        cleaned: true,
-        rubberKit: false,
-        discHolder: false,
-        spring: false,
-        guide: false,
-        seat: false,
-        other: false,
-      ),
-      testerProfile: TesterProfile(
-        name: "John Doe",
-        certNo: "12345",
-        gaugeKit: "ABC123",
-        date: DateTime.now().toIso8601String(),
+    final repairs = await Navigator.push<Repairs>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RepairInputPage(
+          onSave: widget.onRepairsUpdate,
+          repairInfo: _editedBackflow.repairs,
+          deviceType: _editedBackflow.deviceInfo.type,
+        ),
       ),
     );
-    widget.onRepairsUpdate(repairs);
+
+    if (repairs != null) {
+      widget.onRepairsUpdate(repairs);
+    }
   }
 
   void _resetTestData() {
