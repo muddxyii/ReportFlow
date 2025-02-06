@@ -628,6 +628,25 @@ class CheckValveRepairs {
         'seat': seat,
         'other': other,
       };
+
+  CheckValveRepairs copyWith({
+    bool? cleaned,
+    bool? checkDisc,
+    bool? discHolder,
+    bool? spring,
+    bool? guide,
+    bool? seat,
+    bool? other,
+  }) =>
+      CheckValveRepairs(
+        cleaned: cleaned ?? this.cleaned,
+        checkDisc: checkDisc ?? this.checkDisc,
+        discHolder: discHolder ?? this.discHolder,
+        spring: spring ?? this.spring,
+        guide: guide ?? this.guide,
+        seat: seat ?? this.seat,
+        other: other ?? this.other,
+      );
 }
 
 class ReliefValveRepairs {
@@ -679,6 +698,25 @@ class ReliefValveRepairs {
         'seat': seat,
         'other': other,
       };
+
+  ReliefValveRepairs copyWith({
+    bool? cleaned,
+    bool? rubberKit,
+    bool? discHolder,
+    bool? spring,
+    bool? guide,
+    bool? seat,
+    bool? other,
+  }) =>
+      ReliefValveRepairs(
+        cleaned: cleaned ?? this.cleaned,
+        rubberKit: rubberKit ?? this.rubberKit,
+        discHolder: discHolder ?? this.discHolder,
+        spring: spring ?? this.spring,
+        guide: guide ?? this.guide,
+        seat: seat ?? this.seat,
+        other: other ?? this.other,
+      );
 }
 
 class VacuumBreakerRepairs {
