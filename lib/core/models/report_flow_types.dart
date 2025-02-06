@@ -747,6 +747,22 @@ class Repairs {
     required this.testerProfile,
   });
 
+  Repairs copyWith({
+    CheckValveRepairs? checkValve1Repairs,
+    CheckValveRepairs? checkValve2Repairs,
+    ReliefValveRepairs? reliefValveRepairs,
+    VacuumBreakerRepairs? vacuumBreakerRepairs,
+    TesterProfile? testerProfile,
+  }) {
+    return Repairs(
+      checkValve1Repairs: checkValve1Repairs ?? this.checkValve1Repairs,
+      checkValve2Repairs: checkValve2Repairs ?? this.checkValve2Repairs,
+      reliefValveRepairs: reliefValveRepairs ?? this.reliefValveRepairs,
+      vacuumBreakerRepairs: vacuumBreakerRepairs ?? this.vacuumBreakerRepairs,
+      testerProfile: testerProfile ?? this.testerProfile,
+    );
+  }
+
   factory Repairs.fromJson(Map<String, dynamic> json) => Repairs(
         checkValve1Repairs:
             CheckValveRepairs.fromJson(json['checkValve1Repairs']),
