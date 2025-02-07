@@ -305,7 +305,7 @@ class _RepairInputPageState extends State<RepairInputPage> {
         );
       case 'TYPE 2':
         return Column(
-          children: [Text('Type 2 repairs are not supported yet')],
+          children: [_getCk1Tile()],
         );
       default:
         return Text('Type "${widget.deviceType}" not supported');
