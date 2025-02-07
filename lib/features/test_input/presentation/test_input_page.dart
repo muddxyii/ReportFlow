@@ -99,6 +99,31 @@ class _TestInputPageState extends State<TestInputPage> {
 
   void _handleSave() async {
     if (_formKey.currentState!.validate()) {
+      // Check if it's final test and evaluate backflow
+      if (widget.isFinalTest &&
+          !_testEvaluator.isPassing(
+              _testEvaluator.getStatusIcon(_editedTest, widget.deviceType))) {
+        // Show alert dialog for failing backflow
+        if (mounted) {
+          await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Test Failed'),
+              content: const Text(
+                  'The backflow test has failed. It cannot be saved as a final test.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+        return;
+      }
+
       final selectedProfile = await showDialog<Profile>(
         context: context,
         barrierDismissible: false,
