@@ -173,6 +173,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
       icon: Icons.pending,
       iconColor: Colors.grey,
       title: 'Initial Test Required',
+      initiallyExpanded: true,
       content: [
         SizedBox(
           width: double.infinity,
@@ -203,6 +204,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
       icon: Icons.build,
       iconColor: Colors.orange,
       title: 'Repairs Required',
+      initiallyExpanded: true,
       content: [
         SizedBox(
           width: double.infinity,
@@ -233,6 +235,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
       icon: Icons.pending,
       iconColor: Colors.grey,
       title: 'Final Test Required',
+      initiallyExpanded: true,
       content: [
         SizedBox(
           width: double.infinity,
