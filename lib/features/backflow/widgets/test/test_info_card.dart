@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/logic/backflow_test_evaluator.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/features/backflow/widgets/test/repair_info.dart';
 import 'package:report_flow/features/backflow/widgets/test/test_info.dart';
 import 'package:report_flow/features/backflow/widgets/test/test_status_card.dart';
 import 'package:report_flow/features/repair_input/presentation/repair_input_page.dart';
@@ -220,8 +221,9 @@ class _TestInfoCardState extends State<TestInfoCard> {
       iconColor: Colors.orange,
       title: 'Repairs Completed',
       content: [
-        Text('Tester: ${_editedBackflow.repairs.testerProfile.name}'),
-        Text('Date: ${_editedBackflow.repairs.testerProfile.date}'),
+        RepairInfo(
+            repairs: _editedBackflow.repairs,
+            deviceType: _editedBackflow.deviceInfo.type),
       ],
     );
   }
