@@ -191,6 +191,9 @@ class _TestInfoCardState extends State<TestInfoCard> {
       icon: Icons.cancel,
       iconColor: Colors.red,
       title: 'Initial Test Failed',
+      onEditPressed: _editedBackflow.finalTest.linePressure.isNotEmpty
+          ? null
+          : _navigateToTestInput,
       content: [
         TestInfo(
             test: _editedBackflow.initialTest,
@@ -254,6 +257,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
       icon: Icons.check_circle,
       iconColor: Colors.green,
       title: 'Final Test Completed',
+      onEditPressed: () => _navigateToTestInput(isFinalTest: true),
       content: [
         TestInfo(
             test: _editedBackflow.finalTest,
