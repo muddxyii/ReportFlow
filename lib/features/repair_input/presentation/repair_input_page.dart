@@ -37,12 +37,16 @@ class _RepairInputPageState extends State<RepairInputPage> {
     return '${widget.deviceType} Repairs';
   }
 
-  Widget _getCk1Tile() {
+  Widget _buildCheckValveTile({
+    required String title,
+    required CheckValveRepairs repairs,
+    required Function(CheckValveRepairs) onChanged,
+  }) {
     return Card(
       child: ExpansionTile(
         initiallyExpanded: true,
         title: Text(
-          'CK #1',
+          title,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         children: [
@@ -52,285 +56,228 @@ class _RepairInputPageState extends State<RepairInputPage> {
             child: Column(
               children: [
                 FormCheckboxField(
-                    label: 'Cleaned',
-                    value: _editedRepairs.checkValve1Repairs.cleaned,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve1Repairs: _editedRepairs
-                                .checkValve1Repairs
-                                .copyWith(cleaned: value));
-                      });
-                    }),
+                  label: 'Cleaned',
+                  value: repairs.cleaned,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(cleaned: value)),
+                ),
                 FormCheckboxField(
-                    label: 'Check Disc',
-                    value: _editedRepairs.checkValve1Repairs.checkDisc,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve1Repairs: _editedRepairs
-                                .checkValve1Repairs
-                                .copyWith(checkDisc: value));
-                      });
-                    }),
+                  label: 'Check Disc',
+                  value: repairs.checkDisc,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(checkDisc: value)),
+                ),
                 FormCheckboxField(
-                    label: 'Disc Holder',
-                    value: _editedRepairs.checkValve1Repairs.discHolder,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve1Repairs: _editedRepairs
-                                .checkValve1Repairs
-                                .copyWith(discHolder: value));
-                      });
-                    }),
+                  label: 'Disc Holder',
+                  value: repairs.discHolder,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(discHolder: value)),
+                ),
                 FormCheckboxField(
-                    label: 'Spring',
-                    value: _editedRepairs.checkValve1Repairs.spring,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve1Repairs: _editedRepairs
-                                .checkValve1Repairs
-                                .copyWith(spring: value));
-                      });
-                    }),
+                  label: 'Spring',
+                  value: repairs.spring,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(spring: value)),
+                ),
                 FormCheckboxField(
-                    label: 'Guide',
-                    value: _editedRepairs.checkValve1Repairs.guide,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve1Repairs: _editedRepairs
-                                .checkValve1Repairs
-                                .copyWith(guide: value));
-                      });
-                    }),
+                  label: 'Guide',
+                  value: repairs.guide,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(guide: value)),
+                ),
                 FormCheckboxField(
-                    label: 'Seat',
-                    value: _editedRepairs.checkValve1Repairs.seat,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve1Repairs: _editedRepairs
-                                .checkValve1Repairs
-                                .copyWith(seat: value));
-                      });
-                    }),
+                  label: 'Seat',
+                  value: repairs.seat,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(seat: value)),
+                ),
                 FormCheckboxField(
-                    label: 'Other',
-                    value: _editedRepairs.checkValve1Repairs.other,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve1Repairs: _editedRepairs
-                                .checkValve1Repairs
-                                .copyWith(other: value));
-                      });
-                    }),
+                  label: 'Other',
+                  value: repairs.other,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(other: value)),
+                ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildReliefValveTile({
+    required String title,
+    required ReliefValveRepairs repairs,
+    required Function(ReliefValveRepairs) onChanged,
+  }) {
+    return Card(
+      child: ExpansionTile(
+        initiallyExpanded: true,
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Column(
+              children: [
+                FormCheckboxField(
+                  label: 'Cleaned',
+                  value: repairs.cleaned,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(cleaned: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Rubbet Kit',
+                  value: repairs.rubberKit,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(rubberKit: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Disc Holder',
+                  value: repairs.discHolder,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(discHolder: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Spring',
+                  value: repairs.spring,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(spring: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Guide',
+                  value: repairs.guide,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(guide: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Seat',
+                  value: repairs.seat,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(seat: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Other',
+                  value: repairs.other,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(other: value)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVacuumBreakerTile({
+    required String title,
+    required VacuumBreakerRepairs repairs,
+    required Function(VacuumBreakerRepairs) onChanged,
+  }) {
+    return Card(
+      child: ExpansionTile(
+        initiallyExpanded: true,
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Column(
+              children: [
+                FormCheckboxField(
+                  label: 'Cleaned',
+                  value: repairs.cleaned,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(cleaned: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Rubbet Kit',
+                  value: repairs.rubberKit,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(rubberKit: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Disc Holder',
+                  value: repairs.discHolder,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(discHolder: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Spring',
+                  value: repairs.spring,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(spring: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Guide',
+                  value: repairs.guide,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(guide: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Seat',
+                  value: repairs.seat,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(seat: value)),
+                ),
+                FormCheckboxField(
+                  label: 'Other',
+                  value: repairs.other,
+                  onChanged: (value) =>
+                      onChanged(repairs.copyWith(other: value)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _getCk1Tile() {
+    return _buildCheckValveTile(
+      title: 'CK #1',
+      repairs: _editedRepairs.checkValve1Repairs,
+      onChanged: (repairs) => setState(() {
+        _editedRepairs = _editedRepairs.copyWith(checkValve1Repairs: repairs);
+      }),
     );
   }
 
   Widget _getCk2Tile() {
-    return Card(
-      child: ExpansionTile(
-        initiallyExpanded: true,
-        title: Text(
-          'CK 2',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Column(
-              children: [
-                FormCheckboxField(
-                    label: 'Cleaned',
-                    value: _editedRepairs.checkValve2Repairs.cleaned,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve2Repairs: _editedRepairs
-                                .checkValve2Repairs
-                                .copyWith(cleaned: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Check Disc',
-                    value: _editedRepairs.checkValve2Repairs.checkDisc,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve2Repairs: _editedRepairs
-                                .checkValve2Repairs
-                                .copyWith(checkDisc: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Disc Holder',
-                    value: _editedRepairs.checkValve2Repairs.discHolder,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve2Repairs: _editedRepairs
-                                .checkValve2Repairs
-                                .copyWith(discHolder: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Spring',
-                    value: _editedRepairs.checkValve2Repairs.spring,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve2Repairs: _editedRepairs
-                                .checkValve2Repairs
-                                .copyWith(spring: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Guide',
-                    value: _editedRepairs.checkValve2Repairs.guide,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve2Repairs: _editedRepairs
-                                .checkValve2Repairs
-                                .copyWith(guide: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Seat',
-                    value: _editedRepairs.checkValve2Repairs.seat,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve2Repairs: _editedRepairs
-                                .checkValve2Repairs
-                                .copyWith(seat: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Other',
-                    value: _editedRepairs.checkValve2Repairs.other,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            checkValve2Repairs: _editedRepairs
-                                .checkValve2Repairs
-                                .copyWith(other: value));
-                      });
-                    }),
-              ],
-            ),
-          ),
-        ],
-      ),
+    return _buildCheckValveTile(
+      title: 'CK #2',
+      repairs: _editedRepairs.checkValve2Repairs,
+      onChanged: (repairs) => setState(() {
+        _editedRepairs = _editedRepairs.copyWith(checkValve2Repairs: repairs);
+      }),
     );
   }
 
   Widget _getRvTile() {
-    return Card(
-      child: ExpansionTile(
-        initiallyExpanded: true,
-        title: Text(
-          'Relief Valve',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Column(
-              children: [
-                FormCheckboxField(
-                    label: 'Cleaned',
-                    value: _editedRepairs.reliefValveRepairs.cleaned,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            reliefValveRepairs: _editedRepairs
-                                .reliefValveRepairs
-                                .copyWith(cleaned: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Rubber Kit',
-                    value: _editedRepairs.reliefValveRepairs.rubberKit,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            reliefValveRepairs: _editedRepairs
-                                .reliefValveRepairs
-                                .copyWith(rubberKit: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Disc Holder',
-                    value: _editedRepairs.reliefValveRepairs.discHolder,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            reliefValveRepairs: _editedRepairs
-                                .reliefValveRepairs
-                                .copyWith(discHolder: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Spring',
-                    value: _editedRepairs.reliefValveRepairs.spring,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            reliefValveRepairs: _editedRepairs
-                                .reliefValveRepairs
-                                .copyWith(spring: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Guide',
-                    value: _editedRepairs.reliefValveRepairs.guide,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            reliefValveRepairs: _editedRepairs
-                                .reliefValveRepairs
-                                .copyWith(guide: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Seat',
-                    value: _editedRepairs.reliefValveRepairs.seat,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            reliefValveRepairs: _editedRepairs
-                                .reliefValveRepairs
-                                .copyWith(seat: value));
-                      });
-                    }),
-                FormCheckboxField(
-                    label: 'Other',
-                    value: _editedRepairs.reliefValveRepairs.other,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _editedRepairs = _editedRepairs.copyWith(
-                            reliefValveRepairs: _editedRepairs
-                                .reliefValveRepairs
-                                .copyWith(other: value));
-                      });
-                    }),
-              ],
-            ),
-          ),
-        ],
-      ),
+    return _buildReliefValveTile(
+      title: 'RV',
+      repairs: _editedRepairs.reliefValveRepairs,
+      onChanged: (repairs) => setState(() {
+        _editedRepairs = _editedRepairs.copyWith(reliefValveRepairs: repairs);
+      }),
+    );
+  }
+
+  Widget _getVacuumBreakerTile() {
+    return _buildVacuumBreakerTile(
+      title: 'Vacuum Breaker',
+      repairs: _editedRepairs.vacuumBreakerRepairs,
+      onChanged: (repairs) => setState(() {
+        _editedRepairs = _editedRepairs.copyWith(vacuumBreakerRepairs: repairs);
+      }),
     );
   }
 
@@ -344,9 +291,21 @@ class _RepairInputPageState extends State<RepairInputPage> {
         return Column(
           children: [_getCk1Tile(), _getCk2Tile(), _getRvTile()],
         );
+      case 'PVB':
+        return Column(
+          children: [_getVacuumBreakerTile()],
+        );
+      case 'SVB':
+        return Column(
+          children: [_getVacuumBreakerTile()],
+        );
       case 'SC':
         return Column(
           children: [_getCk1Tile()],
+        );
+      case 'TYPE 2':
+        return Column(
+          children: [Text('Type 2 repairs are not supported yet')],
         );
       default:
         return Text('Type "${widget.deviceType}" not supported');
