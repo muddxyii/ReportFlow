@@ -390,6 +390,16 @@ class ReliefValve {
         'value': value,
         'opened': opened,
       };
+
+  ReliefValve copyWith({
+    String? value,
+    bool? opened,
+  }) {
+    return ReliefValve(
+      value: value ?? this.value,
+      opened: opened ?? this.opened,
+    );
+  }
 }
 
 class AirInlet {
