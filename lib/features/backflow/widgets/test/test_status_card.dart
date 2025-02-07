@@ -5,6 +5,7 @@ class TestStatusCard extends StatelessWidget {
   final Color iconColor;
   final String title;
   final bool initiallyExpanded;
+  final VoidCallback? onEditPressed;
   final List<Widget> content;
 
   const TestStatusCard({
@@ -14,6 +15,7 @@ class TestStatusCard extends StatelessWidget {
     required this.title,
     this.initiallyExpanded = false,
     required this.content,
+    this.onEditPressed,
   });
 
   @override
@@ -38,7 +40,19 @@ class TestStatusCard extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: content,
+              children: [
+                ...content,
+                if (onEditPressed != null) ...[
+                  const SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: onEditPressed,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         ],

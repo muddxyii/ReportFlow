@@ -222,6 +222,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
       icon: Icons.build,
       iconColor: Colors.orange,
       title: 'Repairs Completed',
+      onEditPressed: _navigateToRepairs,
       content: [
         RepairInfo(
             repairs: _editedBackflow.repairs,
