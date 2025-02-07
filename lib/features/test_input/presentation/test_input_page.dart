@@ -8,6 +8,7 @@ import 'package:report_flow/core/widgets/info_field.dart';
 import 'package:report_flow/core/widgets/profile_selection_dialog.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 import 'package:report_flow/features/test_input/presentation/widgets/dc_test_card.dart';
+import 'package:report_flow/features/test_input/presentation/widgets/rp_test_card.dart';
 
 class TestInputPage extends StatefulWidget {
   final Function(Test) onSave;
@@ -72,7 +73,7 @@ class _TestInputPageState extends State<TestInputPage> {
   }
 
   Widget _getDeviceSection() {
-    switch (widget.deviceType) {
+    switch (widget.deviceType.toUpperCase()) {
       case 'DC':
         return DcTestCard(
           test: _editedTest,
@@ -81,8 +82,16 @@ class _TestInputPageState extends State<TestInputPage> {
             addFocusNode(keyStr, focusNode);
           },
         );
+      case 'RP':
+        return RpTestCard(
+          test: _editedTest,
+          onTestUpdated: (test) => setState(() => _editedTest = test),
+          addFocusNode: (keyStr, focusNode) {
+            addFocusNode(keyStr, focusNode);
+          },
+        );
       default:
-        return Text('Could not discern Device Type: ${widget.deviceType}');
+        return Text('${widget.deviceType} is not supported yet');
     }
   }
 
