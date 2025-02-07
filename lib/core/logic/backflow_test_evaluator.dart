@@ -101,7 +101,52 @@ class BackflowTestEvaluator {
   }
 
   String _evaluateRPTest(Test test) {
-    return unknownIcon;
+    CheckValve cv1 = test.checkValve1;
+    CheckValve cv2 = test.checkValve2;
+    ReliefValve rv = test.reliefValve;
+
+    // Not enough information to judge
+    if (cv1.value.isEmpty || rv.value.isEmpty) {
+      statusMessage = unknownMessage;
+      return unknownIcon;
+    }
+
+    // Checks must be closed tight
+    if (!_didChecksCt(cv1.closedTight, cv2.closedTight)) {
+      return failIcon;
+    }
+
+    // Checks must be have a value <= 1
+    try {
+      // Parse double values from string
+      double v1 = double.parse(cv1.value);
+      double v2 = double.parse(rv.value);
+
+      if (v1 < 5.0 && v2 < 3.0) {
+        statusMessage =
+            'Both Check Valve #1 and Relief Valve failed as their values were below required thresholds';
+        return failIcon;
+      } else if (v1 < 5.0) {
+        statusMessage = 'Check #1\'s value was lower than 5.0';
+        return failIcon;
+      } else if (v2 < 2.0) {
+        statusMessage = 'Relief Valve\'s value was lower than 2.0';
+        return failIcon;
+      } else if (v1 - v2 < 3.0) {
+        statusMessage =
+            'Check #1\'s value is not at least 3.0 greater than Relief Valve\'s value';
+        return failIcon;
+      }
+
+      // Checks passed, unknown until all logic has passed
+      statusMessage = unknownMessage;
+    } catch (e) {
+      statusMessage = e.toString();
+      return unknownIcon;
+    }
+
+    statusMessage = passMessage;
+    return passIcon;
   }
 
   String _evaluatePVBTest(Test test) {
