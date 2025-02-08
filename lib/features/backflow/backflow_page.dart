@@ -82,6 +82,16 @@ class _BackflowPageState extends State<BackflowPage> {
     widget.onInfoUpdate(backflow);
   }
 
+  bool _hasExistingTestData() {
+    if (backflow.initialTest.testerProfile.name.isNotEmpty ||
+        backflow.repairs.testerProfile.name.isNotEmpty ||
+        backflow.finalTest.testerProfile.name.isNotEmpty) {
+      return true;
+    }
+
+    return false;
+  }
+
   void _resetTestData() {
     setState(() {
       backflow = backflow.copyWith(
@@ -141,6 +151,7 @@ class _BackflowPageState extends State<BackflowPage> {
           DeviceInfoCard(
             info: backflow.deviceInfo,
             onInfoUpdate: _updateDeviceInfo,
+            lockDeviceType: _hasExistingTestData(),
           ),
           const SizedBox(height: 8),
           SovInfoCard(

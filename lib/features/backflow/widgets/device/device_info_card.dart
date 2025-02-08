@@ -5,10 +5,13 @@ import 'package:report_flow/core/widgets/info_field.dart';
 import 'package:report_flow/features/backflow/widgets/device/base_device_card.dart';
 
 class DeviceInfoCard extends BaseDeviceCard {
+  final bool lockDeviceType;
+
   const DeviceInfoCard({
     super.key,
     required super.info,
     required super.onInfoUpdate,
+    required this.lockDeviceType,
   }) : super(title: 'Device');
 
   @override
@@ -83,6 +86,7 @@ class _DeviceInfoCardState extends BaseDeviceCardState<DeviceInfoCard> {
               label: 'Type',
               value: editedInfo.type.isEmpty ? null : editedInfo.type,
               items: _typeOptions,
+              isEnabled: !widget.lockDeviceType,
               onChanged: (value) {
                 setState(() {
                   editedInfo = editedInfo.copyWith(type: value ?? '');
