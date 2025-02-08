@@ -309,6 +309,37 @@ class BackflowTestEvaluator {
   }
 
   String _evaluateType2Test(Test test) {
-    return unknownIcon;
+    CheckValve cv1 = test.checkValve1;
+
+    // Not enough information to judge
+    if (cv1.value.isEmpty) {
+      statusMessage = unknownMessage;
+      return unknownIcon;
+    }
+
+    // Check must be closed tight
+    if (!_didChecksCt(cv1.closedTight, true)) {
+      return failIcon;
+    }
+
+    // Check must be have a value <= 1
+    try {
+      // Parse double values from string
+      double v1 = double.parse(cv1.value);
+
+      if (v1 < 1.0) {
+        statusMessage = 'Check #1\'s value was lower than 1.0';
+        return failIcon;
+      }
+
+      // Checks passed, unknown until all logic has passed
+      statusMessage = unknownMessage;
+    } catch (e) {
+      statusMessage = e.toString();
+      return unknownIcon;
+    }
+
+    statusMessage = passMessage;
+    return passIcon;
   }
 }
