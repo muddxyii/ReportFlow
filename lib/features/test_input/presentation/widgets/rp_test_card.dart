@@ -107,10 +107,10 @@ class _RpTestCardState extends State<RpTestCard> {
         ),
         const SizedBox(height: 8),
         FormCheckboxField(
-          label: 'Opened',
-          value: reliefValve.opened,
+          label: 'Did Not Open',
+          value: !reliefValve.opened,
           onChanged: (value) {
-            onValveUpdated(reliefValve.copyWith(opened: value ?? false));
+            onValveUpdated(reliefValve.copyWith(opened: !(value ?? false)));
           },
         ),
         const SizedBox(height: 16),
