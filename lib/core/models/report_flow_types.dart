@@ -507,6 +507,18 @@ class VacuumBreaker {
         'airInlet': airInlet.toJson(),
         'check': check.toJson(),
       };
+
+  VacuumBreaker copyWith({
+    bool? backPressure,
+    AirInlet? airInlet,
+    Check? check,
+  }) {
+    return VacuumBreaker(
+      backPressure: backPressure ?? this.backPressure,
+      airInlet: airInlet ?? this.airInlet,
+      check: check ?? this.check,
+    );
+  }
 }
 
 //endregion
