@@ -430,6 +430,18 @@ class AirInlet {
         'leaked': leaked,
         'opened': opened,
       };
+
+  AirInlet copyWith({
+    String? value,
+    bool? leaked,
+    bool? opened,
+  }) {
+    return AirInlet(
+      value: value ?? this.value,
+      leaked: leaked ?? this.leaked,
+      opened: opened ?? this.opened,
+    );
+  }
 }
 
 class Check {
@@ -455,6 +467,16 @@ class Check {
         'value': value,
         'leaked': leaked,
       };
+
+  Check copyWith({
+    String? value,
+    bool? leaked,
+  }) {
+    return Check(
+      value: value ?? this.value,
+      leaked: leaked ?? this.leaked,
+    );
+  }
 }
 
 class VacuumBreaker {
