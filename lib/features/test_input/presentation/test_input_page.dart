@@ -8,7 +8,11 @@ import 'package:report_flow/core/widgets/info_field.dart';
 import 'package:report_flow/core/widgets/profile_selection_dialog.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 import 'package:report_flow/features/test_input/presentation/widgets/dc_test_card.dart';
+import 'package:report_flow/features/test_input/presentation/widgets/pvb_test_card.dart';
 import 'package:report_flow/features/test_input/presentation/widgets/rp_test_card.dart';
+import 'package:report_flow/features/test_input/presentation/widgets/sc_test_card.dart';
+import 'package:report_flow/features/test_input/presentation/widgets/svb_test_card.dart';
+import 'package:report_flow/features/test_input/presentation/widgets/type2_test_card.dart';
 
 class TestInputPage extends StatefulWidget {
   final Function(Test) onSave;
@@ -84,6 +88,38 @@ class _TestInputPageState extends State<TestInputPage> {
         );
       case 'RP':
         return RpTestCard(
+          test: _editedTest,
+          onTestUpdated: (test) => setState(() => _editedTest = test),
+          addFocusNode: (keyStr, focusNode) {
+            addFocusNode(keyStr, focusNode);
+          },
+        );
+      case 'PVB':
+        return PvbTestCard(
+          test: _editedTest,
+          onTestUpdated: (test) => setState(() => _editedTest = test),
+          addFocusNode: (keyStr, focusNode) {
+            addFocusNode(keyStr, focusNode);
+          },
+        );
+      case 'SVB':
+        return SvbTestCard(
+          test: _editedTest,
+          onTestUpdated: (test) => setState(() => _editedTest = test),
+          addFocusNode: (keyStr, focusNode) {
+            addFocusNode(keyStr, focusNode);
+          },
+        );
+      case 'SC':
+        return ScTestCard(
+          test: _editedTest,
+          onTestUpdated: (test) => setState(() => _editedTest = test),
+          addFocusNode: (keyStr, focusNode) {
+            addFocusNode(keyStr, focusNode);
+          },
+        );
+      case 'TYPE 2':
+        return Type2TestCard(
           test: _editedTest,
           onTestUpdated: (test) => setState(() => _editedTest = test),
           addFocusNode: (keyStr, focusNode) {
