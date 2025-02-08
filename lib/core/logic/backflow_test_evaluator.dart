@@ -150,15 +150,162 @@ class BackflowTestEvaluator {
   }
 
   String _evaluatePVBTest(Test test) {
-    return unknownIcon;
+    AirInlet airInlet = test.vacuumBreaker.airInlet;
+    Check check = test.vacuumBreaker.check;
+    bool backPressure = test.vacuumBreaker.backPressure;
+
+    // Not enough information to judge
+    if (airInlet.value.isEmpty || check.value.isEmpty) {
+      statusMessage = unknownMessage;
+      return unknownIcon;
+    }
+
+    // Check if check failed
+    if (backPressure) {
+      statusMessage = 'Back pressure is present';
+      return failIcon;
+    }
+
+    // Check if air inlet failed
+    if (airInlet.leaked || !airInlet.opened) {
+      if (airInlet.leaked) {
+        statusMessage = 'Air Inlet leaked';
+      } else {
+        statusMessage = 'Air Inlet did not open';
+      }
+
+      return failIcon;
+    }
+
+    // Check if check failed
+    if (check.leaked) {
+      statusMessage = 'Check did not open';
+      return failIcon;
+    }
+
+    try {
+      // Parse double values from string
+      double airIn = double.parse(airInlet.value);
+      double ck = double.parse(check.value);
+
+      if (airIn < 1.0 && ck < 1.0) {
+        statusMessage =
+            'Both Air Inlet and Check failed as their values were lower than 1.0';
+        return failIcon;
+      } else if (airIn < 1.0) {
+        statusMessage = 'Air Inlet\'s value was lower than 1.0';
+        return failIcon;
+      } else if (ck < 1.0) {
+        statusMessage = 'Check\'s value was lower than 1.0';
+        return failIcon;
+      }
+
+      // Air Inlet + Check passed, unknown until all logic has passed
+      statusMessage = unknownMessage;
+    } catch (e) {
+      statusMessage = e.toString();
+      return unknownIcon;
+    }
+
+    statusMessage = passMessage;
+    return passIcon;
   }
 
   String _evaluateSVBTest(Test test) {
-    return unknownIcon;
+    AirInlet airInlet = test.vacuumBreaker.airInlet;
+    Check check = test.vacuumBreaker.check;
+    bool backPressure = test.vacuumBreaker.backPressure;
+
+    // Not enough information to judge
+    if (airInlet.value.isEmpty || check.value.isEmpty) {
+      statusMessage = unknownMessage;
+      return unknownIcon;
+    }
+
+    // Check if check failed
+    if (backPressure) {
+      statusMessage = 'Back pressure is present';
+      return failIcon;
+    }
+
+    // Check if air inlet failed
+    if (airInlet.leaked || !airInlet.opened) {
+      if (airInlet.leaked) {
+        statusMessage = 'Air Inlet leaked';
+      } else {
+        statusMessage = 'Air Inlet did not open';
+      }
+
+      return failIcon;
+    }
+
+    // Check if check failed
+    if (check.leaked) {
+      statusMessage = 'Check did not open';
+      return failIcon;
+    }
+
+    try {
+      // Parse double values from string
+      double airIn = double.parse(airInlet.value);
+      double ck = double.parse(check.value);
+
+      if (airIn < 1.0 && ck < 1.0) {
+        statusMessage =
+            'Both Air Inlet and Check failed as their values were below required thresholds';
+        return failIcon;
+      } else if (airIn < 1.0) {
+        statusMessage = 'Air Inlet\'s value was lower than 1.0';
+        return failIcon;
+      } else if (ck < 1.0) {
+        statusMessage = 'Check\'s value was lower than 1.0';
+        return failIcon;
+      }
+
+      // Air Inlet + Check passed, unknown until all logic has passed
+      statusMessage = unknownMessage;
+    } catch (e) {
+      statusMessage = e.toString();
+      return unknownIcon;
+    }
+
+    statusMessage = passMessage;
+    return passIcon;
   }
 
   String _evaluateSCTest(Test test) {
-    return unknownIcon;
+    CheckValve cv1 = test.checkValve1;
+
+    // Not enough information to judge
+    if (cv1.value.isEmpty) {
+      statusMessage = unknownMessage;
+      return unknownIcon;
+    }
+
+    // Check must be closed tight
+    if (!_didChecksCt(cv1.closedTight, true)) {
+      return failIcon;
+    }
+
+    // Check must be have a value <= 1
+    try {
+      // Parse double values from string
+      double v1 = double.parse(cv1.value);
+
+      if (v1 < 1.0) {
+        statusMessage = 'Check #1\'s value was lower than 1.0';
+        return failIcon;
+      }
+
+      // Checks passed, unknown until all logic has passed
+      statusMessage = unknownMessage;
+    } catch (e) {
+      statusMessage = e.toString();
+      return unknownIcon;
+    }
+
+    statusMessage = passMessage;
+    return passIcon;
   }
 
   String _evaluateType2Test(Test test) {
