@@ -18,6 +18,8 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        // Handle Pdf Intent
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             when (call.method) {
                 "getInitialFilePath" -> {
@@ -29,6 +31,9 @@ class MainActivity : FlutterActivity() {
                 else -> result.notImplemented()
             }
         }
+
+        // Add Pdf Plugin
+        flutterEngine.plugins.add(PdfPlugin())
     }
 
     override fun onNewIntent(intent: Intent) {
