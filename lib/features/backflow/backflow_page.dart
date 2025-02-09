@@ -11,12 +11,14 @@ import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
 class BackflowPage extends StatefulWidget {
   final Backflow backflow;
+  final CustomerInformation customerInfo;
 
   final Function(Backflow) onInfoUpdate;
 
   const BackflowPage({
     super.key,
     required this.backflow,
+    required this.customerInfo,
     required this.onInfoUpdate,
   });
 

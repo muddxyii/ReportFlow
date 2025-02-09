@@ -5,11 +5,13 @@ import 'package:report_flow/features/backflow/backflow_page.dart';
 
 class BackflowListCard extends StatefulWidget {
   final BackflowList list;
+  final CustomerInformation customerInfo;
   final Function(BackflowList) onInfoUpdate;
 
   const BackflowListCard({
     super.key,
     required this.list,
+    required this.customerInfo,
     required this.onInfoUpdate,
   });
 
@@ -184,6 +186,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
                                     MaterialPageRoute(
                                       builder: (context) => BackflowPage(
                                         backflow: device,
+                                        customerInfo: widget.customerInfo,
                                         onInfoUpdate: (updatedBackflow) {
                                           _updateBackflow(key, updatedBackflow);
                                         },
