@@ -186,7 +186,7 @@ class _JobPageState extends State<JobPage> {
                 onInfoUpdate: (updatedList) => _updateJob(
                     (job) => job.copyWith(backflowList: updatedList)),
                 onSharePdf: (Backflow backflow) {
-                  _generateAndSharePdf(backflow);
+                  return _generateAndSharePdf(backflow);
                 },
               ),
             ],
@@ -195,24 +195,53 @@ class _JobPageState extends State<JobPage> {
     }
   }
 
-  Future<void> _generateAndSharePdf(Backflow backflow) async {
+  Future<bool> _generateAndSharePdf(Backflow backflow) async {
     final pdfRepo = PdfRepository();
     final pdfPath =
         await pdfRepo.generatePdf(backflow, _jobData!.customerInformation);
 
-    if (pdfPath.isNotEmpty) {
-      final jobName = _jobData!.details.jobName;
-      final jobType = _jobData!.details.jobType;
-      final currentBackflowNum = _jobData!.backflowList.getCompletedCount() + 1;
-      final totalBackflowNum = _jobData!.backflowList.backflows.length;
-      final serialNo = backflow.deviceInfo.serialNo;
-
-      final subjectLineText =
-          '$jobName - $jobType ($currentBackflowNum of $totalBackflowNum)';
-      final bodyText = '$serialNo - Report Generated With ReportFlow';
-
-      await Share.shareXFiles([XFile(pdfPath)],
-          subject: subjectLineText, text: bodyText);
+    if (pdfPath.isEmpty) {
+      return false;
     }
+
+    final jobName = _jobData!.details.jobName;
+    final jobType = _jobData!.details.jobType;
+    final currentBackflowNum = _jobData!.backflowList.getCompletedCount() + 1;
+    final totalBackflowNum = _jobData!.backflowList.backflows.length;
+    final serialNo = backflow.deviceInfo.serialNo;
+
+    final subjectLineText =
+        '$jobName - $jobType ($currentBackflowNum of $totalBackflowNum)';
+    final bodyText = '$serialNo - Report Generated With ReportFlow';
+
+    final result = await Share.shareXFiles([XFile(pdfPath)],
+        subject: subjectLineText, text: bodyText);
+
+    if (!backflow.isComplete &&
+        result.status == ShareResultStatus.success &&
+        mounted) {
+      final shouldMarkComplete = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Mark as Complete?'),
+          content:
+              const Text('Would you like to mark this backflow as complete?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('No'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Yes'),
+            ),
+          ],
+        ),
+      );
+
+      return shouldMarkComplete ?? false;
+    }
+
+    return false;
   }
 }

@@ -12,7 +12,7 @@ class BackflowPage extends StatefulWidget {
   final Backflow backflow;
 
   final Function(Backflow) onInfoUpdate;
-  final Function(Backflow) onSharePdf;
+  final Future<bool> Function(Backflow) onSharePdf;
 
   const BackflowPage({
     super.key,
@@ -170,12 +170,26 @@ class _BackflowPageState extends State<BackflowPage> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => widget.onSharePdf(backflow),
+              onPressed: () => _sharePdf(),
               child: const Text('Generate Pdf'),
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _sharePdf() async {
+    final shouldMarkComplete = await widget.onSharePdf(backflow);
+    if (shouldMarkComplete) {
+      setState(() {
+        backflow = backflow.copyWith(isComplete: true);
+      });
+      widget.onInfoUpdate(backflow);
+
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    }
   }
 }

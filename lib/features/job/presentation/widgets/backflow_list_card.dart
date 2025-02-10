@@ -6,7 +6,7 @@ import 'package:report_flow/features/backflow/backflow_page.dart';
 class BackflowListCard extends StatefulWidget {
   final BackflowList list;
   final Function(BackflowList) onInfoUpdate;
-  final Function(Backflow) onSharePdf;
+  final Future<bool> Function(Backflow) onSharePdf;
 
   const BackflowListCard({
     super.key,
@@ -190,7 +190,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
                                           _updateBackflow(key, updatedBackflow);
                                         },
                                         onSharePdf: (Backflow backflow) {
-                                          widget.onSharePdf(backflow);
+                                          return widget.onSharePdf(backflow);
                                         },
                                       ),
                                     ),
