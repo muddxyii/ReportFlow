@@ -88,8 +88,14 @@ class PdfRepository {
       'InitialCT1': backflow.initialTest.checkValve1.value,
       'InitialCTBox':
           backflow.initialTest.checkValve1.closedTight ? 'On' : 'Off',
-      'InitialCT1Leaked':
-          backflow.initialTest.checkValve1.closedTight ? 'Off' : 'On',
+      'InitialCT1Leaked': backflow.deviceInfo.type == 'DC' ||
+              backflow.deviceInfo.type == 'RP' ||
+              backflow.deviceInfo.type == 'SC' ||
+              backflow.deviceInfo.type == 'TYPE 2'
+          ? backflow.initialTest.checkValve1.closedTight
+              ? 'Off'
+              : 'On'
+          : 'Off',
       //endregion
 
       //region Ck2
@@ -97,13 +103,20 @@ class PdfRepository {
       'InitialCT2Box':
           backflow.initialTest.checkValve2.closedTight ? 'On' : 'Off',
       'InitialCT2Leaked':
-          backflow.initialTest.checkValve2.closedTight ? 'Off' : 'On',
+          backflow.deviceInfo.type == 'DC' || backflow.deviceInfo.type == 'RP'
+              ? backflow.initialTest.checkValve2.closedTight
+                  ? 'Off'
+                  : 'On'
+              : 'Off',
       //endregion
 
       //region RV
       'InitialPSIRV': backflow.initialTest.reliefValve.value,
-      'InitialRVDidNotOpen':
-          backflow.initialTest.reliefValve.opened ? 'Off' : 'On',
+      'InitialRVDidNotOpen': backflow.deviceInfo.type == 'RP'
+          ? backflow.initialTest.reliefValve.opened
+              ? 'Off'
+              : 'On'
+          : 'Off',
       //endregion
 
       //region PVB
@@ -111,7 +124,11 @@ class PdfRepository {
       'InitialAirInletLeaked':
           backflow.initialTest.vacuumBreaker.airInlet.leaked ? 'On' : 'Off',
       'InitialCkPVBLDidNotOpen':
-          backflow.initialTest.vacuumBreaker.airInlet.opened ? 'Off' : 'On',
+          backflow.deviceInfo.type == 'PVB' || backflow.deviceInfo.type == 'SVB'
+              ? backflow.initialTest.vacuumBreaker.airInlet.opened
+                  ? 'Off'
+                  : 'On'
+              : 'Off',
 
       'InitialCk1PVB': backflow.initialTest.vacuumBreaker.check.value,
       'InitialCkPVBLeaked':
@@ -212,7 +229,11 @@ class PdfRepository {
 
       //region PVB
       'BackPressure':
-          backflow.finalTest.vacuumBreaker.backPressure ? 'On' : 'Off',
+          backflow.deviceInfo.type == 'PVB' || backflow.deviceInfo.type == 'SVB'
+              ? backflow.finalTest.vacuumBreaker.backPressure
+                  ? 'Yes'
+                  : 'No'
+              : '',
       'FinalAirInlet': backflow.finalTest.vacuumBreaker.airInlet.value,
       'Check Valve': backflow.finalTest.vacuumBreaker.check.value,
       //endregion
