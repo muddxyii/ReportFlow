@@ -124,8 +124,12 @@ class _BackflowListCardState extends State<BackflowListCard> {
 
       if (backflowTemplate != null) {
         newBackflow = backflowTemplate.copyWith(
-            deviceInfo:
-                backflowTemplate.deviceInfo.copyWith(serialNo: serialNumber));
+          deviceInfo:
+              backflowTemplate.deviceInfo.copyWith(serialNo: serialNumber),
+          initialTest: Test.empty(),
+          repairs: Repairs.empty(),
+          finalTest: Test.empty(),
+        );
       }
 
       // Update the backflows map
