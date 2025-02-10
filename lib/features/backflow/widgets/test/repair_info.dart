@@ -38,8 +38,8 @@ class RepairInfo extends StatelessWidget {
   }
 
   Widget _buildDeviceSpecificInfo(BuildContext context) {
-    switch (deviceType.toLowerCase()) {
-      case 'dc':
+    switch (deviceType.toUpperCase()) {
+      case 'DC':
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -64,7 +64,7 @@ class RepairInfo extends StatelessWidget {
           ],
         );
 
-      case 'rp':
+      case 'RP':
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -97,6 +97,71 @@ class RepairInfo extends StatelessWidget {
             }),
           ],
         );
+
+      case 'PVB':
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildRepairSection(context, 'Pressure Vacuum Breaker', {
+              'Cleaned': repairs.vacuumBreakerRepairs.cleaned,
+              'Rubber Kit': repairs.vacuumBreakerRepairs.rubberKit,
+              'Disc Holder': repairs.vacuumBreakerRepairs.discHolder,
+              'Spring': repairs.vacuumBreakerRepairs.spring,
+              'Guide': repairs.vacuumBreakerRepairs.guide,
+              'Seat': repairs.vacuumBreakerRepairs.seat,
+              'Other': repairs.vacuumBreakerRepairs.other,
+            }),
+          ],
+        );
+
+      case 'SVB':
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildRepairSection(context, 'Pressure Vacuum Breaker', {
+              'Cleaned': repairs.vacuumBreakerRepairs.cleaned,
+              'Rubber Kit': repairs.vacuumBreakerRepairs.rubberKit,
+              'Disc Holder': repairs.vacuumBreakerRepairs.discHolder,
+              'Spring': repairs.vacuumBreakerRepairs.spring,
+              'Guide': repairs.vacuumBreakerRepairs.guide,
+              'Seat': repairs.vacuumBreakerRepairs.seat,
+              'Other': repairs.vacuumBreakerRepairs.other,
+            }),
+          ],
+        );
+
+      case 'SC':
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildRepairSection(context, 'Check Valve 1', {
+              'Cleaned': repairs.checkValve1Repairs.cleaned,
+              'Check Disc': repairs.checkValve1Repairs.checkDisc,
+              'Disc Holder': repairs.checkValve1Repairs.discHolder,
+              'Spring': repairs.checkValve1Repairs.spring,
+              'Guide': repairs.checkValve1Repairs.guide,
+              'Seat': repairs.checkValve1Repairs.seat,
+              'Other': repairs.checkValve1Repairs.other,
+            }),
+          ],
+        );
+
+      case 'TYPE 2':
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildRepairSection(context, 'Check Valve 1', {
+              'Cleaned': repairs.checkValve1Repairs.cleaned,
+              'Check Disc': repairs.checkValve1Repairs.checkDisc,
+              'Disc Holder': repairs.checkValve1Repairs.discHolder,
+              'Spring': repairs.checkValve1Repairs.spring,
+              'Guide': repairs.checkValve1Repairs.guide,
+              'Seat': repairs.checkValve1Repairs.seat,
+              'Other': repairs.checkValve1Repairs.other,
+            }),
+          ],
+        );
+
       default:
         return Column(
           children: [
