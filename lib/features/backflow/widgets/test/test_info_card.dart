@@ -169,6 +169,21 @@ class _TestInfoCardState extends State<TestInfoCard> {
   }
 
   Widget _getInitialTestPrompt() {
+    if (_editedBackflow.deviceInfo.type.isEmpty) {
+      return TestStatusCard(
+        icon: Icons.warning,
+        iconColor: Colors.orange,
+        title: 'Device Type Required',
+        initiallyExpanded: true,
+        content: [
+          const Text(
+            'Device Type cannot be empty. Please set the device type before performing tests.',
+            style: TextStyle(color: Colors.red),
+          ),
+        ],
+      );
+    }
+
     return TestStatusCard(
       icon: Icons.pending,
       iconColor: Colors.grey,
