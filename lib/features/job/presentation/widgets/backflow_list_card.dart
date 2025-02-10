@@ -174,8 +174,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
                             children: [
                               if (device.isComplete)
                                 IconButton(
-                                    // TODO: Implement pdf gen / sharing
-                                    onPressed: null,
+                                    onPressed: () => widget.onSharePdf(device),
                                     icon: const Icon(Icons.ios_share)),
                               IconButton(
                                 icon: const Icon(Icons.assignment),
