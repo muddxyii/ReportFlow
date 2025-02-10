@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:report_flow/features/backflow/widgets/device/comments_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/device/device_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/device/permit_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/device/sov_info_card.dart';
@@ -166,6 +167,9 @@ class _BackflowPageState extends State<BackflowPage> {
             onFinalTestUpdate: _updateFinalTest,
             onResetTestData: _resetTestData,
           ),
+          const SizedBox(height: 8),
+          CommentsInfoCard(
+              info: backflow.deviceInfo, onInfoUpdate: _updateDeviceInfo),
           const SizedBox(height: 8),
           SizedBox(
             width: double.infinity,

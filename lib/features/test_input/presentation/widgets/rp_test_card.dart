@@ -90,6 +90,8 @@ class _RpTestCardState extends State<RpTestCard> {
     String focusKey,
     Function(ReliefValve) onValveUpdated,
   ) {
+    reliefValve = reliefValve.copyWith(opened: true);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
