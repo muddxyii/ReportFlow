@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:report_flow/core/data/pdf_repository.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/features/backflow/widgets/device/device_info_card.dart';
 import 'package:report_flow/features/backflow/widgets/device/permit_info_card.dart';
@@ -11,15 +10,15 @@ import 'package:report_flow/features/settings/presentation/settings_page.dart';
 
 class BackflowPage extends StatefulWidget {
   final Backflow backflow;
-  final CustomerInformation customerInfo;
 
   final Function(Backflow) onInfoUpdate;
+  final Function(Backflow) onSharePdf;
 
   const BackflowPage({
     super.key,
     required this.backflow,
-    required this.customerInfo,
     required this.onInfoUpdate,
+    required this.onSharePdf,
   });
 
   @override
@@ -168,17 +167,15 @@ class _BackflowPageState extends State<BackflowPage> {
             onResetTestData: _resetTestData,
           ),
           const SizedBox(height: 8),
-          ElevatedButton(
-            onPressed: _generatePdf,
-            child: const Text('Generate Pdf'),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => widget.onSharePdf(backflow),
+              child: const Text('Generate Pdf'),
+            ),
           ),
         ],
       ),
     );
-  }
-
-  Future<void> _generatePdf() async {
-    final pdfRepo = PdfRepository();
-    await pdfRepo.generatePdf(backflow);
   }
 }

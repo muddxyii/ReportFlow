@@ -987,6 +987,12 @@ class BackflowList {
       backflows: backflows ?? this.backflows,
     );
   }
+
+  int getCompletedCount() {
+    return backflows.values
+        .where((backflow) => backflow.isComplete == true)
+        .length;
+  }
 }
 
 class JobData {

@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:report_flow/core/data/job_repository.dart';
+import 'package:report_flow/core/data/pdf_repository.dart';
 import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/features/job/presentation/widgets/backflow_list_card.dart';
 import 'package:report_flow/features/job/presentation/widgets/customer_info_card.dart';
 import 'package:report_flow/features/job/presentation/widgets/job_header_card.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
+import 'package:share_plus/share_plus.dart';
 
 enum JobLoadingState { initial, loading, loaded, error }
 
@@ -108,13 +110,15 @@ class _JobPageState extends State<JobPage> {
 
       setState(() => _jobData = updatedJob);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('Failed to save job: ${e.toString()}'),
-          duration: const Duration(seconds: 3),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Failed to save job: ${e.toString()}'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 
@@ -179,13 +183,36 @@ class _JobPageState extends State<JobPage> {
               const SizedBox(height: 8),
               BackflowListCard(
                 list: _jobData!.backflowList,
-                customerInfo: _jobData!.customerInformation,
                 onInfoUpdate: (updatedList) => _updateJob(
                     (job) => job.copyWith(backflowList: updatedList)),
+                onSharePdf: (Backflow backflow) {
+                  _generateAndSharePdf(backflow);
+                },
               ),
             ],
           ),
         );
+    }
+  }
+
+  Future<void> _generateAndSharePdf(Backflow backflow) async {
+    final pdfRepo = PdfRepository();
+    final pdfPath =
+        await pdfRepo.generatePdf(backflow, _jobData!.customerInformation);
+
+    if (pdfPath.isNotEmpty) {
+      final jobName = _jobData!.details.jobName;
+      final jobType = _jobData!.details.jobType;
+      final currentBackflowNum = _jobData!.backflowList.getCompletedCount() + 1;
+      final totalBackflowNum = _jobData!.backflowList.backflows.length;
+      final serialNo = backflow.deviceInfo.serialNo;
+
+      final subjectLineText =
+          '$jobName - $jobType ($currentBackflowNum of $totalBackflowNum)';
+      final bodyText = '$serialNo - Report Generated With ReportFlow';
+
+      await Share.shareXFiles([XFile(pdfPath)],
+          subject: subjectLineText, text: bodyText);
     }
   }
 }
