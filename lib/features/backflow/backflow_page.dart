@@ -79,7 +79,7 @@ class _BackflowPageState extends State<BackflowPage> {
 
   void _updateFinalTest(Test updatedTest) {
     setState(() {
-      backflow = backflow.copyWith(finalTest: updatedTest, isComplete: true);
+      backflow = backflow.copyWith(finalTest: updatedTest, isComplete: false);
     });
     widget.onInfoUpdate(backflow);
   }
