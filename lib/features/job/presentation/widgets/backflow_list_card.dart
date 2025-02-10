@@ -59,7 +59,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
     });
   }
 
-  void _addBackflow() async {
+  void _addBackflow([Backflow? backflowTemplate]) async {
     final serialNumber = await showDialog<String>(
       context: context,
       builder: (BuildContext context) {
@@ -90,7 +90,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
 
     if (serialNumber != null && serialNumber.isNotEmpty) {
       // Create a new Backflow instance with the serial number
-      final newBackflow = Backflow(
+      late Backflow newBackflow = Backflow(
         locationInfo: LocationInfo(
             assemblyAddress: '', onSiteLocation: '', primaryService: ''),
         installationInfo:
@@ -103,6 +103,12 @@ class _BackflowListCardState extends State<BackflowListCard> {
         finalTest: Test.empty(),
         isComplete: false,
       );
+
+      if (backflowTemplate != null) {
+        newBackflow = backflowTemplate.copyWith(
+            deviceInfo:
+                backflowTemplate.deviceInfo.copyWith(serialNo: serialNumber));
+      }
 
       // Update the backflows map
       final updatedBackflows =
@@ -136,6 +142,40 @@ class _BackflowListCardState extends State<BackflowListCard> {
       updatedBackflows[key] = updatedBackflow;
       widget.onInfoUpdate(widget.list.copyWith(backflows: updatedBackflows));
     });
+  }
+
+  void _showDeleteConfirmationDialog(String serialNumber) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Remove Backflow'),
+          content:
+              Text('Are you sure you want to remove backflow $serialNumber?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Remove the backflow from the list
+                final updatedBackflows =
+                    Map<String, Backflow>.from(widget.list.backflows);
+                updatedBackflows.remove(serialNumber);
+
+                // Update the list using the callback
+                widget.onInfoUpdate(
+                    widget.list.copyWith(backflows: updatedBackflows));
+
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text('Remove'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -217,11 +257,31 @@ class _BackflowListCardState extends State<BackflowListCard> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              IconButton(
-                                  // TODO: Implement more_vert bar settings
-                                  // Stuff like 'Mark As Complete'
-                                  onPressed: null,
-                                  icon: const Icon(Icons.more_vert))
+                              PopupMenuButton<String>(
+                                icon: const Icon(Icons.more_vert),
+                                onSelected: (String value) {
+                                  switch (value) {
+                                    case 'remove':
+                                      _showDeleteConfirmationDialog(key);
+                                      break;
+                                    case 'duplicate':
+                                      _addBackflow(device);
+                                      break;
+                                  }
+                                },
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                  const PopupMenuItem<String>(
+                                    value: 'remove',
+                                    child: Text('Remove'),
+                                  ),
+                                  const PopupMenuItem<String>(
+                                    value: 'duplicate',
+                                    child: Text('Duplicate'),
+                                  ),
+                                  // Add more PopupMenuItems here for additional options
+                                ],
+                              )
                             ],
                           ),
                           Row(
