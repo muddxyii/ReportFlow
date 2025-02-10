@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:report_flow/features/settings/presentation/profiles/tester_profiles.dart';
-import 'package:report_flow/features/settings/settings_viewmodel.dart';
+import 'package:reportflow/features/settings/presentation/profiles/tester_profiles.dart';
+import 'package:reportflow/features/settings/settings_viewmodel.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

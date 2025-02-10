@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:report_flow/core/models/profile.dart';
+import 'package:reportflow/core/models/profile.dart';
 
 class ProfileEditDialog extends StatefulWidget {
   final Profile? profile;

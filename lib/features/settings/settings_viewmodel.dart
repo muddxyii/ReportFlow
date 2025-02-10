@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:report_flow/core/data/profile_repository.dart';
-import 'package:report_flow/core/models/profile.dart';
+import 'package:reportflow/core/data/profile_repository.dart';
+import 'package:reportflow/core/models/profile.dart';
 
 class SettingsViewModel extends ChangeNotifier {
   final _profileRepository = ProfileRepository();

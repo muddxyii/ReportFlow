@@ -1,4 +1,4 @@
-package com.anybackflow.report_flow
+package com.anybackflow.reportflow
 
 import android.content.Context
 import io.flutter.embedding.engine.plugins.FlutterPlugin

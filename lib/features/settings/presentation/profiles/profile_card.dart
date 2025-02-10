@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:report_flow/core/models/profile.dart';
-import 'package:report_flow/features/settings/presentation/profiles/profit_edit_dialog.dart';
-import 'package:report_flow/features/settings/settings_viewmodel.dart';
+import 'package:reportflow/core/models/profile.dart';
+import 'package:reportflow/features/settings/presentation/profiles/profit_edit_dialog.dart';
+import 'package:reportflow/features/settings/settings_viewmodel.dart';
 
 class ProfileCard extends StatelessWidget {
   final Profile profile;

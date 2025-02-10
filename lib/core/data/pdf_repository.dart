@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:report_flow/core/models/report_flow_types.dart';
-import 'package:report_flow/services/pdf/pdf_service.dart';
+import 'package:reportflow/core/models/report_flow_types.dart';
+import 'package:reportflow/services/pdf/pdf_service.dart';
 
 class PdfRepository {
   final pdfService = PdfService();

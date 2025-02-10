@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:report_flow/core/widgets/form_input_field.dart';
-import 'package:report_flow/core/widgets/info_field.dart';
+import 'package:reportflow/core/widgets/form_input_field.dart';
+import 'package:reportflow/core/widgets/info_field.dart';
 
 class PurveyorInfoCard extends StatefulWidget {
   final String waterPurveyor;

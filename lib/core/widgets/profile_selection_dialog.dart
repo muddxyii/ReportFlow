@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:report_flow/core/data/profile_repository.dart';
-import 'package:report_flow/core/models/profile.dart';
-import 'package:report_flow/core/widgets/info_field.dart';
+import 'package:reportflow/core/data/profile_repository.dart';
+import 'package:reportflow/core/models/profile.dart';
+import 'package:reportflow/core/widgets/info_field.dart';
 
 class ProfileSelectionDialog extends StatefulWidget {
   final bool isRepair;

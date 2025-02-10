@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:report_flow/core/widgets/form_input_field.dart';
-import 'package:report_flow/core/widgets/info_field.dart';
-import 'package:report_flow/features/backflow/widgets/device/base_device_card.dart';
+import 'package:reportflow/core/widgets/form_input_field.dart';
+import 'package:reportflow/core/widgets/info_field.dart';
+import 'package:reportflow/features/backflow/widgets/device/base_device_card.dart';
 
 class CommentsInfoCard extends BaseDeviceCard {
   const CommentsInfoCard({

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:report_flow/core/data/job_repository.dart';
-import 'package:report_flow/core/models/report_flow_types.dart';
-import 'package:report_flow/core/widgets/info_field.dart';
-import 'package:report_flow/features/job/presentation/job_page.dart';
-import 'package:report_flow/features/settings/presentation/settings_page.dart';
+import 'package:reportflow/core/data/job_repository.dart';
+import 'package:reportflow/core/models/report_flow_types.dart';
+import 'package:reportflow/core/widgets/info_field.dart';
+import 'package:reportflow/features/job/presentation/job_page.dart';
+import 'package:reportflow/features/settings/presentation/settings_page.dart';
 
 class JobBrowserPage extends StatefulWidget {
   const JobBrowserPage({super.key});

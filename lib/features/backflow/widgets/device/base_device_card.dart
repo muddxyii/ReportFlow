@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:reportflow/core/models/report_flow_types.dart';
 
 abstract class BaseDeviceCard extends StatefulWidget {
   final DeviceInfo info;

@@ -1,4 +1,4 @@
-import 'package:report_flow/core/models/report_flow_types.dart';
+import 'package:reportflow/core/models/report_flow_types.dart';
 
 class BackflowTestEvaluator {
   static const String passIcon = '✅';

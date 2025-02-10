@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:report_flow/core/models/report_flow_types.dart';
-import 'package:report_flow/core/widgets/form_dropdown_field.dart';
-import 'package:report_flow/core/widgets/info_field.dart';
+import 'package:reportflow/core/models/report_flow_types.dart';
+import 'package:reportflow/core/widgets/form_dropdown_field.dart';
+import 'package:reportflow/core/widgets/info_field.dart';
 
 class InstallationInfoCard extends StatefulWidget {
   final InstallationInfo info;

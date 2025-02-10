@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:report_flow/features/settings/presentation/profiles/profile_card.dart';
-import 'package:report_flow/features/settings/presentation/profiles/profit_edit_dialog.dart';
-import 'package:report_flow/features/settings/settings_viewmodel.dart';
+import 'package:reportflow/features/settings/presentation/profiles/profile_card.dart';
+import 'package:reportflow/features/settings/presentation/profiles/profit_edit_dialog.dart';
+import 'package:reportflow/features/settings/settings_viewmodel.dart';
 
 class TesterProfiles extends StatelessWidget {
   const TesterProfiles({super.key});

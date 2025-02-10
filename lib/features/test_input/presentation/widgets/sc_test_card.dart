@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:report_flow/core/models/report_flow_types.dart';
-import 'package:report_flow/core/widgets/form_checkbox_field.dart';
-import 'package:report_flow/core/widgets/form_input_field.dart';
+import 'package:reportflow/core/models/report_flow_types.dart';
+import 'package:reportflow/core/widgets/form_checkbox_field.dart';
+import 'package:reportflow/core/widgets/form_input_field.dart';
 
 class ScTestCard extends StatefulWidget {
   final Test test;

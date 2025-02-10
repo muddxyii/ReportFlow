@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:report_flow/core/models/profile.dart';
+import 'package:reportflow/core/models/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileRepository {

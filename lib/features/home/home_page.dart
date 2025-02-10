@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:report_flow/core/data/job_repository.dart';
-import 'package:report_flow/core/data/profile_repository.dart';
-import 'package:report_flow/features/job/presentation/job_page.dart';
-import 'package:report_flow/features/job_browser/job_browser_page.dart';
-import 'package:report_flow/features/settings/presentation/settings_page.dart';
+import 'package:reportflow/core/data/job_repository.dart';
+import 'package:reportflow/core/data/profile_repository.dart';
+import 'package:reportflow/features/job/presentation/job_page.dart';
+import 'package:reportflow/features/job_browser/job_browser_page.dart';
+import 'package:reportflow/features/settings/presentation/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
