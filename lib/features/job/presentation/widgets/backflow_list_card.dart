@@ -59,6 +59,76 @@ class _BackflowListCardState extends State<BackflowListCard> {
     });
   }
 
+  void _addBackflow() async {
+    final serialNumber = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        String serialNo = '';
+        return AlertDialog(
+          title: const Text('Add New Backflow'),
+          content: TextField(
+            autofocus: true,
+            textCapitalization: TextCapitalization.characters,
+            decoration: const InputDecoration(
+              labelText: 'Serial Number',
+            ),
+            onChanged: (value) => serialNo = value,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, serialNo),
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (serialNumber != null && serialNumber.isNotEmpty) {
+      // Create a new Backflow instance with the serial number
+      final newBackflow = Backflow(
+        locationInfo: LocationInfo(
+            assemblyAddress: '', onSiteLocation: '', primaryService: ''),
+        installationInfo:
+            InstallationInfo(status: '', protectionType: '', serviceType: ''),
+        deviceInfo: DeviceInfo(
+            serialNo: serialNumber,
+            shutoffValves: ShutoffValves(status: '', comment: '')),
+        initialTest: Test.empty(),
+        repairs: Repairs.empty(),
+        finalTest: Test.empty(),
+        isComplete: false,
+      );
+
+      // Update the backflows map
+      final updatedBackflows =
+          Map<String, Backflow>.from(widget.list.backflows);
+      updatedBackflows[serialNumber] = newBackflow;
+
+      // Update the list using the callback
+      widget.onInfoUpdate(widget.list.copyWith(backflows: updatedBackflows));
+
+      // Navigate to the backflow page
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BackflowPage(
+              backflow: newBackflow,
+              onInfoUpdate: (updatedBackflow) =>
+                  _updateBackflow(serialNumber, updatedBackflow),
+              onSharePdf: widget.onSharePdf,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   void _updateBackflow(String key, Backflow updatedBackflow) {
     setState(() {
       final updatedBackflows =
@@ -78,9 +148,23 @@ class _BackflowListCardState extends State<BackflowListCard> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Backflows',
-              style: Theme.of(context).textTheme.titleMedium,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Backflows',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () => _addBackflow(),
+                  label: const Text('Add'),
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             TextField(

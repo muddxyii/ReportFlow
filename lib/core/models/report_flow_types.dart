@@ -278,13 +278,13 @@ class DeviceInfo {
   final ShutoffValves shutoffValves;
 
   DeviceInfo({
-    required this.permitNo,
-    required this.meterNo,
-    required this.serialNo,
-    required this.type,
-    required this.manufacturer,
-    required this.size,
-    required this.modelNo,
+    this.permitNo = '',
+    this.meterNo = '',
+    this.serialNo = '',
+    this.type = '',
+    this.manufacturer = '',
+    this.size = '',
+    this.modelNo = '',
     required this.shutoffValves,
   });
 
