@@ -44,6 +44,8 @@ class PdfRepository {
   Map<String, String> _getFormData(
       Backflow backflow, CustomerInformation customerInfo) {
     return {
+      // TODO: Don't forget to add water purveyor!
+
       // Facility Owner Information
       'FacilityOwner': customerInfo.facilityOwnerInfo.owner,
       'Address': customerInfo.facilityOwnerInfo.address,
@@ -60,7 +62,7 @@ class PdfRepository {
       // Backflow
       'WaterMeterNo': backflow.deviceInfo.meterNo,
       'SerialNo': backflow.deviceInfo.serialNo,
-      'Model': backflow.deviceInfo.modelNo,
+      'ModelNo': backflow.deviceInfo.modelNo,
       'Size': backflow.deviceInfo.size,
       'Manufacturer': backflow.deviceInfo.manufacturer,
       'BFType': backflow.deviceInfo.type,
@@ -75,10 +77,153 @@ class PdfRepository {
       'ServiceType': backflow.installationInfo.serviceType,
       'InstallationIs': backflow.installationInfo.status,
 
-      // Backflow Initial Test
-      'LinePressure': backflow.initialTest.linePressure,
+      //region Backflow Initial Test
+
+      'LinePressure': backflow.finalTest.linePressure.isEmpty
+          ? backflow.initialTest.linePressure
+          : backflow.finalTest.linePressure,
+
+      //region Ck1
       'InitialCT1': backflow.initialTest.checkValve1.value,
+      'InitialCTBox':
+          backflow.initialTest.checkValve1.closedTight ? 'On' : 'Off',
+      'InitialCT1Leaked':
+          backflow.initialTest.checkValve1.closedTight ? 'Off' : 'On',
+      //endregion
+
+      //region Ck2
       'InitialCT2': backflow.initialTest.checkValve2.value,
+      'InitialCT2Box':
+          backflow.initialTest.checkValve2.closedTight ? 'On' : 'Off',
+      'InitialCT2Leaked':
+          backflow.initialTest.checkValve2.closedTight ? 'Off' : 'On',
+      //endregion
+
+      //region RV
+      'InitialPSIRV': backflow.initialTest.reliefValve.value,
+      'InitialRVDidNotOpen':
+          backflow.initialTest.reliefValve.opened ? 'Off' : 'On',
+      //endregion
+
+      //region PVB
+      'InitialAirInlet': backflow.initialTest.vacuumBreaker.airInlet.value,
+      'InitialAirInletLeaked':
+          backflow.initialTest.vacuumBreaker.airInlet.leaked ? 'On' : 'Off',
+      'InitialCkPVBLDidNotOpen':
+          backflow.initialTest.vacuumBreaker.airInlet.opened ? 'Off' : 'On',
+
+      'InitialCk1PVB': backflow.initialTest.vacuumBreaker.check.value,
+      'InitialCkPVBLeaked':
+          backflow.initialTest.vacuumBreaker.check.leaked ? 'On' : 'Off',
+      //endregion
+
+      //region Tester Profile
+      'InitialTester': backflow.initialTest.testerProfile.name,
+      'InitialTesterNo': backflow.initialTest.testerProfile.certNo,
+      'DateFailed': backflow.initialTest.testerProfile.date,
+      'InitialTestKitSerial': backflow.initialTest.testerProfile.gaugeKit,
+      //endregion
+
+      //endregion
+
+      //region Backflow Repairs
+
+      //region CK1
+      'Ck1Cleaned': backflow.repairs.checkValve1Repairs.cleaned ? 'On' : 'Off',
+      'Ck1CheckDisc':
+          backflow.repairs.checkValve1Repairs.checkDisc ? 'On' : 'Off',
+      'Ck1DiscHolder':
+          backflow.repairs.checkValve1Repairs.discHolder ? 'On' : 'Off',
+      'Ck1Spring': backflow.repairs.checkValve1Repairs.spring ? 'On' : 'Off',
+      'Ck1Guide': backflow.repairs.checkValve1Repairs.guide ? 'On' : 'Off',
+      'Ck1Seat': backflow.repairs.checkValve1Repairs.seat ? 'On' : 'Off',
+      'Ck1Other': backflow.repairs.checkValve1Repairs.other ? 'On' : 'Off',
+      //endregion
+
+      //region CK2
+      'Ck2Cleaned': backflow.repairs.checkValve2Repairs.cleaned ? 'On' : 'Off',
+      'Ck2CheckDisc':
+          backflow.repairs.checkValve2Repairs.checkDisc ? 'On' : 'Off',
+      'Ck2DiscHolder':
+          backflow.repairs.checkValve2Repairs.discHolder ? 'On' : 'Off',
+      'Ck2Spring': backflow.repairs.checkValve2Repairs.spring ? 'On' : 'Off',
+      'Ck2Guide': backflow.repairs.checkValve2Repairs.guide ? 'On' : 'Off',
+      'Ck2Seat': backflow.repairs.checkValve2Repairs.seat ? 'On' : 'Off',
+      'Ck2Other': backflow.repairs.checkValve2Repairs.other ? 'On' : 'Off',
+      //endregion
+
+      //region RV
+      'RVCleaned': backflow.repairs.reliefValveRepairs.cleaned ? 'On' : 'Off',
+      'RVRubberKit':
+          backflow.repairs.reliefValveRepairs.rubberKit ? 'On' : 'Off',
+      'RVDiscHolder':
+          backflow.repairs.reliefValveRepairs.discHolder ? 'On' : 'Off',
+      'RVSpring': backflow.repairs.reliefValveRepairs.spring ? 'On' : 'Off',
+      'RVGuide': backflow.repairs.reliefValveRepairs.guide ? 'On' : 'Off',
+      'RVSeat': backflow.repairs.reliefValveRepairs.seat ? 'On' : 'Off',
+      'RVOther': backflow.repairs.reliefValveRepairs.other ? 'On' : 'Off',
+      //endregion
+
+      //region PVB
+      'PVBCleaned':
+          backflow.repairs.vacuumBreakerRepairs.cleaned ? 'On' : 'Off',
+      'PVBRubberKit':
+          backflow.repairs.vacuumBreakerRepairs.rubberKit ? 'On' : 'Off',
+      'PVBDiscHolder':
+          backflow.repairs.vacuumBreakerRepairs.discHolder ? 'On' : 'Off',
+      'PVBSpring': backflow.repairs.vacuumBreakerRepairs.spring ? 'On' : 'Off',
+      'PVBGuide': backflow.repairs.vacuumBreakerRepairs.guide ? 'On' : 'Off',
+      'PVBSeat': backflow.repairs.vacuumBreakerRepairs.seat ? 'On' : 'Off',
+      'PVBOther': backflow.repairs.vacuumBreakerRepairs.other ? 'On' : 'Off',
+      //endregion
+
+      //region Tester Profile
+      'RepairedTester': backflow.repairs.testerProfile.name,
+      'RepairedTesterNo': backflow.repairs.testerProfile.certNo,
+      'DateRepaired': backflow.repairs.testerProfile.date,
+      'RepairedTestKitSerial': backflow.repairs.testerProfile.gaugeKit,
+      //endregion
+
+      //endregion
+
+      //region Shutoff Valves
+
+      'SOVList': backflow.deviceInfo.shutoffValves.status,
+      'SOVComment': backflow.deviceInfo.shutoffValves.comment,
+
+      //endregion
+
+      //region Backflow Final Test
+
+      //region Ck1
+      'FinalCT1': backflow.finalTest.checkValve1.value,
+      'FinalCT1Box': backflow.finalTest.checkValve1.closedTight ? 'On' : 'Off',
+      //endregion
+
+      //region Ck2
+      'FinalCT2': backflow.finalTest.checkValve2.value,
+      'FinalCT2Box': backflow.finalTest.checkValve2.closedTight ? 'On' : 'Off',
+      //endregion
+
+      //region RV
+      'FinalRV': backflow.finalTest.reliefValve.value,
+      //endregion
+
+      //region PVB
+      'BackPressure':
+          backflow.finalTest.vacuumBreaker.backPressure ? 'On' : 'Off',
+      'FinalAirInlet': backflow.finalTest.vacuumBreaker.airInlet.value,
+      'Check Valve': backflow.finalTest.vacuumBreaker.check.value,
+      //endregion
+
+      //region Tester Profile
+      'FinalTester': backflow.finalTest.testerProfile.name,
+      'FinalTesterNo': backflow.finalTest.testerProfile.certNo,
+      'DatePassed': backflow.finalTest.testerProfile.date,
+      'FinalTestKitSerial': backflow.finalTest.testerProfile.gaugeKit,
+      //endregion
+
+      //endregion
     };
   }
 
