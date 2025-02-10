@@ -64,27 +64,45 @@ class _BackflowListCardState extends State<BackflowListCard> {
       context: context,
       builder: (BuildContext context) {
         String serialNo = '';
-        return AlertDialog(
-          title: const Text('Add New Backflow'),
-          content: TextField(
-            autofocus: true,
-            textCapitalization: TextCapitalization.characters,
-            decoration: const InputDecoration(
-              labelText: 'Serial Number',
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            title: const Text('Add New Backflow'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  autofocus: true,
+                  textCapitalization: TextCapitalization.characters,
+                  decoration: const InputDecoration(
+                    labelText: 'Serial Number',
+                  ),
+                  onChanged: (value) => setState(() => serialNo = value),
+                ),
+                if (widget.list.backflows.containsKey(serialNo))
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'This serial number already exists',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+              ],
             ),
-            onChanged: (value) => serialNo = value,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, serialNo),
-              child: const Text('Add'),
-            ),
-          ],
-        );
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: serialNo.isEmpty ||
+                        widget.list.backflows.containsKey(serialNo)
+                    ? null
+                    : () => Navigator.pop(context, serialNo),
+                child: const Text('Add'),
+              ),
+            ],
+          );
+        });
       },
     );
 
