@@ -9,8 +9,8 @@ import 'package:report_flow/services/pdf/pdf_service.dart';
 class PdfRepository {
   final pdfService = PdfService();
 
-  Future<String> generatePdf(
-      Backflow backflow, CustomerInformation customerInfo) async {
+  Future<String> generatePdf(String waterPurveyor, Backflow backflow,
+      CustomerInformation customerInfo) async {
     try {
       final templatePath = await _copyAssetToTemp(
           'assets/pdf-templates/Abf-Fillable-01-25.pdf', 'template.pdf');
@@ -28,7 +28,7 @@ class PdfRepository {
 
       await pdfService.fillForm(
         templatePath: templatePath,
-        formData: _getFormData(backflow, customerInfo),
+        formData: _getFormData(waterPurveyor, backflow, customerInfo),
         outputPath: outputPath,
       );
 
@@ -41,10 +41,11 @@ class PdfRepository {
     }
   }
 
-  Map<String, String> _getFormData(
-      Backflow backflow, CustomerInformation customerInfo) {
+  Map<String, String> _getFormData(String waterPurveyor, Backflow backflow,
+      CustomerInformation customerInfo) {
     return {
-      // TODO: Don't forget to add water purveyor!
+      // Water Purveyor
+      'WaterPurveyor': waterPurveyor,
 
       // Facility Owner Information
       'FacilityOwner': customerInfo.facilityOwnerInfo.owner,
@@ -222,6 +223,8 @@ class PdfRepository {
       'DatePassed': backflow.finalTest.testerProfile.date,
       'FinalTestKitSerial': backflow.finalTest.testerProfile.gaugeKit,
       //endregion
+
+      'ReportComments': backflow.deviceInfo.comments,
 
       //endregion
     };

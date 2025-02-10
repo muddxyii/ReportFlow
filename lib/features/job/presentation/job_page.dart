@@ -7,6 +7,7 @@ import 'package:report_flow/core/models/report_flow_types.dart';
 import 'package:report_flow/features/job/presentation/widgets/backflow_list_card.dart';
 import 'package:report_flow/features/job/presentation/widgets/customer_info_card.dart';
 import 'package:report_flow/features/job/presentation/widgets/job_header_card.dart';
+import 'package:report_flow/features/job/presentation/widgets/purveyor_info_card.dart';
 import 'package:report_flow/features/settings/presentation/settings_page.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -174,6 +175,12 @@ class _JobPageState extends State<JobPage> {
                 jobName: _jobData!.details.jobName,
                 jobType: _jobData!.details.jobType,
               ),
+              PurveyorInfoCard(
+                  waterPurveyor: _jobData!.details.waterPurveyor,
+                  onPurveyorUpdate: (updatedPurveyor) => _updateJob((job) =>
+                      job.copyWith(
+                          details: job.details
+                              .copyWith(waterPurveyor: updatedPurveyor)))),
               CustomerInfoCard(
                 info: _jobData!.customerInformation,
                 onInfoUpdate: (updatedInfo) => _updateJob(
@@ -197,8 +204,8 @@ class _JobPageState extends State<JobPage> {
 
   Future<bool> _generateAndSharePdf(Backflow backflow) async {
     final pdfRepo = PdfRepository();
-    final pdfPath =
-        await pdfRepo.generatePdf(backflow, _jobData!.customerInformation);
+    final pdfPath = await pdfRepo.generatePdf(_jobData!.details.waterPurveyor,
+        backflow, _jobData!.customerInformation);
 
     if (pdfPath.isEmpty) {
       return false;

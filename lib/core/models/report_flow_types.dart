@@ -48,6 +48,18 @@ class JobDetails {
         'jobName': jobName,
         'waterPurveyor': waterPurveyor,
       };
+
+  JobDetails copyWith({
+    String? jobName,
+    String? jobType,
+    String? waterPurveyor,
+  }) {
+    return JobDetails(
+      jobName: jobName ?? this.jobName,
+      jobType: jobType ?? this.jobType,
+      waterPurveyor: waterPurveyor ?? this.waterPurveyor,
+    );
+  }
 }
 
 //region Customer Information
@@ -276,17 +288,18 @@ class DeviceInfo {
   final String size;
   final String modelNo;
   final ShutoffValves shutoffValves;
+  final String comments;
 
-  DeviceInfo({
-    this.permitNo = '',
-    this.meterNo = '',
-    this.serialNo = '',
-    this.type = '',
-    this.manufacturer = '',
-    this.size = '',
-    this.modelNo = '',
-    required this.shutoffValves,
-  });
+  DeviceInfo(
+      {this.permitNo = '',
+      this.meterNo = '',
+      this.serialNo = '',
+      this.type = '',
+      this.manufacturer = '',
+      this.size = '',
+      this.modelNo = '',
+      required this.shutoffValves,
+      this.comments = ''});
 
   factory DeviceInfo.fromJson(Map<String, dynamic> json) => DeviceInfo(
         permitNo: json['permitNo']?.toString() ?? '',
@@ -297,6 +310,7 @@ class DeviceInfo {
         size: json['size']?.toString() ?? '',
         modelNo: json['modelNo']?.toString() ?? '',
         shutoffValves: ShutoffValves.fromJson(json['shutoffValves']),
+        comments: json['comments']?.toString() ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -308,6 +322,7 @@ class DeviceInfo {
         'size': size,
         'modelNo': modelNo,
         'shutoffValves': shutoffValves.toJson(),
+        'comments': comments
       };
 
   DeviceInfo copyWith(
@@ -318,16 +333,19 @@ class DeviceInfo {
       String? manufacturer,
       String? size,
       String? modelNo,
-      ShutoffValves? shutoffValves}) {
+      ShutoffValves? shutoffValves,
+      String? comments}) {
     return DeviceInfo(
-        permitNo: permitNo ?? this.permitNo,
-        meterNo: meterNo ?? this.meterNo,
-        serialNo: serialNo ?? this.serialNo,
-        type: type ?? this.type,
-        manufacturer: manufacturer ?? this.manufacturer,
-        size: size ?? this.size,
-        modelNo: modelNo ?? this.modelNo,
-        shutoffValves: shutoffValves ?? this.shutoffValves);
+      permitNo: permitNo ?? this.permitNo,
+      meterNo: meterNo ?? this.meterNo,
+      serialNo: serialNo ?? this.serialNo,
+      type: type ?? this.type,
+      manufacturer: manufacturer ?? this.manufacturer,
+      size: size ?? this.size,
+      modelNo: modelNo ?? this.modelNo,
+      shutoffValves: shutoffValves ?? this.shutoffValves,
+      comments: comments ?? this.comments,
+    );
   }
 }
 
