@@ -138,7 +138,7 @@ class BackflowTestEvaluator {
       } else if (v2 < 2.0) {
         statusMessage = 'Relief Valve\'s value was lower than 2.0';
         return failIcon;
-      } else if (v1 - v2 > 3.0) {
+      } else if (v1 - v2 < 3.0) {
         statusMessage =
             'Check #1\'s value is not at least 3.0 greater than Relief Valve\'s value';
         return failIcon;
