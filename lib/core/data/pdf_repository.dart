@@ -44,6 +44,17 @@ class PdfRepository {
   Map<String, String> _getFormData(String waterPurveyor, Backflow backflow,
       CustomerInformation customerInfo) {
     return {
+      ..._getBasicInfo(waterPurveyor, customerInfo),
+      ..._getDeviceInfo(backflow),
+      ..._getInitialTest(backflow),
+      ..._getRepairs(backflow),
+      ..._getFinalTest(backflow)
+    };
+  }
+
+  Map<String, String> _getBasicInfo(
+      String waterPurveyor, CustomerInformation customerInfo) {
+    return {
       // Water Purveyor
       'WaterPurveyor': waterPurveyor,
 
@@ -59,7 +70,11 @@ class PdfRepository {
       'RepAddress': customerInfo.representativeInfo.address,
       'PersontoContact': customerInfo.representativeInfo.contact,
       'Phone-0': customerInfo.representativeInfo.phone,
+    };
+  }
 
+  Map<String, String> _getDeviceInfo(Backflow backflow) {
+    return {
       // Backflow
       'WaterMeterNo': backflow.deviceInfo.meterNo,
       'SerialNo': backflow.deviceInfo.serialNo,
@@ -78,8 +93,22 @@ class PdfRepository {
       'ServiceType': backflow.installationInfo.serviceType,
       'InstallationIs': backflow.installationInfo.status,
 
-      //region Backflow Initial Test
+      //Shutoff Valves
+      'SOVList': backflow.deviceInfo.shutoffValves.status,
+      'SOVComment': backflow.deviceInfo.shutoffValves.comment,
+    };
+  }
 
+  Map<String, String> _getInitialTest(Backflow backflow) {
+    if (backflow.initialTest.testerProfile.name.isEmpty) {
+      return {
+        'LinePressure': backflow.finalTest.linePressure.isEmpty
+            ? backflow.initialTest.linePressure
+            : backflow.finalTest.linePressure
+      };
+    }
+
+    return {
       'LinePressure': backflow.finalTest.linePressure.isEmpty
           ? backflow.initialTest.linePressure
           : backflow.finalTest.linePressure,
@@ -143,9 +172,15 @@ class PdfRepository {
       //endregion
 
       //endregion
+    };
+  }
 
-      //region Backflow Repairs
+  Map<String, String> _getRepairs(Backflow backflow) {
+    if (backflow.repairs.testerProfile.name.isEmpty) {
+      return {};
+    }
 
+    return {
       //region CK1
       'Ck1Cleaned': backflow.repairs.checkValve1Repairs.cleaned ? 'On' : 'Off',
       'Ck1CheckDisc':
@@ -201,18 +236,15 @@ class PdfRepository {
       'DateRepaired': backflow.repairs.testerProfile.date,
       'RepairedTestKitSerial': backflow.repairs.testerProfile.gaugeKit,
       //endregion
+    };
+  }
 
-      //endregion
+  Map<String, String> _getFinalTest(Backflow backflow) {
+    if (backflow.finalTest.testerProfile.name.isEmpty) {
+      return {};
+    }
 
-      //region Shutoff Valves
-
-      'SOVList': backflow.deviceInfo.shutoffValves.status,
-      'SOVComment': backflow.deviceInfo.shutoffValves.comment,
-
-      //endregion
-
-      //region Backflow Final Test
-
+    return {
       //region Ck1
       'FinalCT1': backflow.finalTest.checkValve1.value,
       'FinalCT1Box': backflow.finalTest.checkValve1.closedTight ? 'On' : 'Off',
@@ -246,8 +278,6 @@ class PdfRepository {
       //endregion
 
       'ReportComments': backflow.deviceInfo.comments,
-
-      //endregion
     };
   }
 
