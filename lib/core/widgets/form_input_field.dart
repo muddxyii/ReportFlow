@@ -47,6 +47,17 @@ class _FormInputFieldState extends State<FormInputField> {
     super.dispose();
   }
 
+  void _formatDecimalValue() {
+    if (widget.formatDecimal && _controller.text.isNotEmpty) {
+      final number = double.tryParse(_controller.text);
+      if (number != null) {
+        final formatted = number.toStringAsFixed(1);
+        _controller.text = formatted;
+        widget.onChanged?.call(formatted);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -65,28 +76,17 @@ class _FormInputFieldState extends State<FormInputField> {
         }
         return null;
       },
-      onSaved: widget.onSaved,
+      onSaved: (value) {
+        _formatDecimalValue();
+        widget.onSaved?.call(value);
+      },
       onChanged: widget.onChanged,
       onFieldSubmitted: (value) {
-        if (widget.formatDecimal && value.isNotEmpty) {
-          final number = double.tryParse(value);
-          if (number != null) {
-            final formatted = number.toStringAsFixed(1);
-            _controller.text = formatted;
-            widget.onChanged?.call(formatted);
-          }
-        }
+        _formatDecimalValue();
         widget.onSubmitted?.call();
       },
       onTapOutside: (event) {
-        if (widget.formatDecimal && _controller.text.isNotEmpty) {
-          final number = double.tryParse(_controller.text);
-          if (number != null) {
-            final formatted = number.toStringAsFixed(1);
-            _controller.text = formatted;
-            widget.onChanged?.call(formatted);
-          }
-        }
+        _formatDecimalValue();
       },
     );
   }
