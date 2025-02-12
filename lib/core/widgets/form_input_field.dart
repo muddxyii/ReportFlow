@@ -34,17 +34,30 @@ class FormInputField extends StatefulWidget {
 
 class _FormInputFieldState extends State<FormInputField> {
   late TextEditingController _controller;
+  late FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialValue);
+    _focusNode = widget.focusNode ?? FocusNode();
+    _focusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    if (widget.focusNode == null) {
+      _focusNode.dispose();
+    }
     _controller.dispose();
     super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus) {
+      _formatDecimalValue();
+    }
   }
 
   void _formatDecimalValue() {
@@ -62,7 +75,7 @@ class _FormInputFieldState extends State<FormInputField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _controller,
-      focusNode: widget.focusNode,
+      focusNode: _focusNode,
       autofocus: widget.autoFocusField,
       textCapitalization: TextCapitalization.characters,
       keyboardType: widget.textInputType ?? TextInputType.text,
