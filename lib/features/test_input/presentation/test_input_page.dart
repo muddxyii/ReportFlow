@@ -16,12 +16,14 @@ import 'package:reportflow/features/test_input/presentation/widgets/type2_test_c
 
 class TestInputPage extends StatefulWidget {
   final Function(Test) onSave;
+  final Test testData;
   final String deviceType;
   final bool isFinalTest;
 
   const TestInputPage(
       {super.key,
       required this.onSave,
+      required this.testData,
       required this.deviceType,
       this.isFinalTest = false});
 
@@ -41,7 +43,7 @@ class _TestInputPageState extends State<TestInputPage> {
   void initState() {
     super.initState();
     _addFocusNode('linePressure');
-    _editedTest = Test.empty();
+    _editedTest = widget.testData;
   }
 
   @override
@@ -230,6 +232,7 @@ class _TestInputPageState extends State<TestInputPage> {
               // Line Pressure
               FormInputField(
                 label: 'Line Pressure',
+                initialValue: _editedTest.linePressure,
                 focusNode: _focusNodes['linePressure'],
                 textInputType: TextInputType.number,
                 validateValue: true,

@@ -60,6 +60,7 @@ class _PvbTestCardState extends State<PvbTestCard> {
         Text(title, style: Theme.of(context).textTheme.titleMedium),
         FormInputField(
           label: 'Opened at',
+          initialValue: airInlet.value,
           focusNode: _focusNodes[focusKey],
           textInputType: TextInputType.number,
           validateValue: true,
@@ -105,6 +106,7 @@ class _PvbTestCardState extends State<PvbTestCard> {
         Text(title, style: Theme.of(context).textTheme.titleMedium),
         FormInputField(
           label: 'Held at',
+          initialValue: check.value,
           focusNode: _focusNodes[focusKey],
           textInputType: TextInputType.number,
           validateValue: true,

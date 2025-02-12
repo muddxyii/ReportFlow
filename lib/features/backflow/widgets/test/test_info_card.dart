@@ -46,7 +46,7 @@ class _TestInfoCardState extends State<TestInfoCard> {
   }
 
   void _navigateToTestInput({bool isFinalTest = false}) async {
-    final test = await Navigator.push<Test>(
+    await Navigator.push<Test>(
       context,
       MaterialPageRoute(
         builder: (context) => TestInputPage(
@@ -68,6 +68,9 @@ class _TestInfoCardState extends State<TestInfoCard> {
               await widget.onFinalTestUpdate(test);
             }
           },
+          testData: !isFinalTest
+              ? widget.backflow.initialTest
+              : widget.backflow.finalTest,
           deviceType: _editedBackflow.deviceInfo.type,
           isFinalTest: isFinalTest,
         ),

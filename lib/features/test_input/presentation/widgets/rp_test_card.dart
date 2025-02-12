@@ -62,6 +62,7 @@ class _RpTestCardState extends State<RpTestCard> {
         if (showValueField)
           FormInputField(
             label: 'Pressure Reading',
+            initialValue: checkValve.value,
             focusNode: _focusNodes[focusKey],
             textInputType: TextInputType.number,
             validateValue: true,
@@ -98,6 +99,7 @@ class _RpTestCardState extends State<RpTestCard> {
         Text('Relief Valve', style: Theme.of(context).textTheme.titleMedium),
         FormInputField(
           label: 'Pressure Reading',
+          initialValue: reliefValve.value,
           focusNode: _focusNodes[focusKey],
           textInputType: TextInputType.number,
           validateValue: true,

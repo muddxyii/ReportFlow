@@ -60,6 +60,7 @@ class _Type2TestCardState extends State<Type2TestCard> {
         Text(title, style: Theme.of(context).textTheme.titleMedium),
         FormInputField(
           label: 'Pressure Reading',
+          initialValue: checkValve.value,
           focusNode: _focusNodes[focusKey],
           textInputType: TextInputType.number,
           validateValue: true,
