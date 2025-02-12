@@ -1,0 +1,2 @@
+-dontwarn com.gemalto.jp2.**
+-keep class com.tom_roush.pdfbox.filter.JPXFilter { *; }
