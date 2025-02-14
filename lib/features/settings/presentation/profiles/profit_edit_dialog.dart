@@ -95,9 +95,7 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
     );
 
     await widget.onSave(profile);
-    if (mounted) {
-      Navigator.pop(context);
-    }
+    Navigator.pop(context);
   }
 
   @override
