@@ -130,7 +130,7 @@ class _RepairInputPageState extends State<RepairInputPage> {
                       onChanged(repairs.copyWith(cleaned: value)),
                 ),
                 FormCheckboxField(
-                  label: 'Rubbet Kit',
+                  label: 'Rubber Kit',
                   value: repairs.rubberKit,
                   onChanged: (value) =>
                       onChanged(repairs.copyWith(rubberKit: value)),
@@ -198,7 +198,7 @@ class _RepairInputPageState extends State<RepairInputPage> {
                       onChanged(repairs.copyWith(cleaned: value)),
                 ),
                 FormCheckboxField(
-                  label: 'Rubbet Kit',
+                  label: 'Rubber Kit',
                   value: repairs.rubberKit,
                   onChanged: (value) =>
                       onChanged(repairs.copyWith(rubberKit: value)),
