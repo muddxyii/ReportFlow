@@ -164,7 +164,8 @@ class _JobBrowserPageState extends State<JobBrowserPage> {
                                   ),
                                   const SizedBox(height: 8),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
                                         icon: const Icon(Icons.delete),
