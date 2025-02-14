@@ -174,6 +174,7 @@ class _JobPageState extends State<JobPage> {
               JobHeaderCard(
                 jobName: _jobData!.details.jobName,
                 jobType: _jobData!.details.jobType,
+                list: _jobData!.backflowList,
               ),
               PurveyorInfoCard(
                   waterPurveyor: _jobData!.details.waterPurveyor,

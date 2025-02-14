@@ -1011,6 +1011,29 @@ class BackflowList {
         .where((backflow) => backflow.isComplete == true)
         .length;
   }
+
+  int getFailedCount() {
+    return backflows.values
+        .where((backflow) =>
+            backflow.initialTest.testerProfile.name.isNotEmpty &&
+            backflow.repairs.testerProfile.name.isEmpty &&
+            backflow.finalTest.testerProfile.name.isEmpty)
+        .length;
+  }
+
+  int getRepairCount() {
+    return backflows.values
+        .where((backflow) =>
+            backflow.repairs.testerProfile.name.isNotEmpty &&
+            backflow.finalTest.testerProfile.name.isEmpty)
+        .length;
+  }
+
+  int getPassedCount() {
+    return backflows.values
+        .where((backflow) => backflow.finalTest.testerProfile.name.isNotEmpty)
+        .length;
+  }
 }
 
 class JobData {
