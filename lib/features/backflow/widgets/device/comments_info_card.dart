@@ -39,6 +39,11 @@ class _CommentsInfoCardState extends BaseDeviceCardState<CommentsInfoCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FormInputField(
+            label: 'Old Comments',
+            initialValue: editedInfo.oldComments,
+            enabled: false,
+          ),
+          FormInputField(
             label: 'Comments',
             initialValue: editedInfo.comments,
             focusNode: _commentFocus,
@@ -59,7 +64,12 @@ class _CommentsInfoCardState extends BaseDeviceCardState<CommentsInfoCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InfoField(
-            label: '',
+            label: 'Old Comments',
+            value: widget.info.oldComments.isEmpty
+                ? '...'
+                : widget.info.oldComments),
+        InfoField(
+            label: 'Comments',
             value: widget.info.comments.isEmpty ? '...' : widget.info.comments),
       ],
     );
