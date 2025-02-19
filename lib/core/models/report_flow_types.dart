@@ -288,18 +288,21 @@ class DeviceInfo {
   final String size;
   final String modelNo;
   final ShutoffValves shutoffValves;
+  final String oldComments;
   final String comments;
 
-  DeviceInfo(
-      {this.permitNo = '',
-      this.meterNo = '',
-      this.serialNo = '',
-      this.type = '',
-      this.manufacturer = '',
-      this.size = '',
-      this.modelNo = '',
-      required this.shutoffValves,
-      this.comments = ''});
+  DeviceInfo({
+    this.permitNo = '',
+    this.meterNo = '',
+    this.serialNo = '',
+    this.type = '',
+    this.manufacturer = '',
+    this.size = '',
+    this.modelNo = '',
+    required this.shutoffValves,
+    this.oldComments = '',
+    this.comments = '',
+  });
 
   factory DeviceInfo.fromJson(Map<String, dynamic> json) => DeviceInfo(
         permitNo: json['permitNo']?.toString() ?? '',
@@ -310,6 +313,7 @@ class DeviceInfo {
         size: json['size']?.toString() ?? '',
         modelNo: json['modelNo']?.toString() ?? '',
         shutoffValves: ShutoffValves.fromJson(json['shutoffValves']),
+        oldComments: json['oldComments']?.toString() ?? '',
         comments: json['comments']?.toString() ?? '',
       );
 
@@ -322,6 +326,7 @@ class DeviceInfo {
         'size': size,
         'modelNo': modelNo,
         'shutoffValves': shutoffValves.toJson(),
+        'oldComments': oldComments,
         'comments': comments
       };
 
@@ -334,6 +339,7 @@ class DeviceInfo {
       String? size,
       String? modelNo,
       ShutoffValves? shutoffValves,
+      String? oldComments,
       String? comments}) {
     return DeviceInfo(
       permitNo: permitNo ?? this.permitNo,
@@ -344,6 +350,7 @@ class DeviceInfo {
       size: size ?? this.size,
       modelNo: modelNo ?? this.modelNo,
       shutoffValves: shutoffValves ?? this.shutoffValves,
+      oldComments: oldComments ?? this.oldComments,
       comments: comments ?? this.comments,
     );
   }
@@ -1009,6 +1016,29 @@ class BackflowList {
   int getCompletedCount() {
     return backflows.values
         .where((backflow) => backflow.isComplete == true)
+        .length;
+  }
+
+  int getFailedCount() {
+    return backflows.values
+        .where((backflow) =>
+            backflow.initialTest.testerProfile.name.isNotEmpty &&
+            backflow.repairs.testerProfile.name.isEmpty &&
+            backflow.finalTest.testerProfile.name.isEmpty)
+        .length;
+  }
+
+  int getRepairCount() {
+    return backflows.values
+        .where((backflow) =>
+            backflow.repairs.testerProfile.name.isNotEmpty &&
+            backflow.finalTest.testerProfile.name.isEmpty)
+        .length;
+  }
+
+  int getPassedCount() {
+    return backflows.values
+        .where((backflow) => backflow.finalTest.testerProfile.name.isNotEmpty)
         .length;
   }
 }

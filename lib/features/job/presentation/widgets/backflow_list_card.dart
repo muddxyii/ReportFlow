@@ -129,6 +129,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
           initialTest: Test.empty(),
           repairs: Repairs.empty(),
           finalTest: Test.empty(),
+          isComplete: false,
         );
       }
 

@@ -6,6 +6,7 @@ class FormInputField extends StatefulWidget {
   final bool autoFocusField;
   final bool validateValue;
   final bool formatDecimal;
+  final bool enabled;
   final void Function(String?)? onSaved;
   final FocusNode? focusNode;
   final TextInputType? textInputType;
@@ -19,6 +20,7 @@ class FormInputField extends StatefulWidget {
     this.autoFocusField = false,
     this.validateValue = false,
     this.formatDecimal = false,
+    this.enabled = true,
     this.onSaved,
     this.focusNode,
     this.textInputType,
@@ -76,6 +78,7 @@ class _FormInputFieldState extends State<FormInputField> {
     return TextFormField(
       controller: _controller,
       focusNode: _focusNode,
+      enabled: widget.enabled,
       autofocus: widget.autoFocusField,
       textCapitalization: TextCapitalization.characters,
       keyboardType: widget.textInputType ?? TextInputType.text,
