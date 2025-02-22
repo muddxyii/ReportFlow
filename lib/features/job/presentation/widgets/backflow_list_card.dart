@@ -201,6 +201,16 @@ class _BackflowListCardState extends State<BackflowListCard> {
     );
   }
 
+  Color _getCardColor(Backflow backflow) {
+    if (backflow.finalTest.testerProfile.name.isNotEmpty) {
+      return Color(0xFFE7F5E7);
+    }
+    if (backflow.repairs.testerProfile.name.isNotEmpty) {
+      return Color(0xFFFFF3CD);
+    }
+    return Color(0xFFF8D7DA);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -257,7 +267,7 @@ class _BackflowListCardState extends State<BackflowListCard> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Card(
-                    color: device.isComplete ? const Color(0xFFE7F5E7) : null,
+                    color: device.isComplete ? _getCardColor(device) : null,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -302,7 +312,6 @@ class _BackflowListCardState extends State<BackflowListCard> {
                                     value: 'duplicate',
                                     child: Text('Duplicate'),
                                   ),
-                                  // Add more PopupMenuItems here for additional options
                                 ],
                               )
                             ],
